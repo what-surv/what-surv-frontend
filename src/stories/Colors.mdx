@@ -1,0 +1,24 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
+
+<Meta title='Colors' />
+
+<ColorPalette>
+  <ColorItem
+    title='Primary'
+    subtitle='test subtitle'
+    colors={{ Normal: '#0051FF', Light: '#3283FF', Dark: '#000AFF' }}
+  />
+  <ColorItem
+    title='Secondary'
+    colors={{ Normal: '#D6FF00', Dark: '#9DFD00' }}
+  />
+  <ColorItem title='Basic' colors={{ White: '#FAFAFA', Black: '#242424' }} />
+  <ColorItem
+    title='System'
+    colors={{
+      Positive_Green: '#2ED353',
+      Positive_Blue: '#0051FF',
+      Error: '#EB271C',
+    }}
+  />
+</ColorPalette>
