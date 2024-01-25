@@ -54,7 +54,6 @@ interface TypographyProps
  */
 // eslint-disable-next-line import/prefer-default-export, @typescript-eslint/no-unused-vars
 const Typography = ({ size, weight, ...props }: TypographyProps) => {
-  console.log(props);
   return (
     <span className={TyphographyVariants({ size, weight })}>
       리서치 참여자 모집이 힘든 당신을 위해. 왓썹 what surv
