@@ -5343,6 +5343,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chromatic@npm:^10.5.0":
+  version: 10.5.0
+  resolution: "chromatic@npm:10.5.0"
+  peerDependencies:
+    chromatic-cypress: ^0.4.0 || ^1.0.0
+    chromatic-playwright: ^0.4.0 || ^1.0.0
+  peerDependenciesMeta:
+    chromatic-cypress:
+      optional: true
+    chromatic-playwright:
+      optional: true
+  bin:
+    chroma: dist/bin.js
+    chromatic: dist/bin.js
+    chromatic-cli: dist/bin.js
+  checksum: 8ccaafb5e976af01cf55bc66649ba5d7be42bc2ae257a8840722c48a637596d0b835af091c72597eac5d9be234aacfbb535388899ffebf8a66a94913df73372e
+  languageName: node
+  linkType: hard
+
 "ci-info@npm:^3.2.0":
   version: 3.9.0
   resolution: "ci-info@npm:3.9.0"
@@ -10638,6 +10657,7 @@ __metadata:
     "@vitejs/plugin-react": "npm:^4.2.1"
     airbnb: "npm:^0.0.2"
     autoprefixer: "npm:^10.4.16"
+    chromatic: "npm:^10.5.0"
     class-variance-authority: "npm:^0.7.0"
     clsx: "npm:^2.1.0"
     eslint: "npm:^8.55.0"

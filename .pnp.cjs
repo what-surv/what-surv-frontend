@@ -43,6 +43,7 @@ const RAW_RUNTIME_STATE =
           ["@vitejs/plugin-react", "virtual:227af65be11a079621b27c0843a34603228d91fd06f9fbedaaae489de31a4ace15329feabe7574407e07b0a2ca4b0fa1c5b27750b6ec43ba183a1ee48c9c6f36#npm:4.2.1"],\
           ["airbnb", "npm:0.0.2"],\
           ["autoprefixer", "virtual:227af65be11a079621b27c0843a34603228d91fd06f9fbedaaae489de31a4ace15329feabe7574407e07b0a2ca4b0fa1c5b27750b6ec43ba183a1ee48c9c6f36#npm:10.4.16"],\
+          ["chromatic", "virtual:227af65be11a079621b27c0843a34603228d91fd06f9fbedaaae489de31a4ace15329feabe7574407e07b0a2ca4b0fa1c5b27750b6ec43ba183a1ee48c9c6f36#npm:10.5.0"],\
           ["class-variance-authority", "npm:0.7.0"],\
           ["clsx", "npm:2.1.0"],\
           ["eslint", "npm:8.56.0"],\
@@ -8272,6 +8273,32 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["chromatic", [\
+      ["npm:10.5.0", {\
+        "packageLocation": "../../../../.yarn/berry/cache/chromatic-npm-10.5.0-e2a2b4733a-10c0.zip/node_modules/chromatic/",\
+        "packageDependencies": [\
+          ["chromatic", "npm:10.5.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:227af65be11a079621b27c0843a34603228d91fd06f9fbedaaae489de31a4ace15329feabe7574407e07b0a2ca4b0fa1c5b27750b6ec43ba183a1ee48c9c6f36#npm:10.5.0", {\
+        "packageLocation": "./.yarn/__virtual__/chromatic-virtual-88acb39094/5/.yarn/berry/cache/chromatic-npm-10.5.0-e2a2b4733a-10c0.zip/node_modules/chromatic/",\
+        "packageDependencies": [\
+          ["chromatic", "virtual:227af65be11a079621b27c0843a34603228d91fd06f9fbedaaae489de31a4ace15329feabe7574407e07b0a2ca4b0fa1c5b27750b6ec43ba183a1ee48c9c6f36#npm:10.5.0"],\
+          ["@types/chromatic-cypress", null],\
+          ["@types/chromatic-playwright", null],\
+          ["chromatic-cypress", null],\
+          ["chromatic-playwright", null]\
+        ],\
+        "packagePeers": [\
+          "@types/chromatic-cypress",\
+          "@types/chromatic-playwright",\
+          "chromatic-cypress",\
+          "chromatic-playwright"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["ci-info", [\
       ["npm:3.9.0", {\
         "packageLocation": "../../../../.yarn/berry/cache/ci-info-npm-3.9.0-646784ca0e-10c0.zip/node_modules/ci-info/",\
@@ -14535,6 +14562,7 @@ const RAW_RUNTIME_STATE =
           ["@vitejs/plugin-react", "virtual:227af65be11a079621b27c0843a34603228d91fd06f9fbedaaae489de31a4ace15329feabe7574407e07b0a2ca4b0fa1c5b27750b6ec43ba183a1ee48c9c6f36#npm:4.2.1"],\
           ["airbnb", "npm:0.0.2"],\
           ["autoprefixer", "virtual:227af65be11a079621b27c0843a34603228d91fd06f9fbedaaae489de31a4ace15329feabe7574407e07b0a2ca4b0fa1c5b27750b6ec43ba183a1ee48c9c6f36#npm:10.4.16"],\
+          ["chromatic", "virtual:227af65be11a079621b27c0843a34603228d91fd06f9fbedaaae489de31a4ace15329feabe7574407e07b0a2ca4b0fa1c5b27750b6ec43ba183a1ee48c9c6f36#npm:10.5.0"],\
           ["class-variance-authority", "npm:0.7.0"],\
           ["clsx", "npm:2.1.0"],\
           ["eslint", "npm:8.56.0"],\
