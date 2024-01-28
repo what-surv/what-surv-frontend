@@ -60,5 +60,8 @@
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
   },
+  "peerDependencies": {
+    "@storybook/react-vite": "*"
+  },
   "packageManager": "yarn@4.0.2"
 }
