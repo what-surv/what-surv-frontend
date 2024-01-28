@@ -49,6 +49,12 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'react', 'import', 'react-hooks'],
   rules: {
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
     'no-var': 'error',
     'no-multiple-empty-lines': 'error',
     'react/jsx-filename-extension': ['warn', { extensions: ['.tsx'] }],
