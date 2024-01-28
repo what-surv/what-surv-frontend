@@ -16,8 +16,7 @@ jobs:
           fetch-depth: 0
       - name: Setup Node.js with Yarn Berry
         run: |
-          curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 4.0.2
-          yarn set version 4.0.2
+          npm install -g yarn@berry
       - name: Cache Dependencies
         uses: actions/cache@v2
         with:
