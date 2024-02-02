@@ -14,7 +14,7 @@ const meta = {
 
 export default meta;
 
-export const Google: StoryObj<typeof NaverLogin> = {
+export const Naver: StoryObj<typeof NaverLogin> = {
   args: {
     size: 'default',
   },
