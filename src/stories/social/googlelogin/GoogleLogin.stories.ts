@@ -14,8 +14,15 @@ const meta = {
 
 export default meta;
 
-export const Google: StoryObj<typeof GoogleLogin> = {
+export const Full: StoryObj<typeof GoogleLogin> = {
   args: {
-    size: 'default',
+    size: 'full',
+    children: '구글로 시작하기',
+  },
+};
+
+export const Simple: StoryObj<typeof GoogleLogin> = {
+  args: {
+    size: 'simple',
   },
 };

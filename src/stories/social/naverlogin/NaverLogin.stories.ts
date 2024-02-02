@@ -14,8 +14,15 @@ const meta = {
 
 export default meta;
 
-export const Naver: StoryObj<typeof NaverLogin> = {
+export const Full: StoryObj<typeof NaverLogin> = {
   args: {
-    size: 'default',
+    size: 'full',
+    children: '네이버로 시작하기',
+  },
+};
+
+export const Simple: StoryObj<typeof NaverLogin> = {
+  args: {
+    size: 'simple',
   },
 };

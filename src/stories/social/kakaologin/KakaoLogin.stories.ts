@@ -14,8 +14,15 @@ const meta = {
 
 export default meta;
 
-export const Kakao: StoryObj<typeof KakaoLogin> = {
+export const Full: StoryObj<typeof KakaoLogin> = {
   args: {
-    size: 'default',
+    size: 'full',
+    children: '카카오로 시작하기',
+  },
+};
+
+export const Simple: StoryObj<typeof KakaoLogin> = {
+  args: {
+    size: 'simple',
   },
 };
