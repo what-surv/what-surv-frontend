@@ -14,14 +14,23 @@ const meta = {
 
 export default meta;
 
-export const Large: StoryObj<typeof Button> = {
+export const Contained: StoryObj<typeof Button> = {
   args: {
-    size: 'small',
+    size: 'default',
+    children: '로그인하기',
+    state: 'contained',
   },
 };
 
-export const Small: StoryObj<typeof Button> = {
+export const Outlined: StoryObj<typeof Button> = {
   args: {
-    size: 'small',
+    size: 'default',
+    state: 'outlined',
+    children: '로그인하기',
+    disabled: false,
+    hover: false,
+    pressed: false,
+    focused: false,
+    enabled: true,
   },
 };
