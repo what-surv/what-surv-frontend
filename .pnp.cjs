@@ -64,6 +64,7 @@ const RAW_RUNTIME_STATE =
           ["prettier-plugin-tailwindcss", "virtual:18281dd96642595d76c8fcc2c3b4e6e78fd1ce77fe45dc8efb5f6a460358b0d30cc7437ba57dc319b93c909f8aae261dbc35dfaf50c8f1985e13d7e5c2d4cdcc#npm:0.5.11"],\
           ["react", "npm:18.2.0"],\
           ["react-dom", "virtual:18281dd96642595d76c8fcc2c3b4e6e78fd1ce77fe45dc8efb5f6a460358b0d30cc7437ba57dc319b93c909f8aae261dbc35dfaf50c8f1985e13d7e5c2d4cdcc#npm:18.2.0"],\
+          ["react-router-dom", "virtual:18281dd96642595d76c8fcc2c3b4e6e78fd1ce77fe45dc8efb5f6a460358b0d30cc7437ba57dc319b93c909f8aae261dbc35dfaf50c8f1985e13d7e5c2d4cdcc#npm:6.22.0"],\
           ["storybook", "npm:7.6.9"],\
           ["tailwind-merge", "npm:2.2.1"],\
           ["tailwindcss", "npm:3.4.1"],\
@@ -4868,6 +4869,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@radix-ui/rect", "npm:1.0.1"],\
           ["@babel/runtime", "npm:7.23.8"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@remix-run/router", [\
+      ["npm:1.15.0", {\
+        "packageLocation": "../../../AppData/Local/Yarn/Berry/cache/@remix-run-router-npm-1.15.0-d949101656-10c0.zip/node_modules/@remix-run/router/",\
+        "packageDependencies": [\
+          ["@remix-run/router", "npm:1.15.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -14278,6 +14288,57 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["react-router", [\
+      ["npm:6.22.0", {\
+        "packageLocation": "../../../AppData/Local/Yarn/Berry/cache/react-router-npm-6.22.0-d6bbb5ea1c-10c0.zip/node_modules/react-router/",\
+        "packageDependencies": [\
+          ["react-router", "npm:6.22.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:9f929f9910b6bd9abb803053ab0f2182077dd40ce58e79e853c5a6dc7e6c1ab6ff08784d8930e8ab5f7b4cae4b214350b9423942ac266536e583fe43e186e459#npm:6.22.0", {\
+        "packageLocation": "./.yarn/__virtual__/react-router-virtual-d600578e2d/4/AppData/Local/Yarn/Berry/cache/react-router-npm-6.22.0-d6bbb5ea1c-10c0.zip/node_modules/react-router/",\
+        "packageDependencies": [\
+          ["react-router", "virtual:9f929f9910b6bd9abb803053ab0f2182077dd40ce58e79e853c5a6dc7e6c1ab6ff08784d8930e8ab5f7b4cae4b214350b9423942ac266536e583fe43e186e459#npm:6.22.0"],\
+          ["@remix-run/router", "npm:1.15.0"],\
+          ["@types/react", "npm:18.2.48"],\
+          ["react", "npm:18.2.0"]\
+        ],\
+        "packagePeers": [\
+          "@types/react",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["react-router-dom", [\
+      ["npm:6.22.0", {\
+        "packageLocation": "../../../AppData/Local/Yarn/Berry/cache/react-router-dom-npm-6.22.0-be4574971f-10c0.zip/node_modules/react-router-dom/",\
+        "packageDependencies": [\
+          ["react-router-dom", "npm:6.22.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:18281dd96642595d76c8fcc2c3b4e6e78fd1ce77fe45dc8efb5f6a460358b0d30cc7437ba57dc319b93c909f8aae261dbc35dfaf50c8f1985e13d7e5c2d4cdcc#npm:6.22.0", {\
+        "packageLocation": "./.yarn/__virtual__/react-router-dom-virtual-9f929f9910/4/AppData/Local/Yarn/Berry/cache/react-router-dom-npm-6.22.0-be4574971f-10c0.zip/node_modules/react-router-dom/",\
+        "packageDependencies": [\
+          ["react-router-dom", "virtual:18281dd96642595d76c8fcc2c3b4e6e78fd1ce77fe45dc8efb5f6a460358b0d30cc7437ba57dc319b93c909f8aae261dbc35dfaf50c8f1985e13d7e5c2d4cdcc#npm:6.22.0"],\
+          ["@remix-run/router", "npm:1.15.0"],\
+          ["@types/react", "npm:18.2.48"],\
+          ["@types/react-dom", "npm:18.2.18"],\
+          ["react", "npm:18.2.0"],\
+          ["react-dom", "virtual:18281dd96642595d76c8fcc2c3b4e6e78fd1ce77fe45dc8efb5f6a460358b0d30cc7437ba57dc319b93c909f8aae261dbc35dfaf50c8f1985e13d7e5c2d4cdcc#npm:18.2.0"],\
+          ["react-router", "virtual:9f929f9910b6bd9abb803053ab0f2182077dd40ce58e79e853c5a6dc7e6c1ab6ff08784d8930e8ab5f7b4cae4b214350b9423942ac266536e583fe43e186e459#npm:6.22.0"]\
+        ],\
+        "packagePeers": [\
+          "@types/react-dom",\
+          "@types/react",\
+          "react-dom",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["react-style-singleton", [\
       ["npm:2.2.1", {\
         "packageLocation": "../../../AppData/Local/Yarn/Berry/cache/react-style-singleton-npm-2.2.1-e45b97b153-10c0.zip/node_modules/react-style-singleton/",\
@@ -16434,6 +16495,7 @@ const RAW_RUNTIME_STATE =
           ["prettier-plugin-tailwindcss", "virtual:18281dd96642595d76c8fcc2c3b4e6e78fd1ce77fe45dc8efb5f6a460358b0d30cc7437ba57dc319b93c909f8aae261dbc35dfaf50c8f1985e13d7e5c2d4cdcc#npm:0.5.11"],\
           ["react", "npm:18.2.0"],\
           ["react-dom", "virtual:18281dd96642595d76c8fcc2c3b4e6e78fd1ce77fe45dc8efb5f6a460358b0d30cc7437ba57dc319b93c909f8aae261dbc35dfaf50c8f1985e13d7e5c2d4cdcc#npm:18.2.0"],\
+          ["react-router-dom", "virtual:18281dd96642595d76c8fcc2c3b4e6e78fd1ce77fe45dc8efb5f6a460358b0d30cc7437ba57dc319b93c909f8aae261dbc35dfaf50c8f1985e13d7e5c2d4cdcc#npm:6.22.0"],\
           ["storybook", "npm:7.6.9"],\
           ["tailwind-merge", "npm:2.2.1"],\
           ["tailwindcss", "npm:3.4.1"],\
