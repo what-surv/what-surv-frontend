@@ -28,7 +28,7 @@ const ButtonVariants = cva(
   }
 );
 
-interface ButtonProps
+export interface ButtonProps
   extends ReactHTMLElement<HTMLButtonElement>,
     VariantProps<typeof ButtonVariants> {
   children: React.ReactNode;
