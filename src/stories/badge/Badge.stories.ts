@@ -26,6 +26,6 @@ export const Outlined: StoryObj<typeof Badge> = {
   args: {
     size: 'default',
     state: 'sub',
-    children: '🔥 Hot',
+    children: '🔥Hot',
   },
 };

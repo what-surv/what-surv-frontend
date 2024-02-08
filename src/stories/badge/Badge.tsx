@@ -4,7 +4,7 @@ import React from 'react';
 
 const ButtonVariants = cva(
   `
-  flex gap-2 items-center rounded-[400px] text-sm font-semibold leading-6
+  flex gap-2 items-center rounded-[400px] text-sm font-semibold leading-[22px]
   `,
   {
     variants: {
