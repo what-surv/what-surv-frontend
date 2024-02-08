@@ -29,8 +29,45 @@ export const Full: StoryObj<typeof Header> = {
 };
 
 export const Mobile: StoryObj<typeof Header> = {
+  name: 'Mobile Default',
   args: {
     size: 'mobile',
     children: '로고',
+    isAccount: true,
+    isArrow: false,
+    isNotification: false,
+  },
+};
+
+export const MobileArrow: StoryObj<typeof Header> = {
+  name: 'Arrow With Noti & Account',
+  args: {
+    size: 'mobile',
+    children: '로고',
+    isAccount: true,
+    isArrow: true,
+    isNotification: true,
+  },
+};
+
+export const ArrowWithLogo: StoryObj<typeof Header> = {
+  name: 'Only Arrow',
+  args: {
+    size: 'mobile',
+    children: '로고',
+    isAccount: false,
+    isArrow: true,
+    isNotification: false,
+  },
+};
+
+export const SearchWithNotification: StoryObj<typeof Header> = {
+  name: 'Search With Noti',
+  args: {
+    size: 'mobile',
+    isAccount: false,
+    isArrow: true,
+    isNotification: true,
+    isSearch: true,
   },
 };
