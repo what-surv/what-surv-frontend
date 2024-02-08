@@ -1,6 +1,6 @@
 // import { actions } from '@storybook/addon-actions';
-import { cva, VariantProps } from 'class-variance-authority';
-import React, { ReactHTMLElement } from 'react';
+import { cva } from 'class-variance-authority';
+import React from 'react';
 
 import account from '../assets/account.svg';
 import notification from '../assets/notification.svg';
@@ -18,10 +18,9 @@ const HeaderVariants = cva(`w-full py-3.5`, {
   },
 });
 
-interface ButtonProps
-  extends ReactHTMLElement<HTMLHeadElement>,
-    VariantProps<typeof HeaderVariants> {
+interface ButtonProps {
   children: React.ReactNode;
+  size: 'default' | 'mobile' | 'full';
 }
 
 /**

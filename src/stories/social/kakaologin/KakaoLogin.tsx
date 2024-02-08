@@ -1,5 +1,5 @@
-import { cva, VariantProps } from 'class-variance-authority';
-import React, { ReactHTMLElement } from 'react';
+import { cva } from 'class-variance-authority';
+import React from 'react';
 
 import kakao from '../../assets/kakaotalk.svg';
 
@@ -16,10 +16,9 @@ const KakaoVariants = cva(``, {
   },
 });
 
-interface KakaoLoginProps
-  extends ReactHTMLElement<HTMLButtonElement>,
-    VariantProps<typeof KakaoVariants> {
+interface KakaoLoginProps {
   children?: React.ReactNode;
+  size: 'simple' | 'full';
 }
 
 /**
