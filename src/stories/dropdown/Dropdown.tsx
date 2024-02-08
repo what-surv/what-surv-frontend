@@ -86,15 +86,17 @@ export const Dropdown = ({
       {isOpen && (
         <div
           ref={dropdownEl}
-          className='mt-2 border border-[#545760] rounded-2xl w-full'
+          className='mt-1.5 border border-[#545760] rounded-2xl  w-inherit p-0 overflow-hidden'
         >
           {value.map((item: string) => (
             <button
-              className='w-full hover:bg-[#CCDCFF] text-sm font-semibold'
+              className='flex w-full justify-center py-1.5 items-center gap-2.5 self-stretch hover:bg-[#CCDCFF]'
               onClick={() => handleOptionClick(item)}
               type='button'
             >
-              {item}
+              <span className='text-sm font-semibold text-[#545760]'>
+                {item}
+              </span>
             </button>
           ))}
         </div>
