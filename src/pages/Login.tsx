@@ -43,9 +43,9 @@ const LoginStep1 = ({ onNextStep }) => {
   return (
     <>
       <p className='text-lg font-bold'>서비스명에 오신 것을 환영합니다!</p>
-      <KakaoLogin size='full' children='카카오로 시작하기' />
-      <GoogleLogin size='full' children='구글로 시작하기' />
-      <NaverLogin size='full' children='네이버로 시작하기' />
+      <KakaoLogin size='full'>카카오로 시작하기</KakaoLogin>
+      <GoogleLogin size='full'>구글로 시작하기</GoogleLogin>
+      <NaverLogin size='full'>네이버로 시작하기</NaverLogin>
       <p onClick={onNextStep}>asd</p>
     </>
   );
