@@ -1,70 +1,43 @@
-import { Button } from '../button/Button';
-import './header.css';
+// import { actions } from '@storybook/addon-actions';
+import { cva, VariantProps } from 'class-variance-authority';
+import React, { ReactHTMLElement } from 'react';
 
-type User = {
-  name: string;
-};
+import account from '../assets/account.svg';
+import notification from '../assets/notification.svg';
 
-interface HeaderProps {
-  user?: User;
-  onLogin: () => void;
-  onLogout: () => void;
-  onCreateAccount: () => void;
+const HeaderVariants = cva(`w-full py-3.5`, {
+  variants: {
+    size: {
+      default: 'min-w-[680px] px-[150px]',
+      mobile: 'min-w-[280px] px-6',
+      full: 'min-w-[1280px] px-[180px]',
+    },
+  },
+  defaultVariants: {
+    size: 'default',
+  },
+});
+
+interface ButtonProps
+  extends ReactHTMLElement<HTMLHeadElement>,
+    VariantProps<typeof HeaderVariants> {
+  children: React.ReactNode;
 }
 
+/**
+ * Primary UI component for user interaction
+ */
 // eslint-disable-next-line import/prefer-default-export
-export const Header = ({
-  user,
-  onLogin,
-  onLogout,
-  onCreateAccount,
-}: HeaderProps) => (
-  <header>
-    <div className='storybook-header'>
-      <div>
-        <svg
-          width='32'
-          height='32'
-          viewBox='0 0 32 32'
-          xmlns='http://www.w3.org/2000/svg'
-        >
-          <g fill='none' fillRule='evenodd'>
-            <path
-              d='M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z'
-              fill='#FFF'
-            />
-            <path
-              d='M5.3 10.6l10.4 6v11.1l-10.4-6v-11zm11.4-6.2l9.7 5.5-9.7 5.6V4.4z'
-              fill='#555AB9'
-            />
-            <path
-              d='M27.2 10.6v11.2l-10.5 6V16.5l10.5-6zM15.7 4.4v11L6 10l9.7-5.5z'
-              fill='#91BAF8'
-            />
-          </g>
-        </svg>
-        <h1>Acme</h1>
+export const Header = ({ size, children, ...props }: ButtonProps) => {
+  return (
+    <header
+      className={`${HeaderVariants({ size, ...props })} flex justify-between`}
+    >
+      {children}
+      <div className='logo flex gap-4'>
+        <img src={account} alt='account' />
+        <img src={notification} alt='notification' />
       </div>
-      <div>
-        {user ? (
-          <>
-            <span className='welcome'>
-              Welcome, <b>{user.name}</b>!
-            </span>
-            <Button size='small' onClick={onLogout} label='Log out' />
-          </>
-        ) : (
-          <>
-            <Button size='small' onClick={onLogin} label='Log in' />
-            <Button
-              primary
-              size='small'
-              onClick={onCreateAccount}
-              label='Sign up'
-            />
-          </>
-        )}
-      </div>
-    </div>
-  </header>
-);
+    </header>
+  );
+};

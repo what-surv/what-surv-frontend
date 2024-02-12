@@ -27,6 +27,7 @@ const TyphographyVariants = cva(``, {
 interface TypographyProps
   extends ReactHTMLElement<HTMLSpanElement>,
     VariantProps<typeof TyphographyVariants> {
+  text: string;
   // /**
   //  * Typography Size
   //  */
@@ -53,10 +54,10 @@ interface TypographyProps
  * Primary UI component for user interaction
  */
 // eslint-disable-next-line import/prefer-default-export, @typescript-eslint/no-unused-vars
-const Typography = ({ size, weight, ...props }: TypographyProps) => {
+const Typography = ({ size, text, weight, ...props }: TypographyProps) => {
   return (
     <span className={TyphographyVariants({ size, weight, ...props })}>
-      리서치 참여자 모집이 힘든 당신을 위해. 왓썹 what surv
+      {text}
     </span>
   );
 };

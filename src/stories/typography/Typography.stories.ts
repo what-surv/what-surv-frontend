@@ -38,6 +38,7 @@ export const Large: StoryObj<typeof Typography> = {
   args: {
     weight: 'Medium',
     size: 'base',
+    text: '리서치 참여자 모집이 힘든 당신을 위해. 왓썹 what surv',
   },
 };
 
@@ -45,6 +46,7 @@ export const Medium: StoryObj<typeof Typography> = {
   args: {
     weight: 'Medium',
     size: 'sm',
+    text: '리서치 참여자 모집이 힘든 당신을 위해. 왓썹 what surv',
   },
 };
 
@@ -52,6 +54,7 @@ export const Small: StoryObj<typeof Typography> = {
   args: {
     weight: 'Bold',
     size: 'xs',
+    text: '리서치 참여자 모집이 힘든 당신을 위해. 왓썹 what surv',
   },
 };
 
