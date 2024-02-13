@@ -70,6 +70,7 @@ module.exports = {
     'no-return-assign': 'off',
     'react/require-default-props': 'off',
     'react-hooks/exhaustive-deps': 'warn',
+    'import/prefer-default-export': 'off',
     eqeqeq: 'error',
     'dot-notation': 'error',
     'no-unused-vars': 'off',

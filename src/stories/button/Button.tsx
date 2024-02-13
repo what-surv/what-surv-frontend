@@ -42,7 +42,7 @@ interface ButtonProps
 /**
  * Primary UI component for user interaction
  */
-// eslint-disable-next-line import/prefer-default-export
+
 export const Button = ({
   size,
   children,
