@@ -1,4 +1,4 @@
-import { ToolTips } from './ToolTips';
+import { ToolTips } from './ToolTip';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -39,14 +39,3 @@ export const Right: StoryObj<typeof ToolTips> = {
     children: '최근 로그인',
   },
 };
-
-// export const SearchWithNotification: StoryObj<typeof Header> = {
-//   name: 'Search With Noti',
-//   args: {
-//     size: 'mobile',
-//     isAccount: false,
-//     isArrow: true,
-//     isNotification: true,
-//     isSearch: true,
-//   },
-// };
