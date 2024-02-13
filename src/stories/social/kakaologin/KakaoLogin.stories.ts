@@ -18,6 +18,7 @@ export const Full: StoryObj<typeof KakaoLogin> = {
   args: {
     size: 'full',
     children: '카카오로 시작하기',
+    onClick: () => {},
   },
 };
 

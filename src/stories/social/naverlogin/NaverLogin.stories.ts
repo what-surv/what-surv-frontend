@@ -18,6 +18,7 @@ export const Full: StoryObj<typeof NaverLogin> = {
   args: {
     size: 'full',
     children: '네이버로 시작하기',
+    onClick: () => {},
   },
 };
 

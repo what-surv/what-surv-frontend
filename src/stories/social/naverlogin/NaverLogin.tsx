@@ -19,16 +19,26 @@ const NaverVariants = cva(``, {
 interface GoogleLoginProps {
   children: React.ReactNode;
   size: 'simple' | 'full';
+  onClick: () => void;
 }
 
 /**
  * Primary UI component for user interaction
  */
 // eslint-disable-next-line import/prefer-default-export
-export const NaverLogin = ({ size, children, ...props }: GoogleLoginProps) => {
+export const NaverLogin = ({
+  size,
+  children,
+  onClick,
+  ...props
+}: GoogleLoginProps) => {
   return (
     <div>
-      <button type='button' className={NaverVariants({ size, ...props })}>
+      <button
+        type='button'
+        onClick={onClick}
+        className={NaverVariants({ size, ...props })}
+      >
         <img alt='naverlogo' src={naver} />
         {children}
       </button>

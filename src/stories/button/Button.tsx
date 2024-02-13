@@ -37,6 +37,7 @@ export interface ButtonProps
   hover: boolean;
   focused: boolean;
   pressed: boolean;
+  onClick: () => void;
 }
 
 /**
@@ -52,6 +53,7 @@ export const Button = ({
   state,
   focused,
   pressed,
+  onClick,
   ...props
 }: ButtonProps) => {
   return (
@@ -59,6 +61,7 @@ export const Button = ({
       type='button'
       className={`${ButtonVariants({ size, state, ...props })}`}
       disabled={disabled}
+      onClick={onClick}
       aria-pressed={pressed}
       {...(enabled && { enabled })}
       {...(hover && { hover })}
