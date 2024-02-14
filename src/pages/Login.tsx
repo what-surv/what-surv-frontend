@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-
 import axios from 'axios';
+import React, { useState } from 'react';
+
+import style from './login.module.css';
 import LoginStep1 from './LoginStep1';
 import LoginStep2 from './LoginStep2';
 import LoginStep3 from './LoginStep3';
 import LoginStep4 from './LoginStep4';
-import style from './login.module.css';
 
-const Login = ({ children }) => {
+const Login = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [userInfo, setUserInfo] = useState({
     nickName: '',
@@ -22,13 +22,13 @@ const Login = ({ children }) => {
   };
 
   // Step2~3 에서 사용하는 핸들러 userInfoState에 저장함
-  const userInfoHandler = (param: object) => {
+  const userInfoHandler = (param: { sort: string; data: string }) => {
     const { sort, data } = param;
     switch (sort) {
       case 'check':
         setUserInfo((prevUserInfo) => ({
           ...prevUserInfo,
-          reservMarketing: data,
+          reservMarketing: data === 'true',
         }));
         break;
       case 'nickName':
@@ -44,7 +44,7 @@ const Login = ({ children }) => {
   };
 
   // Step3 input에서 사용하는 onChange
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setUserInfo((prevUserInfo) => ({
       ...prevUserInfo,
@@ -52,7 +52,7 @@ const Login = ({ children }) => {
     }));
   };
 
-  const isValidInput = (text) => {
+  const isValidInput = (text: string) => {
     const regex = /^[a-zA-Z가-힣]{2,10}$/;
     return regex.test(text);
   };
@@ -61,9 +61,8 @@ const Login = ({ children }) => {
   const onClick = () => {
     if (isValidInput(userInfo.nickName) && userInfo.nickName !== '서범규') {
       return true;
-    } else {
-      return false;
     }
+    return false;
   };
 
   // Back-End에 로그인정보 요청
@@ -91,7 +90,7 @@ const Login = ({ children }) => {
   };
 
   // 자식 컴포넌트 렌더링해주는 함수
-  const renderLoginStep = (step) => {
+  const renderLoginStep = (step: number) => {
     switch (step) {
       case 1:
         return (
@@ -104,7 +103,6 @@ const Login = ({ children }) => {
       case 3:
         return (
           <LoginStep3
-            onNextStep={nextStepHandler}
             onChange={onChange}
             onClick={onClick}
             value={userInfo.nickName}
@@ -122,7 +120,7 @@ const Login = ({ children }) => {
       <div className='flex flex-col items-center mt-[60px]'>
         <div className='flex flex-col max-w-xl w-full'>
           <div className={style.progressBar}>
-            <div style={{ width: `${currentStep * 25}%` }}></div>
+            <div style={{ width: `${currentStep * 25}%` }} />
           </div>
           {renderLoginStep(currentStep)}
         </div>

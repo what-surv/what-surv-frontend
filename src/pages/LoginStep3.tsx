@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
-import ic_text_field_fail from '../stories/assets/ic_text_field_fail.svg';
-import ic_text_field_success from '../stories/assets/ic_text_field_success.svg';
-import style from './login.module.css';
-import { Button } from '../stories/button/Button';
 
-const LoginStep3 = ({ onNextStep, onChange, onClick, value }) => {
-  const [result, setResult] = useState(null);
+import style from './login.module.css';
+import icTextFieldFail from '../stories/assets/ic-text-field-fail.svg';
+import icTextFieldSuccess from '../stories/assets/ic-text-field-success.svg';
+
+export interface LoginStep3Props {
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onClick: () => void;
+  value: string;
+}
+
+const LoginStep3 = ({ onChange, onClick, value }: LoginStep3Props) => {
+  const [result, setResult] = useState<null | ReturnType<typeof onClick>>(null);
   const handleButtonClick = () => {
-    const result = onClick();
-    setResult(result);
+    const clickResult = onClick();
+    setResult(clickResult);
   };
 
   return (
@@ -28,8 +34,8 @@ const LoginStep3 = ({ onNextStep, onChange, onClick, value }) => {
             value={value}
           />
 
-          <img className='block' src={ic_text_field_success} alt='성공아이콘' />
-          <img className='' src={ic_text_field_fail} alt='실패아이콘' />
+          <img className='block' src={icTextFieldSuccess} alt='성공아이콘' />
+          <img className='' src={icTextFieldFail} alt='실패아이콘' />
         </div>
         <button className={`${style['btn-small']}`} onClick={handleButtonClick}>
           중복확인
