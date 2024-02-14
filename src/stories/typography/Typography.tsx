@@ -58,7 +58,7 @@ interface TypographyProps {
 /**
  * Primary UI component for user interaction
  */
-// eslint-disable-next-line import/prefer-default-export, @typescript-eslint/no-unused-vars
+
 const Typography = ({ size, text, weight, ...props }: TypographyProps) => {
   return (
     <span className={TyphographyVariants({ size, weight, ...props })}>

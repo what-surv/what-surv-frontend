@@ -34,7 +34,6 @@ interface ButtonProps {
 /**
  * Primary UI component for user interaction
  */
-// eslint-disable-next-line import/prefer-default-export
 export const Badge = ({ size, children, state, ...props }: ButtonProps) => {
   return (
     <span className={`${ButtonVariants({ size, state, ...props })}`}>

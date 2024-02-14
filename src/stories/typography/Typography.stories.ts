@@ -2,7 +2,6 @@ import Typography from './Typography';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-// eslint-disable-next-line storybook/story-exports
 const meta = {
   title: 'components/Typography',
   component: Typography,

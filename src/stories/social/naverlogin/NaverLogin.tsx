@@ -25,13 +25,8 @@ interface GoogleLoginProps {
 /**
  * Primary UI component for user interaction
  */
-// eslint-disable-next-line import/prefer-default-export
-export const NaverLogin = ({
-  size,
-  children,
-  onClick,
-  ...props
-}: GoogleLoginProps) => {
+
+export const NaverLogin = ({ size, children, ...props }: GoogleLoginProps) => {
   return (
     <div>
       <button

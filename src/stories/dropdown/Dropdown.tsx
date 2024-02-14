@@ -3,16 +3,21 @@ import React, { useState, useRef, useEffect } from 'react';
 
 import bottomArrow from '../assets/bottom_arraw.svg';
 import bottomArrowPrimary from '../assets/bottom_arraw_primary.svg';
+import close from '../assets/close.svg';
 
 const DropdownVariants = cva(
   `
-  text-sm border font-semibold self-stretch px-4 py-1.5 rounded-[400px] bg-[#FAFAFA] 
+  text-sm border font-semibold self-stretch rounded-[400px] bg-[#FAFAFA] 
   `,
   {
     variants: {
       state: {
-        activate: 'border-[#0051FF] text-[#0051FF]',
+        activate: 'border-[#0051FF] text-[#393B41]',
         default: 'border-[#545760] text-[#545760]',
+      },
+      size: {
+        default: 'px-4 py-1.5 gap-2',
+        small: 'pl-3 pr-2 gap-1.5 py-1',
       },
     },
   }
@@ -20,16 +25,13 @@ const DropdownVariants = cva(
 
 interface ButtonProps {
   children: React.ReactNode;
-  size: 'default';
+  size: 'default' | 'small';
   state: 'activate' | 'default';
   isArrow: boolean;
+  isClose: boolean;
   value: string[];
 }
 
-/**
- * Primary UI component for user interaction
- */
-// eslint-disable-next-line import/prefer-default-export
 export const Dropdown = ({
   children,
   isArrow,
@@ -39,6 +41,9 @@ export const Dropdown = ({
 }: ButtonProps) => {
   const [selectedOption, setSelectedOption] = useState(children);
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownState, setDropdownState] = useState<'activate' | 'default'>(
+    state
+  );
   const dropdownEl = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -61,12 +66,19 @@ export const Dropdown = ({
   const handleOptionClick = (option: React.ReactNode) => {
     setSelectedOption(option);
     setIsOpen(false);
+    setDropdownState('activate');
+  };
+
+  const handleCloseClick = () => {
+    setIsOpen(false);
+    setSelectedOption(children);
+    setDropdownState('default');
   };
 
   return (
     <div className='relative'>
       <button
-        className={`${DropdownVariants({ state, ...props })}`}
+        className={`${DropdownVariants({ state: dropdownState, ...props })}`}
         onClick={(e) => {
           e.stopPropagation();
           setIsOpen(!isOpen);
@@ -75,9 +87,20 @@ export const Dropdown = ({
       >
         <div className='flex items-center gap-2'>
           <span>{selectedOption}</span>
-          {isArrow && state === 'activate' ? (
-            <img src={bottomArrowPrimary} alt='arrow' />
-          ) : (
+          {isArrow &&
+            dropdownState === 'activate' &&
+            (!props.isClose ? (
+              <button
+                className='focus:outline-none'
+                type='button'
+                onClick={handleCloseClick}
+              >
+                <img src={close} alt='close' />
+              </button>
+            ) : (
+              <img src={bottomArrowPrimary} alt='arrow' />
+            ))}
+          {(!isArrow || dropdownState !== 'activate') && (
             <img src={bottomArrow} alt='arrow' />
           )}
         </div>
