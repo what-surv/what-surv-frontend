@@ -1,5 +1,5 @@
-import { cva, VariantProps } from 'class-variance-authority';
-import React, { ReactHTMLElement } from 'react';
+import { cva } from 'class-variance-authority';
+import React from 'react';
 
 import naver from '../../assets/naver.svg';
 
@@ -16,20 +16,24 @@ const NaverVariants = cva(``, {
   },
 });
 
-interface GoogleLoginProps
-  extends ReactHTMLElement<HTMLButtonElement>,
-    VariantProps<typeof NaverVariants> {
+interface GoogleLoginProps {
   children: React.ReactNode;
+  size: 'simple' | 'full';
+  onClick: () => void;
 }
 
 /**
  * Primary UI component for user interaction
  */
-// eslint-disable-next-line import/prefer-default-export
+
 export const NaverLogin = ({ size, children, ...props }: GoogleLoginProps) => {
   return (
     <div>
-      <button type='button' className={NaverVariants({ size, ...props })}>
+      <button
+        type='button'
+        onClick={onClick}
+        className={NaverVariants({ size, ...props })}
+      >
         <img alt='naverlogo' src={naver} />
         {children}
       </button>

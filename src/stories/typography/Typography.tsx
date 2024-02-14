@@ -1,5 +1,4 @@
-import { cva, VariantProps } from 'class-variance-authority';
-import { ReactHTMLElement } from 'react';
+import { cva } from 'class-variance-authority';
 
 const TyphographyVariants = cva(``, {
   variants: {
@@ -24,10 +23,16 @@ const TyphographyVariants = cva(``, {
   },
 });
 
-interface TypographyProps
-  extends ReactHTMLElement<HTMLSpanElement>,
-    VariantProps<typeof TyphographyVariants> {
+interface TypographyProps {
   text: string;
+  /**
+   * Typography Size
+   */
+  size: 'default' | 'xs' | 'sm' | 'base' | 'lg' | 'xl' | 'xl2';
+  /**
+   * Typography weights
+   */
+  weight: 'Regular' | 'Medium' | 'Semibold' | 'Bold';
   // /**
   //  * Typography Size
   //  */
@@ -53,7 +58,7 @@ interface TypographyProps
 /**
  * Primary UI component for user interaction
  */
-// eslint-disable-next-line import/prefer-default-export, @typescript-eslint/no-unused-vars
+
 const Typography = ({ size, text, weight, ...props }: TypographyProps) => {
   return (
     <span className={TyphographyVariants({ size, weight, ...props })}>

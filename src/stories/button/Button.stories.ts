@@ -19,6 +19,7 @@ export const Contained: StoryObj<typeof Button> = {
     size: 'default',
     children: '로그인하기',
     state: 'contained',
+    onClick: () => {},
   },
 };
 

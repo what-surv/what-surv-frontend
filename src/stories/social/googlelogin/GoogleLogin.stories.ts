@@ -18,6 +18,7 @@ export const Full: StoryObj<typeof GoogleLogin> = {
   args: {
     size: 'full',
     children: '구글로 시작하기',
+    onClick: () => {},
   },
 };
 

@@ -1,5 +1,5 @@
-import { cva, VariantProps } from 'class-variance-authority';
-import React, { ReactHTMLElement } from 'react';
+import { cva } from 'class-variance-authority';
+import React from 'react';
 
 import google from '../../assets/google.svg';
 
@@ -16,20 +16,24 @@ const GoogleVariants = cva(``, {
   },
 });
 
-interface GoogleLoginProps
-  extends ReactHTMLElement<HTMLButtonElement>,
-    VariantProps<typeof GoogleVariants> {
+interface GoogleLoginProps {
   children: React.ReactNode;
+  size: 'simple' | 'full';
+  onClick: () => void;
 }
 
 /**
  * Primary UI component for user interaction
  */
-// eslint-disable-next-line import/prefer-default-export
+
 export const GoogleLogin = ({ size, children, ...props }: GoogleLoginProps) => {
   return (
     <div>
-      <button type='button' className={GoogleVariants({ size, ...props })}>
+      <button
+        type='button'
+        onClick={onClick}
+        className={GoogleVariants({ size, ...props })}
+      >
         <img alt='googlelogo' src={google} />
         {children}
       </button>

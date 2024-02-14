@@ -1,5 +1,5 @@
-import { cva, VariantProps } from 'class-variance-authority';
-import React, { ReactHTMLElement } from 'react';
+import { cva } from 'class-variance-authority';
+import React from 'react';
 
 import kakao from '../../assets/kakaotalk.svg';
 
@@ -16,20 +16,29 @@ const KakaoVariants = cva(``, {
   },
 });
 
-interface KakaoLoginProps
-  extends ReactHTMLElement<HTMLButtonElement>,
-    VariantProps<typeof KakaoVariants> {
+interface KakaoLoginProps {
   children?: React.ReactNode;
+  size: 'simple' | 'full';
+  onClick: () => void;
 }
 
 /**
  * Primary UI component for user interaction
  */
 // eslint-disable-next-line import/prefer-default-export
-export const KakaoLogin = ({ size, children, ...props }: KakaoLoginProps) => {
+export const KakaoLogin = ({
+  size,
+  children,
+  onClick,
+  ...props
+}: KakaoLoginProps) => {
   return (
     <div>
-      <button type='button' className={KakaoVariants({ size, ...props })}>
+      <button
+        type='button'
+        onClick={onClick}
+        className={KakaoVariants({ size, ...props })}
+      >
         <img alt='kakaologo' src={kakao} />
         {children}
       </button>
