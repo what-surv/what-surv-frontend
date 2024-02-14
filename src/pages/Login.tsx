@@ -1,11 +1,11 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 
-import style from './login.module.css';
 import LoginStep1 from './LoginStep1';
 import LoginStep2 from './LoginStep2';
 import LoginStep3 from './LoginStep3';
 import LoginStep4 from './LoginStep4';
+import { ProgressBar } from '../stories/indicator/progress bar/ProgressBar';
 
 const Login = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -119,9 +119,7 @@ const Login = () => {
     <div>
       <div className='flex flex-col items-center mt-[60px]'>
         <div className='flex flex-col max-w-xl w-full'>
-          <div className={style.progressBar}>
-            <div style={{ width: `${currentStep * 25}%` }} />
-          </div>
+          <ProgressBar environment='desktop' percent={currentStep * 25} />
           {renderLoginStep(currentStep)}
         </div>
       </div>
