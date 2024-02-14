@@ -71,26 +71,25 @@ const Login = () => {
   };
 
   const loginHandler = async () => {
-    try {
-      const response = await axios.get(
-        'http://your-backend.com/api/auth/status',
-        {
-          withCredentials: true,
-        }
-      );
-
-      if (response.status === 200) {
-        const { data } = response;
-
-        if (data.isAuthenticated) {
-          nextStepHandler();
-        } else {
-          // 회원정보가 있을때 메인가는 코드 넣어야함 현재 컴포넌트 없어서 주석으로 처리
-        }
-      }
-    } catch (error) {
-      console.error('인증 상태 확인 중 오류 발생:', error);
-    }
+    window.location.href = 'http:localhost:3000/auth/google';
+    // try {
+    //   const response = await axios.get(
+    //     'http://your-backend.com/api/auth/status',
+    //     {
+    //       withCredentials: true,
+    //     }
+    //   );
+    //   if (response.status === 200) {
+    //     const { data } = response;
+    //     if (data.isAuthenticated) {
+    //       nextStepHandler();
+    //     } else {
+    //       // 회원정보가 있을때 메인가는 코드 넣어야함 현재 컴포넌트 없어서 주석으로 처리
+    //     }
+    //   }
+    // } catch (error) {
+    //   console.error('인증 상태 확인 중 오류 발생:', error);
+    // }
   };
 
   const renderLoginStep = (step: number) => {
