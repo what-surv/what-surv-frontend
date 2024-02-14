@@ -32,8 +32,6 @@ export const KakaoLogin = ({
   onClick,
   ...props
 }: KakaoLoginProps) => {
-
-export const KakaoLogin = ({ size, children, ...props }: KakaoLoginProps) => {
   return (
     <div>
       <button
