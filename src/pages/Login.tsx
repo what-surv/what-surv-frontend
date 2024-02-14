@@ -13,15 +13,22 @@ const Login = () => {
     nickName: '',
     reservMarketing: false,
   });
+  const [checkboxStates, setCheckboxStates] = useState({
+    '0': { checked: false, href: 'https://www.naver.com/' },
+    '1': { checked: false, href: 'https://www.google.co.kr/' },
+    '2': { checked: false, href: 'https://github.com/' },
+  });
 
-  // 회원가입 STEP 함수
   const nextStepHandler = () => {
     if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
     }
   };
 
-  // Step2~3 에서 사용하는 핸들러 userInfoState에 저장함
+  const prevStepHandler = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
   const userInfoHandler = (param: { sort: string; data: string }) => {
     const { sort, data } = param;
     switch (sort) {
@@ -43,7 +50,6 @@ const Login = () => {
     }
   };
 
-  // Step3 input에서 사용하는 onChange
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setUserInfo((prevUserInfo) => ({
@@ -57,7 +63,6 @@ const Login = () => {
     return regex.test(text);
   };
 
-  // Step3 닉네임 중복 확인 및 정규식
   const onClick = () => {
     if (isValidInput(userInfo.nickName) && userInfo.nickName !== '서범규') {
       return true;
@@ -65,8 +70,7 @@ const Login = () => {
     return false;
   };
 
-  // Back-End에 로그인정보 요청
-  const handleLogin = async () => {
+  const loginHandler = async () => {
     try {
       const response = await axios.get(
         'http://your-backend.com/api/auth/status',
@@ -85,26 +89,33 @@ const Login = () => {
         }
       }
     } catch (error) {
-      console.error('Error checking authentication status:', error);
+      console.error('인증 상태 확인 중 오류 발생:', error);
     }
   };
 
-  // 자식 컴포넌트 렌더링해주는 함수
   const renderLoginStep = (step: number) => {
     switch (step) {
       case 1:
         return (
-          <LoginStep1 onNextStep={nextStepHandler} handleLogin={handleLogin} />
+          <LoginStep1 onNextStep={nextStepHandler} handleLogin={loginHandler} />
         );
       case 2:
         return (
-          <LoginStep2 onNextStep={nextStepHandler} userInfo={userInfoHandler} />
+          <LoginStep2
+            onNextStep={nextStepHandler}
+            userInfo={userInfoHandler}
+            onPrevStep={prevStepHandler}
+            checkboxStates={checkboxStates}
+            setCheckboxStates={setCheckboxStates}
+          />
         );
       case 3:
         return (
           <LoginStep3
             onChange={onChange}
             onClick={onClick}
+            onNextStep={nextStepHandler}
+            onPrevStep={prevStepHandler}
             value={userInfo.nickName}
           />
         );
@@ -120,7 +131,7 @@ const Login = () => {
       <div className='flex flex-col items-center mt-[60px]'>
         <div className='flex flex-col max-w-xl w-full'>
           <ProgressBar environment='desktop' percent={currentStep * 25} />
-          {renderLoginStep(currentStep)}
+          <div className='mt-[60px]'>{renderLoginStep(currentStep)}</div>
         </div>
       </div>
     </div>
