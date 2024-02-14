@@ -9,13 +9,11 @@
 }
 
 .tooltip.left {
-  top: 50%;
   left: calc(100% + 10px);
   transform: translateX(54%) translateY(-70%);
 }
 
 .tooltip.right {
-  top: 50%;
   left: calc(0%);
   transform: translateX(-54%) translateY(-70%);
 }
