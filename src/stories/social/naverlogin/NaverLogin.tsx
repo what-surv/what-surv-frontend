@@ -26,7 +26,12 @@ interface GoogleLoginProps {
  * Primary UI component for user interaction
  */
 
-export const NaverLogin = ({ size, children, ...props }: GoogleLoginProps) => {
+export const NaverLogin = ({
+  size,
+  onClick,
+  children,
+  ...props
+}: GoogleLoginProps) => {
   return (
     <div>
       <button

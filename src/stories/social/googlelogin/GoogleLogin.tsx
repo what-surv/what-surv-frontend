@@ -26,7 +26,12 @@ interface GoogleLoginProps {
  * Primary UI component for user interaction
  */
 
-export const GoogleLogin = ({ size, children, ...props }: GoogleLoginProps) => {
+export const GoogleLogin = ({
+  size,
+  onClick,
+  children,
+  ...props
+}: GoogleLoginProps) => {
   return (
     <div>
       <button
