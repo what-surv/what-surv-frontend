@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 
 import LoginStep1 from './LoginStep1';
@@ -11,7 +10,7 @@ const Login = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [userInfo, setUserInfo] = useState({
     nickName: '',
-    reservMarketing: false,
+    advertisingConsent: false,
   });
   const [checkboxStates, setCheckboxStates] = useState({
     '0': { checked: false, href: 'https://www.naver.com/' },
@@ -35,7 +34,7 @@ const Login = () => {
       case 'check':
         setUserInfo((prevUserInfo) => ({
           ...prevUserInfo,
-          reservMarketing: data === 'true',
+          advertisingConsent: data === 'true',
         }));
         break;
       case 'nickName':
@@ -70,26 +69,22 @@ const Login = () => {
     return false;
   };
 
-  const loginHandler = async () => {
-    window.location.href = 'http:localhost:3000/auth/google';
-    // try {
-    //   const response = await axios.get(
-    //     'http://your-backend.com/api/auth/status',
-    //     {
-    //       withCredentials: true,
-    //     }
-    //   );
-    //   if (response.status === 200) {
-    //     const { data } = response;
-    //     if (data.isAuthenticated) {
-    //       nextStepHandler();
-    //     } else {
-    //       // 회원정보가 있을때 메인가는 코드 넣어야함 현재 컴포넌트 없어서 주석으로 처리
-    //     }
-    //   }
-    // } catch (error) {
-    //   console.error('인증 상태 확인 중 오류 발생:', error);
-    // }
+  const loginHandler = (sort: string) => {
+    switch (sort) {
+      case 'google':
+        window.location.href = `http://localhost:3000/auth/login/google`;
+        break;
+      case 'kakao':
+        window.location.href = `http://localhost:3000/auth/login/kakao`;
+        break;
+      case 'naver':
+        window.location.href = `http://localhost:3000/auth/login/naver`;
+        break;
+
+      default:
+        alert('ERROR');
+        break;
+    }
   };
 
   const renderLoginStep = (step: number) => {
