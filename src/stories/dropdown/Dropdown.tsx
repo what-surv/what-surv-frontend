@@ -7,7 +7,7 @@ import close from '../assets/close.svg';
 
 const DropdownVariants = cva(
   `
-  text-sm border font-semibold self-stretch rounded-[400px] bg-[#FAFAFA] 
+  text-sm border font-semibold self-stretch rounded-[400px] bg-[#FAFAFA]
   `,
   {
     variants: {
@@ -109,7 +109,7 @@ export const Dropdown = ({
       {isOpen && (
         <div
           ref={dropdownEl}
-          className='mt-1.5 border border-[#545760] rounded-2xl  w-inherit p-0 overflow-hidden'
+          className='mt-1.5 border rounded-2xl border-[#818490] w-inherit p-0 overflow-hidden'
         >
           {value.map((item: string) => (
             <button
