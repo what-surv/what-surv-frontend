@@ -21,13 +21,13 @@ const HeaderVariants = cva(`w-full py-3.5 bg-[#FAFAFA]`, {
 });
 
 interface ButtonProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   size: 'default' | 'mobile' | 'full';
-  isAccount: boolean;
-  isArrow: boolean;
-  isSearch: boolean;
-  isNotification: boolean;
-  isLogo: boolean;
+  isAccount?: boolean;
+  isArrow?: boolean;
+  isSearch?: boolean;
+  isNotification?: boolean;
+  isLogo?: boolean;
 }
 
 /**
