@@ -23,7 +23,7 @@ const DropdownVariants = cva(
   }
 );
 
-interface ButtonProps {
+interface DropdownProps {
   children: React.ReactNode;
   size: 'default' | 'small';
   state: 'activate' | 'default';
@@ -38,7 +38,7 @@ export const Dropdown = ({
   state,
   value,
   ...props
-}: ButtonProps) => {
+}: DropdownProps) => {
   const [selectedOption, setSelectedOption] = useState(children);
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownState, setDropdownState] = useState<'activate' | 'default'>(
