@@ -5,11 +5,10 @@ import { KakaoLogin } from '../stories/social/kakaologin/KakaoLogin';
 import { NaverLogin } from '../stories/social/naverlogin/NaverLogin';
 
 export interface LoginStep1Props {
-  onNextStep: () => void;
   handleLogin: () => void;
 }
 
-const LoginStep1 = ({ onNextStep, handleLogin }: LoginStep1Props) => {
+const LoginStep1 = ({ handleLogin }: LoginStep1Props) => {
   return (
     <>
       <p className='text-lg font-bold'>서비스명에 오신 것을 환영합니다!</p>
@@ -23,9 +22,6 @@ const LoginStep1 = ({ onNextStep, handleLogin }: LoginStep1Props) => {
       <NaverLogin size='full' onClick={() => handleLogin('naver')}>
         네이버로 시작하기
       </NaverLogin>
-      <button type='button' onClick={onNextStep}>
-        asd
-      </button>
     </>
   );
 };
