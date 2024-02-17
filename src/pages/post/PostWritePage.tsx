@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
+import check from '../../assets/check.svg';
 import leftArrow from '../../assets/left_arrow.svg';
+import Button from '../../atoms/Button';
 import EditorBox from '../../organisms/post/EditorBox';
 import PostSelectContent from '../../organisms/post/PostSelectContent';
 import { Header } from '../../stories/header/Header';
@@ -22,7 +24,7 @@ const PostWritePage = () => {
   };
 
   return (
-    <div className='w-full'>
+    <div className='w-full pb-[200px]'>
       <div className='header'>
         <Header size='default' isLogo isSearch isAccount />
         <SubHeader size='default' />
@@ -54,6 +56,12 @@ const PostWritePage = () => {
           </div>
           <PostSelectContent />
           <EditorBox />
+          <div className='flex justify-end w-full'>
+            <Button className='bg-[#0051FF] inline-flex justify-center text-white py-3 px-6 items-center gap-2 rounded-[400px] w-[314px]'>
+              등록하기
+              <img src={check} alt='체크 이미지' />
+            </Button>
+          </div>
         </div>
       </div>
     </div>
