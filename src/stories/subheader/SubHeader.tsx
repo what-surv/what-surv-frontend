@@ -19,7 +19,7 @@ const HeaderVariants = cva(
 );
 
 interface ButtonProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   size: 'default' | 'mobile' | 'full';
 }
 
@@ -32,7 +32,7 @@ export const SubHeader = ({ size, ...props }: ButtonProps) => {
     <header
       className={`${HeaderVariants({ size, ...props })} flex justify-between`}
     >
-      <div className='logo flex gap-7 w-full items-center justify-center'>
+      <div className='logo flex gap-7 w-full items-center'>
         <button
           className='p-2 gap-2.5 border-b-2 border-b-[#0051FF]'
           type='button'
@@ -41,21 +41,21 @@ export const SubHeader = ({ size, ...props }: ButtonProps) => {
             IT
           </span>
         </button>
-
+        {/* 
         <div>
           <button className='p-2 gap-2.5' type='button'>
             <span className='text-base font-medium leading-[26px] text-[#545760]'>
               뷰티
             </span>
           </button>
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <button className='p-2 gap-2.5' type='button'>
             <span className='text-base font-medium leading-[26px] text-[#545760]'>
               메디컬
             </span>
           </button>
-        </div>
+        </div> */}
         <div>
           <button className='p-2 gap-2.5' type='button'>
             <span className='text-base font-medium leading-[26px] text-[#545760]'>

@@ -4,6 +4,9 @@ module.exports = {
   darkMode: ['class', '[data-mode="dark"]'],
   theme: {
     extend: {},
+    fontFamily: {
+      pretendard: ['Pretendard'],
+    },
   },
   plugins: [],
 };
