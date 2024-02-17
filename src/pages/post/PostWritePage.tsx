@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import leftArrow from '../../assets/left_arrow.svg';
+import EditorBox from '../../organisms/post/EditorBox';
 import PostSelectContent from '../../organisms/post/PostSelectContent';
 import { Header } from '../../stories/header/Header';
 import { SubHeader } from '../../stories/subheader/SubHeader';
@@ -52,6 +53,7 @@ const PostWritePage = () => {
             </div>
           </div>
           <PostSelectContent />
+          <EditorBox />
         </div>
       </div>
     </div>

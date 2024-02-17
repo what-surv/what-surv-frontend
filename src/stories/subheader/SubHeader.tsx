@@ -32,7 +32,7 @@ export const SubHeader = ({ size, ...props }: ButtonProps) => {
     <header
       className={`${HeaderVariants({ size, ...props })} flex justify-between`}
     >
-      <div className='logo flex gap-7 w-full items-center'>
+      <div className='flex items-center w-full logo gap-7'>
         <button
           className='p-2 gap-2.5 border-b-2 border-b-[#0051FF]'
           type='button'
