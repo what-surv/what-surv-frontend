@@ -1,8 +1,10 @@
 import React from 'react';
 
+import { genderArr, typeArr, ageArr } from './DropdownValue';
 import PostEndDate from '../../molecules/post/PostEndDate';
 import PostInputContent from '../../molecules/post/PostInputContent';
 import PostSelectDropdown from '../../molecules/post/PostSelectDropdown';
+import { WritePageStore } from '../../store/store';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 
@@ -14,15 +16,40 @@ interface FormInputs {
 const PostSelectContent = () => {
   const { register, handleSubmit } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = (data) => console.log(data);
+  const { ageArray, setAge } = WritePageStore();
+  console.log(ageArray);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className='flex flex-wrap items-start content-start self-stretch gap-4 p-6 rounded-lg bg-[#E5E7ED]'>
         <PostEndDate title='마감일' />
-        <PostSelectDropdown title='성별' />
-        <PostSelectDropdown title='리서치 종류' />
-        <PostSelectDropdown title='연령' />
-        <PostSelectDropdown title='진행 방식' />
+        <PostSelectDropdown
+          title='성별'
+          options={genderArr}
+          defaultValue='성별'
+          value={ageArray}
+        />
+        <PostSelectDropdown
+          title='리서치 종류'
+          options={typeArr}
+          defaultValue='종류'
+          value={ageArray}
+        />
+        <PostSelectDropdown
+          title='연령'
+          options={ageArr}
+          onDropdownChange={(selectedOptions: string) =>
+            setAge(selectedOptions)
+          }
+          defaultValue='연령'
+          value={ageArray}
+        />
+        <PostSelectDropdown
+          title='진행 방식'
+          options={['18-24', '25-34', '35-44', '45+']}
+          defaultValue='진행 방식'
+          value={ageArray}
+        />
         <PostInputContent
           id='research-link'
           label='researchLink'

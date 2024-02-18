@@ -1,14 +1,16 @@
 import { cva } from 'class-variance-authority';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 import bottomArrow from '../assets/bottom_arraw.svg';
 import bottomArrowPrimary from '../assets/bottom_arraw_primary.svg';
 import close from '../assets/close.svg';
+import topArrow from '../assets/top_arrow.svg';
+import Typography from '../typography/Typography';
 
 const DropdownVariants = cva(
   `
   text-sm border font-semibold self-stretch rounded-[400px] bg-[#FAFAFA]
-  `,
+`,
   {
     variants: {
       state: {
@@ -24,22 +26,26 @@ const DropdownVariants = cva(
 );
 
 interface DropdownProps {
-  children: React.ReactNode;
+  defaultValue: React.ReactNode | string;
   size: 'default' | 'small';
   state: 'activate' | 'default';
   isArrow: boolean;
   isClose: boolean;
+  menu: string[];
   value: string[];
+  onDropdownChange?: (selectedOption: string) => void;
 }
 
 export const Dropdown = ({
-  children,
+  defaultValue,
   isArrow,
   state,
   value,
+  menu,
+  onDropdownChange,
   ...props
 }: DropdownProps) => {
-  const [selectedOption, setSelectedOption] = useState(children);
+  const [selectedOption, setSelectedOption] = useState(defaultValue);
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownState, setDropdownState] = useState<'activate' | 'default'>(
     state
@@ -63,63 +69,75 @@ export const Dropdown = ({
     };
   }, [isOpen]);
 
-  const handleOptionClick = (option: React.ReactNode) => {
+  const handleOptionClick = (option: string) => {
     setSelectedOption(option);
     setIsOpen(false);
     setDropdownState('activate');
+    if (onDropdownChange) {
+      // Call onDropdownChange with selected option
+      onDropdownChange(option);
+    }
   };
 
   const handleCloseClick = () => {
     setIsOpen(false);
-    setSelectedOption(children);
     setDropdownState('default');
   };
 
   return (
     <div className='relative'>
-      <button
-        className={`${DropdownVariants({ state: dropdownState, ...props })}`}
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsOpen(!isOpen);
-        }}
-        type='button'
-      >
-        <div className='flex items-center gap-2'>
-          <span>{selectedOption}</span>
-          {isArrow &&
-            dropdownState === 'activate' &&
-            (!props.isClose ? (
-              <button
-                className='focus:outline-none'
-                type='button'
-                onClick={handleCloseClick}
-              >
-                <img src={close} alt='close' />
-              </button>
-            ) : (
-              <img src={bottomArrowPrimary} alt='arrow' />
-            ))}
-          {(!isArrow || dropdownState !== 'activate') && (
-            <img src={bottomArrow} alt='arrow' />
-          )}
+      <div className='flex'>
+        <button
+          className={`${DropdownVariants({ state: dropdownState, ...props })} flex`}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsOpen(!isOpen);
+          }}
+          type='button'
+        >
+          <div className='flex items-center gap-2'>
+            <Typography size='sm' text={selectedOption} weight='Semibold' />
+            {isArrow &&
+              dropdownState === 'activate' &&
+              (!props.isClose ? (
+                <button
+                  className='focus:outline-none'
+                  type='button'
+                  onClick={handleCloseClick}
+                >
+                  <img src={close} alt='close' />
+                </button>
+              ) : (
+                <img src={bottomArrowPrimary} alt='arrow' />
+              ))}
+            {(!isArrow || dropdownState !== 'activate') &&
+              (isOpen ? (
+                <img src={topArrow} alt='arrow' className='' />
+              ) : (
+                <img src={bottomArrow} alt='arrow' />
+              ))}
+          </div>
+        </button>
+        <div className='flex'>
+          {value.map((item: string) => (
+            <div className='flex'>{item}</div>
+          ))}
         </div>
-      </button>
+      </div>
 
       {isOpen && (
         <div
           ref={dropdownEl}
-          className='mt-1.5 border rounded-2xl border-[#818490] w-inherit p-0 overflow-hidden'
+          className='absolute bg-[#FAFAFA] mt-1.5 border rounded-2xl border-[#818490] w-full p-0 overflow-hidden z-10'
         >
-          {value.map((item: string) => (
+          {menu.map((item: string) => (
             <button
+              key={item}
               className='flex w-full justify-center py-1.5 items-center gap-2.5 self-stretch hover:bg-[#CCDCFF]'
               onClick={() => handleOptionClick(item)}
               type='button'
             >
-              <span className='text-sm font-semibold text-[#545760]'>
-                {item}
-              </span>
+              {item}
             </button>
           ))}
         </div>
