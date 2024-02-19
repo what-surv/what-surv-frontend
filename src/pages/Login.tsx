@@ -166,9 +166,7 @@ const Login = () => {
   const renderLoginStep = (step: number) => {
     switch (step) {
       case 1:
-        return (
-          <LoginStep1 onNextStep={nextStepHandler} handleLogin={loginHandler} />
-        );
+        return <LoginStep1 handleLogin={loginHandler} />;
       case 2:
         return (
           <LoginStep2
