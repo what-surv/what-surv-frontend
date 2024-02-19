@@ -11,3 +11,5 @@ export const ageArr = [
   '80대이상',
 ];
 export const typeArr = ['전체', '설문조사', '인터뷰', '유저테스트', '기타'];
+
+export const methodArr = ['전체', '온라인', '오프라인', '온오프라인 병행'];
