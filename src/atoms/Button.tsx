@@ -4,11 +4,13 @@ interface ButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
   className: string;
+  type: 'submit' | 'button' | 'reset';
 }
 
-const Button = ({ children, onClick, className }: ButtonProps) => {
+const Button = ({ children, type, onClick, className }: ButtonProps) => {
   return (
-    <button onClick={onClick} type='button' className={className}>
+    // eslint-disable-next-line react/button-has-type
+    <button onClick={onClick} type={type} className={className}>
       {children}
     </button>
   );

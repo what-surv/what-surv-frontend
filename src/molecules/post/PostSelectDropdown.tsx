@@ -1,15 +1,22 @@
 import { Dropdown } from '../../stories/dropdown/Dropdown';
 import Typography from '../../stories/typography/Typography';
 
+interface arrOptionProps {
+  key: string;
+  label: string;
+}
+
 interface PostSelectDropdownProps {
   title: string;
-  options: string[];
+  options: arrOptionProps[];
   onDropdownChange?: (selectedOptions: string) => void;
   defaultValue: string;
-  value: string[];
+  value: string[] | string;
+  oneSelect: boolean;
 }
 
 const PostSelectDropdown = ({
+  oneSelect,
   title,
   options,
   onDropdownChange,
@@ -30,8 +37,8 @@ const PostSelectDropdown = ({
         state='default'
         menu={options}
         value={value}
-        isClose={false}
         defaultValue={defaultValue}
+        oneSelect={oneSelect}
         onDropdownChange={handleDropdownChange}
       />
     </div>

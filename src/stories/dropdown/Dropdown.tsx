@@ -25,28 +25,34 @@ const DropdownVariants = cva(
   }
 );
 
+interface arrOptionProps {
+  key: string;
+  label: string;
+}
+
 interface DropdownProps {
   defaultValue: React.ReactNode | string;
   size: 'default' | 'small';
   state: 'activate' | 'default';
   isArrow: boolean;
-  isClose: boolean;
-  menu: string[];
-  value: string[];
+  menu: arrOptionProps[];
+  value: string[] | string;
+  oneSelect: boolean;
   onDropdownChange?: (selectedOption: string) => void;
 }
 
 export const Dropdown = ({
   defaultValue,
   isArrow,
+  oneSelect,
   state,
   value,
   menu,
   onDropdownChange,
   ...props
 }: DropdownProps) => {
-  const [selectedOption, setSelectedOption] = useState(defaultValue);
   const [isOpen, setIsOpen] = useState(false);
+  const [isSelected, setIsSelected] = useState<string>('');
   const [dropdownState, setDropdownState] = useState<'activate' | 'default'>(
     state
   );
@@ -70,23 +76,29 @@ export const Dropdown = ({
   }, [isOpen]);
 
   const handleOptionClick = (option: string) => {
-    setSelectedOption(option);
     setIsOpen(false);
+    setIsSelected(option);
     setDropdownState('activate');
     if (onDropdownChange) {
-      // Call onDropdownChange with selected option
       onDropdownChange(option);
     }
   };
 
-  const handleCloseClick = () => {
+  const handleCloseClick = (option: string) => {
     setIsOpen(false);
     setDropdownState('default');
+    if (onDropdownChange) {
+      // Remove the selected option from the value array
+      const updatedValue = value.filter((item) => item !== option);
+      // Call the onDropdownChange function with the updated value array
+      onDropdownChange(updatedValue);
+    }
+    console.log(value);
   };
 
   return (
     <div className='relative'>
-      <div className='flex'>
+      <div className='flex gap-1.5'>
         <button
           className={`${DropdownVariants({ state: dropdownState, ...props })} flex`}
           onClick={(e) => {
@@ -96,20 +108,16 @@ export const Dropdown = ({
           type='button'
         >
           <div className='flex items-center gap-2'>
-            <Typography size='sm' text={selectedOption} weight='Semibold' />
-            {isArrow &&
-              dropdownState === 'activate' &&
-              (!props.isClose ? (
-                <button
-                  className='focus:outline-none'
-                  type='button'
-                  onClick={handleCloseClick}
-                >
-                  <img src={close} alt='close' />
-                </button>
-              ) : (
-                <img src={bottomArrowPrimary} alt='arrow' />
-              ))}
+            <Typography
+              size='sm'
+              text={oneSelect && isSelected.length ? isSelected : defaultValue}
+              weight='Semibold'
+            />
+            {isArrow && dropdownState === 'activate' ? (
+              <img src={bottomArrowPrimary} alt='arrow' />
+            ) : (
+              ''
+            )}
             {(!isArrow || dropdownState !== 'activate') &&
               (isOpen ? (
                 <img src={topArrow} alt='arrow' className='' />
@@ -118,11 +126,26 @@ export const Dropdown = ({
               ))}
           </div>
         </button>
-        <div className='flex'>
-          {value.map((item: string) => (
-            <div className='flex'>{item}</div>
-          ))}
-        </div>
+        {!oneSelect && (
+          <div className='flex gap-1.5'>
+            {value.map((item: string) => (
+              <div
+                className='flex bg-[#FAFAFA] h-9 py-1.5 px-4 items-center rounded-[400px] gap-2
+         border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41]'
+                key={item}
+              >
+                {item}
+                <button
+                  className='focus:outline-none'
+                  type='button'
+                  onClick={() => handleCloseClick(item)}
+                >
+                  <img src={close} alt='close' />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {isOpen && (
@@ -130,14 +153,14 @@ export const Dropdown = ({
           ref={dropdownEl}
           className='absolute bg-[#FAFAFA] mt-1.5 border rounded-2xl border-[#818490] w-full p-0 overflow-hidden z-10'
         >
-          {menu.map((item: string) => (
+          {menu.map((item: arrOptionProps) => (
             <button
-              key={item}
+              key={item.key}
               className='flex w-full justify-center py-1.5 items-center gap-2.5 self-stretch hover:bg-[#CCDCFF]'
-              onClick={() => handleOptionClick(item)}
+              onClick={() => handleOptionClick(item.label)}
               type='button'
             >
-              {item}
+              {item.label}
             </button>
           ))}
         </div>

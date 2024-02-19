@@ -5,13 +5,15 @@ import Typography from '../../stories/typography/Typography';
 
 import { UseFormRegister, RegisterOptions } from 'react-hook-form';
 
-interface FormInputs {
+interface Inputs {
+  title: string;
   link: string;
   time: string;
+  content: string;
 }
 
 interface PostInputContentProps {
-  register: UseFormRegister<FormInputs>;
+  register: UseFormRegister<Inputs>;
   name: 'link' | 'time';
   id: string;
   title: string;
@@ -38,7 +40,9 @@ const PostInputContent = ({
       <div className='text-area flex py-2.5 px-5 border self-stretch gap-3 items-center rounded-xl border-[#6697FF] bg-[#FAFAFA]'>
         <Input
           type='text'
-          {...(register && { ...register(name) })}
+          {...(register && {
+            ...register(name, { required: true, maxLength: 100 }),
+          })}
           {...props}
           className='flex-1 bg-inherit text-base placeholder:text-[#C1C5CC] placeholder:font-medium normal font-pretendard font-semibold outline-none leading-[26px]'
         />
