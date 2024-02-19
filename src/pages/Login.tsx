@@ -12,7 +12,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const Login = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [userInfo, setUserInfo] = useState({
-    nickName: '',
+    nickname: '',
     advertisingConsent: false,
   });
   const [checkboxStates, setCheckboxStates] = useState({
@@ -32,25 +32,19 @@ const Login = () => {
         const response = await axios.get(
           `${import.meta.env.VITE_SERVER_URL}/auth/${path}`,
           {
-            withCredentials: true, // Important: Include credentials to ensure cookies are sent
+            withCredentials: true,
           }
         );
-        const { data } = response;
-        console.log(data);
-        // if (response.status === 200) {
-        //   const data = response.data;
-
-        //   if (data.isAuthenticated) {
-        //     // history.push('/dashboard');
-        //     navigate('/main');
-        //   } else {
-        //     nextStepHandler();
-        //     // navigate('/login');
-        //   }
-        // }
+        console.log(response);
+        setUserInfo((prevUserInfo) => ({
+          ...prevUserInfo,
+          phone: '010-9076-2806',
+          gender: 'helicopter',
+          job: 'KFC',
+        }));
+        nextStepHandler();
       } catch (error) {
-        console.error('Error checking authentication status:', error);
-        // navigate('/login');
+        navigate('/login');
       }
     };
 
@@ -65,7 +59,7 @@ const Login = () => {
       // 가입된 유저
       case '/login/success':
         // 이미 유저정보가 있을때 메인으로 이동~
-        checkAuthStatus('profile');
+        navigate('/main');
         break;
 
       // 실패했을경우
@@ -97,10 +91,10 @@ const Login = () => {
           advertisingConsent: data === 'true',
         }));
         break;
-      case 'nickName':
+      case 'nickname':
         setUserInfo((prevUserInfo) => ({
           ...prevUserInfo,
-          nickName: data,
+          nickname: data,
         }));
         break;
       default:
@@ -113,7 +107,7 @@ const Login = () => {
     const { value } = e.target;
     setUserInfo((prevUserInfo) => ({
       ...prevUserInfo,
-      nickName: value,
+      nickname: value,
     }));
   };
 
@@ -124,25 +118,36 @@ const Login = () => {
 
   // STEP3에서 닉네임 요청하는 온클릭 함수
   const onClick = async () => {
+    // 정규식 체크
+    if (!isValidInput(userInfo.nickname)) {
+      return false;
+    }
+
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/auth/profile`,
-        {
-          withCredentials: true,
-        }
+        `${import.meta.env.VITE_SERVER_URL}/users/nickname-exists?nickname=${userInfo.nickname}`
       );
+      const { data } = response;
 
-      if (response.status === 200) {
-        if (isValidInput(userInfo.nickName) && userInfo.nickName !== '서범규') {
-          // DB에 중복되는 닉네임이 있는지 확인하는 IF문
-          return true;
-        }
-        return false;
-      }
+      return !data;
     } catch (error) {
       console.error('Error checking authentication status:', error);
     }
     return undefined;
+  };
+
+  // STEP3에서 다음 눌렀을때 POST 요청
+  const userRegistrationHandler = async () => {
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/auth/sign-up`,
+        userInfo,
+        { withCredentials: true }
+      );
+      nextStepHandler();
+    } catch (error) {
+      console.error('에러 발생:', error);
+    }
   };
 
   const loginHandler = (sort: string) => {
@@ -166,9 +171,7 @@ const Login = () => {
   const renderLoginStep = (step: number) => {
     switch (step) {
       case 1:
-        return (
-          <LoginStep1 onNextStep={nextStepHandler} handleLogin={loginHandler} />
-        );
+        return <LoginStep1 handleLogin={loginHandler} />;
       case 2:
         return (
           <LoginStep2
@@ -184,9 +187,9 @@ const Login = () => {
           <LoginStep3
             onChange={onChange}
             onClick={onClick}
-            onNextStep={nextStepHandler}
+            onNextStep={userRegistrationHandler}
             onPrevStep={prevStepHandler}
-            value={userInfo.nickName}
+            value={userInfo.nickname}
           />
         );
       case 4:

@@ -25,7 +25,7 @@ const LoginStep3 = ({
   >(null);
   const handleButtonClick = async () => {
     try {
-      const clickResult = await onClick(); // await를 추가하여 비동기 함수의 완료를 기다립니다.
+      const clickResult = await onClick();
       setResult(clickResult);
     } catch (error) {
       console.error('Error handling button click:', error);

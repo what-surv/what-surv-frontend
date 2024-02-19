@@ -5,7 +5,7 @@ import { KakaoLogin } from '../stories/social/kakaologin/KakaoLogin';
 import { NaverLogin } from '../stories/social/naverlogin/NaverLogin';
 
 export interface LoginStep1Props {
-  handleLogin: () => void;
+  handleLogin: (sort: string) => void;
 }
 
 const LoginStep1 = ({ handleLogin }: LoginStep1Props) => {
