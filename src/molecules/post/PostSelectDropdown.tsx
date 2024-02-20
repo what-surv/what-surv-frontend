@@ -29,7 +29,7 @@ const PostSelectDropdown = ({
     }
   };
   return (
-    <div className='flex flex-col items-start w-[375px] gap-2'>
+    <div className='flex flex-col items-start w-[149px] md:w-[375px] gap-1.5 md:gap-2'>
       <Typography size='base' weight='Regular' text={title} />
       <Dropdown
         isArrow

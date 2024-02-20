@@ -7,13 +7,10 @@ const HeaderVariants = cva(
   {
     variants: {
       size: {
-        default: 'min-w-[680px] px-[150px]',
-        mobile: 'min-w-[280px] px-6',
-        full: 'min-w-[1280px] px-[180px]',
+        default: '',
+        mobile: '',
+        full: '',
       },
-    },
-    defaultVariants: {
-      size: 'default',
     },
   }
 );
@@ -30,7 +27,7 @@ interface ButtonProps {
 export const SubHeader = ({ size, ...props }: ButtonProps) => {
   return (
     <header
-      className={`${HeaderVariants({ size, ...props })} flex justify-between`}
+      className={`${HeaderVariants({ size, ...props })} justify-between min-w-[280px] md:min-w-[680px] md:px-[150px] lg:min-w-[1280px] lg:px-[180px] px-6 hidden md:inline-block`}
     >
       <div className='flex items-center w-full logo gap-7'>
         <button

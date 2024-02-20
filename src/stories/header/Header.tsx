@@ -10,8 +10,8 @@ import search from '../assets/search.svg';
 const HeaderVariants = cva(`w-full py-3.5 bg-[#FAFAFA]`, {
   variants: {
     size: {
-      default: 'min-w-[680px] px-[150px]',
-      mobile: 'min-w-[280px] px-6 w-[390px]',
+      default: '',
+      mobile: '',
       full: 'min-w-[1280px] px-[180px]',
     },
   },
@@ -22,7 +22,6 @@ const HeaderVariants = cva(`w-full py-3.5 bg-[#FAFAFA]`, {
 
 interface ButtonProps {
   children?: React.ReactNode;
-  size: 'default' | 'mobile' | 'full';
   isAccount?: boolean;
   isArrow?: boolean;
   isSearch?: boolean;
@@ -35,28 +34,28 @@ interface ButtonProps {
  */
 
 export const Header = ({
-  size,
   children,
   isAccount,
   isArrow,
   isSearch,
   isNotification,
-  ...props
+  isLogo,
 }: ButtonProps) => {
   return (
     <header
-      className={`${HeaderVariants({ size, ...props })} flex justify-between`}
+      className={`${HeaderVariants({})} flex justify-between iphone:min-w-[280px] iphone:px-6 w-[390px] md:min-w-[680px] md:px-[150px]`}
     >
-      <div className='flex gap-4 items-center'>
+      <div className='flex items-center gap-4'>
         {isArrow && (
           <img src={rightArrow} alt='arrow' className='px-2 py-1.5' />
         )}
+        {isLogo && <img src={account} alt='logo' />}
         {children}
       </div>
-      <div className='logo flex gap-4'>
-        {isAccount && <img src={account} alt='account' />}
+      <div className='flex gap-4 logo'>
         {isNotification && <img src={notification} alt='notification' />}
         {isSearch && <img src={search} alt='search' />}
+        {isAccount && <img src={account} alt='account' />}
       </div>
     </header>
   );
