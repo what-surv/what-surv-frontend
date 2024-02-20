@@ -1,3 +1,4 @@
+import Index from './pages/Index';
 import Login from './pages/Login';
 import View from './pages/View';
 
@@ -7,11 +8,12 @@ const App = () => {
   return (
     <div>
       <Routes>
+        <Route path='/main' element={<Index />} />
         <Route path='/login' element={<Login />} />
         <Route path='/login/new-user' element={<Login />} />
         <Route path='/login/success' element={<Login />} />
         <Route path='/login/failure' element={<Login />} />
-        <Route path='/view' element={<View />} />
+        <Route path='/view/:num' element={<View />} />
       </Routes>
     </div>
   );
