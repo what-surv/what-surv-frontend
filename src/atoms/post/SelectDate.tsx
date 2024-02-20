@@ -2,18 +2,15 @@
 import { useState } from 'react';
 
 import calendar from '../../assets/calendar.svg';
+import { WritePageStore } from '../../store/store';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
-import { Controller, useForm } from 'react-hook-form';
-
-interface DateTypes {
-  date: Date;
-}
 
 const SelectDate = () => {
   const [showDatePicker, setShowDatePicker] = useState<boolean>(true);
-  const { control } = useForm<DateTypes>({});
+  const [enddate, setEndDate] = useState<Date>();
+  const { setEnddate } = WritePageStore();
 
   const handleDateClick = () => {
     setShowDatePicker(true);
@@ -27,21 +24,16 @@ const SelectDate = () => {
     >
       {showDatePicker ? (
         <div className='relative flex items-center'>
-          <Controller
-            control={control}
-            name='date'
-            render={({ field }) => (
-              <DatePicker
-                selected={field.value}
-                onChange={(date) => {
-                  field.onChange(date);
-                  setShowDatePicker(false);
-                }}
-                dateFormat='yy.MM.dd'
-                placeholderText='날짜 선택'
-                className='text-sm outline-none cursor-pointer bg-inherit w-[57px] caret-transparent'
-              />
-            )}
+          <DatePicker
+            selected={enddate}
+            onChange={(date: Date) => {
+              setShowDatePicker(false);
+              setEnddate(date);
+              setEndDate(date);
+            }}
+            dateFormat='yy.MM.dd'
+            placeholderText='날짜 선택'
+            className='text-sm outline-none cursor-pointer bg-inherit w-[57px] caret-transparent'
           />
         </div>
       ) : null}

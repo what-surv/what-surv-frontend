@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import check from '../../assets/check.svg';
 import leftArrow from '../../assets/left_arrow.svg';
 import Button from '../../atoms/Button';
 import Input from '../../atoms/Input';
 import EditorBox from '../../organisms/post/EditorBox';
-// eslint-disable-next-line import/no-cycle
 import PostSelectContent from '../../organisms/post/PostSelectContent';
 import { WritePageStore } from '../../store/store';
 import { Header } from '../../stories/header/Header';
@@ -18,45 +17,89 @@ interface Inputs {
   title: string;
   link: string;
   time: string;
-  content: string;
 }
 
 const PostWritePage = () => {
   const { register, handleSubmit } = useForm<Inputs>();
-  const [titleValue, setTitleValue] = useState('');
+  const [disableButton, setDisableButton] = useState(true);
 
   const {
-    ageArray,
+    age,
     gender,
     researchType,
     link,
     time,
+    content,
     title,
+    procedure,
+    enddate,
     setTitle,
     setLink,
     setTime,
-    progressMethodValue,
   } = WritePageStore();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     setLink(data.link);
     setTime(data.time);
-    setTitle(data.title);
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitleValue(e.target.value);
+    setTitle(e.target.value);
   };
-
-  console.log(
-    ageArray,
-    title,
+  // 버튼 disable 여부 확인용 useEffect
+  useEffect(() => {
+    console.log(
+      age,
+      title,
+      content,
+      gender,
+      researchType,
+      procedure,
+      link,
+      enddate,
+      time
+    );
+    if (
+      !age ||
+      !gender ||
+      !researchType ||
+      !link ||
+      !time ||
+      !content ||
+      !title ||
+      !procedure ||
+      !enddate
+    ) {
+      setDisableButton(true);
+    } else {
+      setDisableButton(false);
+    }
+  }, [
+    age,
     gender,
     researchType,
-    progressMethodValue,
     link,
-    time
-  );
+    time,
+    content,
+    title,
+    procedure,
+    enddate,
+  ]);
+
+  const formDataToJson = () => {
+    const jsonData = JSON.stringify({
+      age,
+      title,
+      content,
+      gender,
+      researchType,
+      procedure,
+      link,
+      enddate,
+      time,
+    });
+    console.log(jsonData);
+  };
 
   return (
     <div className='w-full pb-[200px]'>
@@ -90,7 +133,7 @@ const PostWritePage = () => {
                 />
                 <Typography
                   size='sm'
-                  text={`${titleValue.length}/100`}
+                  text={`${title.length}/100`}
                   weight='Regular'
                 />
               </div>
@@ -100,7 +143,9 @@ const PostWritePage = () => {
             <div className='flex justify-end w-full'>
               <Button
                 type='submit'
-                className='bg-[#0051FF] inline-flex justify-center text-white py-3 px-6 items-center gap-2 rounded-[400px] w-[314px]'
+                className={` inline-flex justify-center text-white py-3 px-6 items-center gap-2 rounded-[400px] w-[314px] ${disableButton ? `bg-[#A6AAB2]` : `bg-[#0051FF]`}`}
+                onClick={() => formDataToJson()}
+                disabled={disableButton}
               >
                 등록하기
                 <img src={check} alt='체크 이미지' />

@@ -10,7 +10,6 @@ interface FormInputs {
   title: string;
   link: string;
   time: string;
-  content: string;
 }
 
 interface PostSelectContentProps {
@@ -19,14 +18,16 @@ interface PostSelectContentProps {
 
 const PostSelectContent = ({ register }: PostSelectContentProps) => {
   const {
-    ageArray,
+    age,
     gender,
     setResearchType,
     researchType,
+    setTime,
     setGender,
+    setLink,
     setAge,
-    setprogressMethodValueArray,
-    progressMethodValue,
+    setprocedureArray,
+    procedure,
   } = WritePageStore();
 
   return (
@@ -54,17 +55,15 @@ const PostSelectContent = ({ register }: PostSelectContentProps) => {
         onDropdownChange={(selectAge) => setAge(selectAge)}
         oneSelect={false}
         defaultValue='연령'
-        value={ageArray}
+        value={age}
       />
       <PostSelectDropdown
         title='진행 방식'
         options={methodArr}
         oneSelect
         defaultValue='진행 방식'
-        value={progressMethodValue}
-        onDropdownChange={(selectMethod) =>
-          setprogressMethodValueArray(selectMethod)
-        }
+        value={procedure}
+        onDropdownChange={(selectMethod) => setprocedureArray(selectMethod)}
       />
       <PostInputContent
         id='research-link'
@@ -74,6 +73,7 @@ const PostSelectContent = ({ register }: PostSelectContentProps) => {
         title='링크'
         placeholder='리서치 링크를 첨부해보세요!'
         register={register}
+        setValue={setLink}
       />
       <PostInputContent
         id='time-taken'
@@ -83,6 +83,7 @@ const PostSelectContent = ({ register }: PostSelectContentProps) => {
         title='소요 시간'
         placeholder='설문 1분 이내, 인터뷰 30분 이내'
         register={register}
+        setValue={setTime}
       />
     </div>
   );

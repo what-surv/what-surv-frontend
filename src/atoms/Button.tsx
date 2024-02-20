@@ -5,12 +5,26 @@ interface ButtonProps {
   onClick?: () => void;
   className: string;
   type: 'submit' | 'button' | 'reset';
+  disabled: boolean;
 }
 
-const Button = ({ children, type, onClick, className }: ButtonProps) => {
+const Button = ({
+  children,
+  type,
+  onClick,
+  className,
+  disabled,
+  ...props
+}: ButtonProps) => {
   return (
-    // eslint-disable-next-line react/button-has-type
-    <button onClick={onClick} type={type} className={className}>
+    <button
+      onClick={onClick}
+      // eslint-disable-next-line react/button-has-type
+      type={type}
+      className={className}
+      disabled={disabled}
+      {...props}
+    >
       {children}
     </button>
   );

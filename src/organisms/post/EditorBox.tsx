@@ -1,13 +1,27 @@
+import { useRef } from 'react';
+
+import { WritePageStore } from '../../store/store';
+
 import { Editor } from '@toast-ui/react-editor';
+
 import '@toast-ui/editor/dist/toastui-editor.css';
 
 const EditorBox = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const editorRef = useRef<any>();
+  const { setContent } = WritePageStore();
+  const onChange = () => {
+    const data = editorRef.current.getInstance().getHTML();
+    setContent(data);
+  };
   return (
     <div className='w-full'>
       <Editor
         initialValue=' '
         previewStyle=''
         height='600px'
+        ref={editorRef}
+        onChange={onChange}
         initialEditType='wysiwyg'
         language='ko-KR'
         useCommandShortcut={false}

@@ -9,7 +9,6 @@ interface Inputs {
   title: string;
   link: string;
   time: string;
-  content: string;
 }
 
 interface PostInputContentProps {
@@ -26,14 +25,20 @@ interface PostInputContentProps {
   helperClassName?: string;
   errorClassName?: string;
   inputRightComponent?: React.ReactNode;
+  setValue: (value: string) => void;
 }
 
 const PostInputContent = ({
   title,
   register,
+  setValue,
   name,
   ...props
 }: PostInputContentProps) => {
+  //  input값 실시간 변화 하는 값 받아오기  위한 changeEvent
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
   return (
     <div className='flex w-[375px] flex-col items-start gap-2'>
       <Typography size='base' weight='Regular' text={title} />
@@ -42,6 +47,7 @@ const PostInputContent = ({
           type='text'
           {...(register && {
             ...register(name, { required: true, maxLength: 100 }),
+            onChange: handleChange,
           })}
           {...props}
           className='flex-1 bg-inherit text-base placeholder:text-[#C1C5CC] placeholder:font-medium normal font-pretendard font-semibold outline-none leading-[26px]'
