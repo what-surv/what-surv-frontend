@@ -29,7 +29,7 @@ export const ProgressBar = ({ percent, environment }: ProgressBarProps) => {
         <div
           className={`absolute h-3 ${
             percent === 100 ? `bg-[#0051FF]` : `bg-[#3283ff]`
-          } transition rounded-[400px] duration-300`}
+          } rounded-[400px] transition-all duration-300 ease-in`}
           style={{ width: `${percent}%` }}
         />
       </div>

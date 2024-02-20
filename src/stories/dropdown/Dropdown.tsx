@@ -1,14 +1,16 @@
 import { cva } from 'class-variance-authority';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 import bottomArrow from '../assets/bottom_arraw.svg';
 import bottomArrowPrimary from '../assets/bottom_arraw_primary.svg';
 import close from '../assets/close.svg';
+import topArrow from '../assets/top_arrow.svg';
+import Typography from '../typography/Typography';
 
 const DropdownVariants = cva(
   `
   text-sm border font-semibold self-stretch rounded-[400px] bg-[#FAFAFA]
-  `,
+`,
   {
     variants: {
       state: {
@@ -23,24 +25,34 @@ const DropdownVariants = cva(
   }
 );
 
+interface arrOptionProps {
+  key: string;
+  label: string;
+}
+
 interface DropdownProps {
-  children: React.ReactNode;
+  defaultValue: React.ReactNode | string;
   size: 'default' | 'small';
   state: 'activate' | 'default';
   isArrow: boolean;
-  isClose: boolean;
-  value: string[];
+  menu: arrOptionProps[];
+  value: string[] | string;
+  oneSelect: boolean;
+  onDropdownChange?: (selectedOption: string) => void;
 }
 
 export const Dropdown = ({
-  children,
+  defaultValue,
   isArrow,
+  oneSelect,
   state,
   value,
+  menu,
+  onDropdownChange,
   ...props
 }: DropdownProps) => {
-  const [selectedOption, setSelectedOption] = useState(children);
   const [isOpen, setIsOpen] = useState(false);
+  const [isSelected, setIsSelected] = useState<string>('');
   const [dropdownState, setDropdownState] = useState<'activate' | 'default'>(
     state
   );
@@ -63,63 +75,92 @@ export const Dropdown = ({
     };
   }, [isOpen]);
 
-  const handleOptionClick = (option: React.ReactNode) => {
-    setSelectedOption(option);
+  const handleOptionClick = (option: string) => {
     setIsOpen(false);
+    setIsSelected(option);
     setDropdownState('activate');
+    if (onDropdownChange) {
+      onDropdownChange(option);
+    }
   };
 
-  const handleCloseClick = () => {
+  const handleCloseClick = (option: string) => {
     setIsOpen(false);
-    setSelectedOption(children);
     setDropdownState('default');
+    if (onDropdownChange) {
+      // Remove the selected option from the value array
+      const updatedValue = value.filter((item) => item !== option);
+      // Call the onDropdownChange function with the updated value array
+      onDropdownChange(updatedValue);
+    }
+    console.log(value);
   };
 
   return (
     <div className='relative'>
-      <button
-        className={`${DropdownVariants({ state: dropdownState, ...props })}`}
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsOpen(!isOpen);
-        }}
-        type='button'
-      >
-        <div className='flex items-center gap-2'>
-          <span>{selectedOption}</span>
-          {isArrow &&
-            dropdownState === 'activate' &&
-            (!props.isClose ? (
-              <button
-                className='focus:outline-none'
-                type='button'
-                onClick={handleCloseClick}
-              >
-                <img src={close} alt='close' />
-              </button>
-            ) : (
+      <div className='flex gap-1.5'>
+        <button
+          className={`${DropdownVariants({ state: dropdownState, ...props })} flex`}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsOpen(!isOpen);
+          }}
+          type='button'
+        >
+          <div className='flex items-center gap-2'>
+            <Typography
+              size='sm'
+              text={oneSelect && isSelected.length ? isSelected : defaultValue}
+              weight='Semibold'
+            />
+            {isArrow && dropdownState === 'activate' ? (
               <img src={bottomArrowPrimary} alt='arrow' />
+            ) : (
+              ''
+            )}
+            {(!isArrow || dropdownState !== 'activate') &&
+              (isOpen ? (
+                <img src={topArrow} alt='arrow' className='' />
+              ) : (
+                <img src={bottomArrow} alt='arrow' />
+              ))}
+          </div>
+        </button>
+        {!oneSelect && (
+          <div className='flex gap-1.5'>
+            {value.map((item: string) => (
+              <div
+                className='flex bg-[#FAFAFA] h-9 py-1.5 px-4 items-center rounded-[400px] gap-2
+         border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41]'
+                key={item}
+              >
+                {item}
+                <button
+                  className='focus:outline-none'
+                  type='button'
+                  onClick={() => handleCloseClick(item)}
+                >
+                  <img src={close} alt='close' />
+                </button>
+              </div>
             ))}
-          {(!isArrow || dropdownState !== 'activate') && (
-            <img src={bottomArrow} alt='arrow' />
-          )}
-        </div>
-      </button>
+          </div>
+        )}
+      </div>
 
       {isOpen && (
         <div
           ref={dropdownEl}
-          className='mt-1.5 border rounded-2xl border-[#818490] w-inherit p-0 overflow-hidden'
+          className='absolute bg-[#FAFAFA] mt-1.5 border rounded-2xl border-[#818490] w-full p-0 overflow-hidden z-10'
         >
-          {value.map((item: string) => (
+          {menu.map((item: arrOptionProps) => (
             <button
+              key={item.key}
               className='flex w-full justify-center py-1.5 items-center gap-2.5 self-stretch hover:bg-[#CCDCFF]'
-              onClick={() => handleOptionClick(item)}
+              onClick={() => handleOptionClick(item.label)}
               type='button'
             >
-              <span className='text-sm font-semibold text-[#545760]'>
-                {item}
-              </span>
+              {item.label}
             </button>
           ))}
         </div>

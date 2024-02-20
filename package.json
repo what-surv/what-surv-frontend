@@ -38,8 +38,11 @@
     "@storybook/react": "^7.6.9",
     "@storybook/react-vite": "^7.6.9",
     "@storybook/test": "^7.6.9",
+    "@toast-ui/editor": "^3.2.2",
+    "@toast-ui/react-editor": "^3.2.3",
     "@types/node": "^20.11.17",
     "@types/react": "^18.2.55",
+    "@types/react-datepicker": "^6",
     "@types/react-dom": "^18.2.19",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^6.19.0",
@@ -48,6 +51,7 @@
     "chromatic": "^10.5.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "date-fns": "^3.3.1",
     "eslint": "^8.55.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -59,10 +63,13 @@
     "eslint-plugin-storybook": "^0.6.15",
     "husky": "^8.0.3",
     "prettier-plugin-tailwindcss": "^0.5.11",
+    "react-datepicker": "^6.1.0",
+    "react-hook-form": "^7.50.1",
     "storybook": "^7.6.9",
     "tailwind-merge": "^2.2.1",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8"
+    "vite": "^5.0.8",
+    "zustand": "^4.5.1"
   },
   "peerDependencies": {
     "@storybook/react-vite": "*"

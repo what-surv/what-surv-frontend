@@ -1,4 +1,5 @@
 import { cva } from 'class-variance-authority';
+import React from 'react';
 
 const TyphographyVariants = cva(``, {
   variants: {
@@ -24,7 +25,7 @@ const TyphographyVariants = cva(``, {
 });
 
 interface TypographyProps {
-  text: string;
+  text: string | React.ReactNode;
   /**
    * Typography Size
    */

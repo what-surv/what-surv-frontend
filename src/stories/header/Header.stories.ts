@@ -16,14 +16,12 @@ export default meta;
 
 export const Default: StoryObj<typeof Header> = {
   args: {
-    size: 'default',
     children: '로고',
   },
 };
 
 export const Full: StoryObj<typeof Header> = {
   args: {
-    size: 'full',
     children: '로고',
   },
 };
@@ -31,7 +29,6 @@ export const Full: StoryObj<typeof Header> = {
 export const Mobile: StoryObj<typeof Header> = {
   name: 'Mobile Default',
   args: {
-    size: 'mobile',
     children: '로고',
     isAccount: true,
     isArrow: false,
@@ -42,7 +39,6 @@ export const Mobile: StoryObj<typeof Header> = {
 export const MobileArrow: StoryObj<typeof Header> = {
   name: 'Arrow With Noti & Account',
   args: {
-    size: 'mobile',
     children: '로고',
     isAccount: true,
     isArrow: true,
@@ -53,7 +49,6 @@ export const MobileArrow: StoryObj<typeof Header> = {
 export const ArrowWithLogo: StoryObj<typeof Header> = {
   name: 'Only Arrow',
   args: {
-    size: 'mobile',
     children: '로고',
     isAccount: false,
     isArrow: true,
@@ -64,7 +59,6 @@ export const ArrowWithLogo: StoryObj<typeof Header> = {
 export const SearchWithNotification: StoryObj<typeof Header> = {
   name: 'Search With Noti',
   args: {
-    size: 'mobile',
     isAccount: false,
     isArrow: true,
     isNotification: true,
