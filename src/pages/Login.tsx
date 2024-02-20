@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 import LoginStep1 from './LoginStep1';
 import LoginStep2 from './LoginStep2';
@@ -6,10 +7,12 @@ import LoginStep3 from './LoginStep3';
 import LoginStep4 from './LoginStep4';
 import { ProgressBar } from '../stories/indicator/progress bar/ProgressBar';
 
+import { useLocation, useNavigate } from 'react-router-dom';
+
 const Login = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [userInfo, setUserInfo] = useState({
-    nickName: '',
+    nickname: '',
     advertisingConsent: false,
   });
   const [checkboxStates, setCheckboxStates] = useState({
@@ -17,6 +20,57 @@ const Login = () => {
     '1': { checked: false, href: 'https://www.google.co.kr/' },
     '2': { checked: false, href: 'https://github.com/' },
   });
+
+  // Ouath2 링크별 분기처리
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // 유저정보 체크
+    const checkAuthStatus = async (path: string) => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_URL}/auth/${path}`,
+          {
+            withCredentials: true,
+          }
+        );
+        console.log(response);
+        setUserInfo((prevUserInfo) => ({
+          ...prevUserInfo,
+          phone: '010-9076-2806',
+          gender: 'helicopter',
+          job: 'KFC',
+        }));
+        nextStepHandler();
+      } catch (error) {
+        navigate('/login');
+      }
+    };
+
+    // location을 통해서 url별 분기처리
+    const { pathname } = location;
+    switch (pathname) {
+      // 신규유저
+      case '/login/new-user':
+        checkAuthStatus('new-user/profile');
+        break;
+
+      // 가입된 유저
+      case '/login/success':
+        // 이미 유저정보가 있을때 메인으로 이동~
+        navigate('/main');
+        break;
+
+      // 실패했을경우
+      case '/login/failure':
+        navigate('/login');
+
+        break;
+      default:
+        break;
+    }
+  }, []);
 
   const nextStepHandler = () => {
     if (currentStep < 4) {
@@ -37,10 +91,10 @@ const Login = () => {
           advertisingConsent: data === 'true',
         }));
         break;
-      case 'nickName':
+      case 'nickname':
         setUserInfo((prevUserInfo) => ({
           ...prevUserInfo,
-          nickName: data,
+          nickname: data,
         }));
         break;
       default:
@@ -53,7 +107,7 @@ const Login = () => {
     const { value } = e.target;
     setUserInfo((prevUserInfo) => ({
       ...prevUserInfo,
-      nickName: value,
+      nickname: value,
     }));
   };
 
@@ -62,23 +116,50 @@ const Login = () => {
     return regex.test(text);
   };
 
-  const onClick = () => {
-    if (isValidInput(userInfo.nickName) && userInfo.nickName !== '서범규') {
-      return true;
+  // STEP3에서 닉네임 요청하는 온클릭 함수
+  const onClick = async () => {
+    // 정규식 체크
+    if (!isValidInput(userInfo.nickname)) {
+      return false;
     }
-    return false;
+
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/users/nickname-exists?nickname=${userInfo.nickname}`
+      );
+      const { data } = response;
+
+      return !data;
+    } catch (error) {
+      console.error('Error checking authentication status:', error);
+    }
+    return undefined;
+  };
+
+  // STEP3에서 다음 눌렀을때 POST 요청
+  const userRegistrationHandler = async () => {
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/auth/sign-up`,
+        userInfo,
+        { withCredentials: true }
+      );
+      nextStepHandler();
+    } catch (error) {
+      console.error('에러 발생:', error);
+    }
   };
 
   const loginHandler = (sort: string) => {
     switch (sort) {
       case 'google':
-        window.location.href = `http://localhost:3000/auth/login/google`;
+        window.location.href = `${import.meta.env.VITE_SERVER_URL}/auth/login/google`;
         break;
       case 'kakao':
-        window.location.href = `http://localhost:3000/auth/login/kakao`;
+        window.location.href = `${import.meta.env.VITE_SERVER_URL}/auth/login/kakao`;
         break;
       case 'naver':
-        window.location.href = `http://localhost:3000/auth/login/naver`;
+        window.location.href = `${import.meta.env.VITE_SERVER_URL}/auth/login/naver`;
         break;
 
       default:
@@ -90,9 +171,7 @@ const Login = () => {
   const renderLoginStep = (step: number) => {
     switch (step) {
       case 1:
-        return (
-          <LoginStep1 onNextStep={nextStepHandler} handleLogin={loginHandler} />
-        );
+        return <LoginStep1 handleLogin={loginHandler} />;
       case 2:
         return (
           <LoginStep2
@@ -108,9 +187,9 @@ const Login = () => {
           <LoginStep3
             onChange={onChange}
             onClick={onClick}
-            onNextStep={nextStepHandler}
+            onNextStep={userRegistrationHandler}
             onPrevStep={prevStepHandler}
-            value={userInfo.nickName}
+            value={userInfo.nickname}
           />
         );
       case 4:
