@@ -16,7 +16,7 @@ export default meta;
 
 export const Default: StoryObj<typeof Dropdown> = {
   args: {
-    children: '정렬',
+    defaultValue: '정렬',
     state: 'default',
     size: 'default',
     isArrow: true,
@@ -28,7 +28,7 @@ export const Activate: StoryObj<typeof Dropdown> = {
   args: {
     state: 'activate',
     size: 'default',
-    children: '정렬',
+    defaultValue: '정렬',
     isArrow: true,
     value: ['최신순', '인기순', '직종순'],
   },

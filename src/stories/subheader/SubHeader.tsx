@@ -7,19 +7,16 @@ const HeaderVariants = cva(
   {
     variants: {
       size: {
-        default: 'min-w-[680px] px-[150px]',
-        mobile: 'min-w-[280px] px-6',
-        full: 'min-w-[1280px] px-[180px]',
+        default: '',
+        mobile: '',
+        full: '',
       },
-    },
-    defaultVariants: {
-      size: 'default',
     },
   }
 );
 
 interface ButtonProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   size: 'default' | 'mobile' | 'full';
 }
 
@@ -30,9 +27,9 @@ interface ButtonProps {
 export const SubHeader = ({ size, ...props }: ButtonProps) => {
   return (
     <header
-      className={`${HeaderVariants({ size, ...props })} flex justify-between`}
+      className={`${HeaderVariants({ size, ...props })} justify-between min-w-[280px] md:min-w-[680px] md:px-[150px] lg:min-w-[1280px] lg:px-[180px] px-6 hidden md:inline-block`}
     >
-      <div className='logo flex gap-7 w-full items-center justify-center'>
+      <div className='flex items-center w-full logo gap-7'>
         <button
           className='p-2 gap-2.5 border-b-2 border-b-[#0051FF]'
           type='button'
@@ -41,21 +38,21 @@ export const SubHeader = ({ size, ...props }: ButtonProps) => {
             IT
           </span>
         </button>
-
+        {/* 
         <div>
           <button className='p-2 gap-2.5' type='button'>
             <span className='text-base font-medium leading-[26px] text-[#545760]'>
               뷰티
             </span>
           </button>
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <button className='p-2 gap-2.5' type='button'>
             <span className='text-base font-medium leading-[26px] text-[#545760]'>
               메디컬
             </span>
           </button>
-        </div>
+        </div> */}
         <div>
           <button className='p-2 gap-2.5' type='button'>
             <span className='text-base font-medium leading-[26px] text-[#545760]'>
