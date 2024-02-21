@@ -1,11 +1,38 @@
 import React from 'react';
 
+import icBtnArrow from '../stories/assets/ic_btn_arrow.svg';
 import icComment from '../stories/assets/ic_comment.svg';
+import icCommentDelete from '../stories/assets/ic_comment_delete.svg';
+import icCommentModifiy from '../stories/assets/ic_comment_modifiy.svg';
+import icCommentReport from '../stories/assets/ic_comment_report.svg';
 import icEye from '../stories/assets/ic_eye.svg';
 import icLike from '../stories/assets/ic_like.svg';
+import icReply from '../stories/assets/ic_reply.svg';
 import icUser from '../stories/assets/ic_usersvg.svg';
 
 const View = () => {
+  const onClick = (sort: string) => {
+    switch (sort) {
+      case 'reply':
+        console.log(sort);
+        break;
+      case 'modifiy':
+        console.log(sort);
+
+        break;
+      case 'delete':
+        console.log(sort);
+
+        break;
+      case 'report':
+        console.log(sort);
+
+        break;
+
+      default:
+        break;
+    }
+  };
   return (
     <div>
       <p className='text-lg font-semibold pb-[24px] border-b'>
@@ -15,7 +42,7 @@ const View = () => {
       </p>
       {/* content의 header 영역 */}
       <div className='flex justify-between mt-[14px]'>
-        <div>
+        <div className='flex'>
           <p className='mr-[10px]'>
             <img src={icUser} alt='유저 이미지' />
           </p>
@@ -39,7 +66,7 @@ const View = () => {
         <dl className='w-[calc(50%-1rem)]'>
           <dt className='mb-2'>마감일</dt>
           <dd className='flex gap-2'>
-            <span className='inline-block text-sm border font-semibold rounded-[400px] bg-[#FAFAFA] border-[#545760] text-[#545760] px-4 py-1.5'>
+            <span className='inline-block text-sm border font-semibold rounded-[400px] bg-[#FAFAFA] border-[#808490] text-[#545760] px-4 py-1.5'>
               2024.10.10
             </span>
           </dd>
@@ -47,7 +74,7 @@ const View = () => {
         <dl className='w-[calc(50%-1rem)]'>
           <dt className='mb-2'>성별</dt>
           <dd>
-            <span className='inline-block text-sm border font-semibold rounded-[400px] bg-[#FAFAFA] border-[#545760] text-[#545760] px-4 py-1.5'>
+            <span className='inline-block text-sm border font-semibold rounded-[400px] bg-[#FAFAFA] border-[#808490] text-[#545760] px-4 py-1.5'>
               2024.10.10
             </span>
           </dd>
@@ -55,7 +82,7 @@ const View = () => {
         <dl className='w-[calc(50%-1rem)]'>
           <dt className='mb-2'>리서치 종류</dt>
           <dd>
-            <span className='inline-block text-sm border font-semibold rounded-[400px] bg-[#FAFAFA] border-[#545760] text-[#545760] px-4 py-1.5'>
+            <span className='inline-block text-sm border font-semibold rounded-[400px] bg-[#FAFAFA] border-[#808490] text-[#545760] px-4 py-1.5'>
               2024.10.10
             </span>
           </dd>
@@ -63,7 +90,7 @@ const View = () => {
         <dl className='w-[calc(50%-1rem)]'>
           <dt className='mb-2'>연령</dt>
           <dd>
-            <span className='inline-block text-sm border font-semibold rounded-[400px] bg-[#FAFAFA] border-[#545760] text-[#545760] px-4 py-1.5'>
+            <span className='inline-block text-sm border font-semibold rounded-[400px] bg-[#FAFAFA] border-[#808490] text-[#545760] px-4 py-1.5'>
               2024.10.10
             </span>
           </dd>
@@ -71,7 +98,7 @@ const View = () => {
         <dl className='w-[calc(50%-1rem)]'>
           <dt className='mb-2'>진행방식</dt>
           <dd>
-            <span className='inline-block text-sm border font-semibold rounded-[400px] bg-[#FAFAFA] border-[#545760] text-[#545760] px-4 py-1.5'>
+            <span className='inline-block text-sm border font-semibold rounded-[400px] bg-[#FAFAFA] border-[#808490] text-[#545760] px-4 py-1.5'>
               2024.10.10
             </span>
           </dd>
@@ -79,7 +106,7 @@ const View = () => {
         <dl className='w-[calc(50%-1rem)]'>
           <dt className='mb-2'>링크</dt>
           <dd>
-            <span className='block w-full text-area py-2.5 px-5 border  rounded-xl border-[#545760] bg-[#FAFAFA]'>
+            <span className='block w-full text-area py-2.5 px-5 border  rounded-xl border-[#808490] bg-[#FAFAFA]'>
               <a href='https://www.naver.com' target='_blank' rel='noreferrer'>
                 https://www.naver.com
               </a>
@@ -89,7 +116,7 @@ const View = () => {
         <dl className='w-[calc(50%-1rem)]'>
           <dt className='mb-2'>소요시간</dt>
           <dd>
-            <span className='block w-full text-area py-2.5 px-5 border  rounded-xl border-[#545760] bg-[#FAFAFA]'>
+            <span className='block w-full text-area py-2.5 px-5 border  rounded-xl border-[#808490] bg-[#FAFAFA]'>
               설문 1분 이내, 인터뷰 30분 이내
             </span>
           </dd>
@@ -167,6 +194,86 @@ const View = () => {
       {/* 댓글 */}
       <div>
         <p className='my-3.5'>댓글</p>
+        <div className='flex items-center'>
+          <div className='flex align-center w-[calc(100%-151px)] mr-[18px]'>
+            <img
+              src={icUser}
+              alt='유저 섬네일 이미지'
+              className='w-[23px] mr-[20px]'
+            />
+            <textarea
+              placeholder='댓글을 입력해보세요!'
+              rows={1}
+              className='w-full py-6 px-[30px] border-2 border-[#C1C5CC] rounded-[12px]'
+            />
+          </div>
+          <button
+            type='button'
+            className='flex w-[151px] h-[52px] items-center justify-center bg-[#0051FF] rounded-[400px] text-white font-semibold text-lg'
+          >
+            <img src={icBtnArrow} alt='버튼 아이콘' className='mr-2' />
+            <span>댓글 쓰기</span>
+          </button>
+        </div>
+        <ul className='mt-6'>
+          <li>
+            <div className='flex mb-3'>
+              <p className='mr-[10px]'>
+                <img src={icUser} alt='유저 이미지' />
+              </p>
+              <p className='font-semibold'>닉네임</p>
+            </div>
+            <div className='flex mb-[18px] ml-[30px] '>
+              <p className='px-7 py-5 bg-[#E5EEFF] rounded-[8px] font-semibold text-[#242424]'>
+                오프라인장소는 어디서 진행되나요?
+              </p>
+              <ul className='flex gap-2 items-end ml-[10px]'>
+                <li>
+                  <button type='button' onClick={() => onClick('reply')}>
+                    <img src={icReply} alt='답글 아이콘' />
+                  </button>
+                </li>
+                <li>
+                  <button type='button' onClick={() => onClick('modifiy')}>
+                    <img src={icCommentModifiy} alt='수정 아이콘' />
+                  </button>
+                </li>
+                <li>
+                  <button type='button' onClick={() => onClick('delete')}>
+                    <img src={icCommentDelete} alt='삭제 아이콘' />
+                  </button>
+                </li>
+                <li>
+                  <button type='button' onClick={() => onClick('report')}>
+                    <img src={icCommentReport} alt='신고 아이콘' />
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div className='flex items-center ml-[52px]'>
+              <div className='flex align-center w-[calc(100%-151px)] mr-[18px]'>
+                <img
+                  src={icUser}
+                  alt='유저 섬네일 이미지'
+                  className='w-[23px] mr-[20px]'
+                />
+                <textarea
+                  placeholder='타인에게 불쾌감을 주는 욕설 또는 비속어는 경고 조치 없이 삭제될 수 있습니다.'
+                  rows={1}
+                  className='w-full py-[20px] px-[30px] border-2 border-[#C1C5CC] rounded-[12px]'
+                />
+              </div>
+              <button
+                type='button'
+                className='flex w-[151px] h-[52px] items-center justify-center bg-[#0051FF] rounded-[400px] text-white font-semibold text-lg'
+              >
+                <img src={icBtnArrow} alt='버튼 아이콘' className='mr-2' />
+                <span>댓글 쓰기</span>
+              </button>
+            </div>
+          </li>
+        </ul>
       </div>
       {/* //댓글 */}
     </div>
