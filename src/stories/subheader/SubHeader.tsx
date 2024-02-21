@@ -27,9 +27,9 @@ interface ButtonProps {
 export const SubHeader = ({ size, ...props }: ButtonProps) => {
   return (
     <header
-      className={`${HeaderVariants({ size, ...props })} justify-between min-w-[280px] md:min-w-[680px] md:px-[150px] lg:min-w-[1280px] lg:px-[180px] px-6 hidden md:inline-block`}
+      className={`${HeaderVariants({ size, ...props })} justify-between `}
     >
-      <div className='flex items-center w-full logo gap-7'>
+      <div className='flex max-w-[1560px] w-full m-auto items-center logo gap-7'>
         <button
           className='p-2 gap-2.5 border-b-2 border-b-[#0051FF]'
           type='button'
