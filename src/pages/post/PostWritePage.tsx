@@ -103,8 +103,8 @@ const PostWritePage = () => {
         <SubHeader size='mobile' />
       </div>
 
-      <div className='flex justify-center m-auto w-[342px] '>
-        <div className='content-layout flex fixed md:w-[814px] justify-center max-w-[1034px] w-full flex-col items-start gap-8 mt-[30px] md:mt-14'>
+      <div className='flex justify-center m-auto w-[342px] bg-[#FAFAFA]'>
+        <div className='content-layout flex fixed md:w-[814px] justify-center max-w-[1034px] w-full flex-col items-start gap-8 mt-[30px] md:mt-14 bg-[#FAFAFA]'>
           <img
             src={leftArrow}
             alt='left arrow'
