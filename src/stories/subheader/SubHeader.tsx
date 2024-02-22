@@ -2,18 +2,15 @@
 import { cva } from 'class-variance-authority';
 import React from 'react';
 
-const HeaderVariants = cva(
-  `w-full min-w-[390px] max-w-[1920px] h-[56px] flex items-end`,
-  {
-    variants: {
-      size: {
-        default: '',
-        mobile: '',
-        full: '',
-      },
+const HeaderVariants = cva(`w-full  h-[56px] flex items-end`, {
+  variants: {
+    size: {
+      default: '',
+      mobile: '',
+      full: '',
     },
-  }
-);
+  },
+});
 
 interface ButtonProps {
   children?: React.ReactNode;
