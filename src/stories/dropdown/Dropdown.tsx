@@ -9,17 +9,13 @@ import Typography from '../typography/Typography';
 
 const DropdownVariants = cva(
   `
-  text-sm border font-semibold self-stretch rounded-[400px] bg-[#FAFAFA]
+  text-sm border font-semibold self-stretch rounded-[400px] bg-[#FAFAFA] min-w-[79px]
 `,
   {
     variants: {
       state: {
         activate: 'border-[#0051FF] text-[#393B41]',
         default: 'border-[#545760] text-[#545760]',
-      },
-      size: {
-        default: 'px-4 py-1.5 gap-2',
-        small: 'pl-3 pr-2 gap-1.5 py-1',
       },
     },
   }
@@ -32,7 +28,6 @@ interface arrOptionProps {
 
 interface DropdownProps {
   defaultValue: React.ReactNode | string;
-  size: 'default' | 'small';
   state: 'activate' | 'default';
   isArrow: boolean;
   menu: arrOptionProps[];
@@ -92,15 +87,15 @@ export const Dropdown = ({
       const updatedValue = value.filter((item) => item !== option);
       // Call the onDropdownChange function with the updated value array
       onDropdownChange(updatedValue);
+      console.log(updatedValue);
     }
-    console.log(value);
   };
 
   return (
     <div className='relative'>
-      <div className='flex gap-1.5'>
+      <div className='flex gap-1.5 min-w-[80px]'>
         <button
-          className={`${DropdownVariants({ state: dropdownState, ...props })} flex`}
+          className={`${DropdownVariants({ state: dropdownState, ...props })} flex py-1 pl-3 pr-2 md:py-1.5 md:px-3 min-w-[80px]`}
           onClick={(e) => {
             e.stopPropagation();
             setIsOpen(!isOpen);
@@ -130,8 +125,8 @@ export const Dropdown = ({
           <div className='flex gap-1.5'>
             {value.map((item: string) => (
               <div
-                className='flex bg-[#FAFAFA] h-9 py-1.5 px-4 items-center rounded-[400px] gap-2
-         border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41]'
+                className='flex bg-[#FAFAFA] h-9 md:py-1.5 md:px-4 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
+         border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] min-w-[79px]'
                 key={item}
               >
                 {item}

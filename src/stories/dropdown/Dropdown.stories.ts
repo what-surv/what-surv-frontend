@@ -18,18 +18,24 @@ export const Default: StoryObj<typeof Dropdown> = {
   args: {
     defaultValue: '정렬',
     state: 'default',
-    size: 'default',
     isArrow: true,
-    value: ['최신순', '인기순', '직종순'],
+    menu: [
+      { key: 'all', label: '전체' },
+      { key: 'all', label: '전체' },
+      { key: 'all', label: '전체' },
+    ],
   },
 };
 
 export const Activate: StoryObj<typeof Dropdown> = {
   args: {
     state: 'activate',
-    size: 'default',
     defaultValue: '정렬',
     isArrow: true,
-    value: ['최신순', '인기순', '직종순'],
+    menu: [
+      { key: 'all', label: '전체' },
+      { key: 'all', label: '전체' },
+      { key: 'all', label: '전체' },
+    ],
   },
 };

@@ -14,7 +14,7 @@ const App = () => {
         <Header>로고</Header>
         <SubHeader size='default'>로고</SubHeader>
       </div>
-      <div className='w-full max-w-[1368px] m-auto pl-[24px] pr-[24px]'>
+      <div className='w-full max-w-[1368px] m-auto px-6 bg-[#FAFAFA]'>
         <Routes>
           <Route path='/main' element={<Index />} />
           <Route path='/login' element={<Login />} />

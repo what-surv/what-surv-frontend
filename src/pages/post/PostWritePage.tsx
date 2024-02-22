@@ -7,8 +7,6 @@ import Input from '../../atoms/Input';
 import EditorBox from '../../organisms/post/EditorBox';
 import PostSelectContent from '../../organisms/post/PostSelectContent';
 import { WritePageStore } from '../../store/store';
-import { Header } from '../../stories/header/Header';
-import { SubHeader } from '../../stories/subheader/SubHeader';
 import Typography from '../../stories/typography/Typography';
 
 import { useForm } from 'react-hook-form';
@@ -93,18 +91,12 @@ const PostWritePage = () => {
     });
     console.log(jsonData);
   };
+  // max-w-[1280px]:w-[814px]
 
   return (
     <div className='w-full bg-[#FAFAFA] flex-col pb-[100px] md:pb-[200px]'>
-      <div className='header'>
-        <Header isArrow isSearch isAccount>
-          모집글 작성하기
-        </Header>
-        <SubHeader size='mobile' />
-      </div>
-
-      <div className='flex justify-center m-auto w-[342px] bg-[#FAFAFA]'>
-        <div className='content-layout flex fixed md:w-[814px] justify-center max-w-[1034px] w-full flex-col items-start gap-8 mt-[30px] md:mt-14 bg-[#FAFAFA]'>
+      <div className='flex justify-center max-w-[1034px] w-full m-auto min-w-[342px] bg-[#FAFAFA]'>
+        <div className='content-layout  flex w-full justify-center flex-col items-start gap-8 mt-[30px] md:mt-14 bg-[#FAFAFA]'>
           <img
             src={leftArrow}
             alt='left arrow'
@@ -138,7 +130,7 @@ const PostWritePage = () => {
           <div className='flex justify-end w-full'>
             <Button
               type='submit'
-              className={` inline-flex justify-center text-white py-3 px-6 items-center gap-2 rounded-[400px] md:w-[314px] ${disableButton ? `bg-[#A6AAB2]` : `bg-[#0051FF]`}`}
+              className={`inline-flex justify-center text-white py-3 px-6 items-center gap-2 rounded-[400px] md:w-[314px] ${disableButton ? `bg-[#A6AAB2]` : `bg-[#0051FF]`}`}
               onClick={() => formDataToJson()}
               disabled={disableButton}
             >

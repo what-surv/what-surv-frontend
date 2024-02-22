@@ -31,7 +31,7 @@ const PostSelectContent = ({ register }: PostSelectContentProps) => {
   } = WritePageStore();
 
   return (
-    <div className='flex flex-wrap items-start w-full m-auto md:w-full content-start self-stretch gap-3 md:gap-4 px-4 py-6 md:p-6 rounded-lg bg-[#E5E7ED]'>
+    <div className='flex flex-wrap items-start w-[full] md:w-full content-start self-stretch gap-3 md:gap-4 px-4 py-6 md:p-6 rounded-lg bg-[#E5E7ED]'>
       <PostEndDate title='마감일' />
       <PostSelectDropdown
         title='성별'
@@ -54,8 +54,8 @@ const PostSelectContent = ({ register }: PostSelectContentProps) => {
         options={ageArr}
         onDropdownChange={(selectAge) => setAge(selectAge)}
         oneSelect={false}
-        defaultValue='연령'
         value={age}
+        defaultValue='연령'
       />
       <PostSelectDropdown
         title='진행 방식'
