@@ -33,7 +33,7 @@ interface DropdownProps {
   menu: arrOptionProps[];
   value: string[] | string;
   oneSelect: boolean;
-  onDropdownChange?: (selectedOption: string) => void;
+  onDropdownChange: (selectedOption: string) => void;
 }
 
 export const Dropdown = ({
@@ -51,6 +51,7 @@ export const Dropdown = ({
   const [dropdownState, setDropdownState] = useState<'activate' | 'default'>(
     state
   );
+  console.log(menu);
   const dropdownEl = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -83,9 +84,7 @@ export const Dropdown = ({
     setIsOpen(false);
     setDropdownState('default');
     if (onDropdownChange) {
-      // Remove the selected option from the value array
-      const updatedValue = value.filter((item) => item !== option);
-      // Call the onDropdownChange function with the updated value array
+      const updatedValue = value.filter((item: string) => item !== option);
       onDropdownChange(updatedValue);
       console.log(updatedValue);
     }
@@ -123,17 +122,17 @@ export const Dropdown = ({
         </button>
         {!oneSelect && (
           <div className='flex gap-1.5'>
-            {value.map((item: string) => (
+            {value.map((DropdownSelectValue: string) => (
               <div
                 className='flex bg-[#FAFAFA] h-9 md:py-1.5 md:px-4 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
          border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] min-w-[79px]'
-                key={item}
+                key={DropdownSelectValue}
               >
-                {item}
+                {DropdownSelectValue}
                 <button
                   className='focus:outline-none'
                   type='button'
-                  onClick={() => handleCloseClick(item)}
+                  onClick={() => handleCloseClick(DropdownSelectValue)}
                 >
                   <img src={close} alt='close' />
                 </button>
@@ -148,14 +147,14 @@ export const Dropdown = ({
           ref={dropdownEl}
           className='absolute bg-[#FAFAFA] mt-1.5 border rounded-2xl border-[#818490] w-full p-0 overflow-hidden z-10'
         >
-          {menu.map((item: arrOptionProps) => (
+          {menu.map((arrOptions: arrOptionProps) => (
             <button
-              key={item.key}
+              key={arrOptions.key}
               className='flex w-full justify-center py-1.5 items-center gap-2.5 self-stretch hover:bg-[#CCDCFF]'
-              onClick={() => handleOptionClick(item.label)}
+              onClick={() => handleOptionClick(arrOptions.label)}
               type='button'
             >
-              {item.label}
+              {arrOptions.label}
             </button>
           ))}
         </div>
