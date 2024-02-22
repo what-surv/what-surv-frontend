@@ -19,15 +19,13 @@ interface PostSelectContentProps {
 const PostSelectContent = ({ register }: PostSelectContentProps) => {
   const {
     age,
-    gender,
     setResearchType,
-    researchType,
     setTime,
     setGender,
     setLink,
     setAge,
+    toggleAge,
     setprocedureArray,
-    procedure,
   } = WritePageStore();
 
   return (
@@ -37,7 +35,6 @@ const PostSelectContent = ({ register }: PostSelectContentProps) => {
         title='성별'
         options={genderArr}
         defaultValue='성별'
-        value={gender}
         oneSelect
         onDropdownChange={(selectGender) => setGender(selectGender)}
       />
@@ -46,13 +43,13 @@ const PostSelectContent = ({ register }: PostSelectContentProps) => {
         options={typeArr}
         defaultValue='종류'
         oneSelect
-        value={researchType}
         onDropdownChange={(selectType) => setResearchType(selectType)}
       />
       <PostSelectDropdown
         title='연령'
         options={ageArr}
         onDropdownChange={(selectAge) => setAge(selectAge)}
+        toggleDropdownValue={(ageArray) => toggleAge(ageArray)}
         oneSelect={false}
         value={age}
         defaultValue='연령'
@@ -62,7 +59,6 @@ const PostSelectContent = ({ register }: PostSelectContentProps) => {
         options={methodArr}
         oneSelect
         defaultValue='진행 방식'
-        value={procedure}
         onDropdownChange={(selectMethod) => setprocedureArray(selectMethod)}
       />
       <PostInputContent

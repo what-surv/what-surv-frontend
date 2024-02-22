@@ -31,9 +31,10 @@ interface DropdownProps {
   state: 'activate' | 'default';
   isArrow: boolean;
   menu: arrOptionProps[];
-  value: string[] | string;
+  value?: string[];
   oneSelect: boolean;
   onDropdownChange: (selectedOption: string) => void;
+  toggleDropdownValue?: (deleteOption: string[]) => void;
 }
 
 export const Dropdown = ({
@@ -42,6 +43,7 @@ export const Dropdown = ({
   oneSelect,
   state,
   value,
+  toggleDropdownValue,
   menu,
   onDropdownChange,
   ...props
@@ -51,7 +53,6 @@ export const Dropdown = ({
   const [dropdownState, setDropdownState] = useState<'activate' | 'default'>(
     state
   );
-  console.log(menu);
   const dropdownEl = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -83,9 +84,10 @@ export const Dropdown = ({
   const handleCloseClick = (option: string) => {
     setIsOpen(false);
     setDropdownState('default');
-    if (onDropdownChange) {
-      const updatedValue = value.filter((item: string) => item !== option);
-      onDropdownChange(updatedValue);
+    const updatedValue = value?.filter((item: string) => item !== option);
+
+    if (updatedValue !== undefined && toggleDropdownValue) {
+      toggleDropdownValue(updatedValue);
       console.log(updatedValue);
     }
   };
@@ -122,7 +124,7 @@ export const Dropdown = ({
         </button>
         {!oneSelect && (
           <div className='flex gap-1.5'>
-            {value.map((DropdownSelectValue: string) => (
+            {value?.map((DropdownSelectValue: string) => (
               <div
                 className='flex bg-[#FAFAFA] h-9 md:py-1.5 md:px-4 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
          border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] min-w-[79px]'
