@@ -6,9 +6,9 @@ import icCommentDelete from '../stories/assets/ic_comment_delete.svg';
 import icCommentModifiy from '../stories/assets/ic_comment_modifiy.svg';
 import icCommentReport from '../stories/assets/ic_comment_report.svg';
 import icEye from '../stories/assets/ic_eye.svg';
-import icLike from '../stories/assets/ic_like.svg';
 import icReply from '../stories/assets/ic_reply.svg';
 import icUser from '../stories/assets/ic_usersvg.svg';
+import Like from '../stories/like/Like';
 
 const View = () => {
   const onClick = (sort: string) => {
@@ -29,9 +29,18 @@ const View = () => {
 
         break;
 
+      case 'like':
+        console.log(sort);
+
+        break;
+
       default:
         break;
     }
+  };
+
+  const likeCallback = (state: boolean) => {
+    console.log(state);
   };
   return (
     <div>
@@ -125,7 +134,7 @@ const View = () => {
       {/* //상세 */}
 
       {/* 글 */}
-      <div className='mb-8 px-4 py-6'>
+      <div className='mb-8 px-4 py-6 bg-[#FFFFFF] rounded-[8px]'>
         선거에 있어서 최고득표자가 2인 이상인 때에는 국회의 재적의원 과반수가
         출석한 공개회의에서 다수표를 얻은 자를 당선자로 한다. 대통령은
         필요하다고 인정할 때에는 외교·국방·통일 기타 국가안위에 관한 중요정책을
@@ -184,9 +193,13 @@ const View = () => {
 
       {/* 관심 */}
       <div className='flex justify-end mb-3.5 p-3.5 pb-8 border-b-2 border-b-[#C2C5CC]'>
-        <button type='button' className='flex items-center text-[#808490]'>
+        <button
+          type='button'
+          className='flex items-center text-[#808490]'
+          onClick={() => onClick('like')}
+        >
           <p className='mr-2'>관심있어요!</p>
-          <img src={icLike} alt='관심있어요 아이콘' />
+          <Like onClickCallback={likeCallback} />
         </button>
       </div>
       {/* //관심 */}

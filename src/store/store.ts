@@ -21,6 +21,15 @@ interface WritePageStoreStoreProps {
   setEnddate: (title: Date) => void;
 }
 
+interface MainPageStoreProps {
+  searchText: string;
+  pageIdx: number;
+  selects: string[];
+  setSearchText: (searchText: string) => void;
+  setPageIdx: (pageIdx: number) => void;
+  setSelects: (selectsArr: string[]) => void;
+}
+
 export const WritePageStore = create<WritePageStoreStoreProps>((set) => ({
   gender: '',
   age: [],
@@ -43,4 +52,13 @@ export const WritePageStore = create<WritePageStoreStoreProps>((set) => ({
   setTitle: (titleValue) => set({ title: titleValue }),
   setContent: (contentvalue) => set({ content: contentvalue }),
   setEnddate: (dateVale) => set({ enddate: dateVale }),
+}));
+
+export const MainPageStore = create<MainPageStoreProps>()((set) => ({
+  searchText: '',
+  pageIdx: 0,
+  selects: [],
+  setSearchText: (searchTextValue) => set({ searchText: searchTextValue }),
+  setPageIdx: (pageIdxValue) => set({ pageIdx: pageIdxValue }),
+  setSelects: (selectsArr) => set({ selects: selectsArr }),
 }));
