@@ -34,13 +34,11 @@ export const WritePageStore = create<WritePageStoreStoreProps>((set) => ({
   content: '',
   setAge: (newAge) =>
     set((state) => ({
-      age: state.age.includes(newAge) ? state.age : [...state.age, newAge],
+      age: state.age.includes(newAge) ? state.age : [newAge, ...state.age],
     })),
   toggleAge: (newAges) =>
     set((state) => ({
-      age: state.age
-        .filter((age) => !newAges.includes(age))
-        .concat(newAges.filter((newAge) => !state.age.includes(newAge))),
+      age: state.age.filter((age) => newAges.includes(age)),
     })),
   setGender: (genderValue) => set({ gender: genderValue }),
   setResearchType: (type) => set({ researchType: type }),

@@ -82,9 +82,8 @@ export const Dropdown = ({
   };
 
   const handleCloseClick = (option: string) => {
-    setIsOpen(false);
-    setDropdownState('default');
     const updatedValue = value?.filter((item: string) => item !== option);
+    setDropdownState('default');
 
     if (updatedValue !== undefined && toggleDropdownValue) {
       toggleDropdownValue(updatedValue);
