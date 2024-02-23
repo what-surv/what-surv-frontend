@@ -42,4 +42,18 @@
 body {
   font-family: 'Pretendard', sans-serif;
   font-weight: 500;
+  background-color: #f2f3f7;
+}
+
+.swiper {
+  height: 100%;
+}
+.swiper-slide {
+  text-align: center;
+  display: flex; /* 내용을 중앙정렬 하기위해 flex 사용 */
+  align-items: center; /* 위아래 기준 중앙정렬 */
+  justify-content: center; /* 좌우 기준 중앙정렬 */
+}
+.swiper-slide img {
+  box-shadow: 0 0 5px #555;
 }

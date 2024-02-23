@@ -5,18 +5,21 @@ import View from './pages/View';
 import { Header } from './stories/header/Header';
 import { SubHeader } from './stories/subheader/SubHeader';
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 const App = () => {
+  const location = useLocation();
   return (
     <>
       <div>
         <Header>로고</Header>
-        <SubHeader size='default'>로고</SubHeader>
+        {location.pathname !== '/login' && (
+          <SubHeader size='default'>로고</SubHeader>
+        )}
       </div>
       <div className='w-full max-w-[1368px] m-auto pl-[24px] pr-[24px]'>
         <Routes>
-          <Route path='/main' element={<Index />} />
+          <Route path='/' element={<Index />} />
           <Route path='/login' element={<Login />} />
           <Route path='/write' element={<PostWritePage />} />
           <Route path='/login/new-user' element={<Login />} />
