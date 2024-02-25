@@ -27,15 +27,27 @@ interface arrOptionProps {
 }
 
 interface DropdownProps {
+  /** 드롭다운 컴포넌트 초기값 */
   defaultValue: React.ReactNode | string;
+  /** 드롭다운 활성화 여부(기본 -> default / 활성화 -> Activate) */
   state: 'activate' | 'default';
+  /** 드롭다운 컴포넌트에서 위아래 화살표 여부(있음 -> true / 없음 -> false) */
   isArrow: boolean;
+  /** 드롭다운 메뉴  */
   menu: arrOptionProps[];
+  /** 선택한 드롭다운 값을 담는 배열 */
   value?: string[];
+  /** 하나만 선택할 수 있는 드롭다운 여부(하나만 선택 가능 -> true / 아니면 -> false */
   oneSelect: boolean;
+  /** 드롭다운 선택 시 값 전달해주는 함수 props */
   onDropdownChange: (selectedOption: string) => void;
+  /** x 이미지 클릭했을 때 배열에서 값 삭제하는 함수  */
   toggleDropdownValue?: (deleteOption: string[]) => void;
 }
+
+/**
+ * 드롭다운 컴포넌트
+ */
 
 export const Dropdown = ({
   defaultValue,
@@ -87,7 +99,6 @@ export const Dropdown = ({
 
     if (updatedValue !== undefined && toggleDropdownValue) {
       toggleDropdownValue(updatedValue);
-      console.log(updatedValue);
     }
   };
 

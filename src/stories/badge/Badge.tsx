@@ -27,12 +27,14 @@ const ButtonVariants = cva(
 
 interface ButtonProps {
   children: React.ReactNode;
-  size: 'default';
+  /** 디자인 시스템 반응형 사이즈 확인용 */
+  size?: 'default';
+  /** 뱃지 컴포넌트의 state */
   state: 'main' | 'sub';
 }
 
 /**
- * Primary UI component for user interaction
+ * 뱃지 컴포넌트
  */
 export const Badge = ({ size, children, state, ...props }: ButtonProps) => {
   return (

@@ -2,7 +2,6 @@ import { Dropdown } from './Dropdown';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: 'Components/Filter Dropdown',
   component: Dropdown,
@@ -20,9 +19,9 @@ export const Default: StoryObj<typeof Dropdown> = {
     state: 'default',
     isArrow: true,
     menu: [
-      { key: 'all', label: '전체' },
-      { key: 'all', label: '전체' },
-      { key: 'all', label: '전체' },
+      { key: 'recent', label: '최신순' },
+      { key: 'popular', label: '인기순' },
+      { key: 'job', label: '직종순' },
     ],
   },
 };
@@ -33,9 +32,9 @@ export const Activate: StoryObj<typeof Dropdown> = {
     defaultValue: '정렬',
     isArrow: true,
     menu: [
-      { key: 'all', label: '전체' },
-      { key: 'all', label: '전체' },
-      { key: 'all', label: '전체' },
+      { key: 'recent', label: '최신순' },
+      { key: 'popular', label: '인기순' },
+      { key: 'job', label: '직종순' },
     ],
   },
 };

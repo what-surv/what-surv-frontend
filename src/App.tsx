@@ -2,8 +2,8 @@ import Index from './pages/Index';
 import Login from './pages/Login';
 import PostWritePage from './pages/post/PostWritePage';
 import View from './pages/View';
-import { Header } from './stories/header/Header';
-import { SubHeader } from './stories/subheader/SubHeader';
+import { Appbar } from './stories/appbar/Appbar';
+import { Tabbar } from './stories/tabbar/Tabbar';
 
 import { Routes, Route, useLocation } from 'react-router-dom';
 
@@ -12,10 +12,8 @@ const App = () => {
   return (
     <>
       <div>
-        <Header>로고</Header>
-        {location.pathname !== '/login' && (
-          <SubHeader size='default'>로고</SubHeader>
-        )}
+        <Appbar>로고</Appbar>
+        {location.pathname !== '/login' && <Tabbar size='default'>로고</Tabbar>}
       </div>
       <div className='w-full max-w-[1368px] m-auto px-6 bg-[#FAFAFA]'>
         <Routes>

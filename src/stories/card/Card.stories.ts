@@ -2,7 +2,6 @@ import Card from './Card';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: 'Components/Card',
   component: Card,
@@ -14,16 +13,18 @@ const meta = {
 
 export default meta;
 
-export const Top: StoryObj<typeof Card> = {
+export const Main: StoryObj<typeof Card> = {
   args: {
-    direction: 'tt',
-    children: 'tt',
+    size: 'main',
+    children: '제목입니다. 가나다라마바사아자차카타파하. 몇자까지 넣을까',
+    enddate: '2024.01.01',
   },
 };
 
-export const Bottom: StoryObj<typeof Card> = {
+export const Small: StoryObj<typeof Card> = {
   args: {
-    direction: 'bottom',
-    children: 'tt',
+    size: 'small',
+    children: '제목입니다. 가나다라마바사아자차카타파하. 몇자까지 넣을까',
+    enddate: '2024.01.01',
   },
 };

@@ -39,17 +39,6 @@ const PostWritePage = () => {
   };
   // 버튼 disable 여부 확인용 useEffect
   useEffect(() => {
-    console.log(
-      age,
-      title,
-      content,
-      gender,
-      researchType,
-      procedure,
-      link,
-      enddate,
-      time
-    );
     if (
       !age ||
       !gender ||

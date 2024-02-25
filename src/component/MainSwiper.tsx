@@ -39,7 +39,7 @@ export const ResearchSwiper = () => {
 
   return (
     <div>
-      <div className='flex mb-3 gap-4'>
+      <div className='flex gap-4 mb-3'>
         <Typography size='base' text='인기리서치' weight='Semibold' />
         <div className='flex gap-4'>
           <button type='button' onClick={slidePrev}>

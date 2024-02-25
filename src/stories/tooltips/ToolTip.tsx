@@ -7,8 +7,13 @@ import top from '../assets/tooltip-top.svg';
 
 interface ToolTipsProps {
   children: React.ReactNode;
+  /** 툴팁 화살표 방향 */
   direction?: 'top' | 'bottom' | 'left' | 'right';
 }
+
+/**
+ * 툴팁 컴포넌트
+ */
 
 export const ToolTips = ({ children, direction }: ToolTipsProps) => {
   const renderTriangle = () => {
@@ -44,7 +49,7 @@ export const ToolTips = ({ children, direction }: ToolTipsProps) => {
     }
   };
   return (
-    <div className='flex flex-col justify-end items-center'>
+    <div className='flex flex-col items-center justify-end'>
       {renderTriangle()}
       <div
         className={`tooltip relative z-50 bg-[#545760] flex items-center justify-center rounded-lg px-[18px] py-2 gap-2.5 ${direction}`}
