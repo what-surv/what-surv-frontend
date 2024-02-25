@@ -76,9 +76,13 @@ const Index = () => {
           defaultValue='정렬'
           isArrow
           onDropdownChange={() => {}}
-          size='default'
           state='default'
-          value={['최신순', '인기순', '직종순']}
+          oneSelect
+          menu={[
+            { key: 'recent', label: '최신순' },
+            { key: 'popular', label: '인기순' },
+            { key: 'job', label: '직종순' },
+          ]}
         />
       </div>
 
