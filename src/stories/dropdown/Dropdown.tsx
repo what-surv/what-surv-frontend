@@ -105,6 +105,26 @@ export const Dropdown = ({
   return (
     <div className='relative'>
       <div className='flex gap-1.5 min-w-[80px]'>
+        {!oneSelect && (
+          <div className='flex gap-1.5'>
+            {value?.map((DropdownSelectValue: string) => (
+              <div
+                className='flex bg-[#FAFAFA] h-9 md:py-1.5 md:px-4 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
+         border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] min-w-[79px]'
+                key={DropdownSelectValue}
+              >
+                {DropdownSelectValue}
+                <button
+                  className='focus:outline-none'
+                  type='button'
+                  onClick={() => handleCloseClick(DropdownSelectValue)}
+                >
+                  <img src={close} alt='close' />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
         <button
           className={`${DropdownVariants({ state: dropdownState, ...props })} flex py-1 pl-3 pr-2 md:py-1.5 md:px-3 min-w-[80px]`}
           onClick={(e) => {
@@ -132,26 +152,6 @@ export const Dropdown = ({
               ))}
           </div>
         </button>
-        {!oneSelect && (
-          <div className='flex gap-1.5'>
-            {value?.map((DropdownSelectValue: string) => (
-              <div
-                className='flex bg-[#FAFAFA] h-9 md:py-1.5 md:px-4 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
-         border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] min-w-[79px]'
-                key={DropdownSelectValue}
-              >
-                {DropdownSelectValue}
-                <button
-                  className='focus:outline-none'
-                  type='button'
-                  onClick={() => handleCloseClick(DropdownSelectValue)}
-                >
-                  <img src={close} alt='close' />
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
 
       {isOpen && (

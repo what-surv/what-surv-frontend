@@ -25,7 +25,7 @@ interface TabbarProps {
 export const Tabbar = ({ size, ...props }: TabbarProps) => {
   return (
     <header
-      className={`${TabbarVariants({ size, ...props })} justify-between hidden md:inline-block`}
+      className={`${TabbarVariants({ size, ...props })} justify-between w-full hidden md:inline-block md:px-[180px]`}
     >
       <div className='flex max-w-[1560px] w-full m-auto items-center logo gap-7'>
         <button

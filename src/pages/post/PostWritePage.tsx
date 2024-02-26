@@ -11,7 +11,9 @@ import { Appbar } from '../../stories/appbar/Appbar';
 import { Tabbar } from '../../stories/tabbar/Tabbar';
 import Typography from '../../stories/typography/Typography';
 
-import { useForm } from 'react-hook-form';
+import { DevTool } from '@hookform/devtools';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 interface Inputs {
   title: string;
@@ -20,7 +22,10 @@ interface Inputs {
 }
 
 const PostWritePage = () => {
-  const { register } = useForm<Inputs>();
+  const { register, handleSubmit, control } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const navigate = useNavigate();
+
   const [disableButton, setDisableButton] = useState(true);
 
   const {
@@ -39,6 +44,7 @@ const PostWritePage = () => {
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
+
   // 버튼 disable 여부 확인용 useEffect
   useEffect(() => {
     if (
@@ -86,52 +92,64 @@ const PostWritePage = () => {
 
   return (
     <div className='w-full bg-[#FAFAFA] flex-col pb-[100px] md:pb-[200px]'>
-      <Appbar isLogo isSearch isAccount />
+      <Appbar isLogo isSearch isAccount>
+        게시글 작성하기
+      </Appbar>
       <Tabbar />
       <div className='flex justify-center max-w-[1034px] w-full m-auto min-w-[342px] bg-[#FAFAFA]'>
-        <div className='content-layout  flex w-full justify-center flex-col items-start gap-8 mt-[30px] md:mt-14 bg-[#FAFAFA]'>
-          <img
-            src={leftArrow}
-            alt='left arrow'
-            className='hidden w-4 h-5 md:inline-block'
-          />
-          <div className='flex flex-col items-start w-full gap-3'>
-            <Typography
-              size='xl'
-              weight='Regular'
-              text='제목을 입력해주세요.'
-            />
-            <div className='text-area flex py-2.5 px-5 border self-stretch gap-3 items-center rounded-xl border-[#6697FF] bg-[#FAFAFA]'>
-              <Input
-                type='text'
-                placeholder='리서치 내용을 한 줄로 요약해보세요!'
-                className='flex-1 bg-inherit text-base placeholder:text-[#C1C5CC] placeholder:font-medium normal font-pretendard font-semibold outline-none leading-[26px]'
-                {...(register && {
-                  ...register('title', { required: true, maxLength: 100 }),
-                  onChange: handleTitleChange,
-                })}
-              />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className='content-layout flex w-full justify-center flex-col items-start gap-8 mt-[30px] md:mt-14 bg-[#FAFAFA]'>
+            <button
+              type='button'
+              className='hidden md:inline-block'
+              onClick={() => navigate(-1)}
+            >
+              <img src={leftArrow} alt='left arrow' className='w-4 h-5' />
+            </button>
+            <div className='flex flex-col items-start w-full gap-3'>
               <Typography
-                size='sm'
-                text={`${title.length}/100`}
+                size='xl'
                 weight='Regular'
+                text='제목을 입력해주세요.'
               />
+              <div className='text-area flex py-2.5 px-5 border self-stretch gap-3 items-center rounded-xl border-[#6697FF] bg-[#FAFAFA]'>
+                <Input
+                  type='text'
+                  placeholder='리서치 내용을 한 줄로 요약해보세요!'
+                  className='flex-1 bg-inherit text-base placeholder:text-[#C1C5CC] placeholder:font-medium normal font-pretendard font-semibold outline-none leading-[26px]'
+                  id='title'
+                  {...register('title', {
+                    required: '제목을 입력해주세요.',
+                    maxLength: {
+                      value: 100,
+                      message: '제목을 100자 이내로 입력해주세요.',
+                    },
+                    onChange: handleTitleChange,
+                  })}
+                />
+                <Typography
+                  size='sm'
+                  text={`${title.length}/100`}
+                  weight='Regular'
+                />
+              </div>
+            </div>
+            <PostSelectContent register={register} />
+            <EditorBox />
+            <div className='flex justify-end w-full'>
+              <Button
+                type='submit'
+                className={`inline-flex justify-center text-white py-3 px-6 items-center gap-2 rounded-[400px] md:w-[314px] ${disableButton ? `bg-[#A6AAB2]` : `bg-[#0051FF]`}`}
+                onClick={() => formDataToJson()}
+                disabled={disableButton}
+              >
+                등록하기
+                <img src={check} alt='체크 이미지' />
+              </Button>
             </div>
           </div>
-          <PostSelectContent register={register} />
-          <EditorBox />
-          <div className='flex justify-end w-full'>
-            <Button
-              type='submit'
-              className={`inline-flex justify-center text-white py-3 px-6 items-center gap-2 rounded-[400px] md:w-[314px] ${disableButton ? `bg-[#A6AAB2]` : `bg-[#0051FF]`}`}
-              onClick={() => formDataToJson()}
-              disabled={disableButton}
-            >
-              등록하기
-              <img src={check} alt='체크 이미지' />
-            </Button>
-          </div>
-        </div>
+        </form>
+        <DevTool control={control} />
       </div>
     </div>
   );

@@ -56,10 +56,16 @@ export const Appbar = ({
       <div className='max-w-[1560px] w-full m-auto flex justify-between'>
         <div className='flex items-center gap-4'>
           {isArrow && (
-            <img src={rightArrow} alt='arrow' className='px-2 py-1.5' />
+            <img
+              src={rightArrow}
+              alt='arrow'
+              className='px-2 py-1.5 md:hidden'
+            />
           )}
-          {isLogo && <img src={logo} alt='logo' />}
-          {children}
+          <div className='hidden md:inline-block'>
+            {isLogo && <img src={logo} alt='logo' />}
+          </div>
+          <span className='md:hidden'>{children}</span>
         </div>
         <div className='flex gap-4 logo'>
           {isNotification && <img src={notification} alt='notification' />}
