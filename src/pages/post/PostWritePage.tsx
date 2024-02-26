@@ -7,6 +7,8 @@ import Input from '../../atoms/Input';
 import EditorBox from '../../organisms/post/EditorBox';
 import PostSelectContent from '../../organisms/post/PostSelectContent';
 import { WritePageStore } from '../../store/store';
+import { Appbar } from '../../stories/appbar/Appbar';
+import { Tabbar } from '../../stories/tabbar/Tabbar';
 import Typography from '../../stories/typography/Typography';
 
 import { useForm } from 'react-hook-form';
@@ -84,6 +86,8 @@ const PostWritePage = () => {
 
   return (
     <div className='w-full bg-[#FAFAFA] flex-col pb-[100px] md:pb-[200px]'>
+      <Appbar isLogo isSearch isAccount />
+      <Tabbar />
       <div className='flex justify-center max-w-[1034px] w-full m-auto min-w-[342px] bg-[#FAFAFA]'>
         <div className='content-layout  flex w-full justify-center flex-col items-start gap-8 mt-[30px] md:mt-14 bg-[#FAFAFA]'>
           <img

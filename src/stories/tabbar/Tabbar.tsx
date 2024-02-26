@@ -15,7 +15,7 @@ const TabbarVariants = cva(`w-full  h-[56px] flex items-end`, {
 interface TabbarProps {
   children?: React.ReactNode;
   // 단말기별 크기 확인용 size props
-  size: 'default' | 'mobile' | 'full';
+  size?: 'default' | 'mobile' | 'full';
 }
 
 /**
