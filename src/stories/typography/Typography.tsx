@@ -4,7 +4,6 @@ import React from 'react';
 const TyphographyVariants = cva(``, {
   variants: {
     size: {
-      default: 'text-2xl',
       xs: 'text-xs',
       sm: 'text-sm',
       base: 'text-base',
@@ -18,59 +17,56 @@ const TyphographyVariants = cva(``, {
       Semibold: 'font-semibold',
       Bold: 'font-bold',
     },
+    lineheight: {
+      18: 'leading-[18px]',
+      22: 'leading-[22px]',
+      26: 'leading-[26px]',
+      28: 'leading-[28px]',
+      30: 'leading-[30px]',
+      32: 'leading-[32px]',
+      34: 'leading-[34px]',
+      36: 'leading-[36px]',
+      44: 'leading-[44px]',
+    },
   },
   defaultVariants: {
-    size: 'default',
+    size: 'sm',
   },
 });
 
 interface TypographyProps {
   text: string | React.ReactNode;
   /**
-   * Typography Size
+   * 타이포그래피 크기 값
    */
-  size: 'default' | 'xs' | 'sm' | 'base' | 'lg' | 'xl' | 'xl2';
+  size: 'xs' | 'sm' | 'base' | 'lg' | 'xl' | 'xl2';
   /**
-   * Typography weights
+   * 타이포그래피 폰트 두께 값
    */
   weight: 'Regular' | 'Medium' | 'Semibold' | 'Bold';
+
+  /** 타이포그래피 행간 값 */
+  lineheight?: 18 | 22 | 26 | 28 | 30 | 32 | 34 | 36 | 44;
+
+  /** tailwind 사용하기 위해 이름을 className으로 할당 */
   className?: string;
-  // /**
-  //  * Typography Size
-  //  */
-  // size?: 12 | 14 | 16 | 18 | 20 | 22 | 24 | 26 | 28 | 32;
-  // /**
-  //  * Typography Scale Category
-  //  */
-  // scale?: 'Xsmall' | 'Small' | 'Medium' | 'Large' | 'Xlarge' | 'Xxlarge';
-  // /**
-  //  * Typography weights
-  //  */
-  // weight?: 'normal' | 'medium' | 'semibold' | 'bold';
-  // /**
-  //  * Typography Typeface
-  //  */
-  // typeface: 'pretendard';
-  // /**
-  //  * leading value
-  //  */
-  // lineheight: 18 | 22 | 26 | 28 | 30 | 32 | 34 | 36 | 44;
 }
 
 /**
- * Primary UI component for user interaction
+ * 타이포그래피 컴포넌트
  */
 
 const Typography = ({
   size,
   text,
   weight,
+  lineheight,
   className,
   ...props
 }: TypographyProps) => {
   return (
     <span
-      className={`${TyphographyVariants({ size, weight, ...props })} ${className}`}
+      className={`${TyphographyVariants({ size, weight, lineheight, ...props })} ${className}`}
     >
       {text}
     </span>
