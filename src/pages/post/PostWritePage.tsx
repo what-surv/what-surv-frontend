@@ -4,6 +4,7 @@ import check from '../../assets/check.svg';
 import leftArrow from '../../assets/left_arrow.svg';
 import Button from '../../atoms/Button';
 import Input from '../../atoms/Input';
+import ConfirmationModal from '../../molecules/post/ConfirmationModal';
 import EditorBox from '../../organisms/post/EditorBox';
 import PostSelectContent from '../../organisms/post/PostSelectContent';
 import { WritePageStore } from '../../store/store';
@@ -25,6 +26,9 @@ const PostWritePage = () => {
   const { register, handleSubmit, control } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
   const navigate = useNavigate();
+
+  // 모달 팝업 확인용 isOpen
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const [disableButton, setDisableButton] = useState(true);
 
@@ -74,6 +78,27 @@ const PostWritePage = () => {
     enddate,
   ]);
 
+  const handleNavigate = () => {
+    if (
+      !age ||
+      !gender ||
+      !researchType ||
+      !link ||
+      !content ||
+      !title ||
+      !procedure
+    ) {
+      setIsModalOpen(true);
+    } else {
+      navigate(-1);
+    }
+  };
+
+  const handleConfirmLeave = () => {
+    setIsModalOpen(false);
+    navigate(-1);
+  };
+
   const formDataToJson = () => {
     const jsonData = JSON.stringify({
       age,
@@ -92,23 +117,29 @@ const PostWritePage = () => {
 
   return (
     <div className='w-full bg-[#FAFAFA] flex-col pb-[100px] md:pb-[200px]'>
-      <Appbar isLogo isSearch isAccount>
+      <Appbar
+        isArrow
+        isLogo
+        isSearch
+        isAccount
+        onArrowClick={() => handleNavigate()}
+      >
         게시글 작성하기
       </Appbar>
       <Tabbar />
-      <div className='flex justify-center max-w-[1034px] w-full m-auto min-w-[342px] bg-[#FAFAFA]'>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className='content-layout flex w-full justify-center flex-col items-start gap-8 mt-[30px] md:mt-14 bg-[#FAFAFA]'>
+      <div className='flex justify-center items-center max-w-[1034px] w-full m-auto bg-[#FAFAFA]'>
+        <form onSubmit={handleSubmit(onSubmit)} className='w-[90%]'>
+          <div className='content-layout flex justify-center flex-col items-start gap-8 mt-[30px] md:mt-14 bg-[#FAFAFA]'>
             <button
               type='button'
               className='hidden md:inline-block'
-              onClick={() => navigate(-1)}
+              onClick={() => handleNavigate()}
             >
               <img src={leftArrow} alt='left arrow' className='w-4 h-5' />
             </button>
             <div className='flex flex-col items-start w-full gap-3'>
               <Typography
-                size='xl'
+                size='base'
                 weight='Regular'
                 text='제목을 입력해주세요.'
               />
@@ -128,9 +159,10 @@ const PostWritePage = () => {
                   })}
                 />
                 <Typography
-                  size='sm'
+                  size='xs'
                   text={`${title.length}/100`}
                   weight='Regular'
+                  className='text-[#818490]'
                 />
               </div>
             </div>
@@ -149,6 +181,11 @@ const PostWritePage = () => {
             </div>
           </div>
         </form>
+        <ConfirmationModal
+          isOpen={isModalOpen}
+          handleClose={() => setIsModalOpen(false)}
+          handleConfirmLeave={handleConfirmLeave}
+        />
         <DevTool control={control} />
       </div>
     </div>

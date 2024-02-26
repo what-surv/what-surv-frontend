@@ -13,7 +13,7 @@ const App = () => {
         <Appbar>로고</Appbar>
         {location.pathname !== '/login' && <Tabbar size='default'>로고</Tabbar>}
       </div> */}
-      <div className='w-full max-w-[1368px] m-auto px-6 bg-[#FAFAFA]'>
+      <div className='w-full max-w-[1368px]bg-[#FAFAFA]'>
         <Routes>
           <Route path='/' element={<Index />} />
           <Route path='/login' element={<Login />} />

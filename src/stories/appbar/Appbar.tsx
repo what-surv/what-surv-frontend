@@ -16,9 +16,6 @@ const AppbarVariants = cva(`w-full py-3.5 bg-[#FAFAFA]`, {
       full: 'min-w-[1280px] px-[180px]',
     },
   },
-  defaultVariants: {
-    size: 'default',
-  },
 });
 
 interface AppbarProps {
@@ -35,6 +32,8 @@ interface AppbarProps {
   isLogo?: boolean;
   /** 각 단말기별 크기 확인용 */
   size?: 'mobile' | 'default' | 'full';
+  /** 화살표 클릭 시 뒤로가기 기능 */
+  onArrowClick: () => void;
 }
 
 /**
@@ -49,18 +48,21 @@ export const Appbar = ({
   isNotification,
   isLogo,
   size,
+  onArrowClick,
   ...props
 }: AppbarProps) => {
   return (
     <header className={`${AppbarVariants({ size, ...props })}`}>
-      <div className='max-w-[1560px] w-full m-auto flex justify-between'>
+      <div className='max-w-[1560px] w-full flex justify-between'>
         <div className='flex items-center gap-4'>
           {isArrow && (
-            <img
-              src={rightArrow}
-              alt='arrow'
-              className='px-2 py-1.5 md:hidden'
-            />
+            <button type='button' onClick={() => onArrowClick()}>
+              <img
+                src={rightArrow}
+                alt='arrow'
+                className='px-2 py-1.5 md:hidden'
+              />
+            </button>
           )}
           <div className='hidden md:inline-block'>
             {isLogo && <img src={logo} alt='logo' />}
