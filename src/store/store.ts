@@ -19,6 +19,7 @@ interface WritePageStoreStoreProps {
   setTitle: (title: string) => void;
   setContent: (content: string) => void;
   setEnddate: (title: Date) => void;
+  toggleAge: (age: string[]) => void;
 }
 
 interface MainPageStoreProps {
@@ -40,9 +41,13 @@ export const WritePageStore = create<WritePageStoreStoreProps>((set) => ({
   time: '',
   title: '',
   content: '',
-  setAge: (age) =>
+  setAge: (newAge) =>
     set((state) => ({
-      age: state.age.concat(age),
+      age: state.age.includes(newAge) ? state.age : [newAge, ...state.age],
+    })),
+  toggleAge: (newAges) =>
+    set((state) => ({
+      age: state.age.filter((age) => newAges.includes(age)),
     })),
   setGender: (genderValue) => set({ gender: genderValue }),
   setResearchType: (type) => set({ researchType: type }),
@@ -51,7 +56,7 @@ export const WritePageStore = create<WritePageStoreStoreProps>((set) => ({
   setTime: (timeValue) => set({ time: timeValue }),
   setTitle: (titleValue) => set({ title: titleValue }),
   setContent: (contentvalue) => set({ content: contentvalue }),
-  setEnddate: (dateVale) => set({ enddate: dateVale }),
+  setEnddate: (dateValue) => set({ enddate: dateValue }),
 }));
 
 export const MainPageStore = create<MainPageStoreProps>()((set) => ({

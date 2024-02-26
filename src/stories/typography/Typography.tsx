@@ -34,6 +34,7 @@ interface TypographyProps {
    * Typography weights
    */
   weight: 'Regular' | 'Medium' | 'Semibold' | 'Bold';
+  className?: string;
   // /**
   //  * Typography Size
   //  */
@@ -60,9 +61,17 @@ interface TypographyProps {
  * Primary UI component for user interaction
  */
 
-const Typography = ({ size, text, weight, ...props }: TypographyProps) => {
+const Typography = ({
+  size,
+  text,
+  weight,
+  className,
+  ...props
+}: TypographyProps) => {
   return (
-    <span className={TyphographyVariants({ size, weight, ...props })}>
+    <span
+      className={`${TyphographyVariants({ size, weight, ...props })} ${className}`}
+    >
       {text}
     </span>
   );

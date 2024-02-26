@@ -2,7 +2,6 @@ import { PageIndicator } from './PageIndicator';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: 'Components/Page Indicator',
   component: PageIndicator,
@@ -20,7 +19,7 @@ export const Desktop: StoryObj<typeof PageIndicator> = {
       { isActivate: true, pageNumber: 1 },
       { isActivate: false, pageNumber: 2 },
     ],
-    environment: 'desktop',
+    size: 'desktop',
   },
 };
 
@@ -30,6 +29,6 @@ export const Mobile: StoryObj<typeof PageIndicator> = {
       { isActivate: true, pageNumber: 1 },
       { isActivate: false, pageNumber: 2 },
     ],
-    environment: 'mobile',
+    size: 'mobile',
   },
 };

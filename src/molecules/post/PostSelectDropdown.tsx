@@ -10,8 +10,9 @@ interface PostSelectDropdownProps {
   title: string;
   options: arrOptionProps[];
   onDropdownChange?: (selectedOptions: string) => void;
+  toggleDropdownValue?: (selectedOptions: string[]) => void;
   defaultValue: string;
-  value: string[] | string;
+  value?: string[];
   oneSelect: boolean;
 }
 
@@ -20,8 +21,9 @@ const PostSelectDropdown = ({
   title,
   options,
   onDropdownChange,
-  defaultValue,
+  toggleDropdownValue,
   value,
+  defaultValue,
 }: PostSelectDropdownProps) => {
   const handleDropdownChange = (selectedOptions: string) => {
     if (onDropdownChange) {
@@ -29,17 +31,22 @@ const PostSelectDropdown = ({
     }
   };
   return (
-    <div className='flex flex-col items-start w-[149px] md:w-[375px] gap-1.5 md:gap-2'>
-      <Typography size='base' weight='Regular' text={title} />
+    <div className='flex min-w-[149px] max-w-[485px] flex-col items-start w-[45%] gap-1.5 md:gap-2'>
+      <Typography
+        size='base'
+        weight='Regular'
+        text={title}
+        className='min-w-[30px]'
+      />
       <Dropdown
         isArrow
-        size='default'
         state='default'
         menu={options}
         value={value}
         defaultValue={defaultValue}
         oneSelect={oneSelect}
         onDropdownChange={handleDropdownChange}
+        toggleDropdownValue={toggleDropdownValue}
       />
     </div>
   );

@@ -4,8 +4,11 @@ import icLikeFalse from '../assets/ic_like_false.svg';
 import icLikeTrue from '../assets/ic_like_true.svg';
 
 interface LikeProps {
+  /** 아이콘 클릭 시 토글 이벤트  */
   onClickCallback: (state: boolean) => void;
 }
+
+/** 카드 컴포넌트에서 사용하는 Like 컴포넌트 */
 
 const Like = ({ onClickCallback }: LikeProps) => {
   const [isLiked, setIsLiked] = useState(false);

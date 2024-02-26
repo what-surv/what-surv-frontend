@@ -3,15 +3,16 @@ import { cva } from 'class-variance-authority';
 import React from 'react';
 
 import account from '../assets/account.svg';
+import logo from '../assets/logo.svg';
 import notification from '../assets/notification.svg';
 import rightArrow from '../assets/right_arrow.svg';
 import search from '../assets/search.svg';
 
-const HeaderVariants = cva(`w-full py-3.5 bg-[#FAFAFA]`, {
+const AppbarVariants = cva(`w-full py-3.5 bg-[#FAFAFA]`, {
   variants: {
     size: {
-      default: '',
-      mobile: '',
+      default: 'min-w-[680px] px-[150px]',
+      mobile: 'min-w-[280px] px-6 w-[390px]',
       full: 'min-w-[1280px] px-[180px]',
     },
   },
@@ -20,35 +21,44 @@ const HeaderVariants = cva(`w-full py-3.5 bg-[#FAFAFA]`, {
   },
 });
 
-interface ButtonProps {
+interface AppbarProps {
   children?: React.ReactNode;
+  /** 계정 아이콘 여부(true -> 있음 / false -> 없음)  */
   isAccount?: boolean;
+  /** 화살표 아이콘 여부(true -> 있음 / false -> 없음)  */
   isArrow?: boolean;
+  /** 검색 아이콘 여부(true -> 있음 / false -> 없음)  */
   isSearch?: boolean;
+  /** 알림 아이콘 여부(true -> 있음 / false -> 없음)  */
   isNotification?: boolean;
+  /** 로고 여부(true -> 있음 / false -> 없음)  */
   isLogo?: boolean;
+  /** 각 단말기별 크기 확인용 */
+  size?: 'mobile' | 'default' | 'full';
 }
 
 /**
- * Primary UI component for user interaction
+ * App bar 컴포넌트
  */
 
-export const Header = ({
+export const Appbar = ({
   children,
   isAccount,
   isArrow,
   isSearch,
   isNotification,
   isLogo,
-}: ButtonProps) => {
+  size,
+  ...props
+}: AppbarProps) => {
   return (
-    <header className={`${HeaderVariants({})}`}>
-      <div className='max-w-[1560px] w-full m-auto'>
-        <div className='items-center'>
+    <header className={`${AppbarVariants({ size, ...props })}`}>
+      <div className='max-w-[1560px] w-full m-auto flex justify-between'>
+        <div className='flex items-center gap-4'>
           {isArrow && (
             <img src={rightArrow} alt='arrow' className='px-2 py-1.5' />
           )}
-          {isLogo && <img src={account} alt='logo' />}
+          {isLogo && <img src={logo} alt='logo' />}
           {children}
         </div>
         <div className='flex gap-4 logo'>

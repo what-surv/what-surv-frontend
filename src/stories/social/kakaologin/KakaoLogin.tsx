@@ -8,7 +8,7 @@ const KakaoVariants = cva(``, {
     size: {
       simple:
         'py-3 px-4 bg-[#FEE500] rounded-[400px] flex justify-center items-center gap-8 h-12',
-      full: 'mt-10 bg-[#FEE500] flex w-full h-[54px] items-center justify-center gap-x-3.5 rounded-md font-bold',
+      full: 'mt-10 bg-[#FEE500] min-w-[250px] flex w-full h-[54px] items-center justify-center gap-x-3.5 rounded-md font-bold',
     },
   },
   defaultVariants: {
@@ -18,14 +18,15 @@ const KakaoVariants = cva(``, {
 
 interface KakaoLoginProps {
   children?: React.ReactNode;
+  /** simple -> 간단한 로고만, full -> 로그인 버튼 */
   size: 'simple' | 'full';
+  /** 온클릭 이벤트 */
   onClick: () => void;
 }
 
 /**
- * Primary UI component for user interaction
+ * 카카오 로그인 버튼 컴포넌트
  */
-// eslint-disable-next-line import/prefer-default-export
 export const KakaoLogin = ({
   size,
   children,
