@@ -18,9 +18,6 @@ const ButtonVariants = cva(
         outlined: 'border-[#0051FF] border-2 text-black',
         contained: 'border bg-[#0051FF] hover:bg-[#4D85FF] text-white',
       },
-      // color: {
-      //   primary: 'bg-[#0051FF] hover:bg-[#4D85FF]',
-      // },
     },
     defaultVariants: {
       size: 'default',

@@ -6,7 +6,7 @@ const PageIndicatorVariants = cva(
   `,
   {
     variants: {
-      environment: {
+      size: {
         desktop: 'py-3',
         mobile: 'py-2',
       },
@@ -23,19 +23,22 @@ interface PageProps {
 }
 
 interface PageIndicatorProps {
-  environment: 'mobile' | 'desktop';
+  /** 각 단말기별 크기 확인용 */
+  size?: 'mobile' | 'desktop';
+  /** 활성화 여부 및 페이지 번호값이 담겨있는 배열 */
   page: PageProps[];
 }
 
-export const PageIndicator = ({ page, environment }: PageIndicatorProps) => {
+/** 메인 페이지에서 사용하는 Page Indicator  컴포넌트 */
+export const PageIndicator = ({ page, size }: PageIndicatorProps) => {
   return (
-    <div className={`${PageIndicatorVariants({ environment })} `}>
+    <div className={`${PageIndicatorVariants({ size })} `}>
       {page.map((IndicatorState: PageProps) => (
         <div key={IndicatorState.pageNumber}>
           <button
             type='button'
             aria-label='button'
-            className={`relative ${environment === 'mobile' ? `w-[30px] h-1` : `w-10 h-1.5`} rounded-[400px]
+            className={`relative ${size === 'mobile' ? `w-[30px] h-1` : `w-10 h-1.5`} rounded-[400px]
             ${IndicatorState.isActivate ? `bg-[#0051FF]` : `bg-[#D7DBE2]`}`}
           />
         </div>

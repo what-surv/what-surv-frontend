@@ -6,9 +6,9 @@ const ProgressBarVariants = cva(
   `,
   {
     variants: {
-      environment: {
-        desktop: 'w-[546px]',
-        mobile: 'w-[342px]',
+      size: {
+        desktop: 'min-w-[546px]',
+        mobile: 'min-w-[342px]',
       },
       percent: {
         percent: (value: number) => `w-[${value}%]`,
@@ -18,13 +18,17 @@ const ProgressBarVariants = cva(
 );
 
 interface ProgressBarProps {
+  /** /progress 퍼센트 */
   percent: number;
-  environment: 'mobile' | 'desktop';
+  /** 각 단말기별 크기 확인용 */
+  size: 'mobile' | 'desktop';
 }
 
-export const ProgressBar = ({ percent, environment }: ProgressBarProps) => {
+/** 로그인 페이지에서 사용하는 Progress Bar 컴포넌트 */
+
+export const ProgressBar = ({ percent, size }: ProgressBarProps) => {
   return (
-    <div className={`${ProgressBarVariants({ environment })} `}>
+    <div className={`${ProgressBarVariants({ size })} `}>
       <div className='relative'>
         <div
           className={`absolute h-3 ${

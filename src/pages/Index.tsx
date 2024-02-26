@@ -8,10 +8,10 @@ import icSearch from '../stories/assets/ic_search.svg';
 import icUser from '../stories/assets/ic_usersvg.svg';
 import { Badge } from '../stories/badge/Badge';
 import { Dropdown } from '../stories/dropdown/Dropdown';
+import Like from '../stories/like/Like';
 import Typography from '../stories/typography/Typography';
 
 import { useNavigate } from 'react-router-dom';
-import Like from '../stories/like/Like';
 
 const Index = () => {
   const { searchText, setSearchText } = MainPageStore(); // store 불러옴
@@ -76,9 +76,13 @@ const Index = () => {
           defaultValue='정렬'
           isArrow
           onDropdownChange={() => {}}
-          size='default'
           state='default'
-          value={['최신순', '인기순', '직종순']}
+          oneSelect
+          menu={[
+            { key: 'recent', label: '최신순' },
+            { key: 'popular', label: '인기순' },
+            { key: 'job', label: '직종순' },
+          ]}
         />
       </div>
 

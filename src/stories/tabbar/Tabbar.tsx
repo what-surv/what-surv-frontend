@@ -2,7 +2,7 @@
 import { cva } from 'class-variance-authority';
 import React from 'react';
 
-const HeaderVariants = cva(`w-full  h-[56px] flex items-end`, {
+const TabbarVariants = cva(`w-full  h-[56px] flex items-end`, {
   variants: {
     size: {
       default: '',
@@ -12,19 +12,20 @@ const HeaderVariants = cva(`w-full  h-[56px] flex items-end`, {
   },
 });
 
-interface ButtonProps {
+interface TabbarProps {
   children?: React.ReactNode;
+  // 단말기별 크기 확인용 size props
   size: 'default' | 'mobile' | 'full';
 }
 
 /**
- * Primary UI component for user interaction
+ * Tabbar 컴포넌트
  */
 
-export const SubHeader = ({ size, ...props }: ButtonProps) => {
+export const Tabbar = ({ size, ...props }: TabbarProps) => {
   return (
     <header
-      className={`${HeaderVariants({ size, ...props })} justify-between `}
+      className={`${TabbarVariants({ size, ...props })} justify-between hidden md:inline-block`}
     >
       <div className='flex max-w-[1560px] w-full m-auto items-center logo gap-7'>
         <button
