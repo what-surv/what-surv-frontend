@@ -53,7 +53,7 @@ const Card = ({ size, children, enddate, ...props }: CardProps) => {
             </div>
           </div>
         ) : (
-          <div className='flex w-[302px] justify-between items-center'>
+          <div className='flex max-w-[302px] justify-between items-center'>
             <div className='flex items-start flex-1 gap-3'>
               <Badge size='default' state='main'>
                 설문조사
@@ -66,7 +66,7 @@ const Card = ({ size, children, enddate, ...props }: CardProps) => {
           </div>
         )}
 
-        <div className='flex items-start p-0 justify-between my-4 gap-[8px] w-[302px]'>
+        <div className='flex items-start p-0 justify-between my-4 gap-[8px] max-w-[302px]'>
           <div className='flex items-center gap-2'>
             <span className='text-[#676A72] text-sm'>마감일</span>
             <span className='w-[1px] h-[12px] bg-[#545760]' />
@@ -77,12 +77,12 @@ const Card = ({ size, children, enddate, ...props }: CardProps) => {
             <Typography size='sm' text='99' weight='Regular' />
           </div>
         </div>
-        <div className='w-[302px] text-left'>
+        <div className='max-w-[302px] text-left'>
           <Typography size='base' text={children} weight='Semibold' />
         </div>
       </button>
       {size === 'main' ? (
-        <div className='w-[300px] flex gap-3.5 items-start flex-col'>
+        <div className='max-w-[300px] flex gap-3.5 items-start flex-col'>
           <div className='w-full h-[1px] bg-[#D7DBE2]' />
           <div className='flex items-center w-full gap-3'>
             <img src={primaryAccount} alt='계정 로고 아이콘' />
