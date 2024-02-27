@@ -5,7 +5,7 @@ import LoginStep1 from './LoginStep1';
 import LoginStep2 from './LoginStep2';
 import LoginStep3 from './LoginStep3';
 import LoginStep4 from './LoginStep4';
-import { ProgressBar } from '../stories/indicator/progress bar/ProgressBar';
+import { ProgressBar } from '../../stories/indicator/progress bar/ProgressBar';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 

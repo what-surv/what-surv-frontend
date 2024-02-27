@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import style from './login.module.css';
-import icPrev from '../stories/assets/ic-prev.svg';
+import icPrev from '../../stories/assets/ic-prev.svg';
 
 export interface LoginStep2Props {
   onNextStep: () => void;
