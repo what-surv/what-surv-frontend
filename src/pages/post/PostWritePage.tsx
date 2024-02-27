@@ -7,6 +7,7 @@ import Input from '../../atoms/Input';
 import ConfirmationModal from '../../organisms/post/ConfirmationModal';
 import EditorBox from '../../organisms/post/EditorBox';
 import PostSelectContent from '../../organisms/post/PostSelectContent';
+import PostSuccessModal from '../../organisms/post/PostSuccessModal';
 import { WritePageStore } from '../../store/store';
 import { Appbar } from '../../stories/appbar/Appbar';
 import { Tabbar } from '../../stories/tabbar/Tabbar';
@@ -27,8 +28,11 @@ const PostWritePage = () => {
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
   const navigate = useNavigate();
 
-  // 모달 팝업 확인용 isOpen
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  // 뒤로가기 모달 팝업 확인용 isConfirmOpen state
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
+
+  // 게시글 작성 완료 모달 팝업 확인용 isSuccessOpen
+  const [isSuccessModalOpen, setIsSucessModalOpen] = useState<boolean>(false);
 
   const [disableButton, setDisableButton] = useState(true);
 
@@ -91,16 +95,18 @@ const PostWritePage = () => {
     ) {
       navigate(-1);
     } else {
-      setIsModalOpen(true);
+      setIsConfirmModalOpen(true);
     }
   };
 
-  const handleConfirmLeave = () => {
-    setIsModalOpen(false);
+  const handleModalLeave = () => {
+    setIsConfirmModalOpen(false);
+    setIsSucessModalOpen(false);
     navigate(-1);
   };
 
-  const formDataToJson = () => {
+  // 게시글 등록하기 버튼 클릭 시 실행
+  const onSuccess = () => {
     const jsonData = JSON.stringify({
       age,
       title,
@@ -113,6 +119,7 @@ const PostWritePage = () => {
       time,
     });
     console.log(jsonData);
+    setIsSucessModalOpen(true);
   };
 
   return (
@@ -172,7 +179,7 @@ const PostWritePage = () => {
               <Button
                 type='submit'
                 className={`inline-flex justify-center text-white py-3 px-6 items-center gap-2 rounded-[400px] md:w-[314px] ${disableButton ? `bg-[#A6AAB2]` : `bg-[#0051FF]`}`}
-                onClick={() => formDataToJson()}
+                onClick={() => onSuccess()}
                 disabled={disableButton}
               >
                 등록하기
@@ -182,9 +189,14 @@ const PostWritePage = () => {
           </div>
         </form>
         <ConfirmationModal
-          isOpen={isModalOpen}
-          handleClose={() => setIsModalOpen(false)}
-          handleConfirmLeave={handleConfirmLeave}
+          isOpen={isConfirmModalOpen}
+          handleClose={() => setIsConfirmModalOpen(false)}
+          handleModalLeave={handleModalLeave}
+        />
+        <PostSuccessModal
+          isOpen={isSuccessModalOpen}
+          handleClose={() => setIsConfirmModalOpen(false)}
+          handleModalLeave={handleModalLeave}
         />
         <DevTool control={control} />
       </div>
