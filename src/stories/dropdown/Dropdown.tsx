@@ -104,7 +104,7 @@ export const Dropdown = ({
 
   return (
     <div className='relative'>
-      <div className='flex gap-1.5 min-w-[80px]'>
+      <div className='flex min-w-[80px]'>
         {!oneSelect && (
           <div className='flex gap-1.5'>
             {value?.map((DropdownSelectValue: string) => (

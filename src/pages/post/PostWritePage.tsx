@@ -4,7 +4,7 @@ import check from '../../assets/check.svg';
 import leftArrow from '../../assets/left_arrow.svg';
 import Button from '../../atoms/Button';
 import Input from '../../atoms/Input';
-import ConfirmationModal from '../../molecules/post/ConfirmationModal';
+import ConfirmationModal from '../../organisms/post/ConfirmationModal';
 import EditorBox from '../../organisms/post/EditorBox';
 import PostSelectContent from '../../organisms/post/PostSelectContent';
 import { WritePageStore } from '../../store/store';
@@ -80,17 +80,18 @@ const PostWritePage = () => {
 
   const handleNavigate = () => {
     if (
-      !age ||
-      !gender ||
-      !researchType ||
-      !link ||
-      !content ||
-      !title ||
-      !procedure
+      age.length <= 0 &&
+      !gender &&
+      !researchType &&
+      !link &&
+      !content &&
+      !title &&
+      !procedure &&
+      !enddate
     ) {
-      setIsModalOpen(true);
-    } else {
       navigate(-1);
+    } else {
+      setIsModalOpen(true);
     }
   };
 
@@ -113,7 +114,6 @@ const PostWritePage = () => {
     });
     console.log(jsonData);
   };
-  // max-w-[1280px]:w-[814px]
 
   return (
     <div className='w-full bg-[#FAFAFA] flex-col pb-[100px] md:pb-[200px]'>

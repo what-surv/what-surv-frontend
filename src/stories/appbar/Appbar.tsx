@@ -8,15 +8,18 @@ import notification from '../assets/notification.svg';
 import rightArrow from '../assets/right_arrow.svg';
 import search from '../assets/search.svg';
 
-const AppbarVariants = cva(`w-full py-3.5 bg-[#FAFAFA]`, {
-  variants: {
-    size: {
-      default: 'min-w-[680px] px-[150px]',
-      mobile: 'min-w-[280px] px-6 w-[390px]',
-      full: 'min-w-[1280px] px-[180px]',
+const AppbarVariants = cva(
+  `w-full px-6 md:px-[150px] full:px-[180px] min-w-[280px] md:min-w-[680px] py-3.5 bg-[#FAFAFA]`,
+  {
+    variants: {
+      size: {
+        default: 'min-w-[680px] px-[150px]',
+        mobile: 'min-w-[280px] px-6 w-[390px]',
+        full: 'min-w-[1280px] px-[180px]',
+      },
     },
-  },
-});
+  }
+);
 
 interface AppbarProps {
   children?: React.ReactNode;

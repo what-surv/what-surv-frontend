@@ -11,6 +11,8 @@ module.exports = {
       pretendard: ['Pretendard'],
     },
     screens: {
+      // => @media (min-width: 280px)
+      fold: '280px',
       // => @media (min-width: 390px)
       iphone: '390px',
       // => @media (min-width: 640px)
