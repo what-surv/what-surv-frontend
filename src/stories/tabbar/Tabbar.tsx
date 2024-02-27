@@ -15,7 +15,7 @@ const TabbarVariants = cva(`w-full  h-[56px] flex items-end`, {
 interface TabbarProps {
   children?: React.ReactNode;
   // 단말기별 크기 확인용 size props
-  size: 'default' | 'mobile' | 'full';
+  size?: 'default' | 'mobile' | 'full';
 }
 
 /**
@@ -25,7 +25,7 @@ interface TabbarProps {
 export const Tabbar = ({ size, ...props }: TabbarProps) => {
   return (
     <header
-      className={`${TabbarVariants({ size, ...props })} justify-between hidden md:inline-block`}
+      className={`${TabbarVariants({ size, ...props })} justify-between w-full hidden md:inline-block md:px-[180px]`}
     >
       <div className='flex max-w-[1560px] w-full m-auto items-center logo gap-7'>
         <button

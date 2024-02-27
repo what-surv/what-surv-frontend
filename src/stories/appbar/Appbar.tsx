@@ -8,18 +8,18 @@ import notification from '../assets/notification.svg';
 import rightArrow from '../assets/right_arrow.svg';
 import search from '../assets/search.svg';
 
-const AppbarVariants = cva(`w-full py-3.5 bg-[#FAFAFA]`, {
-  variants: {
-    size: {
-      default: 'min-w-[680px] px-[150px]',
-      mobile: 'min-w-[280px] px-6 w-[390px]',
-      full: 'min-w-[1280px] px-[180px]',
+const AppbarVariants = cva(
+  `w-full px-6 md:px-[150px] full:px-[180px] min-w-[280px] md:min-w-[680px] py-3.5 bg-[#FAFAFA]`,
+  {
+    variants: {
+      size: {
+        default: 'min-w-[680px] px-[150px]',
+        mobile: 'min-w-[280px] px-6 w-[390px]',
+        full: 'min-w-[1280px] px-[180px]',
+      },
     },
-  },
-  defaultVariants: {
-    size: 'default',
-  },
-});
+  }
+);
 
 interface AppbarProps {
   children?: React.ReactNode;
@@ -35,6 +35,8 @@ interface AppbarProps {
   isLogo?: boolean;
   /** 각 단말기별 크기 확인용 */
   size?: 'mobile' | 'default' | 'full';
+  /** 화살표 클릭 시 뒤로가기 기능 */
+  onArrowClick: () => void;
 }
 
 /**
@@ -49,17 +51,26 @@ export const Appbar = ({
   isNotification,
   isLogo,
   size,
+  onArrowClick,
   ...props
 }: AppbarProps) => {
   return (
     <header className={`${AppbarVariants({ size, ...props })}`}>
-      <div className='max-w-[1560px] w-full m-auto flex justify-between'>
+      <div className='max-w-[1560px] w-full flex justify-between'>
         <div className='flex items-center gap-4'>
           {isArrow && (
-            <img src={rightArrow} alt='arrow' className='px-2 py-1.5' />
+            <button type='button' onClick={() => onArrowClick()}>
+              <img
+                src={rightArrow}
+                alt='arrow'
+                className='px-2 py-1.5 md:hidden'
+              />
+            </button>
           )}
-          {isLogo && <img src={logo} alt='logo' />}
-          {children}
+          <div className='hidden md:inline-block'>
+            {isLogo && <img src={logo} alt='logo' />}
+          </div>
+          <span className='md:hidden'>{children}</span>
         </div>
         <div className='flex gap-4 logo'>
           {isNotification && <img src={notification} alt='notification' />}

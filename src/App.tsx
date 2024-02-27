@@ -2,20 +2,18 @@ import Index from './pages/Index';
 import Login from './pages/Login';
 import PostWritePage from './pages/post/PostWritePage';
 import View from './pages/View';
-import { Appbar } from './stories/appbar/Appbar';
-import { Tabbar } from './stories/tabbar/Tabbar';
 
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 const App = () => {
-  const location = useLocation();
+  // const location = useLocation();
   return (
     <>
-      <div>
+      {/* <div>
         <Appbar>로고</Appbar>
         {location.pathname !== '/login' && <Tabbar size='default'>로고</Tabbar>}
-      </div>
-      <div className='w-full max-w-[1368px] m-auto px-6 bg-[#FAFAFA]'>
+      </div> */}
+      <div className='w-full max-w-[1368px]bg-[#FAFAFA]'>
         <Routes>
           <Route path='/' element={<Index />} />
           <Route path='/login' element={<Login />} />

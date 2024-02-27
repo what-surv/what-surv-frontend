@@ -46,7 +46,13 @@ const PostInputContent = ({
         <Input
           type='text'
           {...(register && {
-            ...register(name, { required: true, maxLength: 100 }),
+            ...register(name, {
+              required: '이 값은 필수항목입니다.',
+              maxLength: {
+                value: 50,
+                message: '50자 이내로 입력해주세요.',
+              },
+            }),
             onChange: handleChange,
           })}
           {...props}
