@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 import style from './login.module.css';
-import icPrev from '../stories/assets/ic-prev.svg';
-import icTextFieldFail from '../stories/assets/ic-text-field-fail.svg';
-import icTextFieldSuccess from '../stories/assets/ic-text-field-success.svg';
+import icPrev from '../../stories/assets/ic-prev.svg';
+import icTextFieldFail from '../../stories/assets/ic-text-field-fail.svg';
+import icTextFieldSuccess from '../../stories/assets/ic-text-field-success.svg';
 
 export interface LoginStep3Props {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

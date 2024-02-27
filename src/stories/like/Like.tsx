@@ -10,7 +10,9 @@ interface LikeProps {
 const Like = ({ onClickCallback }: LikeProps) => {
   const [isLiked, setIsLiked] = useState(false);
 
-  const onClick = () => {
+  const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation(); // 부모요소 클릭 안되는 코드
+
     const newLikeStatus = !isLiked;
     setIsLiked(newLikeStatus);
 
@@ -23,7 +25,7 @@ const Like = ({ onClickCallback }: LikeProps) => {
         <img
           src={icLikeTrue}
           alt='하트아이콘'
-          className={`absolute top-0 transition-all duration-300 ease ${isLiked ? 'scale-0' : 'scale-1'}`}
+          className={`absolute top-0 transition-all duration-300 ease ${!isLiked ? 'scale-0' : 'scale-1'}`}
         />
       </div>
     </button>

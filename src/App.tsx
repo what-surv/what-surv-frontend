@@ -1,5 +1,5 @@
 import Index from './pages/Index';
-import Login from './pages/Login';
+import Login from './pages/login/Login';
 import PostWritePage from './pages/post/PostWritePage';
 import View from './pages/View';
 import { Header } from './stories/header/Header';

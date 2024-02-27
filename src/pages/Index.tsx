@@ -2,16 +2,17 @@ import React, { useEffect } from 'react';
 
 import { BannerSwiper, ResearchSwiper } from '../component/MainSwiper';
 import { MainPageStore } from '../store/store';
+import icArrowDown from '../stories/assets/ic_arrow_down.svg';
 import icComment from '../stories/assets/ic_comment.svg';
 import icEye from '../stories/assets/ic_eye.svg';
 import icSearch from '../stories/assets/ic_search.svg';
 import icUser from '../stories/assets/ic_usersvg.svg';
 import { Badge } from '../stories/badge/Badge';
 import { Dropdown } from '../stories/dropdown/Dropdown';
+import Like from '../stories/like/Like';
 import Typography from '../stories/typography/Typography';
 
 import { useNavigate } from 'react-router-dom';
-import Like from '../stories/like/Like';
 
 const Index = () => {
   const { searchText, setSearchText } = MainPageStore(); // store 불러옴
@@ -56,7 +57,7 @@ const Index = () => {
         </div>
       </div>
       {/* slider */}
-      <div className='my-6 h-[312px] bg-[#E5E7ED]'>
+      <div className='my-6'>
         <BannerSwiper />
       </div>
       {/* // slider */}
@@ -140,7 +141,10 @@ const Index = () => {
           type='button'
           className='px-6 py-4 w-[340px] bg-[#E5E7ED] rounded-[400px] text-lg text-[#545760]'
         >
-          더보기
+          <div className='flex w-full justify-center gap-2'>
+            <p>더보기</p>
+            <img src={icArrowDown} alt='더보기 버튼 아이콘' />
+          </div>
         </button>
       </div>
     </div>

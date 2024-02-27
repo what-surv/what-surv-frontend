@@ -1,27 +1,57 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
+import 'swiper/css/pagination';
 
 import prevBtn from '../stories/assets/ic_arrow_left.svg';
 import nextBtn from '../stories/assets/ic_arrow_right.svg';
 import { Badge } from '../stories/badge/Badge';
+import { PageIndicator } from '../stories/indicator/page indicator/PageIndicator';
 import Typography from '../stories/typography/Typography';
 
 export const BannerSwiper = () => {
+  const [totalSlides, settotalSlides] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  // 페이지 인디케이터 배열 생성
+  const pageIndicatorArr = Array.from({ length: totalSlides }, (_, index) => ({
+    isActivate: index === activeIndex,
+    pageNumber: index + 1,
+  }));
+
+  const handleSlideChangeTransitionEnd = () => {
+    console.log('슬라이드 변경이 완료되었습니다.');
+    // 여기에 슬라이드 변경 완료 후 수행할 작업 추가
+  };
+
   return (
-    <div className='h-full'>
-      <Swiper
-        spaceBetween={10}
-        slidesPerView={1}
-        navigation
-        pagination={{ clickable: true }}
-        grabCursor
-      >
-        <SwiperSlide>Slide 1</SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-      </Swiper>
+    <div>
+      <div className='h-[312px] bg-[#E5E7ED]'>
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay]}
+          spaceBetween={10}
+          slidesPerView={1}
+          navigation
+          grabCursor
+          onInit={(totalIdx) => settotalSlides(totalIdx.slides.length)}
+          onActiveIndexChange={(index) => setActiveIndex(index.realIndex)}
+          onSlideChangeTransitionEnd={handleSlideChangeTransitionEnd}
+          speed={1200}
+          autoplay={{ delay: 4000, disableOnInteraction: false }}
+          loop
+        >
+          <SwiperSlide>Slide 1</SwiperSlide>
+          <SwiperSlide>Slide 2</SwiperSlide>
+          <SwiperSlide>Slide 3</SwiperSlide>
+          <SwiperSlide>Slide 4</SwiperSlide>
+          <SwiperSlide>Slide 5</SwiperSlide>
+        </Swiper>
+      </div>
+      <div className='flex justify-center'>
+        <PageIndicator environment='desktop' page={pageIndicatorArr} />
+      </div>
     </div>
   );
 };
@@ -60,6 +90,7 @@ export const ResearchSwiper = () => {
             swiperRef.current = swiper;
           }}
           grabCursor
+          centeredSlidesBounds
         >
           <SwiperSlide>
             <div className='w-full border border-[#C1C5CC] rounded-[16px]'>
