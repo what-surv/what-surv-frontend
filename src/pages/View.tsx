@@ -3,7 +3,7 @@ import React from 'react';
 import icBtnArrow from '../stories/assets/ic_btn_arrow.svg';
 import icComment from '../stories/assets/ic_comment.svg';
 import icCommentDelete from '../stories/assets/ic_comment_delete.svg';
-import icCommentModifiy from '../stories/assets/ic_comment_modifiy.svg';
+import icCommentmodify from '../stories/assets/ic_comment_modify.svg';
 import icCommentReport from '../stories/assets/ic_comment_report.svg';
 import icEye from '../stories/assets/ic_eye.svg';
 import icReply from '../stories/assets/ic_reply.svg';
@@ -16,7 +16,7 @@ const View = () => {
       case 'reply':
         console.log(sort);
         break;
-      case 'modifiy':
+      case 'modify':
         console.log(sort);
 
         break;
@@ -247,8 +247,8 @@ const View = () => {
                   </button>
                 </li>
                 <li>
-                  <button type='button' onClick={() => onClick('modifiy')}>
-                    <img src={icCommentModifiy} alt='수정 아이콘' />
+                  <button type='button' onClick={() => onClick('modify')}>
+                    <img src={icCommentmodify} alt='수정 아이콘' />
                   </button>
                 </li>
                 <li>
