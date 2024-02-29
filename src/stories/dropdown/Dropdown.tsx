@@ -3,7 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 
 import bottomArrow from '../assets/bottom_arraw.svg';
 import bottomArrowPrimary from '../assets/bottom_arraw_primary.svg';
-import close from '../assets/close.svg';
+import close from '../assets/close-circle.svg';
 import topArrow from '../assets/top_arrow.svg';
 import Typography from '../typography/Typography';
 
