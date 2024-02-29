@@ -29,13 +29,10 @@ const Login = () => {
     // 유저정보 체크
     const checkAuthStatus = async (path: string) => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}/auth/${path}`,
-          {
-            withCredentials: true,
-          }
-        );
-        console.log(response);
+        await axios.get(`${import.meta.env.VITE_SERVER_URL}/auth/${path}`, {
+          withCredentials: true,
+        });
+
         setUserInfo((prevUserInfo) => ({
           ...prevUserInfo,
           phone: '010-9076-2806',
@@ -203,7 +200,7 @@ const Login = () => {
     <div>
       <div className='flex flex-col items-center mt-[60px]'>
         <div className='flex flex-col w-full max-w-xl'>
-          <ProgressBar environment='desktop' percent={currentStep * 25} />
+          <ProgressBar size='desktop' percent={currentStep * 25} />
           <div className='mt-[60px]'>{renderLoginStep(currentStep)}</div>
         </div>
       </div>
