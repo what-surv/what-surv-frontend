@@ -58,7 +58,7 @@
 
 .checkbox-wrap > label.on::before {
   border: 2px solid #0051ff;
-  background: url('../stories/assets/ic-checked.svg') center center no-repeat;
+  background: url('../../stories/assets/ic-checked.svg') center center no-repeat;
 }
 
 .checkbox-wrap:nth-of-type(1) span {
