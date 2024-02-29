@@ -1,7 +1,7 @@
 import React from 'react';
 
 import style from './login.module.css';
-import icSuccessBig from '../stories/assets/ic-success-big.svg';
+import icSuccessBig from '../../stories/assets/ic-success-big.svg';
 
 import ConfettiExplosion from 'react-confetti-explosion';
 import { useNavigate } from 'react-router-dom';
@@ -24,7 +24,7 @@ const LoginStep4 = () => {
         type='button'
         className={style['basic-btn']}
         onClick={() => {
-          navigate('/main');
+          navigate('/');
         }}
       >
         서비스명 시작하기

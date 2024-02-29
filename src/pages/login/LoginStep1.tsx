@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { GoogleLogin } from '../stories/social/googlelogin/GoogleLogin';
-import { KakaoLogin } from '../stories/social/kakaologin/KakaoLogin';
-import { NaverLogin } from '../stories/social/naverlogin/NaverLogin';
+import { GoogleLogin } from '../../stories/social/googlelogin/GoogleLogin';
+import { KakaoLogin } from '../../stories/social/kakaologin/KakaoLogin';
+import { NaverLogin } from '../../stories/social/naverlogin/NaverLogin';
 
 export interface LoginStep1Props {
   handleLogin: (sort: string) => void;
