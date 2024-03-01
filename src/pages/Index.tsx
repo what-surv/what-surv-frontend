@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import { BannerSwiper, ResearchSwiper } from '../component/MainSwiper';
 import { MainPageStore } from '../store/store';
+import { Appbar } from '../stories/appbar/Appbar';
 import icArrowDown from '../stories/assets/ic_arrow_down.svg';
 import icSearch from '../stories/assets/ic_search.svg';
 import Card from '../stories/card/Card';
@@ -9,7 +10,6 @@ import { Dropdown } from '../stories/dropdown/Dropdown';
 import Typography from '../stories/typography/Typography';
 
 import { useNavigate } from 'react-router-dom';
-import { Appbar } from '../stories/appbar/Appbar';
 
 const Index = () => {
   const { searchText, setSearchText } = MainPageStore(); // store 불러옴
