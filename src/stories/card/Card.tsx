@@ -8,8 +8,6 @@ import { Badge } from '../badge/Badge';
 import Like from '../like/Like';
 import Typography from '../typography/Typography';
 
-import { useNavigate } from 'react-router-dom';
-
 const CardVariants = cva(`max-w-[342px] w-full border rounded-[16px] p-5`, {
   variants: {
     size: {
@@ -39,6 +37,7 @@ interface CardProps {
   /** 마감일  */
   enddate?: string;
   onClick: () => void;
+  onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => void;
 }
 
 // 메인 페이지에서 사용하는 Card 컴포넌트
@@ -51,10 +50,9 @@ const Card = ({
   enddate,
   nickname,
   onClick,
+  onKeyDown,
   ...props
 }: CardProps) => {
-  const navigate = useNavigate();
-
   // 현재 시간을 가져오기
   const currentTime: Date = new Date();
 
@@ -68,11 +66,7 @@ const Card = ({
     <div
       onClick={onClick}
       className={`${CardVariants({ size, ...props })}`}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === 'Space') {
-          navigate(`/view/${id}`);
-        }
-      }}
+      onKeyDown={onKeyDown}
       role='button'
       tabIndex={id}
     >

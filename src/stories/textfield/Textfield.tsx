@@ -7,17 +7,9 @@ interface TextFieldProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onButtonClick: () => void;
   value: string;
-  isButtonDisabled: null | boolean;
-  showButton: boolean;
 }
 
-const Textfield = ({
-  onChange,
-  onButtonClick,
-  value,
-  isButtonDisabled,
-  showButton,
-}: TextFieldProps) => {
+const Textfield = ({ onChange, onButtonClick, value }: TextFieldProps) => {
   return (
     <div className='flex'>
       <div className='relative w-full bg-white border border-[#6697ff] rounded-2xl p-5 transition duration-300 ease-in-out'>

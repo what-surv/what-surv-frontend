@@ -9,9 +9,9 @@ import icSearch from '../stories/assets/ic_search.svg';
 import Card from '../stories/card/Card';
 import { Dropdown } from '../stories/dropdown/Dropdown';
 import Typography from '../stories/typography/Typography';
+import { formatDateString } from '../utils/dateUtils';
 
 import { useNavigate } from 'react-router-dom';
-import { formatDateString } from '../utils/dateUtils';
 
 const Index = () => {
   const [mainList, setMainList] = useState<GetData[]>([]);
@@ -177,7 +177,15 @@ const Index = () => {
               size='main'
               createdAt={params.createdAt}
               enddate={formatDateString(params.endDate)}
-              onClick={() => navigate('view/0')}
+              onClick={() => navigate(`view/${params.id}`)}
+              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                if (
+                  (e as React.KeyboardEvent).key === 'Enter' ||
+                  (e as React.KeyboardEvent).key === 'Space'
+                ) {
+                  navigate(`/view/${params.id}`);
+                }
+              }}
             >
               {params.title}
             </Card>
