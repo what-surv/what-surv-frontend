@@ -35,6 +35,7 @@ const Index = () => {
   const searchOnClick = () => {
     alert('asd');
   };
+
   return (
     <div>
       <div className='flex justify-center'>
