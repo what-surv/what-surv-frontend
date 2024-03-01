@@ -5,20 +5,13 @@ import icLikeTrue from '../assets/ic_like_true.svg';
 
 interface LikeProps {
   /** 아이콘 클릭 시 토글 이벤트  */
-  onClickCallback: (state: boolean) => void;
+  onClick: () => void;
   isLiked: boolean;
 }
 
 /** 카드 컴포넌트에서 사용하는 Like 컴포넌트 */
 
-const Like = ({ onClickCallback, isLiked }: LikeProps) => {
-  const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation(); // 부모요소 클릭 안되는 코드
-
-    const newLikeStatus = !isLiked;
-
-    onClickCallback(newLikeStatus);
-  };
+const Like = ({ onClick, isLiked }: LikeProps) => {
   return (
     <button type='button' onClick={onClick}>
       <div className='relative'>
