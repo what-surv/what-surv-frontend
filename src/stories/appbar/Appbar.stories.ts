@@ -15,8 +15,8 @@ export default meta;
 
 export const Default: StoryObj<typeof Appbar> = {
   args: {
-    children: '',
     isLogo: true,
+    isAccount: true,
   },
 };
 
@@ -28,13 +28,13 @@ export const Full: StoryObj<typeof Appbar> = {
 };
 
 export const Mobile: StoryObj<typeof Appbar> = {
-  name: 'Mobile Default',
+  name: 'MainPage Mobile Default',
   args: {
-    children: '로고',
     size: 'mobile',
     isAccount: true,
-    isArrow: false,
-    isNotification: false,
+    isSearch: true,
+    isLogo: true,
+    isFullLogo: true,
   },
 };
 
@@ -42,6 +42,8 @@ export const MobileArrow: StoryObj<typeof Appbar> = {
   name: 'Logo With Account',
   args: {
     isAccount: true,
+    children: '게시글 작성하기',
+    isTextCenter: true,
     size: 'mobile',
     isLogo: true,
   },
@@ -50,7 +52,6 @@ export const MobileArrow: StoryObj<typeof Appbar> = {
 export const ArrowWithLogo: StoryObj<typeof Appbar> = {
   name: 'Only Arrow with Logo',
   args: {
-    children: '',
     isAccount: false,
     isArrow: true,
     isNotification: false,
@@ -65,6 +66,18 @@ export const SearchWithNotification: StoryObj<typeof Appbar> = {
     size: 'mobile',
     isArrow: true,
     isNotification: true,
+    isSearch: true,
+  },
+};
+
+export const TextCenterWithClose: StoryObj<typeof Appbar> = {
+  name: 'Text-Center With Close',
+  args: {
+    children: '회원 탈퇴',
+    isClose: true,
+    isTextCenter: true,
+    isLogo: true,
+    isAccount: true,
     isSearch: true,
   },
 };

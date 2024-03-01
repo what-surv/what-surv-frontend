@@ -64,6 +64,32 @@ const Card = ({ size, children, enddate, onClick, ...props }: CardProps) => {
             <Badge size='default' state='main'>
               설문조사
             </Badge>
+    <div className={`${CardVariants({ size, ...props })}`}>
+      <button type='button' className='block w-full'>
+        {size === 'small' ? (
+          <div className='flex items-start justify-between'>
+            <div className='flex items-start justify-between'>
+              <Badge size='default' state='main'>
+                설문조사
+              </Badge>
+            </div>
+            <div>
+              <Badge size='default' state='sub'>
+                🔥 Hot
+              </Badge>
+            </div>
+          </div>
+        ) : (
+          <div className='flex max-w-[302px] justify-between items-center'>
+            <div className='flex items-start gap-3'>
+              <Badge size='default' state='main'>
+                설문조사
+              </Badge>
+              <Badge size='default' state='sub'>
+                New
+              </Badge>
+            </div>
+            <Like onClickCallback={(state: boolean) => console.log(state)} />
           </div>
           <div>
             <Badge size='default' state='sub'>
@@ -113,6 +139,31 @@ const Card = ({ size, children, enddate, onClick, ...props }: CardProps) => {
               <img src={icComment} alt='댓글 아이콘' />
             </p>
             <Typography size='sm' text='99' weight='Regular' />
+        </div>
+        <div className='max-w-[302px] text-left'>
+          <Typography size='base' text={children} weight='Semibold' />
+        </div>
+      </button>
+      {size === 'main' ? (
+        <div className='max-w-[300px] flex gap-3.5 items-start flex-col'>
+          <div className='w-full h-[1px] bg-[#D7DBE2]' />
+          <div className='flex items-center w-full gap-3'>
+            <img src={primaryAccount} alt='계정 로고 아이콘' />
+            <div className='w-[150px] flex'>
+              <Typography text='작성자 닉네임' size='base' weight='Semibold' />
+            </div>
+            <div className='flex gap-1.5 items-center'>
+              <div className='flex items-center gap-1 '>
+                <img src={eyeLine} alt='눈 아이콘' />
+                <div className='flex items-center'>
+                  <Typography size='sm' text='99' weight='Regular' />
+                </div>
+              </div>
+              <div className='flex items-center gap-1'>
+                <img src={chat} alt='댓글 아이콘' />
+                <Typography size='sm' text='99' weight='Regular' />
+              </div>
+            </div>
           </div>
         </div>
       )}

@@ -16,20 +16,19 @@ export default meta;
 export const Default: StoryObj<typeof Tabbar> = {
   args: {
     size: 'default',
-    children: '로고',
+    isMobileVisible: true,
   },
 };
 
 export const Full: StoryObj<typeof Tabbar> = {
   args: {
     size: 'full',
-    children: '로고',
   },
 };
 
 export const Mobile: StoryObj<typeof Tabbar> = {
   args: {
     size: 'mobile',
-    children: '로고',
+    isMobileVisible: false,
   },
 };

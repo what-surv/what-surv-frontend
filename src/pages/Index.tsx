@@ -31,6 +31,7 @@ const Index = () => {
   const searchOnClick = () => {
     alert('asd');
   };
+
   return (
     <div className='max-w-[1416px] w-full m-0'>
       <div className='flex justify-center'>
