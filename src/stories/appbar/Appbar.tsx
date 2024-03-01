@@ -3,6 +3,8 @@ import { cva } from 'class-variance-authority';
 import React from 'react';
 
 import account from '../assets/account.svg';
+import close from '../assets/close.svg';
+import smallLogo from '../assets/logo-identity.svg';
 import logo from '../assets/logo.svg';
 import notification from '../assets/notification.svg';
 import rightArrow from '../assets/right_arrow.svg';
@@ -33,6 +35,12 @@ interface AppbarProps {
   isNotification?: boolean;
   /** 로고 여부(true -> 있음 / false -> 없음)  */
   isLogo?: boolean;
+  /** 닫기 버튼 여부(true -> 있음 / false -> 없음)  */
+  isClose?: boolean;
+  /** 모바일에서 텍스트가 중앙에 위치하는지 여부(true -> 중앙에 배치 / false -> 중앙에 배치 x) */
+  isTextCenter?: boolean;
+  /** 모바일에서 전체 모양의 로고를 나타내는 여부(true -> 중앙에 배치 / false -> 중앙에 배치 x) */
+  isFullLogo?: boolean;
   /** 각 단말기별 크기 확인용 */
   size?: 'mobile' | 'default' | 'full';
   /** 화살표 클릭 시 뒤로가기 기능 */
@@ -48,8 +56,11 @@ export const Appbar = ({
   isAccount,
   isArrow,
   isSearch,
+  isClose,
   isNotification,
   isLogo,
+  isFullLogo,
+  isTextCenter,
   size,
   onArrowClick,
   ...props
@@ -57,7 +68,7 @@ export const Appbar = ({
   return (
     <header className={`${AppbarVariants({ size, ...props })}`}>
       <div className='max-w-[1560px] w-full flex justify-between'>
-        <div className='flex items-center gap-4'>
+        <div className='flex items-center w-full gap-4'>
           {isArrow && (
             <button type='button' onClick={() => onArrowClick()}>
               <img
@@ -67,15 +78,46 @@ export const Appbar = ({
               />
             </button>
           )}
-          <div className='hidden md:inline-block'>
+          <div className='hidden w-full md:inline-block'>
             {isLogo && <img src={logo} alt='logo' />}
           </div>
-          <span className='md:hidden'>{children}</span>
+          <div className='md:hidden'>
+            {isLogo && !isFullLogo && !children && (
+              <img src={smallLogo} alt='small logo' />
+            )}
+            {isLogo && isFullLogo && !children && <img src={logo} alt='logo' />}
+          </div>
+          <div
+            className={`flex ${isTextCenter ? `w-full justify-center` : ``} `}
+          >
+            {children && <span className='md:hidden'>{children}</span>}
+          </div>
         </div>
         <div className='flex gap-4 logo'>
-          {isNotification && <img src={notification} alt='notification' />}
-          {isSearch && <img src={search} alt='search' />}
-          {isAccount && <img src={account} alt='account' />}
+          {isNotification && (
+            <img
+              src={notification}
+              alt='notification'
+              className={`${isClose ? `hidden md:inline-block` : ``}`}
+            />
+          )}
+          {isSearch && (
+            <img
+              src={search}
+              alt='search icon'
+              className={`${isClose ? `hidden md:inline-block` : ``}`}
+            />
+          )}
+          {isAccount && (
+            <img
+              src={account}
+              alt='account icon'
+              className={`${isClose ? `hidden md:inline-block` : ``}`}
+            />
+          )}
+          {isClose && (
+            <img src={close} alt='close icon' className='md:hidden' />
+          )}
         </div>
       </div>
     </header>

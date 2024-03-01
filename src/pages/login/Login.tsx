@@ -59,7 +59,7 @@ const Login = () => {
       // 가입된 유저
       case '/login/success':
         // 이미 유저정보가 있을때 메인으로 이동~
-        navigate('/main');
+        navigate('/');
         break;
 
       // 실패했을경우
