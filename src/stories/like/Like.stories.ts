@@ -16,5 +16,6 @@ export default meta;
 export const Contained: StoryObj<typeof Like> = {
   args: {
     onClickCallback: () => {},
+    isLiked: false,
   },
 };
