@@ -7,6 +7,7 @@ import icUser from '../assets/ic_usersvg.svg';
 import { Badge } from '../badge/Badge';
 import Like from '../like/Like';
 import Typography from '../typography/Typography';
+
 import { useNavigate } from 'react-router-dom';
 
 const CardVariants = cva(`max-w-[342px] w-full border rounded-[16px] p-5`, {
@@ -25,6 +26,16 @@ interface CardProps {
   children?: React.ReactNode;
   /** 사이즈  */
   size?: 'main' | 'small';
+
+  /** 게시글 ID */
+  id: number;
+
+  /** 유저 닉네임 */
+  nickname: string;
+
+  /** 게시글 작성 일  */
+  createdAt: string;
+
   /** 마감일  */
   enddate?: string;
   onClick: () => void;
@@ -32,19 +43,38 @@ interface CardProps {
 
 // 메인 페이지에서 사용하는 Card 컴포넌트
 
-const Card = ({ size, children, enddate, onClick, ...props }: CardProps) => {
+const Card = ({
+  id,
+  size,
+  children,
+  createdAt,
+  enddate,
+  nickname,
+  onClick,
+  ...props
+}: CardProps) => {
   const navigate = useNavigate();
+
+  // 현재 시간을 가져오기
+  const currentTime: Date = new Date();
+
+  // 게시글이 생성된 날짜를 Date 객체로 변환
+  const postCreatedAt: Date = new Date(createdAt);
+
+  // 게시글이 생성된 후 48시간 이내인지 확인
+  const isPostNew: boolean =
+    currentTime.getTime() - postCreatedAt.getTime() < 48 * 60 * 60 * 1000;
   return (
     <div
       onClick={onClick}
       className={`${CardVariants({ size, ...props })}`}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === 'Space') {
-          navigate('/view/0');
+          navigate(`/view/${id}`);
         }
       }}
       role='button'
-      tabIndex={0}
+      tabIndex={id}
     >
       {size === 'main' ? (
         <div className='flex w-full items-center justify-between'>
@@ -52,9 +82,11 @@ const Card = ({ size, children, enddate, onClick, ...props }: CardProps) => {
             <Badge size='default' state='main'>
               설문조사
             </Badge>
-            <Badge size='default' state='sub'>
-              New
-            </Badge>
+            {isPostNew && (
+              <Badge size='default' state='sub'>
+                New
+              </Badge>
+            )}
           </div>
           <Like
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
@@ -85,10 +117,15 @@ const Card = ({ size, children, enddate, onClick, ...props }: CardProps) => {
             className='text-[#676A72]'
             size='sm'
             text='마감일'
-            weight='Regular'
+            weight='Medium'
           />
           <span className='w-[1px] h-[12px] bg-[#545760]' />
-          <span className='text-[#676A72] text-sm'>{enddate}</span>
+          <Typography
+            className='text-[#676A72]'
+            size='sm'
+            text={enddate}
+            weight='Medium'
+          />
         </div>
         {size === 'small' && (
           <div className='flex items-center gap-2'>
@@ -99,7 +136,7 @@ const Card = ({ size, children, enddate, onClick, ...props }: CardProps) => {
           </div>
         )}
       </div>
-      <p className='text-left line-clamp-2'>
+      <p className='text-left line-clamp-2 h-[52px]'>
         <Typography size='base' text={children} weight='Semibold' />
       </p>
       {size === 'main' && (
@@ -108,17 +145,27 @@ const Card = ({ size, children, enddate, onClick, ...props }: CardProps) => {
             <p className='mr-[10px]'>
               <img src={icUser} alt='유저 이미지' />
             </p>
-            <Typography text='작성자 닉네임' size='base' weight='Semibold' />
+            <Typography text={nickname} size='base' weight='Semibold' />
           </div>
           <div className='flex items-center gap-2'>
             <p className='flex items-center'>
               <img src={icEye} alt='눈 아이콘' />
             </p>
-            <Typography size='sm' text='99' weight='Regular' />
+            <Typography
+              size='sm'
+              text='99'
+              weight='Medium'
+              className='text-[#808490]'
+            />
             <p className='flex items-center'>
               <img src={icComment} alt='댓글 아이콘' />
             </p>
-            <Typography size='sm' text='99' weight='Regular' />
+            <Typography
+              size='sm'
+              text='99'
+              weight='Medium'
+              className='text-[#808490]'
+            />
           </div>
         </div>
       )}

@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { GetData, MainListGet } from '../api/IndexApi';
 import { BannerSwiper, ResearchSwiper } from '../component/MainSwiper';
 import { MainPageStore } from '../store/store';
 import { Appbar } from '../stories/appbar/Appbar';
@@ -10,15 +11,28 @@ import { Dropdown } from '../stories/dropdown/Dropdown';
 import Typography from '../stories/typography/Typography';
 
 import { useNavigate } from 'react-router-dom';
+import { formatDateString } from '../utils/dateUtils';
 
 const Index = () => {
+  const [mainList, setMainList] = useState<GetData[]>([]);
   const { searchText, setSearchText } = MainPageStore(); // store 불러옴
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    const getMainList = async () => {
+      try {
+        const params = { page: 1, limit: 30 };
+        const result = await MainListGet(params);
+        setMainList(result.data.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
     document.body.style.backgroundColor = '#FFFFFF';
 
+    getMainList();
     return () => {
       document.body.style.backgroundColor = '#F2F3F7';
     };
@@ -155,13 +169,19 @@ const Index = () => {
         </div>
 
         <div className='flex flex-wrap gap-4'>
-          <Card
-            size='main'
-            enddate='2024.02.28'
-            onClick={() => navigate('view/0')}
-          >
-            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-          </Card>
+          {mainList.map((params) => (
+            <Card
+              key={params.id}
+              id={params.id}
+              nickname={params.author.nickname}
+              size='main'
+              createdAt={params.createdAt}
+              enddate={formatDateString(params.endDate)}
+              onClick={() => navigate('view/0')}
+            >
+              {params.title}
+            </Card>
+          ))}
         </div>
         {/* // IT전체 */}
         <div className='text-center mt-[42px]'>
