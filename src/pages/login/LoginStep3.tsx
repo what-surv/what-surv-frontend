@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import style from './login.module.css';
 import icPrev from '../../stories/assets/ic-prev.svg';
@@ -11,6 +11,7 @@ export interface LoginStep3Props {
   onNextStep: () => void;
   onPrevStep: () => void;
   value: string;
+  isButtonDisabled: null | boolean;
 }
 
 const LoginStep3 = ({
@@ -19,19 +20,8 @@ const LoginStep3 = ({
   onNextStep,
   onPrevStep,
   value,
+  isButtonDisabled,
 }: LoginStep3Props) => {
-  const [result, setResult] = useState<
-    null | ReturnType<typeof onClick> | boolean
-  >(null);
-  const handleButtonClick = async () => {
-    try {
-      const clickResult = await onClick();
-      setResult(clickResult);
-    } catch (error) {
-      console.error('Error handling button click:', error);
-    }
-  };
-
   return (
     <div>
       <button
@@ -47,7 +37,7 @@ const LoginStep3 = ({
       <p className='mb-[12px] font-semibold '>닉네임을 입력해주세요!</p>
       <div className='flex'>
         <div
-          className={`${style['text-filed-wrap']} ${result != null && (result ? style.success : style.fail)}`}
+          className={`${style['text-filed-wrap']} ${isButtonDisabled != null && (isButtonDisabled ? style.success : style.fail)}`}
         >
           <input
             type='text'
@@ -71,22 +61,22 @@ const LoginStep3 = ({
         <button
           type='button'
           className={`${style['btn-small']}`}
-          onClick={handleButtonClick}
+          onClick={onClick}
         >
           중복확인
         </button>
       </div>
       <p
-        className={`${style[`text-filed-txt`]} ${result ? style.success : style.fail} mt-1.5 text-xs`}
+        className={`${style[`text-filed-txt`]} ${isButtonDisabled ? style.success : style.fail} mt-1.5 text-xs`}
       >
-        {result !== null &&
-          (result
+        {isButtonDisabled !== null &&
+          (isButtonDisabled
             ? '사용 가능한 닉네임입니다!'
             : '사용하실 수 없는 닉네임 입니다!')}
       </p>
       <button
         type='button'
-        disabled={result === null || result === false}
+        disabled={isButtonDisabled === null || isButtonDisabled === false}
         className={style['basic-btn']}
         onClick={onNextStep}
       >

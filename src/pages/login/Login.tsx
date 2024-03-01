@@ -20,6 +20,9 @@ const Login = () => {
     '1': { checked: false, href: 'https://www.google.co.kr/' },
     '2': { checked: false, href: 'https://github.com/' },
   });
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean | null>(
+    null
+  );
 
   // Ouath2 링크별 분기처리
   const location = useLocation();
@@ -32,6 +35,7 @@ const Login = () => {
         await axios.get(`${import.meta.env.VITE_SERVER_URL}/auth/${path}`, {
           withCredentials: true,
         });
+
         setUserInfo((prevUserInfo) => ({
           ...prevUserInfo,
           phone: '010-9076-2806',
@@ -105,6 +109,7 @@ const Login = () => {
       ...prevUserInfo,
       nickname: value,
     }));
+    setIsButtonDisabled(false);
   };
 
   const isValidInput = (text: string) => {
@@ -125,7 +130,7 @@ const Login = () => {
       );
       const { data } = response;
 
-      return !data;
+      return setIsButtonDisabled(!data);
     } catch (error) {
       console.error('Error checking authentication status:', error);
     }
@@ -186,6 +191,7 @@ const Login = () => {
             onNextStep={userRegistrationHandler}
             onPrevStep={prevStepHandler}
             value={userInfo.nickname}
+            isButtonDisabled={isButtonDisabled}
           />
         );
       case 4:
