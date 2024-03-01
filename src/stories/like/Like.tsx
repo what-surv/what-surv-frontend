@@ -5,7 +5,7 @@ import icLikeTrue from '../assets/ic_like_true.svg';
 
 interface LikeProps {
   /** 아이콘 클릭 시 토글 이벤트  */
-  onClick: () => void;
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   isLiked: boolean;
 }
 

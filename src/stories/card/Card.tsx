@@ -57,7 +57,8 @@ const Card = ({ size, children, enddate, onClick, ...props }: CardProps) => {
             </Badge>
           </div>
           <Like
-            onClick={() => {
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation();
               console.log('asdasd');
             }}
             isLiked={false}
