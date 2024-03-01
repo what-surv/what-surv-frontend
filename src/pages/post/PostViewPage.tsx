@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PostViewContent from '../../organisms/post/view/PostContentView';
+import PostContentView from '../../organisms/post/view/PostContentView';
 import { Appbar } from '../../stories/appbar/Appbar';
 import icBtnArrow from '../../stories/assets/ic_btn_arrow.svg';
 import icComment from '../../stories/assets/ic_comment.svg';
@@ -102,7 +102,7 @@ const PostViewPage = () => {
             </div>
           </div>
         </div>
-        <PostViewContent />
+        <PostContentView />
         {/* 글 */}
         <div className='px-4 py-6 bg-[#FFFFFF] rounded-[8px]'>
           리서치 소개글 또는 이미지 아래는 글 예시입니다. 당사는 SurveyMonkey가
@@ -117,104 +117,115 @@ const PostViewPage = () => {
           있으시면 youremail@email.com으로 이메일을 보내주십시오. 참여해 주셔서
           진심으로 감사 드립니다!
         </div>
-        {/* //글 */}
 
         {/* 관심 */}
-        <div className='flex justify-end mb-3.5 p-3.5 pb-8 border-b-2 border-b-[#C2C5CC]'>
-          <button
-            type='button'
-            className='flex items-center text-[#808490]'
-            onClick={() => onClick('like')}
-          >
-            <p className='mr-2'>관심있어요!</p>
-            <Like onClickCallback={likeCallback} />
-          </button>
-        </div>
-        {/* //관심 */}
-
-        {/* 댓글 */}
-        <div>
-          <p className='my-3.5'>댓글</p>
-          <div className='flex items-center'>
-            <div className='flex align-center w-[calc(100%-151px)] mr-[18px]'>
-              <img
-                src={icUser}
-                alt='유저 섬네일 이미지'
-                className='w-[23px] mr-[20px]'
-              />
-              <textarea
-                placeholder='댓글을 입력해보세요!'
-                rows={1}
-                className='w-full py-6 px-[30px] border-2 border-[#C1C5CC] rounded-[12px]'
-              />
+        <div className='flex gap-3.5 w-full self-stretch flex-col items-start'>
+          <div className='flex items-center self-stretch justify-end gap-1'>
+            <Typography
+              text='관심있어요!'
+              size='base'
+              lineheight={26}
+              weight='Medium'
+              className='text-[#818490]'
+            />
+            <div className='p-2.5 flex items-center justify-center gap-2.5'>
+              <Like onClickCallback={likeCallback} />
             </div>
-            <button
-              type='button'
-              className='flex w-[151px] h-[52px] items-center justify-center bg-[#0051FF] rounded-[400px] text-white font-semibold text-lg'
-            >
-              <img src={icBtnArrow} alt='버튼 아이콘' className='mr-2' />
-              <span>댓글 쓰기</span>
-            </button>
           </div>
-          <ul className='mt-6'>
-            <li>
-              <div className='flex mb-3'>
-                <p className='mr-[10px]'>
-                  <img src={icUser} alt='유저 이미지' />
-                </p>
-                <p className='font-semibold'>닉네임</p>
-              </div>
-              <div className='flex mb-[18px] ml-[30px] '>
-                <p className='px-7 py-5 bg-[#E5EEFF] rounded-[8px] font-semibold text-[#242424]'>
-                  오프라인장소는 어디서 진행되나요?
-                </p>
-                <ul className='flex gap-2 items-end ml-[10px]'>
-                  <li>
-                    <button type='button' onClick={() => onClick('reply')}>
-                      <img src={icReply} alt='답글 아이콘' />
-                    </button>
-                  </li>
-                  <li>
-                    <button type='button' onClick={() => onClick('modifiy')}>
-                      <img src={icCommentModifiy} alt='수정 아이콘' />
-                    </button>
-                  </li>
-                  <li>
-                    <button type='button' onClick={() => onClick('delete')}>
-                      <img src={icCommentDelete} alt='삭제 아이콘' />
-                    </button>
-                  </li>
-                  <li>
-                    <button type='button' onClick={() => onClick('report')}>
-                      <img src={icCommentReport} alt='신고 아이콘' />
-                    </button>
-                  </li>
-                </ul>
-              </div>
+          <div className='h-[1px] self-stretch bg-[#A6AAB2]' />
+          {/* //관심 */}
 
-              <div className='flex items-center ml-[52px]'>
-                <div className='flex align-center w-[calc(100%-151px)] mr-[18px]'>
-                  <img
-                    src={icUser}
-                    alt='유저 섬네일 이미지'
-                    className='w-[23px] mr-[20px]'
-                  />
-                  <textarea
-                    placeholder='타인에게 불쾌감을 주는 욕설 또는 비속어는 경고 조치 없이 삭제될 수 있습니다.'
-                    rows={1}
-                    className='w-full py-[20px] px-[30px] border-2 border-[#C1C5CC] rounded-[12px]'
-                  />
-                </div>
-                <button
-                  type='button'
-                  className='flex w-[151px] h-[52px] items-center justify-center bg-[#0051FF] rounded-[400px] text-white font-semibold text-lg'
-                >
-                  <img src={icBtnArrow} alt='버튼 아이콘' className='mr-2' />
-                  <span>댓글 쓰기</span>
-                </button>
+          <div className='h-[26px] self-stretch'>
+            <Typography
+              text='댓글'
+              size='base'
+              lineheight={26}
+              weight='Medium'
+              className='text-[#242424]'
+            />
+          </div>
+          <div>
+            <div className='flex items-center'>
+              <div className='flex align-center w-[calc(100%-151px)] mr-[18px]'>
+                <img
+                  src={icUser}
+                  alt='유저 섬네일 이미지'
+                  className='w-[23px] mr-[20px]'
+                />
+                <textarea
+                  placeholder='댓글을 입력해보세요!'
+                  rows={1}
+                  className='w-full py-6 px-[30px] border-2 border-[#C1C5CC] rounded-[12px]'
+                />
               </div>
-            </li>
-          </ul>
+              <button
+                type='button'
+                className='flex w-[151px] h-[52px] items-center justify-center bg-[#0051FF] rounded-[400px] text-white font-semibold text-lg'
+              >
+                <img src={icBtnArrow} alt='버튼 아이콘' className='mr-2' />
+                <span>댓글 쓰기</span>
+              </button>
+            </div>
+            <ul className='mt-6'>
+              <li>
+                <div className='flex mb-3'>
+                  <p className='mr-[10px]'>
+                    <img src={icUser} alt='유저 이미지' />
+                  </p>
+                  <p className='font-semibold'>닉네임</p>
+                </div>
+                <div className='flex mb-[18px] ml-[30px] '>
+                  <p className='px-7 py-5 bg-[#E5EEFF] rounded-[8px] font-semibold text-[#242424]'>
+                    오프라인장소는 어디서 진행되나요?
+                  </p>
+                  <ul className='flex gap-2 items-end ml-[10px]'>
+                    <li>
+                      <button type='button' onClick={() => onClick('reply')}>
+                        <img src={icReply} alt='답글 아이콘' />
+                      </button>
+                    </li>
+                    <li>
+                      <button type='button' onClick={() => onClick('modifiy')}>
+                        <img src={icCommentModifiy} alt='수정 아이콘' />
+                      </button>
+                    </li>
+                    <li>
+                      <button type='button' onClick={() => onClick('delete')}>
+                        <img src={icCommentDelete} alt='삭제 아이콘' />
+                      </button>
+                    </li>
+                    <li>
+                      <button type='button' onClick={() => onClick('report')}>
+                        <img src={icCommentReport} alt='신고 아이콘' />
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className='flex items-center ml-[52px]'>
+                  <div className='flex align-center w-[calc(100%-151px)] mr-[18px]'>
+                    <img
+                      src={icUser}
+                      alt='유저 섬네일 이미지'
+                      className='w-[23px] mr-[20px]'
+                    />
+                    <textarea
+                      placeholder='타인에게 불쾌감을 주는 욕설 또는 비속어는 경고 조치 없이 삭제될 수 있습니다.'
+                      rows={1}
+                      className='w-full py-[20px] px-[30px] border-2 border-[#C1C5CC] rounded-[12px]'
+                    />
+                  </div>
+                  <button
+                    type='button'
+                    className='flex w-[151px] h-[52px] items-center justify-center bg-[#0051FF] rounded-[400px] text-white font-semibold text-lg'
+                  >
+                    <img src={icBtnArrow} alt='버튼 아이콘' className='mr-2' />
+                    <span>댓글 쓰기</span>
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
         {/* //댓글 */}
       </div>

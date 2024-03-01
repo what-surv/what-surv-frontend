@@ -67,7 +67,7 @@ export const Appbar = ({
 }: AppbarProps) => {
   return (
     <header className={`${AppbarVariants({ size, ...props })}`}>
-      <div className='max-w-[1560px] w-full flex justify-between'>
+      <div className='max-w-[1560px] w-full flex justify-between m-auto'>
         <div className='flex items-center w-full gap-4'>
           {isArrow && onArrowClick && (
             <button type='button' onClick={() => onArrowClick()}>

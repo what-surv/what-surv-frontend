@@ -7,9 +7,11 @@ import 'swiper/css/pagination';
 
 import prevBtn from '../stories/assets/ic_arrow_left.svg';
 import nextBtn from '../stories/assets/ic_arrow_right.svg';
-import { Badge } from '../stories/badge/Badge';
+import Card from '../stories/card/Card';
 import { PageIndicator } from '../stories/indicator/page indicator/PageIndicator';
 import Typography from '../stories/typography/Typography';
+
+import { useNavigate } from 'react-router-dom';
 
 export const BannerSwiper = () => {
   const [totalSlides, settotalSlides] = useState(0);
@@ -22,7 +24,6 @@ export const BannerSwiper = () => {
   }));
 
   const handleSlideChangeTransitionEnd = () => {
-    console.log('슬라이드 변경이 완료되었습니다.');
     // 여기에 슬라이드 변경 완료 후 수행할 작업 추가
   };
 
@@ -50,13 +51,15 @@ export const BannerSwiper = () => {
         </Swiper>
       </div>
       <div className='flex justify-center'>
-        <PageIndicator environment='desktop' page={pageIndicatorArr} />
+        <PageIndicator size='desktop' page={pageIndicatorArr} />
       </div>
     </div>
   );
 };
 
 export const ResearchSwiper = () => {
+  const navigate = useNavigate();
+
   const swiperRef = useRef<Swiper | null>(null);
 
   const slidePrev = () => {
@@ -93,142 +96,13 @@ export const ResearchSwiper = () => {
           centeredSlidesBounds
         >
           <SwiperSlide>
-            <div className='w-full border border-[#C1C5CC] rounded-[16px]'>
-              <button type='button' className='block w-full p-5'>
-                <div className='flex items-center justify-between'>
-                  <div className='flex'>
-                    <Badge size='default' state='main'>
-                      설문조사
-                    </Badge>
-                  </div>
-                  <div>
-                    <Badge size='default' state='sub'>
-                      🔥Hot
-                    </Badge>
-                  </div>
-                </div>
-                <div className='flex items-center my-4 gap-[8px]'>
-                  <span className='text-[#676A72] text-sm'>마감일</span>
-                  <span className='w-[1px] h-[12px] bg-[#545760]' />
-                  <span className='text-[#676A72] text-sm'>2024.01.01</span>
-                </div>
-                <p className='text-left line-clamp-2'>
-                  국회가 재적의원 과반수의 찬성으로 계엄의 해제를 요구한 때에는
-                  대통령은 이를 해제하여야 한다. 대법관의
-                </p>
-              </button>
-            </div>
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <div className='w-full border border-[#C1C5CC] rounded-[16px]'>
-              <button type='button' className='block w-full p-5'>
-                <div className='flex items-center justify-between'>
-                  <div className='flex'>
-                    <Badge size='default' state='main'>
-                      설문조사
-                    </Badge>
-                  </div>
-                  <div>
-                    <Badge size='default' state='sub'>
-                      🔥Hot
-                    </Badge>
-                  </div>
-                </div>
-                <div className='flex items-center my-4 gap-[8px]'>
-                  <span className='text-[#676A72] text-sm'>마감일</span>
-                  <span className='w-[1px] h-[12px] bg-[#545760]' />
-                  <span className='text-[#676A72] text-sm'>2024.01.01</span>
-                </div>
-                <p className='text-left line-clamp-2'>
-                  국회가 재적의원 과반수의 찬성으로 계엄의 해제를 요구한 때에는
-                  대통령은 이를 해제하여야 한다. 대법관의
-                </p>
-              </button>
-            </div>
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <div className='w-full border border-[#C1C5CC] rounded-[16px]'>
-              <button type='button' className='block w-full p-5'>
-                <div className='flex items-center justify-between'>
-                  <div className='flex'>
-                    <Badge size='default' state='main'>
-                      설문조사
-                    </Badge>
-                  </div>
-                  <div>
-                    <Badge size='default' state='sub'>
-                      🔥Hot
-                    </Badge>
-                  </div>
-                </div>
-                <div className='flex items-center my-4 gap-[8px]'>
-                  <span className='text-[#676A72] text-sm'>마감일</span>
-                  <span className='w-[1px] h-[12px] bg-[#545760]' />
-                  <span className='text-[#676A72] text-sm'>2024.01.01</span>
-                </div>
-                <p className='text-left line-clamp-2'>
-                  국회가 재적의원 과반수의 찬성으로 계엄의 해제를 요구한 때에는
-                  대통령은 이를 해제하여야 한다. 대법관의
-                </p>
-              </button>
-            </div>
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <div className='w-full border border-[#C1C5CC] rounded-[16px]'>
-              <button type='button' className='block w-full p-5'>
-                <div className='flex items-center justify-between'>
-                  <div className='flex'>
-                    <Badge size='default' state='main'>
-                      설문조사
-                    </Badge>
-                  </div>
-                  <div>
-                    <Badge size='default' state='sub'>
-                      🔥Hot
-                    </Badge>
-                  </div>
-                </div>
-                <div className='flex items-center my-4 gap-[8px]'>
-                  <span className='text-[#676A72] text-sm'>마감일</span>
-                  <span className='w-[1px] h-[12px] bg-[#545760]' />
-                  <span className='text-[#676A72] text-sm'>2024.01.01</span>
-                </div>
-                <p className='text-left line-clamp-2'>
-                  국회가 재적의원 과반수의 찬성으로 계엄의 해제를 요구한 때에는
-                  대통령은 이를 해제하여야 한다. 대법관의
-                </p>
-              </button>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className='w-full border border-[#C1C5CC] rounded-[16px]'>
-              <button type='button' className='block w-full p-5'>
-                <div className='flex items-center justify-between'>
-                  <div className='flex'>
-                    <Badge size='default' state='main'>
-                      설문조사
-                    </Badge>
-                  </div>
-                  <div>
-                    <Badge size='default' state='sub'>
-                      🔥Hot
-                    </Badge>
-                  </div>
-                </div>
-                <div className='flex items-center my-4 gap-[8px]'>
-                  <span className='text-[#676A72] text-sm'>마감일</span>
-                  <span className='w-[1px] h-[12px] bg-[#545760]' />
-                  <span className='text-[#676A72] text-sm'>2024.01.01</span>
-                </div>
-                <p className='text-left line-clamp-2'>
-                  국회가 재적의원 과반수의 찬성으로 계엄의 해제를 요구한 때에는
-                  대통령은 이를 해제하여야 한다. 대법관의
-                </p>
-              </button>
-            </div>
+            <Card
+              size='small'
+              enddate='2024.02.28'
+              onClick={() => navigate('view/0')}
+            >
+              asdasdasdasd
+            </Card>
           </SwiperSlide>
         </Swiper>
       </div>
