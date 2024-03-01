@@ -199,7 +199,7 @@ const Login = () => {
     <div>
       <div className='flex flex-col items-center mt-[60px]'>
         <div className='flex flex-col w-full max-w-xl'>
-          <ProgressBar environment='desktop' percent={currentStep * 25} />
+          <ProgressBar size='desktop' percent={currentStep * 25} />
           <div className='mt-[60px]'>{renderLoginStep(currentStep)}</div>
         </div>
       </div>

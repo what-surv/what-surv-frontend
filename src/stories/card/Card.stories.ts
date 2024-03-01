@@ -9,6 +9,7 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  onClick: () => {},
 } satisfies Meta<typeof Card>;
 
 export default meta;

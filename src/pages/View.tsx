@@ -11,34 +11,6 @@ import icUser from '../stories/assets/ic_usersvg.svg';
 import Like from '../stories/like/Like';
 
 const View = () => {
-  const onClick = (sort: string) => {
-    switch (sort) {
-      case 'reply':
-        console.log(sort);
-        break;
-      case 'modify':
-        console.log(sort);
-
-        break;
-      case 'delete':
-        console.log(sort);
-
-        break;
-      case 'report':
-        console.log(sort);
-
-        break;
-
-      case 'like':
-        console.log(sort);
-
-        break;
-
-      default:
-        break;
-    }
-  };
-
   const likeCallback = (state: boolean) => {
     console.log(state);
   };
@@ -193,11 +165,7 @@ const View = () => {
 
       {/* 관심 */}
       <div className='flex justify-end mb-3.5 p-3.5 pb-8 border-b-2 border-b-[#C2C5CC]'>
-        <button
-          type='button'
-          className='flex items-center text-[#808490]'
-          onClick={() => onClick('like')}
-        >
+        <button type='button' className='flex items-center text-[#808490]'>
           <p className='mr-2'>관심있어요!</p>
           <Like onClickCallback={likeCallback} />
         </button>
@@ -242,22 +210,24 @@ const View = () => {
               </p>
               <ul className='flex gap-2 items-end ml-[10px]'>
                 <li>
-                  <button type='button' onClick={() => onClick('reply')}>
+                  <button type='button'>
                     <img src={icReply} alt='답글 아이콘' />
                   </button>
                 </li>
                 <li>
-                  <button type='button' onClick={() => onClick('modify')}>
+                  <button type='button'>
+                    <img src={icCommentModifiy} alt='수정 아이콘' />
+                  <button type='button'>
                     <img src={icCommentmodify} alt='수정 아이콘' />
                   </button>
                 </li>
                 <li>
-                  <button type='button' onClick={() => onClick('delete')}>
+                  <button type='button'>
                     <img src={icCommentDelete} alt='삭제 아이콘' />
                   </button>
                 </li>
                 <li>
-                  <button type='button' onClick={() => onClick('report')}>
+                  <button type='button'>
                     <img src={icCommentReport} alt='신고 아이콘' />
                   </button>
                 </li>
