@@ -1,5 +1,5 @@
-import SelectDate from '../../atoms/post/SelectDate';
-import Typography from '../../stories/typography/Typography';
+import SelectDate from '../../../atoms/post/SelectDate';
+import Typography from '../../../stories/typography/Typography';
 
 interface PostEndDateProps {
   title: string;

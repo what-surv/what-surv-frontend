@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Input from '../../atoms/Input';
-import Typography from '../../stories/typography/Typography';
+import Input from '../../../atoms/Input';
+import Typography from '../../../stories/typography/Typography';
 
 import { UseFormRegister, RegisterOptions } from 'react-hook-form';
 

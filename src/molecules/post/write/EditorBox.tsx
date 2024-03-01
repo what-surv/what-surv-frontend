@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import { WritePageStore } from '../../store/store';
+import { WritePageStore } from '../../../store/store';
 
 import { Editor } from '@toast-ui/react-editor';
 
