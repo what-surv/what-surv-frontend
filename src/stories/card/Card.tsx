@@ -56,7 +56,12 @@ const Card = ({ size, children, enddate, onClick, ...props }: CardProps) => {
               New
             </Badge>
           </div>
-          <Like onClickCallback={(state: boolean) => console.log(state)} />
+          <Like
+            onClick={() => {
+              console.log('asdasd');
+            }}
+            isLiked={false}
+          />
         </div>
       ) : (
         <div className='flex items-center justify-between'>
