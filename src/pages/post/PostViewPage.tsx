@@ -1,5 +1,6 @@
 import React from 'react';
 
+import CommentWithButton from '../../molecules/post/view/CommentWithButton';
 import PostContentView from '../../organisms/post/view/PostContentView';
 import { Appbar } from '../../stories/appbar/Appbar';
 import icBtnArrow from '../../stories/assets/ic_btn_arrow.svg';
@@ -133,6 +134,7 @@ const PostViewPage = () => {
             </div>
           </div>
           <div className='h-[1px] self-stretch bg-[#A6AAB2]' />
+
           {/* //관심 */}
 
           <div className='h-[26px] self-stretch'>
@@ -144,6 +146,7 @@ const PostViewPage = () => {
               className='text-[#242424]'
             />
           </div>
+          <CommentWithButton placeholder='댓글을 입력해보세요!' />
           <div>
             <div className='flex items-center'>
               <div className='flex align-center w-[calc(100%-151px)] mr-[18px]'>
