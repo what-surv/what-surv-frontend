@@ -1,8 +1,8 @@
 import { genderArr, methodArr, typeArr, ageArr } from './DropdownValue';
-import PostEndDate from '../../molecules/post/PostEndDate';
-import PostInputContent from '../../molecules/post/PostInputContent';
-import PostSelectDropdown from '../../molecules/post/PostSelectDropdown';
-import { WritePageStore } from '../../store/store';
+import PostEndDate from '../../../molecules/post/write/PostEndDate';
+import PostInputContent from '../../../molecules/post/write/PostInputContent';
+import PostSelectDropdown from '../../../molecules/post/write/PostSelectDropdown';
+import { WritePageStore } from '../../../store/store';
 
 import { UseFormRegister } from 'react-hook-form';
 
@@ -29,7 +29,7 @@ const PostSelectContent = ({ register }: PostSelectContentProps) => {
   } = WritePageStore();
 
   return (
-    <div className='flex flex-wrap items-start w-[full] md:w-full content-start self-stretch gap-3 md:gap-4 px-4 py-6 md:p-6 rounded-lg bg-[#E5E7ED]'>
+    <div className='flex flex-wrap items-start w-full md:w-full content-start self-stretch gap-3 md:gap-4 px-4 py-6 md:p-6 rounded-lg bg-[#E5E7ED]'>
       <PostEndDate title='마감일' />
       <PostSelectDropdown
         title='성별'

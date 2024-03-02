@@ -1,5 +1,5 @@
-import { Dropdown } from '../../stories/dropdown/Dropdown';
-import Typography from '../../stories/typography/Typography';
+import { Dropdown } from '../../../stories/dropdown/Dropdown';
+import Typography from '../../../stories/typography/Typography';
 
 interface arrOptionProps {
   key: string;
