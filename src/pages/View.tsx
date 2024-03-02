@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Appbar } from '../stories/appbar/Appbar';
 import icBtnArrow from '../stories/assets/ic_btn_arrow.svg';
 import icComment from '../stories/assets/ic_comment.svg';
 import icCommentDelete from '../stories/assets/ic_comment_delete.svg';
@@ -9,7 +10,6 @@ import icEye from '../stories/assets/ic_eye.svg';
 import icReply from '../stories/assets/ic_reply.svg';
 import icUser from '../stories/assets/ic_usersvg.svg';
 import Like from '../stories/like/Like';
-import { Appbar } from '../stories/appbar/Appbar';
 
 const View = () => {
   const likeCallback = (state: boolean) => {
