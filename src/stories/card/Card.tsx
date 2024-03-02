@@ -5,20 +5,22 @@ import icComment from '../assets/ic_comment.svg';
 import icEye from '../assets/ic_eye.svg';
 import icUser from '../assets/ic_usersvg.svg';
 import { Badge } from '../badge/Badge';
-import Like from '../like/Like';
 import Typography from '../typography/Typography';
 
-const CardVariants = cva(`max-w-[342px] w-full border rounded-[16px] p-5`, {
-  variants: {
-    size: {
-      main: 'border-[#C1C5CC]',
-      small: 'border-2 rounded border-[#80A8FF]',
+const CardVariants = cva(
+  `relative max-w-[342px] w-full border rounded-[16px] p-5`,
+  {
+    variants: {
+      size: {
+        main: 'border-[#C1C5CC]',
+        small: 'border-2 rounded border-[#80A8FF]',
+      },
     },
-  },
-  defaultVariants: {
-    size: 'main',
-  },
-});
+    defaultVariants: {
+      size: 'main',
+    },
+  }
+);
 
 interface CardProps {
   children?: React.ReactNode;
@@ -82,13 +84,6 @@ const Card = ({
               </Badge>
             )}
           </div>
-          <Like
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-              e.stopPropagation();
-              console.log('asdasd');
-            }}
-            isLiked={false}
-          />
         </div>
       ) : (
         <div className='flex items-center justify-between'>
