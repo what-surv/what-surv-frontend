@@ -1,15 +1,12 @@
 import React from 'react';
 
 import CommentWithButton from '../../molecules/post/view/CommentWithButton';
+import ReplyWithButton from '../../molecules/post/view/ReplyWithButton';
 import PostContentView from '../../organisms/post/view/PostContentView';
+import UserInfoWithComment from '../../organisms/post/view/UserInfoWithComment';
 import { Appbar } from '../../stories/appbar/Appbar';
-import icBtnArrow from '../../stories/assets/ic_btn_arrow.svg';
 import icComment from '../../stories/assets/ic_comment.svg';
-import icCommentDelete from '../../stories/assets/ic_comment_delete.svg';
-import icCommentModifiy from '../../stories/assets/ic_comment_modifiy.svg';
-import icCommentReport from '../../stories/assets/ic_comment_report.svg';
 import icEye from '../../stories/assets/ic_eye.svg';
-import icReply from '../../stories/assets/ic_reply.svg';
 import icUser from '../../stories/assets/ic_usersvg.svg';
 import Like from '../../stories/like/Like';
 import Typography from '../../stories/typography/Typography';
@@ -18,42 +15,12 @@ import { useNavigate } from 'react-router-dom';
 
 const PostViewPage = () => {
   const navigate = useNavigate();
-  const onClick = (sort: string) => {
-    switch (sort) {
-      case 'reply':
-        console.log(sort);
-        break;
-      case 'modifiy':
-        console.log(sort);
-
-        break;
-      case 'delete':
-        console.log(sort);
-
-        break;
-      case 'report':
-        console.log(sort);
-
-        break;
-
-      case 'like':
-        console.log(sort);
-
-        break;
-
-      default:
-        break;
-    }
-  };
   const isArrowClick = () => {
     navigate(-1);
   };
 
-  const likeCallback = (state: boolean) => {
-    console.log(state);
-  };
   return (
-    <div className='w-full mx-auto'>
+    <div className='w-full mx-auto pb-[150px]'>
       {/* header 영역 */}
       <div className='w-full'>
         <Appbar isArrow onArrowClick={isArrowClick} isSearch isLogo isAccount />
@@ -130,7 +97,7 @@ const PostViewPage = () => {
               className='text-[#818490]'
             />
             <div className='p-2.5 flex items-center justify-center gap-2.5'>
-              <Like onClickCallback={likeCallback} />
+              <Like />
             </div>
           </div>
           <div className='h-[1px] self-stretch bg-[#A6AAB2]' />
@@ -148,86 +115,8 @@ const PostViewPage = () => {
           </div>
           <CommentWithButton placeholder='댓글을 입력해보세요!' />
           <div>
-            <div className='flex items-center'>
-              <div className='flex align-center w-[calc(100%-151px)] mr-[18px]'>
-                <img
-                  src={icUser}
-                  alt='유저 섬네일 이미지'
-                  className='w-[23px] mr-[20px]'
-                />
-                <textarea
-                  placeholder='댓글을 입력해보세요!'
-                  rows={1}
-                  className='w-full py-6 px-[30px] border-2 border-[#C1C5CC] rounded-[12px]'
-                />
-              </div>
-              <button
-                type='button'
-                className='flex w-[151px] h-[52px] items-center justify-center bg-[#0051FF] rounded-[400px] text-white font-semibold text-lg'
-              >
-                <img src={icBtnArrow} alt='버튼 아이콘' className='mr-2' />
-                <span>댓글 쓰기</span>
-              </button>
-            </div>
-            <ul className='mt-6'>
-              <li>
-                <div className='flex mb-3'>
-                  <p className='mr-[10px]'>
-                    <img src={icUser} alt='유저 이미지' />
-                  </p>
-                  <p className='font-semibold'>닉네임</p>
-                </div>
-                <div className='flex mb-[18px] ml-[30px] '>
-                  <p className='px-7 py-5 bg-[#E5EEFF] rounded-[8px] font-semibold text-[#242424]'>
-                    오프라인장소는 어디서 진행되나요?
-                  </p>
-                  <ul className='flex gap-2 items-end ml-[10px]'>
-                    <li>
-                      <button type='button' onClick={() => onClick('reply')}>
-                        <img src={icReply} alt='답글 아이콘' />
-                      </button>
-                    </li>
-                    <li>
-                      <button type='button' onClick={() => onClick('modifiy')}>
-                        <img src={icCommentModifiy} alt='수정 아이콘' />
-                      </button>
-                    </li>
-                    <li>
-                      <button type='button' onClick={() => onClick('delete')}>
-                        <img src={icCommentDelete} alt='삭제 아이콘' />
-                      </button>
-                    </li>
-                    <li>
-                      <button type='button' onClick={() => onClick('report')}>
-                        <img src={icCommentReport} alt='신고 아이콘' />
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className='flex items-center ml-[52px]'>
-                  <div className='flex align-center w-[calc(100%-151px)] mr-[18px]'>
-                    <img
-                      src={icUser}
-                      alt='유저 섬네일 이미지'
-                      className='w-[23px] mr-[20px]'
-                    />
-                    <textarea
-                      placeholder='타인에게 불쾌감을 주는 욕설 또는 비속어는 경고 조치 없이 삭제될 수 있습니다.'
-                      rows={1}
-                      className='w-full py-[20px] px-[30px] border-2 border-[#C1C5CC] rounded-[12px]'
-                    />
-                  </div>
-                  <button
-                    type='button'
-                    className='flex w-[151px] h-[52px] items-center justify-center bg-[#0051FF] rounded-[400px] text-white font-semibold text-lg'
-                  >
-                    <img src={icBtnArrow} alt='버튼 아이콘' className='mr-2' />
-                    <span>댓글 쓰기</span>
-                  </button>
-                </div>
-              </li>
-            </ul>
+            <UserInfoWithComment />
+            <ReplyWithButton placeholder='타인에게 불쾌감을 주는 욕설 또는 비속어는 경고 조치 없이 삭제될 수 있습니다.' />
           </div>
         </div>
         {/* //댓글 */}
