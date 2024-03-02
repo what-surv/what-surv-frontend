@@ -113,7 +113,8 @@ const PostViewPage = () => {
             />
           </div>
           <CommentWithButton placeholder='댓글을 입력해보세요!' />
-          <div>
+          <div className='w-full'>
+            <UserInfoWithComment />
             <UserInfoWithComment />
           </div>
         </div>
