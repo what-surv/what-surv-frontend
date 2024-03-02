@@ -1,7 +1,6 @@
 import React from 'react';
 
 import CommentWithButton from '../../molecules/post/view/CommentWithButton';
-import ReplyWithButton from '../../molecules/post/view/ReplyWithButton';
 import PostContentView from '../../organisms/post/view/PostContentView';
 import UserInfoWithComment from '../../organisms/post/view/UserInfoWithComment';
 import { Appbar } from '../../stories/appbar/Appbar';
