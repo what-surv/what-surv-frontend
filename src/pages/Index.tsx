@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { GetData, MainListGet } from '../api/IndexApi';
+import { LikeGet } from '../api/LikeApi';
 import { BannerSwiper, ResearchSwiper } from '../component/MainSwiper';
 import { MainPageStore } from '../store/store';
 import { Appbar } from '../stories/appbar/Appbar';
@@ -8,35 +9,49 @@ import icArrowDown from '../stories/assets/ic_arrow_down.svg';
 import icSearch from '../stories/assets/ic_search.svg';
 import Card from '../stories/card/Card';
 import { Dropdown } from '../stories/dropdown/Dropdown';
+import Like from '../stories/like/Like';
 import Typography from '../stories/typography/Typography';
 import { formatDateString } from '../utils/dateUtils';
 
 import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
-  const [mainList, setMainList] = useState<GetData[]>([]);
+  const [mainCardList, setMainCardList] = useState<GetData[]>([]);
   const { searchText, setSearchText } = MainPageStore(); // store 불러옴
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getMainList = async () => {
+    const getMainCardList = async () => {
       try {
         const params = { page: 1, limit: 30 };
         const result = await MainListGet(params);
-        setMainList(result.data.data);
+
+        const updatedData = await Promise.all(
+          result.data.data.map(async (params2: GetData) => {
+            // 현재 포스트의 좋아요 상태 가져오기
+            const isLikedResult = await LikeGet(params2.id);
+            // 현재 포스트 정보에 좋아요 상태 추가하여 반환
+            return { ...params2, isLiked: isLikedResult.isLiked };
+          })
+        );
+
+        setMainCardList(updatedData);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error(error);
+        throw error;
       }
     };
 
+    getMainCardList();
+
     document.body.style.backgroundColor = '#FFFFFF';
 
-    getMainList();
     return () => {
       document.body.style.backgroundColor = '#F2F3F7';
     };
   }, []);
+
   // searchInput onChange
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -106,70 +121,10 @@ const Index = () => {
               { key: 'job', label: '마감임박순' },
             ]}
           />
-
-          <Dropdown
-            defaultValue='성별'
-            isArrow
-            onDropdownChange={() => {}}
-            state='default'
-            oneSelect
-            menu={[
-              { key: 'recent', label: '전체' },
-              { key: 'popular', label: '남성' },
-              { key: 'job', label: '여성' },
-            ]}
-          />
-
-          <Dropdown
-            defaultValue='연령'
-            isArrow
-            onDropdownChange={() => {}}
-            state='default'
-            oneSelect
-            menu={[
-              { key: 'recent', label: '10대' },
-              { key: 'popular', label: '20대' },
-              { key: 'job', label: '30대' },
-              { key: 'job', label: '40대' },
-              { key: 'job', label: '50대' },
-              { key: 'job', label: '60대' },
-              { key: 'job', label: '70대' },
-              { key: 'job', label: '80대' },
-              { key: 'job', label: '80대 이상' },
-            ]}
-          />
-
-          <Dropdown
-            defaultValue='종류'
-            isArrow
-            onDropdownChange={() => {}}
-            state='default'
-            oneSelect
-            menu={[
-              { key: 'recent', label: '전체' },
-              { key: 'popular', label: '설문조사' },
-              { key: 'job', label: '인터뷰' },
-              { key: 'job', label: '유저테스트' },
-            ]}
-          />
-
-          <Dropdown
-            defaultValue='진행 방식'
-            isArrow
-            onDropdownChange={() => {}}
-            state='default'
-            oneSelect
-            menu={[
-              { key: 'recent', label: '전체' },
-              { key: 'popular', label: '온라인' },
-              { key: 'job', label: '오프라인' },
-              { key: 'job', label: '온오프라인 병행 ' },
-            ]}
-          />
         </div>
 
         <div className='flex flex-wrap gap-4'>
-          {mainList.map((params) => (
+          {mainCardList.map((params) => (
             <Card
               key={params.id}
               id={params.id}
@@ -179,14 +134,19 @@ const Index = () => {
               enddate={formatDateString(params.endDate)}
               onClick={() => navigate(`view/${params.id}`)}
               onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                if (
-                  (e as React.KeyboardEvent).key === 'Enter' ||
-                  (e as React.KeyboardEvent).key === 'Space'
-                ) {
+                if (e.key === 'Enter' || e.key === 'Space') {
                   navigate(`/view/${params.id}`);
                 }
               }}
             >
+              <span className='absolute top-[25px] right-[21px]'>
+                <Like
+                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                    e.stopPropagation();
+                  }}
+                  isLiked={params.isLiked}
+                />
+              </span>
               {params.title}
             </Card>
           ))}

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosBaseUrl } from './axiosConfig';
 
 interface GetMainListParams {
   page: number;
@@ -23,6 +23,7 @@ export type GetData = {
     job: string;
     birthDate: string;
   };
+  isLiked: boolean;
   birthDate: string | null;
   createdAt: string;
   createdDate: string;
@@ -46,7 +47,7 @@ export type GetData = {
 };
 
 export const MainListGet = async (params: GetMainListParams) => {
-  const MainList = await axios.get(`${import.meta.env.VITE_SERVER_URL}/posts`, {
+  const MainList = await axiosBaseUrl.get('/posts', {
     params,
   });
 
