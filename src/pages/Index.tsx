@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { GetData, MainListGet } from '../api/IndexApi';
 import { BannerSwiper, ResearchSwiper } from '../component/MainSwiper';
 import { MainPageStore } from '../store/store';
 import { Appbar } from '../stories/appbar/Appbar';
@@ -8,17 +9,30 @@ import icSearch from '../stories/assets/ic_search.svg';
 import Card from '../stories/card/Card';
 import { Dropdown } from '../stories/dropdown/Dropdown';
 import Typography from '../stories/typography/Typography';
+import { formatDateString } from '../utils/dateUtils';
 
 import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
+  const [mainList, setMainList] = useState<GetData[]>([]);
   const { searchText, setSearchText } = MainPageStore(); // store 불러옴
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    const getMainList = async () => {
+      try {
+        const params = { page: 1, limit: 30 };
+        const result = await MainListGet(params);
+        setMainList(result.data.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
     document.body.style.backgroundColor = '#FFFFFF';
 
+    getMainList();
     return () => {
       document.body.style.backgroundColor = '#F2F3F7';
     };
@@ -79,7 +93,7 @@ const Index = () => {
           <Typography size='base' text='IT전체' weight='Semibold' />
         </div>
 
-        <div className='flex mb-6'>
+        <div className='flex mb-6 gap-3'>
           <Dropdown
             defaultValue='정렬'
             isArrow
@@ -89,19 +103,93 @@ const Index = () => {
             menu={[
               { key: 'recent', label: '최신순' },
               { key: 'popular', label: '인기순' },
-              { key: 'job', label: '직종순' },
+              { key: 'job', label: '마감임박순' },
+            ]}
+          />
+
+          <Dropdown
+            defaultValue='성별'
+            isArrow
+            onDropdownChange={() => {}}
+            state='default'
+            oneSelect
+            menu={[
+              { key: 'recent', label: '전체' },
+              { key: 'popular', label: '남성' },
+              { key: 'job', label: '여성' },
+            ]}
+          />
+
+          <Dropdown
+            defaultValue='연령'
+            isArrow
+            onDropdownChange={() => {}}
+            state='default'
+            oneSelect
+            menu={[
+              { key: 'recent', label: '10대' },
+              { key: 'popular', label: '20대' },
+              { key: 'job', label: '30대' },
+              { key: 'job', label: '40대' },
+              { key: 'job', label: '50대' },
+              { key: 'job', label: '60대' },
+              { key: 'job', label: '70대' },
+              { key: 'job', label: '80대' },
+              { key: 'job', label: '80대 이상' },
+            ]}
+          />
+
+          <Dropdown
+            defaultValue='종류'
+            isArrow
+            onDropdownChange={() => {}}
+            state='default'
+            oneSelect
+            menu={[
+              { key: 'recent', label: '전체' },
+              { key: 'popular', label: '설문조사' },
+              { key: 'job', label: '인터뷰' },
+              { key: 'job', label: '유저테스트' },
+            ]}
+          />
+
+          <Dropdown
+            defaultValue='진행 방식'
+            isArrow
+            onDropdownChange={() => {}}
+            state='default'
+            oneSelect
+            menu={[
+              { key: 'recent', label: '전체' },
+              { key: 'popular', label: '온라인' },
+              { key: 'job', label: '오프라인' },
+              { key: 'job', label: '온오프라인 병행 ' },
             ]}
           />
         </div>
 
         <div className='flex flex-wrap gap-4'>
-          <Card
-            size='main'
-            enddate='2024.02.28'
-            onClick={() => navigate('view/0')}
-          >
-            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-          </Card>
+          {mainList.map((params) => (
+            <Card
+              key={params.id}
+              id={params.id}
+              nickname={params.author.nickname}
+              size='main'
+              createdAt={params.createdAt}
+              enddate={formatDateString(params.endDate)}
+              onClick={() => navigate(`view/${params.id}`)}
+              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                if (
+                  (e as React.KeyboardEvent).key === 'Enter' ||
+                  (e as React.KeyboardEvent).key === 'Space'
+                ) {
+                  navigate(`/view/${params.id}`);
+                }
+              }}
+            >
+              {params.title}
+            </Card>
+          ))}
         </div>
         {/* // IT전체 */}
         <div className='text-center mt-[42px]'>
