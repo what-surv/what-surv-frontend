@@ -1,7 +1,6 @@
 import React from 'react';
 
 import CommentWithButton from '../../molecules/post/view/CommentWithButton';
-import ReplyWithButton from '../../molecules/post/view/ReplyWithButton';
 import PostContentView from '../../organisms/post/view/PostContentView';
 import UserInfoWithComment from '../../organisms/post/view/UserInfoWithComment';
 import { Appbar } from '../../stories/appbar/Appbar';
@@ -114,12 +113,11 @@ const PostViewPage = () => {
             />
           </div>
           <CommentWithButton placeholder='댓글을 입력해보세요!' />
-          <div>
+          <div className='w-full'>
             <UserInfoWithComment />
-            <ReplyWithButton placeholder='타인에게 불쾌감을 주는 욕설 또는 비속어는 경고 조치 없이 삭제될 수 있습니다.' />
+            <UserInfoWithComment />
           </div>
         </div>
-        {/* //댓글 */}
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import fillAccount from '../../../assets/account-fill.svg';
 import arrowUpCircle from '../../../assets/arrow-up-circle.svg';
-import Input from '../../../atoms/Input';
 import Typography from '../../../stories/typography/Typography';
 
 interface CommentWithButtonProps {
