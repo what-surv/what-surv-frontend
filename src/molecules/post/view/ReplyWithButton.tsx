@@ -8,7 +8,7 @@ interface ReplyWithButtonProps {
 
 const ReplyWithButton = ({ placeholder }: ReplyWithButtonProps) => {
   return (
-    <div className='flex items-start self-stretch w-full gap-2 pl-10'>
+    <div className='flex items-start self-stretch w-full gap-2 pl-2.5'>
       <img
         src={fillAccount}
         alt='계정 아이콘'
@@ -17,7 +17,7 @@ const ReplyWithButton = ({ placeholder }: ReplyWithButtonProps) => {
       <div className='flex flex-col items-end justify-end flex-1 gap-2'>
         <div className='flex h-full py-5 px-[30px] border-2 self-stretch gap-2.5 items-center rounded-xl border-[#C1C5CC] bg-[#FAFAFA]'>
           <textarea
-            className='bg-inherit h-full text-base placeholder:text-[#D7DBE2] placeholder:font-medium font-pretendard font-semibold outline-none leading-[26px]'
+            className='bg-inherit w-full text-base placeholder:text-[#D7DBE2] placeholder:font-medium font-pretendard font-semibold outline-none leading-[26px]'
             placeholder={placeholder}
             rows={3}
             // {...(register && {

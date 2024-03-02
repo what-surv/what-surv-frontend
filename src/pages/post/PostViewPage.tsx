@@ -116,10 +116,8 @@ const PostViewPage = () => {
           <CommentWithButton placeholder='댓글을 입력해보세요!' />
           <div>
             <UserInfoWithComment />
-            <ReplyWithButton placeholder='타인에게 불쾌감을 주는 욕설 또는 비속어는 경고 조치 없이 삭제될 수 있습니다.' />
           </div>
         </div>
-        {/* //댓글 */}
       </div>
     </div>
   );
