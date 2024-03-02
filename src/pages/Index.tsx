@@ -157,7 +157,7 @@ const Index = () => {
             type='button'
             className='px-6 py-4 w-[340px] bg-[#E5E7ED] rounded-[400px] text-lg text-[#545760]'
           >
-            <div className='flex w-full justify-center gap-2'>
+            <div className='flex justify-center w-full gap-2'>
               <p>더보기</p>
               <img src={icArrowDown} alt='더보기 버튼 아이콘' />
             </div>

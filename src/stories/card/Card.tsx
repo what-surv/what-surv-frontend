@@ -73,7 +73,7 @@ const Card = ({
       tabIndex={id}
     >
       {size === 'main' ? (
-        <div className='flex w-full items-center justify-between'>
+        <div className='flex items-center justify-between w-full'>
           <div className='flex gap-3'>
             <Badge size='default' state='main'>
               설문조사

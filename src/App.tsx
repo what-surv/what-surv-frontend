@@ -1,7 +1,7 @@
 import Index from './pages/Index';
 import Login from './pages/login/Login';
+import PostViewPage from './pages/post/PostViewPage';
 import PostWritePage from './pages/post/PostWritePage';
-import View from './pages/View';
 
 import { Routes, Route } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ const App = () => {
           <Route path='/login/new-user' element={<Login />} />
           <Route path='/login/success' element={<Login />} />
           <Route path='/login/failure' element={<Login />} />
-          <Route path='/view/:num' element={<View />} />
+          <Route path='/view/:num' element={<PostViewPage />} />
         </Routes>
       </div>
     </>

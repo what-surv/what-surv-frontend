@@ -44,7 +44,7 @@ interface AppbarProps {
   /** 각 단말기별 크기 확인용 */
   size?: 'mobile' | 'default' | 'full';
   /** 화살표 클릭 시 뒤로가기 기능 */
-  onArrowClick: () => void;
+  onArrowClick?: () => void;
 }
 
 /**
@@ -67,9 +67,9 @@ export const Appbar = ({
 }: AppbarProps) => {
   return (
     <header className={`${AppbarVariants({ size, ...props })}`}>
-      <div className='max-w-[1560px] w-full flex justify-between'>
+      <div className='max-w-[1560px] w-full flex justify-between m-auto'>
         <div className='flex items-center w-full gap-4'>
-          {isArrow && (
+          {isArrow && onArrowClick && (
             <button type='button' onClick={() => onArrowClick()}>
               <img
                 src={rightArrow}
