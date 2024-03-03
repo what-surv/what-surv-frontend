@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { GetData, MainListGet } from '../api/IndexApi';
-import { LikeGet } from '../api/LikeApi';
+import { GetMainData, MainListGet } from '../api/IndexApi';
 import { BannerSwiper, ResearchSwiper } from '../component/MainSwiper';
 import { MainPageStore } from '../store/store';
 import { Appbar } from '../stories/appbar/Appbar';
@@ -16,7 +15,7 @@ import { formatDateString } from '../utils/dateUtils';
 import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
-  const [mainCardList, setMainCardList] = useState<GetData[]>([]);
+  const [mainCardList, setMainCardList] = useState<GetMainData[]>([]);
   const { searchText, setSearchText } = MainPageStore(); // store 불러옴
 
   const navigate = useNavigate();
@@ -27,16 +26,16 @@ const Index = () => {
         const params = { page: 1, limit: 30 };
         const result = await MainListGet(params);
 
-        const updatedData = await Promise.all(
-          result.data.data.map(async (params2: GetData) => {
-            // 현재 포스트의 좋아요 상태 가져오기
-            const isLikedResult = await LikeGet(params2.id);
-            // 현재 포스트 정보에 좋아요 상태 추가하여 반환
-            return { ...params2, isLiked: isLikedResult.isLiked };
-          })
-        );
+        // const updatedData = await Promise.all(
+        //   result.data.data.map(async (params2: GetData) => {
+        //     // 현재 포스트의 좋아요 상태 가져오기
+        //     const isLikedResult = await LikeGet(params2.id);
+        //     // 현재 포스트 정보에 좋아요 상태 추가하여 반환
+        //     return { ...params2, isLiked: isLikedResult.isLiked };
+        //   })
+        // );
 
-        setMainCardList(updatedData);
+        setMainCardList(result.data[0]);
       } catch (error) {
         console.error(error);
         throw error;
@@ -124,32 +123,33 @@ const Index = () => {
         </div>
 
         <div className='flex flex-wrap gap-4'>
-          {mainCardList.map((params) => (
-            <Card
-              key={params.id}
-              id={params.id}
-              nickname={params.author.nickname}
-              size='main'
-              createdAt={params.createdAt}
-              enddate={formatDateString(params.endDate)}
-              onClick={() => navigate(`view/${params.id}`)}
-              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                if (e.key === 'Enter' || e.key === 'Space') {
-                  navigate(`/view/${params.id}`);
-                }
-              }}
-            >
-              <span className='absolute top-[25px] right-[21px]'>
-                <Like
-                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                    e.stopPropagation();
-                  }}
-                  isLiked={params.isLiked}
-                />
-              </span>
-              {params.title}
-            </Card>
-          ))}
+          {mainCardList &&
+            mainCardList.map((params) => (
+              <Card
+                key={params.id}
+                id={params.id}
+                nickname={params.author.nickname}
+                size='main'
+                createdAt={params.createdAt}
+                enddate={formatDateString(params.endDate)}
+                onClick={() => navigate(`view/${params.id}`)}
+                onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                  if (e.key === 'Enter' || e.key === 'Space') {
+                    navigate(`/view/${params.id}`);
+                  }
+                }}
+              >
+                <span className='absolute top-[25px] right-[21px]'>
+                  <Like
+                    onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                      e.stopPropagation();
+                    }}
+                    isLiked={params.isLiked}
+                  />
+                </span>
+                {params.title}
+              </Card>
+            ))}
         </div>
         {/* // IT전체 */}
         <div className='text-center mt-[42px]'>

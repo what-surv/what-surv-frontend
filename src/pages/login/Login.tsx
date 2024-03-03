@@ -1,10 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-import LoginStep1 from './LoginStep1';
-import LoginStep2 from './LoginStep2';
-import LoginStep3 from './LoginStep3';
-import LoginStep4 from './LoginStep4';
+import LastPage from './LastPage';
+import SocailButtonsPage from './SocailButtonsPage';
+import TermsOfServiceAgreementPage from './TermsOfServiceAgreementPage';
+import UserInformationsPage from './UserInformationsPage';
+import WriteNickNamePage from './WriteNickNamePage';
 import { ProgressBar } from '../../stories/indicator/progress bar/ProgressBar';
 
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -176,10 +177,10 @@ const Login = () => {
   const renderLoginStep = (step: number) => {
     switch (step) {
       case 1:
-        return <LoginStep1 handleLogin={loginHandler} />;
+        return <SocailButtonsPage handleLogin={loginHandler} />;
       case 2:
         return (
-          <LoginStep2
+          <TermsOfServiceAgreementPage
             onNextStep={nextStepHandler}
             userInfo={userInfoHandler}
             onPrevStep={prevStepHandler}
@@ -189,7 +190,7 @@ const Login = () => {
         );
       case 3:
         return (
-          <LoginStep3
+          <WriteNickNamePage
             onChange={onChange}
             onClick={onClick}
             onNextStep={userRegistrationHandler}
@@ -199,7 +200,9 @@ const Login = () => {
           />
         );
       case 4:
-        return <LoginStep4 />;
+        return <UserInformationsPage />;
+      case 5:
+        return <LastPage />;
       default:
         return null;
     }
@@ -209,7 +212,7 @@ const Login = () => {
     <div>
       <div className='flex flex-col items-center mt-[60px]'>
         <div className='flex flex-col w-full max-w-xl'>
-          <ProgressBar size='desktop' percent={currentStep * 25} />
+          <ProgressBar size='desktop' percent={currentStep * 20} />
           <div className='mt-[60px]'>{renderLoginStep(currentStep)}</div>
         </div>
       </div>

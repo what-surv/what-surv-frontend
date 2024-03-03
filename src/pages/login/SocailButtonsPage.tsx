@@ -22,6 +22,7 @@ const LoginStep1 = ({ handleLogin }: LoginStep1Props) => {
       <NaverLogin size='full' onClick={() => handleLogin('naver')}>
         네이버로 시작하기
       </NaverLogin>
+      <button className='max-w-[248px] w-full h-[30px] bg-[#000]'>asd</button>
     </>
   );
 };
