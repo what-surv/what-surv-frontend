@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { testLogin } from '../../api/PostApi';
 import CommentWithButton from '../../molecules/post/view/CommentWithButton';
 import PostContentView from '../../organisms/post/view/PostContentView';
 import UserInfoWithComment from '../../organisms/post/view/UserInfoWithComment';
@@ -35,6 +36,9 @@ const PostViewPage = () => {
               className='text-[#242424]'
             />
           </div>
+          <button type='button' onClick={testLogin}>
+            test button
+          </button>
           <div className='flex justify-between items-center gap-3.5 self-stretch border-[#D7DBE2] border-t pt-[14px]'>
             <div className='flex gap-2.5 items-start'>
               <img src={icUser} alt='유저 이미지' />
