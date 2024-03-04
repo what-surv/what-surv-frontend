@@ -1,9 +1,11 @@
-import { PostComment } from '../../../api/PostApi';
+import { axiosBaseUrl } from '../../../api/axiosConfig';
 import fillAccount from '../../../assets/account-fill.svg';
 import arrowUpCircle from '../../../assets/arrow-up-circle.svg';
 import Typography from '../../../stories/typography/Typography';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
 
 interface TextareaInputs {
   comment: string;
@@ -15,10 +17,27 @@ interface CommentWithButtonProps {
 }
 
 const CommentWithButton = ({ placeholder }: CommentWithButtonProps) => {
-  const { register, handleSubmit } = useForm<TextareaInputs>();
+  const { num } = useParams() as { num: string };
+  const { register, handleSubmit, reset } = useForm<TextareaInputs>();
+  const queryClient = useQueryClient();
+
+  const postCommentMutation = useMutation<void, unknown, string>({
+    mutationFn: (newComment) =>
+      axiosBaseUrl.post(`posts/${num}/comments`, { content: newComment }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['getComment', num],
+      });
+    },
+    onError: () => {
+      console.error('에러 발생');
+    },
+  });
 
   const onSubmit = (data: TextareaInputs) => {
-    PostComment(1, data.comment);
+    // PostComment(postId, data.comment);
+    postCommentMutation.mutate(data.comment);
+    reset();
   };
   return (
     <div className='flex items-start self-stretch w-full gap-2'>

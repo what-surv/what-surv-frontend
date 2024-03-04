@@ -1,7 +1,7 @@
 import { axiosBaseUrl } from './axiosConfig';
 
 // 댓글 작성 후 서버로 보내는 axios
-export const PostComment = async (postId: number, comment: string) => {
+export const PostComment = async (postId: string, comment: string) => {
   try {
     const response = await axiosBaseUrl.post(`/posts/${postId}/comments`, {
       content: comment,
@@ -14,15 +14,15 @@ export const PostComment = async (postId: number, comment: string) => {
   }
 };
 // 댓글 정보 가져오기
-export const getComment = async (postId: number) => {
-  try {
-    const response = await axiosBaseUrl.get(`/posts/${postId}/comments`);
+export const getComment = async (postId: string) => {
+  const response = await axiosBaseUrl.get(`/posts/${postId}/comments`);
+  return response.data;
+};
 
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+// 글 정보 가져오기
+export const getPost = async (postId: string) => {
+  const response = await axiosBaseUrl.get(`/posts/${postId}`);
+  return response.data;
 };
 
 export const testLogin = async () => {

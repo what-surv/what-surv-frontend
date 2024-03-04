@@ -44,6 +44,7 @@ export type GetData = {
   researchType: string;
   title: string;
   url: string;
+  viewCount: string;
 };
 
 export const MainListGet = async (params: GetMainListParams) => {

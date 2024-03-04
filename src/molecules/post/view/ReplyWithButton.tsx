@@ -33,7 +33,7 @@ const ReplyWithButton = ({ placeholder }: ReplyWithButtonProps) => {
           />
         </div>
         <button
-          type='button'
+          type='submit'
           className='px-5 text-center py-2 rounded-[400px] flex justify-center items-center gap-2 bg-[#0051FF]'
         >
           <img src={arrowUpCircle} alt='답글 쓰기 아이콘' />
