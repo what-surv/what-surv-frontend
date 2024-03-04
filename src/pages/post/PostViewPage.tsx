@@ -9,6 +9,7 @@ import icComment from '../../stories/assets/ic_comment.svg';
 import icEye from '../../stories/assets/ic_eye.svg';
 import icUser from '../../stories/assets/ic_usersvg.svg';
 import Like from '../../stories/like/Like';
+import { Tabbar } from '../../stories/tabbar/Tabbar';
 import Typography from '../../stories/typography/Typography';
 
 import { useNavigate } from 'react-router-dom';
@@ -24,6 +25,7 @@ const PostViewPage = () => {
       {/* header 영역 */}
       <div className='w-full'>
         <Appbar isArrow onArrowClick={isArrowClick} isSearch isLogo isAccount />
+        <Tabbar />
       </div>
       <div className='flex flex-col items-end gap-8 max-w-[1034px] w-[90%] mx-auto'>
         <div className='flex flex-col items-start self-stretch gap-6'>
@@ -118,7 +120,6 @@ const PostViewPage = () => {
           </div>
           <CommentWithButton placeholder='댓글을 입력해보세요!' />
           <div className='w-full'>
-            <UserInfoWithComment />
             <UserInfoWithComment />
           </div>
         </div>
