@@ -1,87 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import style from './login.module.css';
+import { useUserInfoStore } from '../../store/store';
 import icPrev from '../../stories/assets/ic-prev.svg';
+import Typography from '../../stories/typography/Typography';
 
-export interface LoginStep2Props {
+export interface TermsOfServiceAgreementPageProps {
   onNextStep: () => void;
-  userInfo: (param: { sort: string; data: string }) => void;
   onPrevStep: () => void;
   checkboxStates: {
-    '0': { checked: boolean; href: string };
-    '1': { checked: boolean; href: string };
-    '2': { checked: boolean; href: string };
-  };
-  setCheckboxStates: React.Dispatch<
-    React.SetStateAction<{
-      '0': { checked: boolean; href: string };
-      '1': { checked: boolean; href: string };
-      '2': { checked: boolean; href: string };
-    }>
-  >;
+    id: string;
+    checked: boolean;
+    href: string;
+    label: string;
+  }[];
+  handleAllCheckboxChange: () => void;
+  handleCheckboxChange: (id: string) => void;
+  isAllChecked: boolean;
 }
 
-const LoginStep2 = ({
+const TermsOfServiceAgreementPage = ({
   onNextStep,
-  userInfo,
   onPrevStep,
+  handleAllCheckboxChange,
+  handleCheckboxChange,
   checkboxStates,
-  setCheckboxStates,
-}: LoginStep2Props) => {
-  const [isChecked, setIsChecked] = useState(false);
-
-  useEffect(() => {
-    setIsChecked(
-      Object.values(checkboxStates).every((checkbox) => checkbox.checked)
-    );
-  }, [checkboxStates]);
+  isAllChecked,
+}: TermsOfServiceAgreementPageProps) => {
+  const { setAdvertisingConsent } = useUserInfoStore();
 
   const onClick = () => {
-    if (!checkboxStates['0'].checked || !checkboxStates['1'].checked) {
-      alert('필수항목을 모두 선택해 주세요!');
+    if (checkboxStates[2].checked) {
+      setAdvertisingConsent(true);
     } else {
-      if (checkboxStates['2'].checked) {
-        userInfo({ sort: 'check', data: String(checkboxStates['2'].checked) });
-      }
-      onNextStep();
+      setAdvertisingConsent(false);
     }
+    onNextStep();
   };
-
-  const handleCheckboxChange = (checkboxId: '0' | '1' | '2') => {
-    setCheckboxStates((prevStates) => {
-      const updatedStates = {
-        ...prevStates,
-        [checkboxId]: {
-          ...prevStates[checkboxId as keyof typeof prevStates],
-          checked: !prevStates[checkboxId as keyof typeof prevStates]?.checked,
-        },
-      };
-      return updatedStates;
-    });
-  };
-
-  const handleAllCheckboxChange = () => {
-    const allChecked = !isChecked;
-    setIsChecked(allChecked);
-
-    setCheckboxStates((prevStates) => {
-      const updatedStates = Object.keys(prevStates).reduce(
-        (states, key) => {
-          return {
-            ...states,
-            [key as keyof typeof prevStates]: {
-              ...prevStates[key as keyof typeof prevStates],
-              checked: allChecked,
-            },
-          };
-        },
-        {} as typeof prevStates
-      );
-
-      return updatedStates;
-    });
-  };
-
   return (
     <div>
       <button
@@ -91,48 +46,49 @@ const LoginStep2 = ({
       >
         <img src={icPrev} alt='뒤로가는 이미지' className='block wd-1' />
       </button>
-      <p className='text-lg font-bold mb-[24px]'>서비스 이용약관 동의</p>
+      <div className='mb-6'>
+        <Typography
+          text='서비스명에 오신 것을 환영하니다!'
+          size='lg'
+          weight='Bold'
+        />
+      </div>
+
       <div className={style['checkbox-wrap']}>
-        <label htmlFor='all' className={isChecked ? style.on : ''}>
+        <label htmlFor='all' className={isAllChecked ? style.on : ''}>
           <input
             id='all'
             type='checkbox'
-            checked={isChecked}
+            checked={isAllChecked}
             onChange={handleAllCheckboxChange}
           />
           <span>전체 동의하기</span>
         </label>
       </div>
+      {checkboxStates.map((params) => {
+        const { id, href, label } = params;
 
-      {['0', '1', '2'].map((checkboxId) => (
-        <div key={checkboxId} className={style['checkbox-wrap']}>
-          <label
-            htmlFor={checkboxId}
-            className={
-              checkboxStates[checkboxId as '0' | '1' | '2'].checked
-                ? style.on
-                : ''
-            }
-          >
-            <input
-              id={checkboxId}
-              type='checkbox'
-              checked={checkboxStates[checkboxId as '0' | '1' | '2'].checked}
-              onChange={() =>
-                handleCheckboxChange(checkboxId as '0' | '1' | '2')
-              }
-            />
-            <span>{getCheckboxLabel(checkboxId as '0' | '1' | '2')}</span>
-          </label>
-          <a
-            href={checkboxStates[checkboxId as '0' | '1' | '2'].href}
-            target='_blank'
-            rel='noreferrer'
-          >
-            보기
-          </a>
-        </div>
-      ))}
+        return (
+          <div key={id} className={style['checkbox-wrap']}>
+            <label
+              htmlFor={id}
+              className={checkboxStates[Number(id)].checked ? style.on : ''}
+            >
+              <input
+                id={id}
+                type='checkbox'
+                checked={checkboxStates[Number(id)].checked}
+                onChange={() => handleCheckboxChange(id)}
+              />
+              <span>{label}</span>
+            </label>
+            <a href={href} target='_blank' rel='noreferrer'>
+              보기
+            </a>
+          </div>
+        );
+      })}
+
       <button
         type='button'
         className={style['basic-btn']}
@@ -145,13 +101,4 @@ const LoginStep2 = ({
   );
 };
 
-const getCheckboxLabel = (checkboxId: '0' | '1' | '2') => {
-  const labels = {
-    '0': '[필수]  서비스 이용약관',
-    '1': '[필수]  개인정보 처리방침 및 수집이용 동의',
-    '2': '[선택]  마케팅 정보 수신 및 이용 동의',
-  };
-  return labels[checkboxId] || '';
-};
-
-export default LoginStep2;
+export default TermsOfServiceAgreementPage;

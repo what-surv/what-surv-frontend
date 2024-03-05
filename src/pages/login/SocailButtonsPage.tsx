@@ -3,15 +3,20 @@ import React from 'react';
 import { GoogleLogin } from '../../stories/social/googlelogin/GoogleLogin';
 import { KakaoLogin } from '../../stories/social/kakaologin/KakaoLogin';
 import { NaverLogin } from '../../stories/social/naverlogin/NaverLogin';
+import Typography from '../../stories/typography/Typography';
 
-export interface LoginStep1Props {
+export interface SocailButtonsPageProps {
   handleLogin: (sort: string) => void;
 }
 
-const LoginStep1 = ({ handleLogin }: LoginStep1Props) => {
+const SocailButtonsPage = ({ handleLogin }: SocailButtonsPageProps) => {
   return (
     <>
-      <p className='text-lg font-bold'>서비스명에 오신 것을 환영합니다!</p>
+      <Typography
+        text='서비스명에 오신 것을 환영하니다!'
+        size='lg'
+        weight='Bold'
+      />
       <KakaoLogin size='full' onClick={() => handleLogin('kakao')}>
         카카오로 시작하기
       </KakaoLogin>
@@ -22,9 +27,8 @@ const LoginStep1 = ({ handleLogin }: LoginStep1Props) => {
       <NaverLogin size='full' onClick={() => handleLogin('naver')}>
         네이버로 시작하기
       </NaverLogin>
-      <button className='max-w-[248px] w-full h-[30px] bg-[#000]'>asd</button>
     </>
   );
 };
 
-export default LoginStep1;
+export default SocailButtonsPage;

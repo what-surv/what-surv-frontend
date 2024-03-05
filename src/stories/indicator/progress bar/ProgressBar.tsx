@@ -7,8 +7,8 @@ const ProgressBarVariants = cva(
   {
     variants: {
       size: {
-        desktop: 'min-w-[546px]',
-        mobile: 'min-w-[342px]',
+        desktop: 'max-w-[546px] w-full',
+        mobile: 'max-w-[342px] w-full',
       },
       percent: {
         percent: (value: number) => `w-[${value}%]`,

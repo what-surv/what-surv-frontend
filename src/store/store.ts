@@ -31,6 +31,19 @@ interface MainPageStoreProps {
   setSelects: (selectsArr: string[]) => void;
 }
 
+interface LoginPageStorePros {
+  nickname: string; // 닉네임
+  phone: undefined;
+  gender: string;
+  advertisingConsent: boolean; // 광고수신 여부
+  birthDate: string;
+  setNickName: (nickNameValue: string) => void;
+  setPhoe: (phoneValue: undefined) => void;
+  setGender: (contentvalue: string) => void;
+  setAdvertisingConsent: (advertisingConsentValue: boolean) => void;
+  setbirthDate: (setbirthDateValue: string) => void;
+}
+
 export const WritePageStore = create<WritePageStoreStoreProps>((set) => ({
   gender: '',
   age: [],
@@ -66,4 +79,18 @@ export const MainPageStore = create<MainPageStoreProps>()((set) => ({
   setSearchText: (searchTextValue) => set({ searchText: searchTextValue }),
   setPageIdx: (pageIdxValue) => set({ pageIdx: pageIdxValue }),
   setSelects: (selectsArr) => set({ selects: selectsArr }),
+}));
+
+export const useUserInfoStore = create<LoginPageStorePros>()((set) => ({
+  nickname: '',
+  phone: undefined,
+  gender: '',
+  advertisingConsent: false,
+  birthDate: '',
+  setNickName: (nickNameValue) => set({ nickname: nickNameValue }),
+  setPhoe: (phoneValue) => set({ phone: phoneValue }),
+  setGender: (contentvalue) => set({ gender: contentvalue }),
+  setAdvertisingConsent: (advertisingConsentValue) =>
+    set({ advertisingConsent: advertisingConsentValue }),
+  setbirthDate: (birthDateValue) => set({ birthDate: birthDateValue }),
 }));

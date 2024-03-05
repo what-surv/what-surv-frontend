@@ -15,8 +15,10 @@ export default meta;
 
 export const Default: StoryObj<typeof BirthDayWriteInput> = {
   args: {
-    onchange: () => {},
+    onChange: () => {},
+    onFocus: () => {},
     state: false,
-    value: 0,
+    value: '',
+    id: '1',
   },
 };

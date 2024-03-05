@@ -1,7 +1,7 @@
 import { VariantProps, cva } from 'class-variance-authority';
 import React, { ReactHTMLElement } from 'react';
 
-const BirthDayWriteBoxVariants = cva(
+const BirthDayWriteInputVariants = cva(
   `flex items-center relative w-[44px] h-[51px]`,
   {
     variants: {},
@@ -13,29 +13,33 @@ const BirthDayWriteBoxVariants = cva(
 
 export interface BirthDayWriteBoxProps
   extends ReactHTMLElement<HTMLButtonElement>,
-    VariantProps<typeof BirthDayWriteBoxVariants> {
-  onChange: () => void;
+    VariantProps<typeof BirthDayWriteInputVariants> {
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  id: string;
   state: boolean;
-  value: number;
+  value: string;
+  onFocus: React.FocusEventHandler<HTMLInputElement>;
 }
 
-const BirthDayWriteBox = ({
-  state,
-  value,
-  onChange,
-}: BirthDayWriteBoxProps) => {
+const BirthDayWriteInput = React.forwardRef<
+  HTMLInputElement,
+  BirthDayWriteBoxProps
+>(({ id, state, value, onChange, onFocus }, ref) => {
   return (
-    <div className={`${BirthDayWriteBoxVariants()}`}>
+    <div className={`${BirthDayWriteInputVariants()}`}>
       <input
-        className={`w-full text-center text-2xl font-bold text-[#676A72] ${state && 'text-[#1A62FF]'} bg-transparent`}
+        ref={ref as React.MutableRefObject<HTMLInputElement>}
+        className={`w-full text-center text-2xl font-bold ${state ? 'text-[#1A62FF]' : 'text-[#676A72]'} bg-transparent`}
         type='number'
-        name='0'
-        id='1'
+        id={id}
         value={value}
+        onChange={onChange}
+        onFocus={onFocus}
+        placeholder='0'
       />
       <span className='absolute w-6 h-[3px] left-[50%] bottom-[6px] translate-x-[-50%] rounded-[400px] bg-[#A6AAB2]' />
     </div>
   );
-};
+});
 
-export default BirthDayWriteBox;
+export default BirthDayWriteInput;
