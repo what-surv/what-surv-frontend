@@ -5,6 +5,8 @@ export const formatDateString = (originalDateString: string): string => {
 };
 
 export const convertToYYYYMMDD = (yyMMDD: string) => {
+  console.log(yyMMDD);
+
   // 정규 표현식을 사용하여 날짜에서 년, 월, 일을 추출
   const match = yyMMDD.match(/^(\d{2})(\d{2})(\d{2})$/);
   if (!match) {

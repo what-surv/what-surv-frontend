@@ -4,8 +4,6 @@ import style from './login.module.css';
 import { userRegistration } from '../../api/loginApis';
 import { useUserInfoStore } from '../../store/store';
 import icPrev from '../../stories/assets/ic-prev.svg';
-import icTextFieldFail from '../../stories/assets/ic-text-field-fail.svg';
-import icTextFieldSuccess from '../../stories/assets/ic-text-field-success.svg';
 import BirthDayWriteInput from '../../stories/loginpages/birthdayWrite/BirthDayWriteInput';
 import GenderButton from '../../stories/loginpages/genderButton/GenderButton';
 import Typography from '../../stories/typography/Typography';
@@ -54,6 +52,11 @@ const UserInformationsPage = ({
     if (index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
+
+    const updatedBirthDayResult = newBirthday
+      .map((param) => param.value)
+      .join('');
+    setbirthDate(updatedBirthDayResult);
   };
 
   const onGenderClick = (genders: 'male' | 'female') => {
@@ -69,11 +72,7 @@ const UserInformationsPage = ({
   };
 
   const exceptionHandler = () => {
-    const birthDayResult = birthday.map((param) => param.value).join('');
-
-    if (birthDayResult.length === birthday.length) {
-      setbirthDate(birthDayResult);
-    } else {
+    if (birthDate.length !== 6) {
       alert('생일을 입력해 주세요!');
       return;
     }
@@ -93,8 +92,6 @@ const UserInformationsPage = ({
       advertisingConsent,
       birthDate: convertToYYYYMMDD(birthDate),
     };
-
-    console.log(params);
 
     try {
       userRegistration(params, onNextStep);

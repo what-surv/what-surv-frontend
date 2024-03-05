@@ -14,8 +14,7 @@ const GenderButtonVariants = cva(
 );
 
 export interface BirthDayWriteBoxProps
-  extends ReactHTMLElement<HTMLButtonElement>,
-    VariantProps<typeof GenderButtonVariants> {
+  extends VariantProps<typeof GenderButtonVariants> {
   onClick: (clickGender: string) => void;
   text: string;
   state: boolean;
