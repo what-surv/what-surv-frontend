@@ -32,7 +32,7 @@ interface MainPageStoreProps {
 }
 
 interface LoginPageStorePros {
-  nickname: string; // 닉네임
+  nickname: string | undefined; // 닉네임
   phone: undefined;
   gender: string;
   advertisingConsent: boolean; // 광고수신 여부
@@ -82,7 +82,7 @@ export const MainPageStore = create<MainPageStoreProps>()((set) => ({
 }));
 
 export const useUserInfoStore = create<LoginPageStorePros>()((set) => ({
-  nickname: '',
+  nickname: undefined,
   phone: undefined,
   gender: '',
   advertisingConsent: false,

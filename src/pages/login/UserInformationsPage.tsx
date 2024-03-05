@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import style from './login.module.css';
 import { userRegistration } from '../../api/loginApis';
@@ -13,6 +13,14 @@ export interface UserInformationsPageProps {
   onNextStep: () => void;
   onPrevStep: () => void;
 }
+
+interface SelectedGender {
+  [key: string]: {
+    gender: string;
+    clicked: boolean;
+  };
+}
+
 const UserInformationsPage = ({
   onNextStep,
   onPrevStep,
@@ -36,14 +44,35 @@ const UserInformationsPage = ({
     setGender,
     setbirthDate,
   } = useUserInfoStore();
-  const [selectedGender, setSelectedGender] = useState({
+  const [selectedGender, setSelectedGender] = useState<SelectedGender>({
     female: { gender: 'female', clicked: false },
     male: { gender: 'male', clicked: false },
   });
 
+  useEffect(() => {
+    if (gender) {
+      setSelectedGender((prevSelectedGender) => ({
+        ...prevSelectedGender,
+        [gender]: { ...prevSelectedGender[gender], clicked: true },
+      }));
+    }
+
+    if (birthDate) {
+      const formattedBirthday = Array.from(birthDate);
+      setBirthday((prevBirthday) => {
+        const updatedBirthday = prevBirthday.map((item, index) => ({
+          ...item,
+          value: formattedBirthday[index] || '', // 빈 문자열로 초기화하거나 실제 값으로 설정
+          state: true,
+        }));
+        return updatedBirthday;
+      });
+    }
+  }, []);
+
   const onChange = (index: number, value: string) => {
     const newBirthday = [...birthday];
-    // value값이 하나만 들어가게 만들고, else부분은 앞글자를 잘라서 하나만 들어가게 만듭니다.
+    // value값이 하나만 들어가게 만들고, else부분은 값이 들어가 있는 input에 다시 작성시, 앞글자를 잘라서 하나만 들어가게 만듭니다.
     if (value.length === 1) {
       newBirthday[index] = { id: index.toString(), value, state: true };
     } else {
@@ -84,11 +113,12 @@ const UserInformationsPage = ({
       return;
     }
   };
+
   const onClick = async () => {
     exceptionHandler();
 
     const params = {
-      nickname,
+      nickname: nickname || '',
       phone,
       gender,
       advertisingConsent,
@@ -98,7 +128,7 @@ const UserInformationsPage = ({
     try {
       userRegistration(params, onNextStep);
     } catch (error) {
-      alert(error);
+      console.error(error);
     }
   };
 

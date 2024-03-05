@@ -76,7 +76,7 @@ const WriteNickNamePage = ({
       <p className='mb-[12px] font-semibold '>닉네임을 입력해주세요!</p>
       <div className='flex'>
         <div
-          className={`${style['text-filed-wrap']} ${(nicknameBoolean !== undefined && (nicknameBoolean ? style.fail : style.success)) || style.fail}`}
+          className={`${style['text-filed-wrap']} ${nicknameBoolean !== undefined && (nicknameBoolean ? style.fail : style.success)}`}
         >
           <input
             type='text'

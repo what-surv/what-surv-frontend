@@ -1,5 +1,5 @@
 import { VariantProps, cva } from 'class-variance-authority';
-import React, { ReactHTMLElement } from 'react';
+import React from 'react';
 
 const BirthDayWriteInputVariants = cva(
   `flex items-center relative w-[44px] h-[51px]`,
@@ -12,9 +12,8 @@ const BirthDayWriteInputVariants = cva(
 );
 
 export interface BirthDayWriteBoxProps
-  extends ReactHTMLElement<HTMLButtonElement>,
-    VariantProps<typeof BirthDayWriteInputVariants> {
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  extends VariantProps<typeof BirthDayWriteInputVariants> {
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
   id: string;
   state: boolean;
   value: string;
