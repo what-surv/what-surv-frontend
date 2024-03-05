@@ -31,7 +31,7 @@ export const convertToYYYYMMDD = (yyMMDD: string) => {
   }
 
   // 날짜를 yyyymmdd 형식으로 조합
-  const formattedDate = `${fullYear}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T00:00:00`;
+  const formattedDate = `${fullYear}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
 
   return formattedDate;
 };
