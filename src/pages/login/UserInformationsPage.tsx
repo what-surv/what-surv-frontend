@@ -40,8 +40,10 @@ const UserInformationsPage = ({
     female: { gender: 'female', clicked: false },
     male: { gender: 'male', clicked: false },
   });
+
   const onChange = (index: number, value: string) => {
     const newBirthday = [...birthday];
+    // value값이 하나만 들어가게 만들고, else부분은 앞글자를 잘라서 하나만 들어가게 만듭니다.
     if (value.length === 1) {
       newBirthday[index] = { id: index.toString(), value, state: true };
     } else {
