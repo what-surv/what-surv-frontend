@@ -67,3 +67,15 @@ export const MainPageStore = create<MainPageStoreProps>()((set) => ({
   setPageIdx: (pageIdxValue) => set({ pageIdx: pageIdxValue }),
   setSelects: (selectsArr) => set({ selects: selectsArr }),
 }));
+
+interface SuccessodalStoreProps {
+  isSuccessModalOpen: boolean;
+  setIsSuccessModalOpen: (open: boolean) => void;
+  setCloseModal: (open: boolean) => void;
+}
+
+export const SuccessModalStore = create<SuccessodalStoreProps>((set) => ({
+  isSuccessModalOpen: false,
+  setIsSuccessModalOpen: (open) => set({ isSuccessModalOpen: open }),
+  setCloseModal: () => set({ isSuccessModalOpen: false }),
+}));
