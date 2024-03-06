@@ -198,6 +198,7 @@ const PostWritePage = () => {
           content={`내가 작성한 글 목록에서 언제든지 내용을 수정할 수 있어요.\n메인에 등록된 게시물을 확인해보세요!`}
           firstButtonText='수정하기'
           SecondButtonText='홈으로'
+          isLogo
         />
         <DevTool control={control} />
       </div>

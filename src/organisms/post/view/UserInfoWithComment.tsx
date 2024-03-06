@@ -11,8 +11,10 @@ import CommentButton from '../../../atoms/post/CommentButton';
 import CommentWithButton from '../../../molecules/post/view/CommentWithButton';
 import ReplyWithButton from '../../../molecules/post/view/ReplyWithButton';
 import UserInfo from '../../../molecules/post/view/UserInfo';
+import { SuccessModalStore } from '../../../store/store';
 import reply from '../../../stories/assets/ic_reply.svg';
 import Typography from '../../../stories/typography/Typography';
+import PostSuccessModal from '../write/PostSuccessModal';
 
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
@@ -25,6 +27,7 @@ interface commentTypes {
 
 const UserInfoWithComment = () => {
   const { num } = useParams() as { num: string };
+  const { setIsSuccessModalOpen } = SuccessModalStore();
   const { data: comments } = useQuery<commentTypes[]>({
     queryKey: ['getComment', num],
     queryFn: () => getComment(num),
@@ -51,13 +54,16 @@ const UserInfoWithComment = () => {
     setIsReplyOpen(!isReplyOpen);
   };
 
-  const handleEditButtonClick = (commentId: string) => {
+  const EditButtonClick = (commentId: string) => {
     setEditCommentId(commentId); // 수정할 댓글의 ID를 상태에 저장
     setIsEditOpen(!isEditOpen);
   };
 
+  const DeleteButtonClick = () => {
+    setIsSuccessModalOpen(true);
+  };
+
   if (!comments) return null;
-  console.log(comments);
 
   return (
     <div>
@@ -84,10 +90,10 @@ const UserInfoWithComment = () => {
                 {/* 수정 버튼 클릭 여부를 확인하여 해당 댓글에만 수정 버튼을 숨기거나 보여줌 */}
                 {profile?.data.id === user.id && (
                   <div className='flex gap-2.5'>
-                    <CommentButton onClick={() => handleEditButtonClick(id)}>
+                    <CommentButton onClick={() => EditButtonClick(id)}>
                       <img src={edit} alt='수정 아이콘' />
                     </CommentButton>
-                    <CommentButton onClick={() => setIsReplyOpen(true)}>
+                    <CommentButton onClick={() => DeleteButtonClick()}>
                       <img src={deleteIcon} alt='삭제 아이콘' />
                     </CommentButton>
                   </div>
@@ -106,6 +112,14 @@ const UserInfoWithComment = () => {
           </div>
         </div>
       ))}
+      <PostSuccessModal
+        SecondButtonOnClick={() => setIsSuccessModalOpen(false)}
+        title='선택하신 글을 삭제하시겠어요?'
+        content='삭제하면 이 글을 다시 볼 수 없게 돼요.'
+        firstButtonText='삭제하기'
+        SecondButtonText='취소'
+        isLogo={false}
+      />
     </div>
   );
 };
