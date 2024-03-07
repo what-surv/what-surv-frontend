@@ -4,8 +4,7 @@ import style from './login.module.css';
 import { requestNickName } from '../../api/loginApis';
 import { useUserInfoStore } from '../../store/store';
 import icPrev from '../../stories/assets/ic-prev.svg';
-import icTextFieldFail from '../../stories/assets/ic-text-field-fail.svg';
-import icTextFieldSuccess from '../../stories/assets/ic-text-field-success.svg';
+import Textfield from '../../stories/textfield/Textfield';
 
 export interface WriteNickNamePageProps {
   onNextStep: () => void;
@@ -17,9 +16,9 @@ const WriteNickNamePage = ({
   onPrevStep,
 }: WriteNickNamePageProps) => {
   const { nickname, setNickName } = useUserInfoStore();
-  const [nicknameBoolean, setNickNameBoolean] = useState<boolean | undefined>(
-    undefined
-  );
+  const [nicknameBoolean, setNickNameBoolean] = useState<
+    'default' | 'error' | 'success'
+  >('default');
   const [nickNameValue, setNickNameValue] = useState('');
 
   useEffect(() => {
@@ -32,7 +31,7 @@ const WriteNickNamePage = ({
     const { value } = e.target;
     setNickNameValue(value);
 
-    setNickNameBoolean(undefined);
+    setNickNameBoolean('default');
   };
 
   const isValidInput = (text: string) => {
@@ -43,8 +42,8 @@ const WriteNickNamePage = ({
   const requestNickNameOnClick = async () => {
     // 정규식 체크
     if (!isValidInput(nickNameValue)) {
-      setNickNameBoolean(true);
-      return false;
+      setNickNameBoolean('error');
+      return null;
     }
 
     const response = await requestNickName(nickNameValue);
@@ -52,7 +51,7 @@ const WriteNickNamePage = ({
       setNickNameBoolean(response);
       setNickName(nickNameValue);
     } else {
-      setNickNameBoolean(true);
+      setNickNameBoolean('error');
     }
     return undefined;
   };
@@ -74,55 +73,20 @@ const WriteNickNamePage = ({
         서비스명 에서 어떻게 불러드릴까요?
       </p>
       <p className='mb-[12px] font-semibold '>닉네임을 입력해주세요!</p>
-      <div className='flex'>
-        <div
-          className={`${style['text-filed-wrap']} ${nicknameBoolean !== undefined && (nicknameBoolean ? style.fail : style.success)}`}
-        >
-          <input
-            type='text'
-            className={style['text-filed']}
-            onChange={onChange}
-            value={nickNameValue}
-          />
 
-          <img
-            className={style['ic-success']}
-            src={icTextFieldSuccess}
-            alt='성공아이콘'
-          />
-
-          <img
-            className={style['ic-fail']}
-            src={icTextFieldFail}
-            alt='실패아이콘'
-          />
-        </div>
-        <button
-          type='button'
-          className={`${style['btn-small']}`}
-          onClick={requestNickNameOnClick}
-        >
-          중복확인
-        </button>
-      </div>
-      {nickname !== undefined && (
-        <p
-          className={`${style[`text-filed-txt`]} ${style['text-filed-txt']} ${(nicknameBoolean !== undefined && (nicknameBoolean ? style.fail : style.success)) || style.fail} mt-1.5 text-xs`}
-        >
-          {nicknameBoolean !== undefined &&
-            (nicknameBoolean
-              ? '사용하실 수 없는 닉네임 입니다!'
-              : '사용 가능한 닉네임입니다!')}
-          {nicknameBoolean === undefined && '중복 확인을 눌러주세요'}
-        </p>
-      )}
+      <Textfield
+        onChange={onChange}
+        value={nickNameValue}
+        state={nicknameBoolean}
+        onClick={requestNickNameOnClick}
+      />
 
       <button
         type='button'
         disabled={
           nickname === undefined ||
-          nicknameBoolean === true ||
-          nicknameBoolean === undefined
+          nicknameBoolean === 'error' ||
+          nicknameBoolean === 'default'
         }
         className={style['basic-btn']}
         onClick={nextButtonClick}

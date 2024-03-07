@@ -38,6 +38,12 @@ interface CardProps {
 
   /** 마감일  */
   enddate?: string;
+
+  /** 조회수 */
+  viewCount: number;
+
+  /** 댓글수 */
+  commentCount: number;
   onClick: () => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => void;
 }
@@ -51,6 +57,8 @@ const Card = ({
   createdAt,
   enddate,
   nickname,
+  viewCount,
+  commentCount,
   onClick,
   onKeyDown,
   ...props
@@ -121,7 +129,7 @@ const Card = ({
             <p className='flex items-center'>
               <img src={icEye} alt='조회수 아이콘' />
             </p>
-            <Typography size='sm' text='99' weight='Regular' />
+            <Typography size='sm' text={viewCount} weight='Regular' />
           </div>
         )}
       </div>
@@ -142,7 +150,7 @@ const Card = ({
             </p>
             <Typography
               size='sm'
-              text='99'
+              text={viewCount}
               weight='Medium'
               className='text-[#808490]'
             />
@@ -151,7 +159,7 @@ const Card = ({
             </p>
             <Typography
               size='sm'
-              text='99'
+              text={commentCount}
               weight='Medium'
               className='text-[#808490]'
             />

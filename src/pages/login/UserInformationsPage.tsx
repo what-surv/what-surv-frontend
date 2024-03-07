@@ -105,13 +105,16 @@ const UserInformationsPage = ({
   const exceptionHandler = () => {
     if (birthDate.length !== 6) {
       alert('생일을 입력해 주세요!');
-      return;
+      return null;
     }
 
     if (gender === undefined) {
       alert('성별을 선택해 주세요');
-      return;
+
+      return null;
     }
+
+    return true;
   };
 
   const onClick = async () => {

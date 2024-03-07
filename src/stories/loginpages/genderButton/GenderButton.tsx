@@ -1,5 +1,5 @@
 import { VariantProps, cva } from 'class-variance-authority';
-import React, { ReactHTMLElement } from 'react';
+import React from 'react';
 
 const GenderButtonVariants = cva(
   `

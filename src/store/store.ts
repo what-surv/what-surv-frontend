@@ -22,13 +22,25 @@ interface WritePageStoreStoreProps {
   toggleAge: (age: string[]) => void;
 }
 
-interface MainPageStoreProps {
+export interface MainPageStoreProps {
   searchText: string;
-  pageIdx: number;
-  selects: string[];
+  page: number;
+  selects: {
+    sort?: string | undefined;
+    gender?: string | undefined;
+    age?: string | undefined;
+    type?: string | undefined;
+    method?: string | undefined;
+  };
   setSearchText: (searchText: string) => void;
-  setPageIdx: (pageIdx: number) => void;
-  setSelects: (selectsArr: string[]) => void;
+  setPage: (page: number) => void;
+  setSelects: (selectsObj: {
+    sort?: string | undefined;
+    gender?: string | undefined;
+    age?: string | undefined;
+    type?: string | undefined;
+    method?: string | undefined;
+  }) => void;
 }
 
 interface LoginPageStorePros {
@@ -74,11 +86,20 @@ export const WritePageStore = create<WritePageStoreStoreProps>((set) => ({
 
 export const MainPageStore = create<MainPageStoreProps>()((set) => ({
   searchText: '',
-  pageIdx: 0,
-  selects: [],
+  page: 1,
+  selects: {
+    sort: undefined,
+    gender: undefined,
+    age: undefined,
+    type: undefined,
+    method: undefined,
+  },
   setSearchText: (searchTextValue) => set({ searchText: searchTextValue }),
-  setPageIdx: (pageIdxValue) => set({ pageIdx: pageIdxValue }),
-  setSelects: (selectsArr) => set({ selects: selectsArr }),
+  setPage: (pageValue) => set({ page: pageValue }),
+  setSelects: (selectsObj) =>
+    set((prev) => ({
+      selects: { ...prev.selects, ...selectsObj },
+    })),
 }));
 
 export const useUserInfoStore = create<LoginPageStorePros>()((set) => ({
