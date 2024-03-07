@@ -14,9 +14,15 @@ interface TextareaInputs {
 interface CommentWithButtonProps {
   placeholder?: string;
   onClick?: () => void;
+  value: string;
+  CancelButtonOnClick: () => void;
 }
 
-const EditWithButton = ({ placeholder }: CommentWithButtonProps) => {
+const EditWithButton = ({
+  placeholder,
+  CancelButtonOnClick,
+  value,
+}: CommentWithButtonProps) => {
   const { num } = useParams() as { num: string };
   const { register, handleSubmit, reset } = useForm<TextareaInputs>();
   const queryClient = useQueryClient();
@@ -52,27 +58,44 @@ const EditWithButton = ({ placeholder }: CommentWithButtonProps) => {
           onSubmit={handleSubmit(onSubmit)}
           className='flex flex-col items-end justify-end flex-1 gap-2'
         >
-          <div className='flex py-[14px] px-[30px] border-2 self-stretch gap-2.5 items-center rounded-xl border-[#C1C5CC] bg-[#FAFAFA]'>
+          <div className='flex py-[14px] px-[30px] border-2 self-stretch gap-2.5 items-center rounded-xl border-[#6697FF] bg-[#FAFAFA]'>
             <textarea
               {...register('edit')}
               className='flex-1 bg-inherit text-base placeholder:text-[#D7DBE2] placeholder:font-medium font-pretendard font-semibold outline-none leading-[26px]'
               placeholder={placeholder}
               rows={1}
+              value={value}
             />
           </div>
-          <button
-            type='submit'
-            className='px-5 text-center py-2 rounded-[400px] flex justify-center items-center gap-2 bg-[#0051FF]'
-          >
-            <img src={arrowUpCircle} alt='댓글 쓰기 아이콘' />
-            <Typography
-              lineheight={26}
-              weight='Medium'
-              size='base'
-              text='댓글 쓰기'
-              className='text-white'
-            />
-          </button>
+          <div className='flex gap-2'>
+            <button
+              type='button'
+              className='px-5 text-black text-center py-2 rounded-[400px] flex justify-center items-center gap-2 bg-[#D7DBE2]'
+              onClick={() => CancelButtonOnClick()}
+            >
+              <span className='sr-only'>text</span>
+              <Typography
+                lineheight={26}
+                weight='Medium'
+                size='base'
+                text='취소'
+                className='text-white'
+              />
+            </button>
+            <button
+              type='submit'
+              className='px-5 text-center py-2 rounded-[400px] flex justify-center items-center gap-2 bg-[#0051FF]'
+            >
+              <img src={arrowUpCircle} alt='댓글 쓰기 아이콘' />
+              <Typography
+                lineheight={26}
+                weight='Medium'
+                size='base'
+                text='댓글 쓰기'
+                className='text-white'
+              />
+            </button>
+          </div>
         </form>
       </div>
     </div>

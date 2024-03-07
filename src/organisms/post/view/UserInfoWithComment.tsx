@@ -8,6 +8,7 @@ import { profileTypes, UserTypes } from '../../../api/Posttypes';
 import deleteIcon from '../../../assets/delete.svg';
 import edit from '../../../assets/edit-line.svg';
 import CommentButton from '../../../atoms/post/CommentButton';
+import EditWithButton from '../../../molecules/post/view/EditWithButton';
 import ReplyWithButton from '../../../molecules/post/view/ReplyWithButton';
 import UserInfo from '../../../molecules/post/view/UserInfo';
 import { SuccessModalStore } from '../../../store/store';
@@ -47,12 +48,14 @@ const UserInfoWithComment = () => {
   // 수정 버튼 클릭 시 해당 댓글의 ID를 저장하고 수정 모드를 활성화
   const EditButtonClick = (commentId: string) => {
     setCommentId(commentId); // 수정할 댓글의 ID를 상태에 저장
-    setIsEditOpen(!isEditOpen);
+    setIsEditOpen(true);
+    setIsReplyOpen(false);
   };
 
   const ReplyButtonClick = (commentId: string) => {
     setCommentId(commentId);
-    setIsReplyOpen(!isReplyOpen);
+    setIsReplyOpen(true);
+    setIsEditOpen(false);
   };
 
   // 수정이나 답장에서 취소 버튼 클릭
@@ -79,16 +82,9 @@ const UserInfoWithComment = () => {
           <div className='flex pl-[30px] mb-5 flex-col gap-2.5 items-start justify-end self-stretch'>
             {/* 수정할 댓글의 ID가 일치하면 입력 필드로 변경 */}
             {isEditOpen && CommentId === id ? (
-              <textarea
+              <EditWithButton
                 value={content}
-                onChange={(e) => {
-                  // 수정된 내용을 반영하기 위해 상태 업데이트
-                  // 여기에 수정된 내용을 서버에 전송하는 로직 추가 가능
-                  // axios 등을 사용하여 서버에 수정된 내용을 전송할 수 있음
-                  const editedContent = e.target.value;
-                  console.log(editedContent);
-                }}
-                className='px-3 py-2 border rounded'
+                CancelButtonOnClick={CancelButtonOnClick}
               />
             ) : (
               <div className='flex flex-col rounded-lg items-start justify-center gap-4 py-5 px-7 bg-[#E5EEFF]'>
