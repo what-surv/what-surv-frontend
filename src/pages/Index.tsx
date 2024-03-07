@@ -24,25 +24,41 @@ import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
   const [mainCardList, setMainCardList] = useState<GetMainData[]>([]);
-  const { page, selects, setPage, setSelects } = MainPageStore(); // store 불러옴
+  const {
+    currentPage,
+    totalPage,
+    selects,
+    setCurrentPage,
+    setTotalPage,
+    setSelects,
+  } = MainPageStore(); // store 불러옴
 
   const navigate = useNavigate();
 
+  // 디바이스 체크해서 limit에 전달  PC : 24, Mobile : 7
+  const checkDevice = () => {
+    if (window.innerWidth < 768) {
+      return 7;
+    }
+    return 2;
+  };
+
   const getMainCardList = async () => {
     try {
-      const params = { page, limit: 4 }; // PC : limit 24, Mobile : 7
+      const params = { currentPage, limit: checkDevice() };
       const result = await MainListGet(params);
-
-      setMainCardList(result);
+      console.log(result.data);
+      setMainCardList((prevMainCardList) => [
+        ...prevMainCardList,
+        ...result.data.data,
+      ]);
+      setTotalPage(result.data.totalPages);
     } catch (error) {
       console.error(error);
-      throw error;
     }
   };
 
   useEffect(() => {
-    getMainCardList();
-
     document.body.style.backgroundColor = '#FFFFFF';
 
     return () => {
@@ -52,7 +68,11 @@ const Index = () => {
 
   useEffect(() => {
     getMainCardList();
-  }, [page, selects]);
+  }, [currentPage]);
+
+  // useEffect(() => {
+
+  // }, [currentPage, selects]);
 
   // searchInput onChange
   /*
@@ -95,17 +115,6 @@ const Index = () => {
       ?.arr.find((item) => item.label === selectedValue)?.key;
 
     setSelects({ [key]: selectedKey });
-
-    const queryParams = dropdownOptions
-      .map((option) => {
-        const value =
-          option.key === key
-            ? selectedKey
-            : selects[option.key] || option.defaultValue;
-        return `${option.key}=${value}`;
-      })
-      .join('&');
-    navigate(`?${key}=${selectedKey}`);
   };
 
   const renderDropDowns = () => {
@@ -218,16 +227,18 @@ const Index = () => {
         </div>
         {/* // IT전체 */}
         <div className='text-center mt-[42px]'>
-          <button
-            type='button'
-            className='px-6 py-4 w-[340px] bg-[#E5E7ED] rounded-[400px] text-lg text-[#545760]'
-            onClick={() => setPage(page + 1)}
-          >
-            <div className='flex justify-center w-full gap-2'>
-              <p>더보기</p>
-              <img src={icArrowDown} alt='더보기 버튼 아이콘' />
-            </div>
-          </button>
+          {currentPage !== totalPage && (
+            <button
+              type='button'
+              className='px-6 py-4 w-[340px] bg-[#E5E7ED] rounded-[400px] text-lg text-[#545760]'
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              <div className='flex justify-center w-full gap-2'>
+                <p>더보기</p>
+                <img src={icArrowDown} alt='더보기 버튼 아이콘' />
+              </div>
+            </button>
+          )}
         </div>
       </div>
     </div>

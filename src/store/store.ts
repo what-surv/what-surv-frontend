@@ -24,7 +24,8 @@ interface WritePageStoreStoreProps {
 
 export interface MainPageStoreProps {
   searchText: string;
-  page: number;
+  currentPage: number;
+  totalPage: number;
   selects: {
     sort?: string | undefined;
     gender?: string | undefined;
@@ -33,7 +34,8 @@ export interface MainPageStoreProps {
     method?: string | undefined;
   };
   setSearchText: (searchText: string) => void;
-  setPage: (page: number) => void;
+  setCurrentPage: (page: number) => void;
+  setTotalPage: (totalPage: number) => void;
   setSelects: (selectsObj: {
     sort?: string | undefined;
     gender?: string | undefined;
@@ -86,7 +88,8 @@ export const WritePageStore = create<WritePageStoreStoreProps>((set) => ({
 
 export const MainPageStore = create<MainPageStoreProps>()((set) => ({
   searchText: '',
-  page: 1,
+  currentPage: 1,
+  totalPage: 1,
   selects: {
     sort: undefined,
     gender: undefined,
@@ -95,7 +98,8 @@ export const MainPageStore = create<MainPageStoreProps>()((set) => ({
     method: undefined,
   },
   setSearchText: (searchTextValue) => set({ searchText: searchTextValue }),
-  setPage: (pageValue) => set({ page: pageValue }),
+  setCurrentPage: (pageValue) => set({ currentPage: pageValue }),
+  setTotalPage: (totalPageValue) => set({ totalPage: totalPageValue }),
   setSelects: (selectsObj) =>
     set((prev) => ({
       selects: { ...prev.selects, ...selectsObj },
