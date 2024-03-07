@@ -24,14 +24,8 @@ import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
   const [mainCardList, setMainCardList] = useState<GetMainData[]>([]);
-  const {
-    currentPage,
-    totalPage,
-    selects,
-    setCurrentPage,
-    setTotalPage,
-    setSelects,
-  } = MainPageStore(); // store 불러옴
+  const { currentPage, totalPage, setCurrentPage, setTotalPage, setSelects } =
+    MainPageStore(); // store 불러옴
 
   const navigate = useNavigate();
 
