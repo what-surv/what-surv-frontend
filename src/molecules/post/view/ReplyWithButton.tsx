@@ -1,36 +1,35 @@
 import { axiosBaseUrl } from '../../../api/axiosConfig';
-import { profileTypes } from '../../../api/Posttypes';
 import fillAccount from '../../../assets/account-fill.svg';
 import arrowUpCircle from '../../../assets/arrow-up-circle.svg';
 import Typography from '../../../stories/typography/Typography';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 
 interface ReplyWithButtonProps {
   placeholder?: string;
-  parentId?: string;
+  parentId: string;
+  CancelButtonOnClick: (id: string) => void;
 }
 
 interface TextareaInputs {
   reply: string;
 }
 
-const ReplyWithButton = ({ placeholder, parentId }: ReplyWithButtonProps) => {
+const ReplyWithButton = ({
+  placeholder,
+  CancelButtonOnClick,
+  parentId,
+}: ReplyWithButtonProps) => {
   const { num } = useParams() as { num: string };
   const queryClient = useQueryClient();
   const { register, handleSubmit, reset } = useForm<TextareaInputs>();
 
-  const { data: profile } = useQuery<profileTypes>({
-    queryKey: ['getProfile', num],
-    queryFn: () => axiosBaseUrl.get(`auth/profile`),
-  });
   const postReplyMutation = useMutation<void, unknown, string>({
     mutationFn: (reply) =>
       axiosBaseUrl.post(`posts/${num}/comments`, {
-        parent_id: parentId,
-        // nickname: profile?.data.nickname,
+        parentId,
         content: reply,
       }),
     onSuccess: () => {
@@ -45,9 +44,6 @@ const ReplyWithButton = ({ placeholder, parentId }: ReplyWithButtonProps) => {
 
   const onSubmit = (data: TextareaInputs) => {
     postReplyMutation.mutate(data.reply);
-    console.log(profile?.data.nickname);
-    console.log(parentId);
-    console.log(data.reply);
     reset();
   };
 
@@ -71,19 +67,35 @@ const ReplyWithButton = ({ placeholder, parentId }: ReplyWithButtonProps) => {
               rows={3}
             />
           </div>
-          <button
-            type='submit'
-            className='px-5 text-center py-2 rounded-[400px] flex justify-center items-center gap-2 bg-[#0051FF]'
-          >
-            <img src={arrowUpCircle} alt='답글 쓰기 아이콘' />
-            <Typography
-              lineheight={26}
-              weight='Medium'
-              size='base'
-              text='답글 쓰기'
-              className='text-white'
-            />
-          </button>
+          <div className='flex gap-2'>
+            <button
+              type='button'
+              className='px-5 text-black text-center py-2 rounded-[400px] flex justify-center items-center gap-2 bg-[#D7DBE2]'
+              onClick={() => CancelButtonOnClick(parentId)}
+            >
+              <span className='sr-only'>text</span>
+              <Typography
+                lineheight={26}
+                weight='Medium'
+                size='base'
+                text='취소'
+                className='text-white'
+              />
+            </button>
+            <button
+              type='submit'
+              className='px-5 text-center py-2 rounded-[400px] flex justify-center items-center gap-2 bg-[#0051FF]'
+            >
+              <img src={arrowUpCircle} alt='답글 쓰기 아이콘' />
+              <Typography
+                lineheight={26}
+                weight='Medium'
+                size='base'
+                text='답글 쓰기'
+                className='text-white'
+              />
+            </button>
+          </div>
         </form>
       </div>
     </div>

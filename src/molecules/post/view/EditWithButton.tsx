@@ -1,15 +1,14 @@
 import { axiosBaseUrl } from '../../../api/axiosConfig';
-import { profileTypes } from '../../../api/Posttypes';
 import fillAccount from '../../../assets/account-fill.svg';
 import arrowUpCircle from '../../../assets/arrow-up-circle.svg';
 import Typography from '../../../stories/typography/Typography';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 
 interface TextareaInputs {
-  comment: string;
+  edit: string;
 }
 
 interface CommentWithButtonProps {
@@ -17,21 +16,15 @@ interface CommentWithButtonProps {
   onClick?: () => void;
 }
 
-const CommentWithButton = ({ placeholder }: CommentWithButtonProps) => {
+const EditWithButton = ({ placeholder }: CommentWithButtonProps) => {
   const { num } = useParams() as { num: string };
   const { register, handleSubmit, reset } = useForm<TextareaInputs>();
   const queryClient = useQueryClient();
-
-  const { data: profile } = useQuery<profileTypes>({
-    queryKey: ['getProfile', num],
-    queryFn: () => axiosBaseUrl.get(`auth/profile`),
-  });
 
   const postCommentMutation = useMutation<void, unknown, string>({
     mutationFn: (newComment) =>
       axiosBaseUrl.post(`posts/${num}/comments`, {
         content: newComment,
-        nickname: profile?.data.nickname,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -44,7 +37,7 @@ const CommentWithButton = ({ placeholder }: CommentWithButtonProps) => {
   });
 
   const onSubmit = (data: TextareaInputs) => {
-    postCommentMutation.mutate(data.comment);
+    postCommentMutation.mutate(data.edit);
     reset();
   };
   return (
@@ -61,7 +54,7 @@ const CommentWithButton = ({ placeholder }: CommentWithButtonProps) => {
         >
           <div className='flex py-[14px] px-[30px] border-2 self-stretch gap-2.5 items-center rounded-xl border-[#C1C5CC] bg-[#FAFAFA]'>
             <textarea
-              {...register('comment')}
+              {...register('edit')}
               className='flex-1 bg-inherit text-base placeholder:text-[#D7DBE2] placeholder:font-medium font-pretendard font-semibold outline-none leading-[26px]'
               placeholder={placeholder}
               rows={1}
@@ -86,4 +79,4 @@ const CommentWithButton = ({ placeholder }: CommentWithButtonProps) => {
   );
 };
 
-export default CommentWithButton;
+export default EditWithButton;

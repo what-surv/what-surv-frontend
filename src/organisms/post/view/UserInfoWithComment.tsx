@@ -1,6 +1,6 @@
 /* eslint-disable import/no-duplicates */
 /* eslint-disable react/no-unused-prop-types */
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { axiosBaseUrl } from '../../../api/axiosConfig';
 import { getComment } from '../../../api/PostApi';
@@ -8,7 +8,6 @@ import { profileTypes, UserTypes } from '../../../api/Posttypes';
 import deleteIcon from '../../../assets/delete.svg';
 import edit from '../../../assets/edit-line.svg';
 import CommentButton from '../../../atoms/post/CommentButton';
-import CommentWithButton from '../../../molecules/post/view/CommentWithButton';
 import ReplyWithButton from '../../../molecules/post/view/ReplyWithButton';
 import UserInfo from '../../../molecules/post/view/UserInfo';
 import { SuccessModalStore } from '../../../store/store';
@@ -24,7 +23,6 @@ interface commentTypes {
   content: string;
   user: UserTypes;
 }
-
 const UserInfoWithComment = () => {
   const { num } = useParams() as { num: string };
   const { setIsSuccessModalOpen } = SuccessModalStore();
@@ -40,23 +38,29 @@ const UserInfoWithComment = () => {
   });
 
   const [isReplyOpen, setIsReplyOpen] = useState(false); // 댓글 작성 영역 열림 여부 상태
-  const [isEditOpen, setIsEditOpen] = useState(false); // 댓글 작성 영역 열림 여부 상태
-  const [editCommentId, setEditCommentId] = useState<string | null>(null); // CommentWithButton 컴포넌트의 렌더링 여부 상태
 
-  const [expandedCommentId, setExpandedCommentId] = useState<string | null>(
-    null
-  );
+  const [isEditOpen, setIsEditOpen] = useState(false); // 수정 버튼 상태
+  const [CommentId, setCommentId] = useState<string | null>(null); // 수정할 댓글의 ID를 저장하는 상태
 
-  // CommentButton 클릭 시 해당 댓글의 ID를 저장하여 ReplyWithButton 렌더링 여부 결정
+  const [isButtonArray, setIsButtonArray] = useState(true);
+
+  // 수정 버튼 클릭 시 해당 댓글의 ID를 저장하고 수정 모드를 활성화
+  const EditButtonClick = (commentId: string) => {
+    setCommentId(commentId); // 수정할 댓글의 ID를 상태에 저장
+    setIsEditOpen(!isEditOpen);
+  };
+
   const ReplyButtonClick = (commentId: string) => {
-    setExpandedCommentId(commentId === expandedCommentId ? null : commentId); // 같은 댓글을 연속해서 클릭할 경우 토글
-
+    setCommentId(commentId);
     setIsReplyOpen(!isReplyOpen);
   };
 
-  const EditButtonClick = (commentId: string) => {
-    setEditCommentId(commentId); // 수정할 댓글의 ID를 상태에 저장
-    setIsEditOpen(!isEditOpen);
+  // 수정이나 답장에서 취소 버튼 클릭
+  const CancelButtonOnClick = () => {
+    setCommentId(null); // 수정할 댓글의 ID를 상태에 저장
+    setIsReplyOpen(false);
+    setIsEditOpen(false);
+    setIsButtonArray(true);
   };
 
   const DeleteButtonClick = () => {
@@ -65,49 +69,68 @@ const UserInfoWithComment = () => {
 
   if (!comments) return null;
 
+  console.log(comments);
+
   return (
     <div>
       {comments.map(({ content, id, user }: commentTypes) => (
         <div key={id}>
           <UserInfo />
           <div className='flex pl-[30px] mb-5 flex-col gap-2.5 items-start justify-end self-stretch'>
-            <div className='flex flex-col rounded-lg items-start justify-center gap-4 py-5 px-7 bg-[#E5EEFF]'>
-              <Typography
-                text={content}
-                size='base'
-                weight='Semibold'
-                lineheight={26}
-                className='text-[#242424]'
+            {/* 수정할 댓글의 ID가 일치하면 입력 필드로 변경 */}
+            {isEditOpen && CommentId === id ? (
+              <textarea
+                value={content}
+                onChange={(e) => {
+                  // 수정된 내용을 반영하기 위해 상태 업데이트
+                  // 여기에 수정된 내용을 서버에 전송하는 로직 추가 가능
+                  // axios 등을 사용하여 서버에 수정된 내용을 전송할 수 있음
+                  const editedContent = e.target.value;
+                  console.log(editedContent);
+                }}
+                className='px-3 py-2 border rounded'
               />
-            </div>
-
-            <div className='flex comment-button-array'>
-              <div className='flex gap-2.5'>
-                <CommentButton onClick={() => ReplyButtonClick(id)}>
-                  <img src={reply} alt='답장 아이콘' />
-                </CommentButton>
-
-                {/* 수정 버튼 클릭 여부를 확인하여 해당 댓글에만 수정 버튼을 숨기거나 보여줌 */}
-                {profile?.data.id === user.id && (
-                  <div className='flex gap-2.5'>
-                    <CommentButton onClick={() => EditButtonClick(id)}>
-                      <img src={edit} alt='수정 아이콘' />
-                    </CommentButton>
-                    <CommentButton onClick={() => DeleteButtonClick()}>
-                      <img src={deleteIcon} alt='삭제 아이콘' />
-                    </CommentButton>
-                  </div>
-                )}
+            ) : (
+              <div className='flex flex-col rounded-lg items-start justify-center gap-4 py-5 px-7 bg-[#E5EEFF]'>
+                <Typography
+                  text={content}
+                  size='base'
+                  weight='Semibold'
+                  lineheight={26}
+                  className='text-[#242424]'
+                />
               </div>
+            )}
+            <div className='flex comment-button-array'>
+              {isButtonArray && CommentId !== id ? (
+                <div className='flex gap-2.5'>
+                  <CommentButton onClick={() => ReplyButtonClick(id)}>
+                    <img src={reply} alt='답장 아이콘' />
+                  </CommentButton>
+                  {profile?.data.id === user.id && (
+                    <>
+                      <CommentButton onClick={() => EditButtonClick(id)}>
+                        <img src={edit} alt='수정 아이콘' />
+                      </CommentButton>
+                      <CommentButton onClick={DeleteButtonClick}>
+                        <img src={deleteIcon} alt='삭제 아이콘' />
+                      </CommentButton>
+                    </>
+                  )}
+                </div>
+              ) : (
+                ''
+              )}
             </div>
-            {/* 수정 버튼 클릭 여부를 확인하여 해당 댓글에만 CommentWithButton을 렌더링 */}
-            {isEditOpen && editCommentId === id && <CommentWithButton />}
 
-            {isReplyOpen && expandedCommentId === id && (
+            {isReplyOpen && CommentId === id ? (
               <ReplyWithButton
+                CancelButtonOnClick={CancelButtonOnClick}
                 parentId={id}
                 placeholder='타인에게 불쾌감을 주는 욕설 또는 비속어는 경고 조치 없이 삭제될 수 있습니다.'
               />
+            ) : (
+              ''
             )}
           </div>
         </div>
