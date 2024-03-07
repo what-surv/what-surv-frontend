@@ -1,5 +1,8 @@
 import Index from './pages/Index';
 import Login from './pages/login/Login';
+import MarketingConsent from './pages/misc/MarketingConsent';
+import PrivacyPolicyPage from './pages/misc/PrivacyPolicyPage';
+import TermsofServicePage from './pages/misc/TermsofServicePage';
 import PostViewPage from './pages/post/PostViewPage';
 import PostWritePage from './pages/post/PostWritePage';
 
@@ -22,6 +25,10 @@ const App = () => {
           <Route path='/login/success' element={<Login />} />
           <Route path='/login/failure' element={<Login />} />
           <Route path='/view/:num' element={<PostViewPage />} />
+
+          <Route path='/marketingConsent' element={<MarketingConsent />} />
+          <Route path='/privacyPolicy' element={<PrivacyPolicyPage />} />
+          <Route path='/termsOfService' element={<TermsofServicePage />} />
         </Routes>
       </div>
     </>

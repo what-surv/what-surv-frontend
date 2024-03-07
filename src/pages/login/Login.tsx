@@ -1,63 +1,49 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-import LoginStep1 from './LoginStep1';
-import LoginStep2 from './LoginStep2';
-import LoginStep3 from './LoginStep3';
-import LoginStep4 from './LoginStep4';
+import LastPage from './LastPage';
+import SocailButtonsPage from './SocailButtonsPage';
+import TermsOfServiceAgreementPage from './TermsOfServiceAgreementPage';
+import UserInformationsPage from './UserInformationsPage';
+import WriteNickNamePage from './WriteNickNamePage';
+import { checkAuth } from '../../api/loginApis';
 import { ProgressBar } from '../../stories/indicator/progress bar/ProgressBar';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [userInfo, setUserInfo] = useState({
-    nickname: '',
-    advertisingConsent: false,
-  });
-  const [checkboxStates, setCheckboxStates] = useState({
-    '0': { checked: false, href: 'https://www.naver.com/' },
-    '1': { checked: false, href: 'https://www.google.co.kr/' },
-    '2': { checked: false, href: 'https://github.com/' },
-  });
-  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean | null>(
-    null
-  );
-
+  const [checkboxStates, setCheckboxStates] = useState([
+    {
+      id: '0',
+      checked: false,
+      href: 'https://www.naver.com/',
+      label: '[필수]  서비스 이용약관',
+    },
+    {
+      id: '1',
+      checked: false,
+      href: 'https://www.google.co.kr/',
+      label: '[필수]  개인정보 처리방침 및 수집이용 동의',
+    },
+    {
+      id: '2',
+      checked: false,
+      href: 'https://github.com/',
+      label: '[선택]  마케팅 정보 수신 및 이용 동의',
+    },
+  ]);
+  const [isAllChecked, setIsAllChecked] = useState(false);
   // Ouath2 링크별 분기처리
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 유저정보 체크
-    const checkAuthStatus = async (path: string) => {
-      try {
-        const test = await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}/auth/${path}`,
-          {
-            withCredentials: true,
-          }
-        );
-        console.log('asdasdasdasd', test);
-
-        setUserInfo((prevUserInfo) => ({
-          ...prevUserInfo,
-          phone: '010-9076-2806',
-          gender: 'helicopter',
-          job: 'KFC',
-        }));
-        nextStepHandler();
-      } catch (error) {
-        navigate('/login');
-      }
-    };
-
     // location을 통해서 url별 분기처리
     const { pathname } = location;
     switch (pathname) {
       // 신규유저
       case '/login/new-user':
-        checkAuthStatus('new-user/profile');
+        checkAuth('new-user/profile', nextStepHandler);
         break;
 
       // 가입된 유저
@@ -77,7 +63,7 @@ const Login = () => {
   }, []);
 
   const nextStepHandler = () => {
-    if (currentStep < 4) {
+    if (currentStep < 5) {
       setCurrentStep(currentStep + 1);
     }
   };
@@ -86,73 +72,28 @@ const Login = () => {
     setCurrentStep(currentStep - 1);
   };
 
-  const userInfoHandler = (param: { sort: string; data: string }) => {
-    const { sort, data } = param;
-    switch (sort) {
-      case 'check':
-        setUserInfo((prevUserInfo) => ({
-          ...prevUserInfo,
-          advertisingConsent: data === 'true',
-        }));
-        break;
-      case 'nickname':
-        setUserInfo((prevUserInfo) => ({
-          ...prevUserInfo,
-          nickname: data,
-        }));
-        break;
-      default:
-        alert('에러! 관리자에게 문의하세요.');
-        break;
-    }
+  const handleAllCheckboxChange = () => {
+    const allChecked = !isAllChecked;
+    setIsAllChecked(allChecked);
+
+    setCheckboxStates((prevStates) => {
+      const updatedStates = prevStates.map((checkbox) => ({
+        ...checkbox,
+        checked: allChecked,
+      }));
+      return updatedStates;
+    });
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setUserInfo((prevUserInfo) => ({
-      ...prevUserInfo,
-      nickname: value,
-    }));
-    setIsButtonDisabled(false);
-  };
-
-  const isValidInput = (text: string) => {
-    const regex = /^[a-zA-Z가-힣]{2,10}$/;
-    return regex.test(text);
-  };
-
-  // STEP3에서 닉네임 요청하는 온클릭 함수
-  const onClick = async () => {
-    // 정규식 체크
-    if (!isValidInput(userInfo.nickname)) {
-      return false;
-    }
-
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/users/nickname-exists?nickname=${userInfo.nickname}`
+  const handleCheckboxChange = (id: string) => {
+    setCheckboxStates((prevStates) => {
+      const updatedStates = prevStates.map((checkbox) =>
+        checkbox.id === id
+          ? { ...checkbox, checked: !checkbox.checked }
+          : checkbox
       );
-      const { data } = response;
-
-      return setIsButtonDisabled(!data);
-    } catch (error) {
-      console.error('Error checking authentication status:', error);
-    }
-    return undefined;
-  };
-
-  // STEP3에서 다음 눌렀을때 POST 요청
-  const userRegistrationHandler = async () => {
-    try {
-      await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/auth/sign-up`,
-        userInfo,
-        { withCredentials: true }
-      );
-      nextStepHandler();
-    } catch (error) {
-      console.error('에러 발생:', error);
-    }
+      return updatedStates;
+    });
   };
 
   const loginHandler = (sort: string) => {
@@ -176,40 +117,44 @@ const Login = () => {
   const renderLoginStep = (step: number) => {
     switch (step) {
       case 1:
-        return <LoginStep1 handleLogin={loginHandler} />;
+        return <SocailButtonsPage handleLogin={loginHandler} />;
       case 2:
         return (
-          <LoginStep2
+          <TermsOfServiceAgreementPage
             onNextStep={nextStepHandler}
-            userInfo={userInfoHandler}
             onPrevStep={prevStepHandler}
             checkboxStates={checkboxStates}
-            setCheckboxStates={setCheckboxStates}
+            handleCheckboxChange={handleCheckboxChange}
+            handleAllCheckboxChange={handleAllCheckboxChange}
+            isAllChecked={isAllChecked}
           />
         );
       case 3:
         return (
-          <LoginStep3
-            onChange={onChange}
-            onClick={onClick}
-            onNextStep={userRegistrationHandler}
+          <WriteNickNamePage
             onPrevStep={prevStepHandler}
-            value={userInfo.nickname}
-            isButtonDisabled={isButtonDisabled}
+            onNextStep={nextStepHandler}
           />
         );
       case 4:
-        return <LoginStep4 />;
+        return (
+          <UserInformationsPage
+            onNextStep={nextStepHandler}
+            onPrevStep={prevStepHandler}
+          />
+        );
+      case 5:
+        return <LastPage />;
       default:
         return null;
     }
   };
 
   return (
-    <div>
+    <div className='max-w-[546px] w-full m-auto'>
       <div className='flex flex-col items-center mt-[60px]'>
         <div className='flex flex-col w-full max-w-xl'>
-          <ProgressBar size='desktop' percent={currentStep * 25} />
+          <ProgressBar size='desktop' percent={currentStep * 20} />
           <div className='mt-[60px]'>{renderLoginStep(currentStep)}</div>
         </div>
       </div>

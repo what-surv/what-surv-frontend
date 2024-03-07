@@ -1,21 +1,3 @@
-.progressBar {
-  position: relative;
-  width: 100%;
-  height: 12px;
-  background-color: #e5e7ed;
-  border-radius: 400px;
-  margin-bottom: 40px;
-}
-
-.progressBar > div {
-  position: absolute;
-  width: 25%;
-  height: 12px;
-  background-color: #3283ff;
-  border-radius: 400px;
-  transition: 0.3s;
-}
-
 .checkbox-wrap {
   display: flex;
   position: relative;

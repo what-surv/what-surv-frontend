@@ -47,6 +47,19 @@ export type GetData = {
   viewCount: string;
 };
 
+// 받는 데이터
+export type GetMainData = {
+  postId: number;
+  authorNickname: string;
+  createdAt: string;
+  title: string;
+  url: string;
+  viewCount: string;
+  endDate: string;
+  commentCount: number;
+  isLiked: boolean;
+};
+
 export const MainListGet = async (params: GetMainListParams) => {
   const MainList = await axiosBaseUrl.get('/posts', {
     params,

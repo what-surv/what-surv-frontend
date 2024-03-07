@@ -1,3 +1,9 @@
+export const sortArr = [
+  { key: 'recent', label: '최신순' },
+  { key: 'popular', label: '인기순' },
+  { key: 'deadline', label: '마감임박순' },
+];
+
 export const genderArr = [
   { key: 'all', label: '전체' },
   { key: 'male', label: '남' },
