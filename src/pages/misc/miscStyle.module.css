@@ -1,0 +1,75 @@
+.termsSection {
+  margin-bottom: 18px;
+}
+
+.termsList p {
+  line-height: 22px;
+}
+.termsList > li {
+  font-size: 12px;
+}
+.termsList li p {
+  display: flex;
+  font-size: 12px;
+}
+
+.termsList li p::before {
+  display: block;
+  margin: 0 5px;
+}
+.termsList > li:nth-of-type(1) > p:before {
+  content: '1.';
+}
+.termsList > li:nth-of-type(2) > p:before {
+  content: '2.';
+}
+.termsList > li:nth-of-type(3) > p:before {
+  content: '3.';
+}
+.termsList > li:nth-of-type(4) > p:before {
+  content: '4.';
+}
+.termsList > li:nth-of-type(5) > p:before {
+  content: '5.';
+}
+.termsList > li:nth-of-type(6) > p:before {
+  content: '6.';
+}
+.termsList > li:nth-of-type(7) > p:before {
+  content: '7.';
+}
+.termsList > li:nth-of-type(8) > p:before {
+  content: '8.';
+}
+
+.termsList > li > ul > li > p {
+  margin: 0 5px 0 16px;
+}
+
+.termsList > li > ul > li:nth-of-type(1) > p:before {
+  content: 'a.';
+}
+.termsList > li > ul > li:nth-of-type(2) > p:before {
+  content: 'b.';
+}
+.termsList > li > ul > li:nth-of-type(3) > p:before {
+  content: 'c.';
+}
+.termsList > li > ul > li:nth-of-type(4) > p:before {
+  content: 'd.';
+}
+.termsList > li > ul > li:nth-of-type(5) > p:before {
+  content: 'e.';
+}
+.termsList > li > ul > li:nth-of-type(6) > p:before {
+  content: 'f.';
+}
+.termsList > li > ul > li:nth-of-type(7) > p:before {
+  content: 'g.';
+}
+.termsList > li > ul > li:nth-of-type(8) > p:before {
+  content: 'h.';
+}
+.termsList > li > ul > li:nth-of-type(9) > p:before {
+  content: 'i.';
+}

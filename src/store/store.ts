@@ -22,13 +22,40 @@ interface WritePageStoreStoreProps {
   toggleAge: (age: string[]) => void;
 }
 
-interface MainPageStoreProps {
+export interface MainPageStoreProps {
   searchText: string;
-  pageIdx: number;
-  selects: string[];
+  currentPage: number;
+  totalPage: number;
+  selects: {
+    sort?: string | undefined;
+    gender?: string | undefined;
+    age?: string | undefined;
+    type?: string | undefined;
+    method?: string | undefined;
+  };
   setSearchText: (searchText: string) => void;
-  setPageIdx: (pageIdx: number) => void;
-  setSelects: (selectsArr: string[]) => void;
+  setCurrentPage: (page: number) => void;
+  setTotalPage: (totalPage: number) => void;
+  setSelects: (selectsObj: {
+    sort?: string | undefined;
+    gender?: string | undefined;
+    age?: string | undefined;
+    type?: string | undefined;
+    method?: string | undefined;
+  }) => void;
+}
+
+interface LoginPageStorePros {
+  nickname: string | undefined; // 닉네임
+  phone: undefined;
+  gender: string;
+  advertisingConsent: boolean; // 광고수신 여부
+  birthDate: string;
+  setNickName: (nickNameValue: string) => void;
+  setPhoe: (phoneValue: undefined) => void;
+  setGender: (contentvalue: string) => void;
+  setAdvertisingConsent: (advertisingConsentValue: boolean) => void;
+  setbirthDate: (setbirthDateValue: string) => void;
 }
 
 export const WritePageStore = create<WritePageStoreStoreProps>((set) => ({
@@ -61,9 +88,34 @@ export const WritePageStore = create<WritePageStoreStoreProps>((set) => ({
 
 export const MainPageStore = create<MainPageStoreProps>()((set) => ({
   searchText: '',
-  pageIdx: 0,
-  selects: [],
+  currentPage: 1,
+  totalPage: 1,
+  selects: {
+    sort: undefined,
+    gender: undefined,
+    age: undefined,
+    type: undefined,
+    method: undefined,
+  },
   setSearchText: (searchTextValue) => set({ searchText: searchTextValue }),
-  setPageIdx: (pageIdxValue) => set({ pageIdx: pageIdxValue }),
-  setSelects: (selectsArr) => set({ selects: selectsArr }),
+  setCurrentPage: (pageValue) => set({ currentPage: pageValue }),
+  setTotalPage: (totalPageValue) => set({ totalPage: totalPageValue }),
+  setSelects: (selectsObj) =>
+    set((prev) => ({
+      selects: { ...prev.selects, ...selectsObj },
+    })),
+}));
+
+export const useUserInfoStore = create<LoginPageStorePros>()((set) => ({
+  nickname: undefined,
+  phone: undefined,
+  gender: '',
+  advertisingConsent: false,
+  birthDate: '',
+  setNickName: (nickNameValue) => set({ nickname: nickNameValue }),
+  setPhoe: (phoneValue) => set({ phone: phoneValue }),
+  setGender: (contentvalue) => set({ gender: contentvalue }),
+  setAdvertisingConsent: (advertisingConsentValue) =>
+    set({ advertisingConsent: advertisingConsentValue }),
+  setbirthDate: (birthDateValue) => set({ birthDate: birthDateValue }),
 }));
