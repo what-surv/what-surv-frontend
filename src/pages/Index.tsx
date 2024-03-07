@@ -45,7 +45,7 @@ const Index = () => {
 
   const getMainCardList = async () => {
     try {
-      const params = { currentPage, limit: checkDevice() };
+      const params = { page: currentPage, limit: checkDevice() };
       const result = await MainListGet(params);
       console.log(result.data);
       setMainCardList((prevMainCardList) => [

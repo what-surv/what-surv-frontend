@@ -1,7 +1,7 @@
 import { axiosBaseUrl } from './axiosConfig';
 
 interface GetMainListParams {
-  currentPage: number;
+  page: number;
   limit: number;
 }
 
