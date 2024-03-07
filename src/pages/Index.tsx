@@ -40,14 +40,14 @@ const Index = () => {
     if (window.innerWidth < 768) {
       return 7;
     }
-    return 2;
+    return 24;
   };
 
   const getMainCardList = async () => {
     try {
       const params = { page: currentPage, limit: checkDevice() };
       const result = await MainListGet(params);
-      console.log(result.data);
+      // console.log(result.data);
       setMainCardList((prevMainCardList) => [
         ...prevMainCardList,
         ...result.data.data,
