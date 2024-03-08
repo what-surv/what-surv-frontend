@@ -64,22 +64,6 @@ const Index = () => {
     getMainCardList();
   }, [currentPage]);
 
-  // useEffect(() => {
-
-  // }, [currentPage, selects]);
-
-  // searchInput onChange
-  /*
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setSearchText(value);
-  };
-
-  const searchOnClick = () => {
-    alert(searchText);
-  };
-  */
-
   const likedClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
     id: number,
@@ -138,26 +122,6 @@ const Index = () => {
         size='full'
       />
       <div className='max-w-[1416px] w-full m-auto'>
-        {/* <div className='flex justify-center'>
-          <div className='flex relative max-w-[1058px] w-full items-center'>
-            <p className='mr-6'>리서치 검색하기</p>
-            <input
-              type='text'
-              onChange={onChange}
-              value={searchText}
-              placeholder='리서치를 검색해 보세요!'
-              className='w-[calc(100%-125px)] px-10 py-4 border-2 border-[#C1C5CC] rounded-[20px] text-2xl'
-            />
-            <button
-              type='button'
-              onClick={searchOnClick}
-              className='absolute right-10'
-            >
-              <img src={icSearch} alt='asd' />
-            </button>
-          </div>
-        </div> */}
-        {/* slider */}
         <div className='my-6'>
           <BannerSwiper />
         </div>
