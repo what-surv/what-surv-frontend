@@ -5,10 +5,10 @@ import leftArrow from '../../assets/left_arrow.svg';
 import Button from '../../atoms/Button';
 import Input from '../../atoms/Input';
 import EditorBox from '../../molecules/post/write/EditorBox';
-import ConfirmationModal from '../../organisms/post/write/ConfirmationModal';
+import ConfirmationModal from '../../organisms/ConfirmationModal';
 import PostSelectContent from '../../organisms/post/write/PostSelectContent';
 import PostSuccessModal from '../../organisms/post/write/PostSuccessModal';
-import { WritePageStore } from '../../store/store';
+import { SuccessModalStore, WritePageStore } from '../../store/store';
 import { Appbar } from '../../stories/appbar/Appbar';
 import { Tabbar } from '../../stories/tabbar/Tabbar';
 import Typography from '../../stories/typography/Typography';
@@ -31,8 +31,7 @@ const PostWritePage = () => {
   // 뒤로가기 모달 팝업 확인용 isConfirmOpen state
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
 
-  // 게시글 작성 완료 모달 팝업 확인용 isSuccessOpen
-  const [isSuccessModalOpen, setIsSucessModalOpen] = useState<boolean>(false);
+  const { setIsSuccessModalOpen } = SuccessModalStore();
 
   const [disableButton, setDisableButton] = useState(true);
 
@@ -101,7 +100,7 @@ const PostWritePage = () => {
 
   const handleModalLeave = () => {
     setIsConfirmModalOpen(false);
-    setIsSucessModalOpen(false);
+    setIsSuccessModalOpen(false);
     navigate(-1);
   };
 
@@ -119,7 +118,7 @@ const PostWritePage = () => {
       time,
     });
     console.log(jsonData);
-    setIsSucessModalOpen(true);
+    setIsSuccessModalOpen(true);
   };
 
   return (
@@ -194,9 +193,12 @@ const PostWritePage = () => {
           handleModalLeave={handleModalLeave}
         />
         <PostSuccessModal
-          isOpen={isSuccessModalOpen}
-          handleClose={() => setIsConfirmModalOpen(false)}
-          handleModalLeave={handleModalLeave}
+          firstButtonOnClick={handleModalLeave}
+          title='게시물 등록이 완료되었습니다!!'
+          content={`내가 작성한 글 목록에서 언제든지 내용을 수정할 수 있어요.\n메인에 등록된 게시물을 확인해보세요!`}
+          firstButtonText='수정하기'
+          SecondButtonText='홈으로'
+          isLogo
         />
         <DevTool control={control} />
       </div>

@@ -25,6 +25,7 @@ const PostSelectContentView = ({
               weight='Semibold'
               text={items}
               lineheight={22}
+              className='text-[#545760]'
             />
           </div>
         ))}

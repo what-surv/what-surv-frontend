@@ -7,34 +7,38 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 
-interface ReplyWithButtonProps {
-  placeholder?: string;
-  parentId: string;
-  CancelButtonOnClick: (id: string) => void;
-}
-
 interface TextareaInputs {
-  reply: string;
+  edit: string;
 }
 
-const ReplyWithButton = ({
-  placeholder,
-  CancelButtonOnClick,
-  parentId,
-}: ReplyWithButtonProps) => {
-  const { num } = useParams() as { num: string };
-  const queryClient = useQueryClient();
-  const { register, handleSubmit, reset } = useForm<TextareaInputs>();
+interface EditWithButtonProps {
+  onClick?: () => void;
+  value: string;
+  commentId: string;
+  setIsEditOpen: (isEdit: boolean) => void;
+  CancelButtonOnClick: () => void;
+}
 
-  const postReplyMutation = useMutation<void, unknown, string>({
-    mutationFn: (reply) =>
-      axiosBaseUrl.post(`posts/${num}/comments`, {
-        parentId,
-        content: reply,
+const EditWithButton = ({
+  commentId,
+  CancelButtonOnClick,
+  setIsEditOpen,
+  value,
+}: EditWithButtonProps) => {
+  const { num } = useParams() as { num: string };
+  const { register, handleSubmit, reset } = useForm<TextareaInputs>();
+  const queryClient = useQueryClient();
+  const { onChange } = register('edit');
+
+  const postCommentMutation = useMutation<void, unknown, string>({
+    mutationFn: (editComment) =>
+      axiosBaseUrl.put(`posts/${num}/comments/${commentId}`, {
+        content: editComment,
+        parentId: commentId,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['getReply', num],
+        queryKey: ['getComment', num],
       });
     },
     onError: () => {
@@ -43,12 +47,12 @@ const ReplyWithButton = ({
   });
 
   const onSubmit = (data: TextareaInputs) => {
-    postReplyMutation.mutate(data.reply);
+    postCommentMutation.mutate(data.edit);
+    setIsEditOpen(false);
     reset();
   };
-
   return (
-    <div className='flex items-start self-stretch w-full gap-2 pl-2.5'>
+    <div className='flex items-start self-stretch w-full gap-2'>
       <img
         src={fillAccount}
         alt='계정 아이콘'
@@ -59,19 +63,21 @@ const ReplyWithButton = ({
           onSubmit={handleSubmit(onSubmit)}
           className='flex flex-col items-end justify-end flex-1 gap-2'
         >
-          <div className='flex h-full py-5 px-[30px] border-2 self-stretch gap-2.5 items-center rounded-xl border-[#C1C5CC] bg-[#FAFAFA]'>
+          <div className='flex py-[14px] px-[30px] border-2 self-stretch gap-2.5 items-center rounded-xl border-[#6697FF] bg-[#FAFAFA]'>
             <textarea
-              {...register('reply')}
-              className='bg-inherit w-full text-base placeholder:text-[#D7DBE2] placeholder:font-medium font-pretendard font-semibold outline-none leading-[26px]'
-              placeholder={placeholder}
-              rows={3}
+              {...register('edit', {
+                required: '댓글을 입력해주세요.',
+              })}
+              defaultValue={value}
+              className='flex-1 bg-inherit text-base placeholder:text-[#D7DBE2] placeholder:font-medium font-pretendard font-semibold outline-none leading-[26px]'
+              onChange={onChange}
             />
           </div>
           <div className='flex gap-2'>
             <button
               type='button'
               className='px-5 text-black text-center py-2 rounded-[400px] flex justify-center items-center gap-2 bg-[#D7DBE2]'
-              onClick={() => CancelButtonOnClick(parentId)}
+              onClick={() => CancelButtonOnClick()}
             >
               <span className='sr-only'>text</span>
               <Typography
@@ -86,12 +92,12 @@ const ReplyWithButton = ({
               type='submit'
               className='px-5 text-center py-2 rounded-[400px] flex justify-center items-center gap-2 bg-[#0051FF]'
             >
-              <img src={arrowUpCircle} alt='답글 쓰기 아이콘' />
+              <img src={arrowUpCircle} alt='댓글 쓰기 아이콘' />
               <Typography
                 lineheight={26}
                 weight='Medium'
                 size='base'
-                text='답글 쓰기'
+                text='댓글 쓰기'
                 className='text-white'
               />
             </button>
@@ -102,4 +108,4 @@ const ReplyWithButton = ({
   );
 };
 
-export default ReplyWithButton;
+export default EditWithButton;

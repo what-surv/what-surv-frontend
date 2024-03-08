@@ -5,15 +5,18 @@ import React from 'react';
 
 import Typography from '../typography/Typography';
 
-const TabbarVariants = cva(`w-full min-w-[280px] h-[56px] flex items-end`, {
-  variants: {
-    size: {
-      default: '',
-      mobile: '',
-      full: '',
+const TabbarVariants = cva(
+  `w-full min-w-[280px] bg-[#FAFAFA] h-[56px] flex items-end`,
+  {
+    variants: {
+      size: {
+        default: '',
+        mobile: '',
+        full: '',
+      },
     },
-  },
-});
+  }
+);
 
 interface TabbarProps {
   children?: React.ReactNode;
