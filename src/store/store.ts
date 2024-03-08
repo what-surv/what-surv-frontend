@@ -119,3 +119,15 @@ export const useUserInfoStore = create<LoginPageStorePros>()((set) => ({
     set({ advertisingConsent: advertisingConsentValue }),
   setbirthDate: (birthDateValue) => set({ birthDate: birthDateValue }),
 }));
+
+interface SuccessodalStoreProps {
+  isSuccessModalOpen: boolean;
+  setIsSuccessModalOpen: (open: boolean) => void;
+  setCloseModal: (open: boolean) => void;
+}
+
+export const SuccessModalStore = create<SuccessodalStoreProps>((set) => ({
+  isSuccessModalOpen: false,
+  setIsSuccessModalOpen: (open) => set({ isSuccessModalOpen: open }),
+  setCloseModal: () => set({ isSuccessModalOpen: false }),
+}));
