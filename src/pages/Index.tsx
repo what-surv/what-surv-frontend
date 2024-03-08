@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import { GetMainData, MainListGet } from '../api/IndexApi';
 import { LikeDelete, LikePost } from '../api/LikeApi';
@@ -19,6 +19,7 @@ import { Dropdown } from '../stories/dropdown/Dropdown';
 import Like from '../stories/like/Like';
 import Typography from '../stories/typography/Typography';
 import { formatDateString } from '../utils/dateUtils';
+import ScrollObserver from '../utils/ScrollObserver';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -26,7 +27,6 @@ const Index = () => {
   const [mainCardList, setMainCardList] = useState<GetMainData[]>([]);
   const { currentPage, totalPage, setCurrentPage, setTotalPage, setSelects } =
     MainPageStore(); // store 불러옴
-
   const navigate = useNavigate();
 
   // 디바이스 체크해서 limit에 전달  PC : 24, Mobile : 7
@@ -34,7 +34,7 @@ const Index = () => {
     if (window.innerWidth < 768) {
       return 7;
     }
-    return 24;
+    return 1;
   };
 
   const getMainCardList = async () => {
@@ -198,6 +198,11 @@ const Index = () => {
             </button>
           )}
         </div>
+        {mainCardList && currentPage !== totalPage && (
+          <ScrollObserver
+            onIntersection={() => setCurrentPage(currentPage + 1)}
+          />
+        )}
       </div>
     </div>
   );
