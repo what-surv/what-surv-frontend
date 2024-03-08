@@ -11,26 +11,30 @@ interface TextareaInputs {
   edit: string;
 }
 
-interface CommentWithButtonProps {
-  placeholder?: string;
+interface EditWithButtonProps {
   onClick?: () => void;
   value: string;
+  commentId: string;
+  setIsEditOpen: (isEdit: boolean) => void;
   CancelButtonOnClick: () => void;
 }
 
 const EditWithButton = ({
-  placeholder,
+  commentId,
   CancelButtonOnClick,
+  setIsEditOpen,
   value,
-}: CommentWithButtonProps) => {
+}: EditWithButtonProps) => {
   const { num } = useParams() as { num: string };
   const { register, handleSubmit, reset } = useForm<TextareaInputs>();
   const queryClient = useQueryClient();
+  const { onChange } = register('edit');
 
   const postCommentMutation = useMutation<void, unknown, string>({
-    mutationFn: (newComment) =>
-      axiosBaseUrl.post(`posts/${num}/comments`, {
-        content: newComment,
+    mutationFn: (editComment) =>
+      axiosBaseUrl.put(`posts/${num}/comments/${commentId}`, {
+        content: editComment,
+        parentId: commentId,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -44,6 +48,7 @@ const EditWithButton = ({
 
   const onSubmit = (data: TextareaInputs) => {
     postCommentMutation.mutate(data.edit);
+    setIsEditOpen(false);
     reset();
   };
   return (
@@ -60,11 +65,12 @@ const EditWithButton = ({
         >
           <div className='flex py-[14px] px-[30px] border-2 self-stretch gap-2.5 items-center rounded-xl border-[#6697FF] bg-[#FAFAFA]'>
             <textarea
-              {...register('edit')}
+              {...register('edit', {
+                required: '댓글을 입력해주세요.',
+              })}
+              defaultValue={value}
               className='flex-1 bg-inherit text-base placeholder:text-[#D7DBE2] placeholder:font-medium font-pretendard font-semibold outline-none leading-[26px]'
-              placeholder={placeholder}
-              rows={1}
-              value={value}
+              onChange={onChange}
             />
           </div>
           <div className='flex gap-2'>

@@ -1,5 +1,6 @@
 /* eslint-disable import/no-duplicates */
 /* eslint-disable react/no-unused-prop-types */
+import { AxiosRequestConfig } from 'axios';
 import React, { useState } from 'react';
 
 import { axiosBaseUrl } from '../../../api/axiosConfig';
@@ -7,26 +8,37 @@ import { getComment } from '../../../api/PostApi';
 import { profileTypes, UserTypes } from '../../../api/Posttypes';
 import deleteIcon from '../../../assets/delete.svg';
 import edit from '../../../assets/edit-line.svg';
+import Comment from '../../../atoms/post/Comment';
 import CommentButton from '../../../atoms/post/CommentButton';
 import EditWithButton from '../../../molecules/post/view/EditWithButton';
 import ReplyWithButton from '../../../molecules/post/view/ReplyWithButton';
 import UserInfo from '../../../molecules/post/view/UserInfo';
 import { SuccessModalStore } from '../../../store/store';
 import reply from '../../../stories/assets/ic_reply.svg';
-import Typography from '../../../stories/typography/Typography';
 import PostSuccessModal from '../write/PostSuccessModal';
 
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
 interface commentTypes {
   id: string;
   content: string;
   user: UserTypes;
+  parent: parentProps;
 }
+
+interface parentProps {
+  id: string;
+}
+
+interface CustomAxiosRequestConfig extends AxiosRequestConfig {
+  parentId?: string;
+}
+
 const UserInfoWithComment = () => {
   const { num } = useParams() as { num: string };
   const { setIsSuccessModalOpen } = SuccessModalStore();
+  const queryClient = useQueryClient();
   const { data: comments } = useQuery<commentTypes[]>({
     queryKey: ['getComment', num],
     queryFn: () => getComment(num),
@@ -41,7 +53,7 @@ const UserInfoWithComment = () => {
   const [isReplyOpen, setIsReplyOpen] = useState(false); // 댓글 작성 영역 열림 여부 상태
 
   const [isEditOpen, setIsEditOpen] = useState(false); // 수정 버튼 상태
-  const [CommentId, setCommentId] = useState<string | null>(null); // 수정할 댓글의 ID를 저장하는 상태
+  const [CommentId, setCommentId] = useState<string>(''); // 수정할 댓글의 ID를 저장하는 상태
 
   const [isButtonArray, setIsButtonArray] = useState(true);
 
@@ -60,15 +72,37 @@ const UserInfoWithComment = () => {
 
   // 수정이나 답장에서 취소 버튼 클릭
   const CancelButtonOnClick = () => {
-    setCommentId(null); // 수정할 댓글의 ID를 상태에 저장
+    setCommentId(''); // 수정할 댓글의 ID를 초기화
     setIsReplyOpen(false);
     setIsEditOpen(false);
     setIsButtonArray(true);
   };
 
-  const DeleteButtonClick = () => {
+  const DeleteButtonClick = (commentId: string) => {
+    setCommentId(commentId);
     setIsSuccessModalOpen(true);
   };
+
+  const click = (commentId: string) => {
+    DeleteCommentMutation.mutate(commentId);
+    setCommentId('');
+    setIsSuccessModalOpen(false);
+  };
+
+  const DeleteCommentMutation = useMutation<void, unknown, string>({
+    mutationFn: (commentId) =>
+      axiosBaseUrl.delete(`posts/${num}/comments/${commentId}`, {
+        parentId: commentId,
+      } as CustomAxiosRequestConfig),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['getComment', num],
+      });
+    },
+    onError: () => {
+      console.error('에러 발생');
+    },
+  });
 
   if (!comments) return null;
 
@@ -76,7 +110,7 @@ const UserInfoWithComment = () => {
 
   return (
     <div>
-      {comments.map(({ content, id, user }: commentTypes) => (
+      {comments.map(({ content, id, user, parent }: commentTypes) => (
         <div key={id}>
           <UserInfo />
           <div className='flex pl-[30px] mb-5 flex-col gap-2.5 items-start justify-end self-stretch'>
@@ -84,17 +118,22 @@ const UserInfoWithComment = () => {
             {isEditOpen && CommentId === id ? (
               <EditWithButton
                 value={content}
+                commentId={id}
+                setIsEditOpen={setIsEditOpen}
                 CancelButtonOnClick={CancelButtonOnClick}
               />
             ) : (
-              <div className='flex flex-col rounded-lg items-start justify-center gap-4 py-5 px-7 bg-[#E5EEFF]'>
-                <Typography
-                  text={content}
-                  size='base'
-                  weight='Semibold'
-                  lineheight={26}
-                  className='text-[#242424]'
-                />
+              <div>
+                {parent?.id &&
+                comments.find((comment) => comment.id === parent.id) ? (
+                  <ReplyWithButton
+                    CancelButtonOnClick={CancelButtonOnClick}
+                    parentId={id}
+                    placeholder='타인에게 불쾌감을 주는 욕설 또는 비속어는 경고 조치 없이 삭제될 수 있습니다.'
+                  />
+                ) : (
+                  <Comment content={content} />
+                )}
               </div>
             )}
             <div className='flex comment-button-array'>
@@ -108,7 +147,7 @@ const UserInfoWithComment = () => {
                       <CommentButton onClick={() => EditButtonClick(id)}>
                         <img src={edit} alt='수정 아이콘' />
                       </CommentButton>
-                      <CommentButton onClick={DeleteButtonClick}>
+                      <CommentButton onClick={() => DeleteButtonClick(id)}>
                         <img src={deleteIcon} alt='삭제 아이콘' />
                       </CommentButton>
                     </>
@@ -132,6 +171,7 @@ const UserInfoWithComment = () => {
         </div>
       ))}
       <PostSuccessModal
+        firstButtonOnClick={() => click(CommentId)}
         SecondButtonOnClick={() => setIsSuccessModalOpen(false)}
         title='선택하신 글을 삭제하시겠어요?'
         content='삭제하면 이 글을 다시 볼 수 없게 돼요.'
