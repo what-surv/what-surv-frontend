@@ -43,18 +43,22 @@ const Index = () => {
     };
   }, []);
 
-  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
-    queryKey: ['postList'],
-    queryFn: ({ pageParam = 1 }) => {
-      // 서버에 요청을 보낼 때 pageParam을 활용
-      return getMainList({ page: pageParam, limit: checkDeviceReturnLimit() });
-    },
-    getNextPageParam: (lastPage, pages) => {
-      const nextPage = lastPage.currentPage + 1;
-      return nextPage <= lastPage.totalPages ? nextPage : undefined;
-    },
-    initialPageParam: 1,
-  });
+  const { data, fetchNextPage, hasNextPage, isFetching, refetch } =
+    useInfiniteQuery({
+      queryKey: ['postList'],
+      queryFn: ({ pageParam = 1 }) => {
+        // 서버에 요청을 보낼 때 pageParam을 활용
+        return getMainList({
+          page: pageParam,
+          limit: checkDeviceReturnLimit(),
+        });
+      },
+      getNextPageParam: (lastPage, pages) => {
+        const nextPage = lastPage.currentPage + 1;
+        return nextPage <= lastPage.totalPages ? nextPage : undefined;
+      },
+      initialPageParam: 1,
+    });
 
   // 디바이스 체크해서 limit에 전달  PC : 24, Mobile : 7
   const checkDeviceReturnLimit = () => {
@@ -76,6 +80,7 @@ const Index = () => {
     } else {
       await LikePost(id);
     }
+    refetch();
   };
 
   const dropdownOptions = [
