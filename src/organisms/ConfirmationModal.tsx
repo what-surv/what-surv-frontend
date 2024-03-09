@@ -28,16 +28,16 @@ const ConfirmationModal = ({
           />
           <Typography
             size='base'
-            text={`게시글 작성 중 뒤로가기를 실행하면 지금까지 작성한 내용은 저장되지 않아요.\n정말 뒤로 가시겠어요?`}
+            text='게시글 작성 중 뒤로가기를 실행하면 지금까지 작성한 내용은 저장되지 않아요.정말 뒤로 가시겠어요?'
             weight='Medium'
             lineheight={26}
-            className='whitespace-pre-wrap'
+            className='break-keep'
           />
           <div className='flex items-center self-stretch justify-center gap-2'>
             <button
               type='button'
               onClick={handleClose}
-              className='rounded-[400px] text-[#242424] whitespace-nowrap flex items-center py-3 px-6 border-2 flex-col gap-2.5 flex-1 justify-center border-[#0051FF]'
+              className='rounded-[400px] bg-[#FAFAFA] text-[#242424] whitespace-nowrap flex items-center py-3 px-6 border-2 flex-col gap-2.5 flex-1 justify-center border-[#0051FF]'
             >
               취소
             </button>

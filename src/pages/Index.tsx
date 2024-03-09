@@ -173,7 +173,7 @@ const Index = () => {
           <Typography size='base' text='IT전체' weight='Semibold' />
         </div>
 
-        <div className='flex mb-6 gap-3'>{renderDropDowns()}</div>
+        <div className='flex gap-3 mb-6'>{renderDropDowns()}</div>
 
         <div className='flex flex-wrap gap-4'>
           {mainCardList &&
