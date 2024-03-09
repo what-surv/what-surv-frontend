@@ -34,6 +34,8 @@ const PostViewPage = () => {
     queryFn: () => axiosBaseUrl.get(`auth/profile`),
   });
 
+  console.log(postDetails);
+
   if (!postDetails) return null;
 
   console.log(profile);
@@ -95,7 +97,7 @@ const PostViewPage = () => {
         </div>
         <PostContentView />
         {/* 글 */}
-        <div className='px-4 py-6 bg-[#FFFFFF] w-full rounded-[8px]'>
+        <div className='px-4 py-6 bg-[#FFFFFF] w-full rounded-[8px] min-h-[300px]'>
           {postDetails?.content}
         </div>
 
