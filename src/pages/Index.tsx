@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { GetMainData, MainListGet } from '../api/IndexApi';
+import { GetData, GetMainData, getMainList } from '../api/IndexApi';
 import { LikeDelete, LikePost } from '../api/LikeApi';
 import { BannerSwiper, ResearchSwiper } from '../component/MainSwiper';
 import {
@@ -21,36 +21,19 @@ import Typography from '../stories/typography/Typography';
 import { formatDateString } from '../utils/dateUtils';
 import ScrollObserver from '../utils/ScrollObserver';
 
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
-  const [mainCardList, setMainCardList] = useState<GetMainData[]>([]);
-  const { currentPage, totalPage, setCurrentPage, setTotalPage, setSelects } =
-    MainPageStore(); // store 불러옴
+  const {
+    currentPage,
+    totalPage,
+    selects,
+    setCurrentPage,
+    setTotalPage,
+    setSelects,
+  } = MainPageStore(); // store 불러옴
   const navigate = useNavigate();
-
-  // 디바이스 체크해서 limit에 전달  PC : 24, Mobile : 7
-  const checkDevice = () => {
-    if (window.innerWidth < 768) {
-      return 7;
-    }
-    return 1;
-  };
-
-  const getMainCardList = async () => {
-    try {
-      const params = { page: currentPage, limit: checkDevice() };
-      const result = await MainListGet(params);
-      // console.log(result.data);
-      setMainCardList((prevMainCardList) => [
-        ...prevMainCardList,
-        ...result.data.data,
-      ]);
-      setTotalPage(result.data.totalPages);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   useEffect(() => {
     document.body.style.backgroundColor = '#FFFFFF';
@@ -60,9 +43,26 @@ const Index = () => {
     };
   }, []);
 
-  useEffect(() => {
-    getMainCardList();
-  }, [currentPage]);
+  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
+    queryKey: ['postList'],
+    queryFn: ({ pageParam = 1 }) => {
+      // 서버에 요청을 보낼 때 pageParam을 활용
+      return getMainList({ page: pageParam, limit: checkDeviceReturnLimit() });
+    },
+    getNextPageParam: (lastPage, pages) => {
+      const nextPage = lastPage.currentPage + 1;
+      return nextPage <= lastPage.totalPages ? nextPage : undefined;
+    },
+    initialPageParam: 1,
+  });
+
+  // 디바이스 체크해서 limit에 전달  PC : 24, Mobile : 7
+  const checkDeviceReturnLimit = () => {
+    if (window.innerWidth < 768) {
+      return 7; // mobile
+    }
+    return 8; // PC
+  };
 
   const likedClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -76,7 +76,6 @@ const Index = () => {
     } else {
       await LikePost(id);
     }
-    await getMainCardList();
   };
 
   const dropdownOptions = [
@@ -93,6 +92,23 @@ const Index = () => {
       ?.arr.find((item) => item.label === selectedValue)?.key;
 
     setSelects({ [key]: selectedKey });
+
+    // 생성된 상태를 기반으로 쿼리스트링 생성
+    // const queryParams = Object.keys(selects)
+    //   .filter((queryKey) => selects[queryKey] !== undefined)
+    //   .map(
+    //     (queryKey) =>
+    //       `${encodeURIComponent(queryKey)}=${encodeURIComponent(selects[queryKey]!)}`
+    //   )
+    //   .join('&');
+
+    // const currentUrl = window.location.href;
+    // const updatedUrl = currentUrl.includes('?')
+    //   ? `${currentUrl}&${queryParams}`
+    //   : `${currentUrl}?${queryParams}`;
+
+    // // 새로운 URL로 페이지 업데이트
+    // window.history.pushState({}, '', updatedUrl);
   };
 
   const renderDropDowns = () => {
@@ -137,11 +153,11 @@ const Index = () => {
           <Typography size='base' text='IT전체' weight='Semibold' />
         </div>
 
-        <div className='flex mb-6 gap-3'>{renderDropDowns()}</div>
+        <div className='flex flex-wrap mb-6 gap-3'>{renderDropDowns()}</div>
 
         <div className='flex flex-wrap gap-4'>
-          {mainCardList &&
-            mainCardList.map((params) => {
+          {data?.pages.map((page) =>
+            page.data.map((params) => {
               const {
                 postId,
                 authorNickname,
@@ -181,15 +197,16 @@ const Index = () => {
                   {title}
                 </Card>
               );
-            })}
+            })
+          )}
         </div>
         {/* // IT전체 */}
         <div className='text-center mt-[42px]'>
-          {currentPage !== totalPage && (
+          {hasNextPage && (
             <button
               type='button'
               className='px-6 py-4 w-[340px] bg-[#E5E7ED] rounded-[400px] text-lg text-[#545760]'
-              onClick={() => setCurrentPage(currentPage + 1)}
+              onClick={() => fetchNextPage()}
             >
               <div className='flex justify-center w-full gap-2'>
                 <p>더보기</p>
@@ -198,11 +215,7 @@ const Index = () => {
             </button>
           )}
         </div>
-        {mainCardList && currentPage !== totalPage && (
-          <ScrollObserver
-            onIntersection={() => setCurrentPage(currentPage + 1)}
-          />
-        )}
+        <ScrollObserver onIntersection={() => fetchNextPage()} />
       </div>
     </div>
   );

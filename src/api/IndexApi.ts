@@ -58,12 +58,14 @@ export type GetMainData = {
   endDate: string;
   commentCount: number;
   isLiked: boolean;
+  nextPage: number;
+  page: number;
 };
 
-export const MainListGet = async (params: GetMainListParams) => {
+export const getMainList = async (params: GetMainListParams) => {
   const MainList = await axiosBaseUrl.get('/posts', {
     params,
   });
 
-  return MainList;
+  return MainList.data;
 };
