@@ -3,7 +3,7 @@ import React from 'react';
 import { axiosBaseUrl } from '../../api/axiosConfig';
 import { GetData } from '../../api/IndexApi';
 import { testLogin, getPost } from '../../api/PostApi';
-import CommentWithButton from '../../molecules/post/view/CommentWithButton';
+import CommentWithButton from '../../molecules/post/view/WriteComment';
 import PostContentView from '../../organisms/post/view/PostContentView';
 import UserInfoWithComment from '../../organisms/post/view/UserInfoWithComment';
 import { Appbar } from '../../stories/appbar/Appbar';

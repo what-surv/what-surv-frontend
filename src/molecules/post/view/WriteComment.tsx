@@ -17,7 +17,7 @@ interface CommentWithButtonProps {
   onClick?: () => void;
 }
 
-const CommentWithButton = ({ placeholder }: CommentWithButtonProps) => {
+const WriteComment = ({ placeholder }: CommentWithButtonProps) => {
   const { num } = useParams() as { num: string };
   const { register, handleSubmit, reset } = useForm<TextareaInputs>();
   const queryClient = useQueryClient();
@@ -86,4 +86,4 @@ const CommentWithButton = ({ placeholder }: CommentWithButtonProps) => {
   );
 };
 
-export default CommentWithButton;
+export default WriteComment;

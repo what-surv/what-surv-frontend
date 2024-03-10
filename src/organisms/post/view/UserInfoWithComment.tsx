@@ -6,19 +6,13 @@ import React, { useState } from 'react';
 import { axiosBaseUrl } from '../../../api/axiosConfig';
 import { getComment } from '../../../api/PostApi';
 import { profileTypes, UserTypes } from '../../../api/Posttypes';
-import deleteIcon from '../../../assets/delete.svg';
-import edit from '../../../assets/edit-line.svg';
-import Comment from '../../../atoms/post/Comment';
-import CommentButton from '../../../atoms/post/CommentButton';
-import EditWithButton from '../../../molecules/post/view/EditWithButton';
-import ReplyWithButton from '../../../molecules/post/view/ReplyWithButton';
+import CommentWithButton from '../../../molecules/post/view/CommentWithButon';
 import UserInfo from '../../../molecules/post/view/UserInfo';
 import { SuccessModalStore } from '../../../store/store';
-import reply from '../../../stories/assets/ic_reply.svg';
 import PostSuccessModal from '../write/PostSuccessModal';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface commentTypes {
   id: string;
@@ -37,6 +31,7 @@ interface CustomAxiosRequestConfig extends AxiosRequestConfig {
 
 const UserInfoWithComment = () => {
   const { num } = useParams() as { num: string };
+  const navigate = useNavigate();
   const { setIsSuccessModalOpen } = SuccessModalStore();
   const queryClient = useQueryClient();
   const { data: comments } = useQuery<commentTypes[]>({
@@ -53,19 +48,23 @@ const UserInfoWithComment = () => {
   const [isReplyOpen, setIsReplyOpen] = useState(false); // 댓글 작성 영역 열림 여부 상태
 
   const [isEditOpen, setIsEditOpen] = useState(false); // 수정 버튼 상태
-  const [CommentId, setCommentId] = useState<string>(''); // 수정할 댓글의 ID를 저장하는 상태
+  const [commentId, setCommentId] = useState<string>(''); // 수정할 댓글의 ID를 저장하는 상태
 
   const [isButtonArray, setIsButtonArray] = useState(true);
 
   // 수정 버튼 클릭 시 해당 댓글의 ID를 저장하고 수정 모드를 활성화
-  const EditButtonClick = (commentId: string) => {
-    setCommentId(commentId); // 수정할 댓글의 ID를 상태에 저장
+  const EditButtonClick = (id: string) => {
+    setCommentId(id); // 수정할 댓글의 ID를 상태에 저장
     setIsEditOpen(true);
     setIsReplyOpen(false);
   };
 
-  const ReplyButtonClick = (commentId: string) => {
-    setCommentId(commentId);
+  const ReplyButtonClick = (id: string) => {
+    if (profile === undefined) {
+      alert('댓글은 로그인 후 작성할 수 있습니다.');
+      navigate('/login');
+    }
+    setCommentId(id);
     setIsReplyOpen(true);
     setIsEditOpen(false);
   };
@@ -78,21 +77,21 @@ const UserInfoWithComment = () => {
     setIsButtonArray(true);
   };
 
-  const DeleteButtonClick = (commentId: string) => {
-    setCommentId(commentId);
+  const DeleteButtonClick = (id: string) => {
+    setCommentId(id);
     setIsSuccessModalOpen(true);
   };
 
-  const click = (commentId: string) => {
-    DeleteCommentMutation.mutate(commentId);
+  const click = (id: string) => {
+    DeleteCommentMutation.mutate(id);
     setCommentId('');
     setIsSuccessModalOpen(false);
   };
 
   const DeleteCommentMutation = useMutation<void, unknown, string>({
-    mutationFn: (commentId) =>
-      axiosBaseUrl.delete(`posts/${num}/comments/${commentId}`, {
-        parentId: commentId,
+    mutationFn: (id) =>
+      axiosBaseUrl.delete(`posts/${num}/comments/${id}`, {
+        parentId: id,
       } as CustomAxiosRequestConfig),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -108,77 +107,52 @@ const UserInfoWithComment = () => {
 
   console.log(comments);
 
+  const renderComments = (
+    commentsArray: commentTypes[],
+    parentId?: string,
+    depth: number = 0
+  ) =>
+    commentsArray
+      .filter((comment) => comment.parent?.id === parentId)
+      .map(({ id, ...comment }) => (
+        <div key={id} className={`${depth > 0 && depth > 1 ? `` : `ml-5`}`}>
+          <UserInfo nickname={comment.user.nickname} />
+          <CommentWithButton
+            {...comment}
+            id={id}
+            isEditOpen={isEditOpen}
+            commentId={commentId}
+            setIsEditOpen={setIsEditOpen}
+            CancelButtonOnClick={CancelButtonOnClick}
+            isButtonArray={isButtonArray}
+            ReplyButtonClick={ReplyButtonClick}
+            EditButtonClick={EditButtonClick}
+            DeleteButtonClick={DeleteButtonClick}
+            isReplyOpen={isReplyOpen}
+          />
+          {/* 댓글 컴포넌트 재귀식으로 호출 */}
+          {renderComments(
+            comments.filter((c) => c.parent?.id === id),
+            id,
+            depth + 1
+          )}
+        </div>
+      ));
+
   return (
     <div>
-      {comments.map(({ content, id, user, parent }: commentTypes) => (
-        <div key={id}>
-          <UserInfo />
-          <div className='flex pl-[30px] mb-5 flex-col gap-2.5 items-start justify-end self-stretch'>
-            {/* 수정할 댓글의 ID가 일치하면 입력 필드로 변경 */}
-            {isEditOpen && CommentId === id ? (
-              <EditWithButton
-                value={content}
-                commentId={id}
-                setIsEditOpen={setIsEditOpen}
-                CancelButtonOnClick={CancelButtonOnClick}
-              />
-            ) : (
-              <div>
-                {parent?.id &&
-                comments.find((comment) => comment.id === parent.id) ? (
-                  <ReplyWithButton
-                    CancelButtonOnClick={CancelButtonOnClick}
-                    parentId={id}
-                    placeholder='타인에게 불쾌감을 주는 욕설 또는 비속어는 경고 조치 없이 삭제될 수 있습니다.'
-                  />
-                ) : (
-                  <Comment content={content} />
-                )}
-              </div>
-            )}
-            <div className='flex comment-button-array'>
-              {isButtonArray && CommentId !== id ? (
-                <div className='flex gap-2.5'>
-                  <CommentButton onClick={() => ReplyButtonClick(id)}>
-                    <img src={reply} alt='답장 아이콘' />
-                  </CommentButton>
-                  {profile?.data.id === user.id && (
-                    <>
-                      <CommentButton onClick={() => EditButtonClick(id)}>
-                        <img src={edit} alt='수정 아이콘' />
-                      </CommentButton>
-                      <CommentButton onClick={() => DeleteButtonClick(id)}>
-                        <img src={deleteIcon} alt='삭제 아이콘' />
-                      </CommentButton>
-                    </>
-                  )}
-                </div>
-              ) : (
-                ''
-              )}
-            </div>
-
-            {isReplyOpen && CommentId === id ? (
-              <ReplyWithButton
-                CancelButtonOnClick={CancelButtonOnClick}
-                parentId={id}
-                placeholder='타인에게 불쾌감을 주는 욕설 또는 비속어는 경고 조치 없이 삭제될 수 있습니다.'
-              />
-            ) : (
-              ''
-            )}
-          </div>
-        </div>
-      ))}
-      <PostSuccessModal
-        firstButtonOnClick={() => click(CommentId)}
-        SecondButtonOnClick={() => setIsSuccessModalOpen(false)}
-        title='선택하신 글을 삭제하시겠어요?'
-        content='삭제하면 이 글을 다시 볼 수 없게 돼요.'
-        firstButtonText='삭제하기'
-        SecondButtonText='취소'
-        isLogo={false}
-      />
+      {renderComments(comments)}
+      <div>
+        <PostSuccessModal
+          firstButtonOnClick={() => click(commentId)}
+          SecondButtonOnClick={() => setIsSuccessModalOpen(false)}
+          title='선택하신 글을 삭제하시겠어요?'
+          content='삭제하면 이 글을 다시 볼 수 없게 돼요.'
+          firstButtonText='삭제하기'
+          SecondButtonText='취소'
+          isLogo={false}
+        />
+      </div>
     </div>
   );
 };
