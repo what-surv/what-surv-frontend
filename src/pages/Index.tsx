@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
-import { GetMainData, MainListGet } from '../api/IndexApi';
+import { GetMainData, getMainList } from '../api/IndexApi';
 import { LikeDelete, LikePost } from '../api/LikeApi';
 import { BannerSwiper, ResearchSwiper } from '../component/MainSwiper';
 import {
@@ -12,73 +12,45 @@ import {
 } from '../organisms/post/write/DropdownValue';
 import { MainPageStore } from '../store/store';
 import { Appbar } from '../stories/appbar/Appbar';
-import icArrowDown from '../stories/assets/ic_arrow_down.svg';
-// import icSearch from '../stories/assets/ic_search.svg';
 import Card from '../stories/card/Card';
 import { Dropdown } from '../stories/dropdown/Dropdown';
+import { Pagination } from '../stories/indicator/pagination/Pagination';
 import Like from '../stories/like/Like';
+import { Tabbar } from '../stories/tabbar/Tabbar';
 import Typography from '../stories/typography/Typography';
 import { formatDateString } from '../utils/dateUtils';
 
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
-  const [mainCardList, setMainCardList] = useState<GetMainData[]>([]);
-  const { currentPage, totalPage, setCurrentPage, setTotalPage, setSelects } =
-    MainPageStore(); // store 불러옴
-
+  const { currentPage, setCurrentPage, setSelects } = MainPageStore(); // store 불러옴
   const navigate = useNavigate();
 
-  // 디바이스 체크해서 limit에 전달  PC : 24, Mobile : 7
-  const checkDevice = () => {
-    if (window.innerWidth < 768) {
-      return 7;
-    }
-    return 24;
-  };
-
-  const getMainCardList = async () => {
-    try {
-      const params = { page: currentPage, limit: checkDevice() };
-      const result = await MainListGet(params);
-      // console.log(result.data);
-      setMainCardList((prevMainCardList) => [
-        ...prevMainCardList,
-        ...result.data.data,
-      ]);
-      setTotalPage(result.data.totalPages);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
-    document.body.style.backgroundColor = '#FFFFFF';
+    document.body.style.backgroundColor = '#F9F9FB';
 
     return () => {
       document.body.style.backgroundColor = '#F2F3F7';
     };
   }, []);
 
-  useEffect(() => {
-    getMainCardList();
-  }, [currentPage]);
-
-  // useEffect(() => {
-
-  // }, [currentPage, selects]);
-
-  // searchInput onChange
-  /*
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setSearchText(value);
+  // 디바이스 체크해서 limit에 전달  PC : 24, Mobile : 7
+  const checkDeviceReturnLimit = () => {
+    if (window.innerWidth < 768) {
+      return 7; // mobile
+    }
+    return 24; // PC
   };
 
-  const searchOnClick = () => {
-    alert(searchText);
-  };
-  */
+  const { data, refetch } = useQuery({
+    queryKey: ['postList', currentPage],
+    queryFn: () =>
+      getMainList({
+        page: currentPage,
+        limit: checkDeviceReturnLimit(),
+      }),
+  });
 
   const likedClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -92,7 +64,7 @@ const Index = () => {
     } else {
       await LikePost(id);
     }
-    await getMainCardList();
+    refetch();
   };
 
   const dropdownOptions = [
@@ -109,6 +81,23 @@ const Index = () => {
       ?.arr.find((item) => item.label === selectedValue)?.key;
 
     setSelects({ [key]: selectedKey });
+
+    // 생성된 상태를 기반으로 쿼리스트링 생성
+    // const queryParams = Object.keys(selects)
+    //   .filter((queryKey) => selects[queryKey] !== undefined)
+    //   .map(
+    //     (queryKey) =>
+    //       `${encodeURIComponent(queryKey)}=${encodeURIComponent(selects[queryKey]!)}`
+    //   )
+    //   .join('&');
+
+    // const currentUrl = window.location.href;
+    // const updatedUrl = currentUrl.includes('?')
+    //   ? `${currentUrl}&${queryParams}`
+    //   : `${currentUrl}?${queryParams}`;
+
+    // // 새로운 URL로 페이지 업데이트
+    // window.history.pushState({}, '', updatedUrl);
   };
 
   const renderDropDowns = () => {
@@ -127,6 +116,12 @@ const Index = () => {
     ));
   };
 
+  // console.log(data);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <div>
       <Appbar
@@ -137,27 +132,8 @@ const Index = () => {
         onArrowClick={() => {}}
         size='full'
       />
+      <Tabbar isMobileVisible size='default' />
       <div className='max-w-[1416px] w-full m-auto'>
-        {/* <div className='flex justify-center'>
-          <div className='flex relative max-w-[1058px] w-full items-center'>
-            <p className='mr-6'>리서치 검색하기</p>
-            <input
-              type='text'
-              onChange={onChange}
-              value={searchText}
-              placeholder='리서치를 검색해 보세요!'
-              className='w-[calc(100%-125px)] px-10 py-4 border-2 border-[#C1C5CC] rounded-[20px] text-2xl'
-            />
-            <button
-              type='button'
-              onClick={searchOnClick}
-              className='absolute right-10'
-            >
-              <img src={icSearch} alt='asd' />
-            </button>
-          </div>
-        </div> */}
-        {/* slider */}
         <div className='my-6'>
           <BannerSwiper />
         </div>
@@ -173,67 +149,58 @@ const Index = () => {
           <Typography size='base' text='IT전체' weight='Semibold' />
         </div>
 
-        <div className='flex gap-3 mb-6'>{renderDropDowns()}</div>
+        <div className='flex flex-wrap mb-6 gap-3'>{renderDropDowns()}</div>
 
         <div className='flex flex-wrap gap-4'>
-          {mainCardList &&
-            mainCardList.map((params) => {
-              const {
-                postId,
-                authorNickname,
-                title,
-                createdAt,
-                endDate,
-                viewCount,
-                commentCount,
-                isLiked,
-              } = params;
+          {data?.data.map((params: GetMainData) => {
+            const {
+              postId,
+              authorNickname,
+              title,
+              createdAt,
+              endDate,
+              viewCount,
+              commentCount,
+              isLiked,
+            } = params;
 
-              return (
-                <Card
-                  key={postId}
-                  id={postId}
-                  nickname={authorNickname}
-                  size='main'
-                  createdAt={createdAt}
-                  enddate={formatDateString(endDate)}
-                  onClick={() => navigate(`view/${postId}`)}
-                  onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                    if (e.key === 'Enter' || e.key === 'Space') {
-                      navigate(`/view/${postId}`);
+            return (
+              <Card
+                key={postId}
+                id={postId}
+                nickname={authorNickname}
+                size='main'
+                createdAt={createdAt}
+                enddate={formatDateString(endDate)}
+                onClick={() => navigate(`view/${postId}`)}
+                onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                  if (e.key === 'Enter' || e.key === 'Space') {
+                    navigate(`/view/${postId}`);
+                  }
+                }}
+                viewCount={Number(viewCount)}
+                commentCount={commentCount}
+              >
+                <span className='absolute top-[25px] right-[21px]'>
+                  <Like
+                    onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                      likedClick(e, postId, isLiked)
                     }
-                  }}
-                  viewCount={viewCount}
-                  commentCount={commentCount}
-                >
-                  <span className='absolute top-[25px] right-[21px]'>
-                    <Like
-                      onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                        likedClick(e, postId, isLiked)
-                      }
-                      isLiked={isLiked}
-                    />
-                  </span>
-                  {title}
-                </Card>
-              );
-            })}
+                    isLiked={isLiked}
+                  />
+                </span>
+                {title}
+              </Card>
+            );
+          })}
         </div>
-        {/* // IT전체 */}
-        <div className='text-center mt-[42px]'>
-          {currentPage !== totalPage && (
-            <button
-              type='button'
-              className='px-6 py-4 w-[340px] bg-[#E5E7ED] rounded-[400px] text-lg text-[#545760]'
-              onClick={() => setCurrentPage(currentPage + 1)}
-            >
-              <div className='flex justify-center w-full gap-2'>
-                <p>더보기</p>
-                <img src={icArrowDown} alt='더보기 버튼 아이콘' />
-              </div>
-            </button>
-          )}
-        </div>
+        {data && (
+          <Pagination
+            pageClick={handlePageChange}
+            totalPage={data.totalPages}
+            currentPage={currentPage}
+          />
+        )}
       </div>
     </div>
   );
