@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { axiosBaseUrl } from '../../api/axiosConfig';
 import { GetData } from '../../api/IndexApi';
 import { testLogin, getPost } from '../../api/PostApi';
 import CommentWithButton from '../../molecules/post/view/WriteComment';
@@ -27,18 +26,12 @@ const PostViewPage = () => {
   const { data: postDetails } = useQuery<GetData>({
     queryKey: ['getPost', num],
     queryFn: () => getPost(num),
-  });
-
-  const { data: profile } = useQuery<GetData>({
-    queryKey: ['getProfile', num],
-    queryFn: () => axiosBaseUrl.get(`auth/profile`),
+    retry: 0,
   });
 
   console.log(postDetails);
 
   if (!postDetails) return null;
-
-  console.log(profile);
 
   return (
     <div className='w-full mx-auto pb-[150px]'>

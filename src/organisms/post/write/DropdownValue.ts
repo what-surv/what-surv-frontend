@@ -5,13 +5,13 @@ export const sortArr = [
 ];
 
 export const genderArr = [
-  { key: 'all', label: '전체' },
-  { key: 'male', label: '남' },
-  { key: 'female', label: '여' },
+  { key: 'All', label: '전체' },
+  { key: 'Male', label: '남' },
+  { key: 'Female', label: '여' },
 ];
 
 export const ageArr = [
-  { key: 'all', label: '전체' },
+  { key: 'All', label: '전체' },
   { key: 'teenagers', label: '10대' },
   { key: '20s', label: '20대' },
   { key: '30s', label: '30대' },

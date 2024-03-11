@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+import { axiosBaseUrl } from '../../api/axiosConfig';
 import check from '../../assets/check.svg';
 import leftArrow from '../../assets/left_arrow.svg';
 import Button from '../../atoms/Button';
@@ -14,6 +15,7 @@ import { Tabbar } from '../../stories/tabbar/Tabbar';
 import Typography from '../../stories/typography/Typography';
 
 import { DevTool } from '@hookform/devtools';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,9 +26,13 @@ interface Inputs {
 }
 
 const PostWritePage = () => {
-  const { register, handleSubmit, control } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const { register, handleSubmit, control, reset } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    postMutation.mutate(data);
+    reset();
+  };
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   // 뒤로가기 모달 팝업 확인용 isConfirmOpen state
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
@@ -54,6 +60,16 @@ const PostWritePage = () => {
 
   // 버튼 disable 여부 확인용 useEffect
   useEffect(() => {
+    console.log(
+      gender,
+      enddate,
+      age,
+      researchType,
+      link,
+      time,
+      procedure,
+      title
+    );
     if (
       !age ||
       !gender ||
@@ -104,22 +120,29 @@ const PostWritePage = () => {
     navigate(-1);
   };
 
-  // 게시글 등록하기 버튼 클릭 시 실행
-  const onSuccess = () => {
-    const jsonData = JSON.stringify({
-      age,
-      title,
-      content,
-      gender,
-      researchType,
-      procedure,
-      link,
-      enddate,
-      time,
-    });
-    console.log(jsonData);
-    setIsSuccessModalOpen(true);
-  };
+  const postMutation = useMutation<void, unknown, Inputs>({
+    mutationFn: (inputs) =>
+      axiosBaseUrl.post(`/posts`, {
+        ages: age,
+        endDate: enddate,
+        gender,
+        researchType,
+        url: inputs.link,
+        procedure,
+        duration: inputs.time,
+        content,
+        title: inputs.title,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['WritePost'],
+      });
+      setIsSuccessModalOpen(true);
+    },
+    onError: () => {
+      console.error('에러 발생');
+    },
+  });
 
   return (
     <div className='w-full bg-[#FAFAFA] flex-col pb-[100px] md:pb-[200px]'>
@@ -178,7 +201,6 @@ const PostWritePage = () => {
               <Button
                 type='submit'
                 className={`inline-flex justify-center text-white py-3 px-6 items-center gap-2 rounded-[400px] md:w-[314px] ${disableButton ? `bg-[#A6AAB2]` : `bg-[#0051FF]`}`}
-                onClick={() => onSuccess()}
                 disabled={disableButton}
               >
                 등록하기
