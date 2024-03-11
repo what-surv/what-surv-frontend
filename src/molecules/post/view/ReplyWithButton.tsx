@@ -79,7 +79,7 @@ const ReplyWithButton = ({
                 weight='Medium'
                 size='base'
                 text='취소'
-                className='text-white'
+                className='text-[#242424]'
               />
             </button>
             <button
