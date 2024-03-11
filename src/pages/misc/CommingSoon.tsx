@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 
+import home from '../../assets/ic-home.svg';
 import logo from '../../stories/assets/logo-identity.svg';
 import Typography from '../../stories/typography/Typography';
-import home from '../../assets/ic-home.svg';
+
 import { useNavigate } from 'react-router-dom';
 
 const CommingSoon = () => {
