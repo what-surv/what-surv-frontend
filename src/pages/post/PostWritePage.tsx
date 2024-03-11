@@ -117,7 +117,7 @@ const PostWritePage = () => {
   const handleModalLeave = () => {
     setIsConfirmModalOpen(false);
     setIsSuccessModalOpen(false);
-    navigate(-1);
+    navigate('/');
   };
 
   const postMutation = useMutation<void, unknown, Inputs>({
@@ -215,7 +215,7 @@ const PostWritePage = () => {
           handleModalLeave={handleModalLeave}
         />
         <PostSuccessModal
-          firstButtonOnClick={handleModalLeave}
+          SecondButtonOnClick={handleModalLeave}
           title='게시물 등록이 완료되었습니다!!'
           content={`내가 작성한 글 목록에서 언제든지 내용을 수정할 수 있어요.\n메인에 등록된 게시물을 확인해보세요!`}
           firstButtonText='수정하기'

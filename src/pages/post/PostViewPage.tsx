@@ -90,9 +90,10 @@ const PostViewPage = () => {
         </div>
         <PostContentView />
         {/* 글 */}
-        <div className='px-4 py-6 bg-[#FFFFFF] w-full rounded-[8px] min-h-[300px]'>
-          {postDetails?.content}
-        </div>
+        <div
+          className='px-4 py-6 bg-[#FFFFFF] w-full rounded-[8px] min-h-[300px]'
+          dangerouslySetInnerHTML={{ __html: postDetails?.content }}
+        />
 
         {/* 관심 */}
         <div className='flex gap-3.5 w-full self-stretch flex-col items-start'>
