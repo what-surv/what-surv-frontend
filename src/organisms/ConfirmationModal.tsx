@@ -20,7 +20,7 @@ const ConfirmationModal = ({
     <>
       <div className='fixed top-0 left-0 flex items-center flex-shrink-0 justify-center w-full h-screen mx-auto bg-[#242424] opacity-70' />
       <div className='fixed top-0 left-0 z-50 flex items-center justify-center flex-shrink-0 w-full h-screen mx-auto'>
-        <div className='flex w-[90%] justify-center items-center max-w-[504px] bg-[#FBD6D4] gap-6 md:gap-10 iphone:p-10 fold:p-6 flex-col rounded-2xl'>
+        <div className='flex text-center w-[90%] justify-center items-center max-w-[504px] bg-[#FBD6D4] gap-6 iphone:p-10 fold:p-6 flex-col rounded-2xl'>
           <Typography
             size='xl'
             text='아직 작성 중인 게시글이 있어요!!!'
@@ -28,10 +28,10 @@ const ConfirmationModal = ({
           />
           <Typography
             size='base'
-            text='게시글 작성 중 뒤로가기를 실행하면 지금까지 작성한 내용은 저장되지 않아요.정말 뒤로 가시겠어요?'
+            text={`게시글 작성 중 뒤로가기를 실행하면\n지금까지 작성한 내용은 저장되지 않아요.\n정말 뒤로 가시겠어요?`}
             weight='Medium'
             lineheight={26}
-            className='break-keep'
+            className='whitespace-pre-wrap '
           />
           <div className='flex items-center self-stretch justify-center gap-2'>
             <button

@@ -1,87 +1,100 @@
-import { axiosBaseUrl } from '../../../api/axiosConfig';
-import { profileTypes } from '../../../api/Posttypes';
-import fillAccount from '../../../assets/account-fill.svg';
-import arrowUpCircle from '../../../assets/arrow-up-circle.svg';
-import Typography from '../../../stories/typography/Typography';
+import React from 'react';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useForm } from 'react-hook-form';
+import EditWithButton from './EditWithButton';
+import ReplyWithButton from './ReplyWithButton';
+import { axiosBaseUrl } from '../../../api/axiosConfig';
+import { profileTypes, UserTypes } from '../../../api/Posttypes';
+import deleteIcon from '../../../assets/delete.svg';
+import edit from '../../../assets/edit-line.svg';
+import Comment from '../../../atoms/post/Comment';
+import CommentButton from '../../../atoms/post/CommentButton';
+import reply from '../../../stories/assets/ic_reply.svg';
+
+import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
-interface TextareaInputs {
-  comment: string;
-}
-
 interface CommentWithButtonProps {
-  placeholder?: string;
-  onClick?: () => void;
+  content: string;
+  id: string;
+  commentId: string;
+  isReplyOpen: boolean;
+  isEditOpen: boolean;
+  user: UserTypes;
+  // parent: parentProps;
+  isButtonArray: boolean;
+  ReplyButtonClick: (id: string) => void;
+  EditButtonClick: (id: string) => void;
+  DeleteButtonClick: (id: string) => void;
+  CancelButtonOnClick: () => void;
+  setIsEditOpen: (isEdit: boolean) => void;
 }
 
-const CommentWithButton = ({ placeholder }: CommentWithButtonProps) => {
-  const { num } = useParams() as { num: string };
-  const { register, handleSubmit, reset } = useForm<TextareaInputs>();
-  const queryClient = useQueryClient();
+// interface parentProps {
+//   id: string;
+// }
 
+const CommentWithButton = ({
+  content,
+  id,
+  user,
+  // parent,
+  isEditOpen,
+  commentId,
+  setIsEditOpen,
+  CancelButtonOnClick,
+  isReplyOpen,
+  isButtonArray,
+  ReplyButtonClick,
+  EditButtonClick,
+  DeleteButtonClick,
+}: CommentWithButtonProps) => {
+  const { num } = useParams() as { num: string };
   const { data: profile } = useQuery<profileTypes>({
     queryKey: ['getProfile', num],
     queryFn: () => axiosBaseUrl.get(`auth/profile`),
   });
-
-  const postCommentMutation = useMutation<void, unknown, string>({
-    mutationFn: (newComment) =>
-      axiosBaseUrl.post(`posts/${num}/comments`, {
-        content: newComment,
-        nickname: profile?.data.nickname,
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['getComment', num],
-      });
-    },
-    onError: () => {
-      console.error('에러 발생');
-    },
-  });
-
-  const onSubmit = (data: TextareaInputs) => {
-    postCommentMutation.mutate(data.comment);
-    reset();
-  };
   return (
-    <div className='flex items-start self-stretch w-full gap-2'>
-      <img
-        src={fillAccount}
-        alt='계정 아이콘'
-        className='p-2.5 gap-2.5 flex items-center justify-center'
-      />
-      <div className='w-full'>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className='flex flex-col items-end justify-end flex-1 gap-2'
-        >
-          <div className='flex py-[14px] px-[30px] border-2 self-stretch gap-2.5 items-center rounded-xl border-[#C1C5CC] bg-[#FAFAFA]'>
-            <textarea
-              {...register('comment')}
-              className='flex-1 bg-inherit text-base placeholder:text-[#D7DBE2] placeholder:font-medium font-pretendard font-semibold outline-none leading-[26px]'
-              placeholder={placeholder}
-              rows={1}
-            />
+    <div className='flex pl-[30px] mb-5 flex-col gap-2.5 items-start justify-end self-stretch'>
+      {isEditOpen && commentId === id ? (
+        <EditWithButton
+          value={content}
+          commentId={id}
+          setIsEditOpen={setIsEditOpen}
+          CancelButtonOnClick={CancelButtonOnClick}
+        />
+      ) : (
+        <Comment content={content} />
+      )}
+      <div className='flex comment-button-array'>
+        {isButtonArray && commentId !== id ? (
+          <div className='flex gap-2.5'>
+            <CommentButton onClick={() => ReplyButtonClick(id)}>
+              <img src={reply} alt='답장 아이콘' />
+            </CommentButton>
+            {profile?.data.id === user.id && (
+              <>
+                <CommentButton onClick={() => EditButtonClick(id)}>
+                  <img src={edit} alt='수정 아이콘' />
+                </CommentButton>
+                <CommentButton onClick={() => DeleteButtonClick(id)}>
+                  <img src={deleteIcon} alt='삭제 아이콘' />
+                </CommentButton>
+              </>
+            )}
           </div>
-          <button
-            type='submit'
-            className='px-5 text-center py-2 rounded-[400px] flex justify-center items-center gap-2 bg-[#0051FF]'
-          >
-            <img src={arrowUpCircle} alt='댓글 쓰기 아이콘' />
-            <Typography
-              lineheight={26}
-              weight='Medium'
-              size='base'
-              text='댓글 쓰기'
-              className='text-white'
-            />
-          </button>
-        </form>
+        ) : (
+          ''
+        )}
       </div>
+      {isReplyOpen && commentId === id ? (
+        <ReplyWithButton
+          CancelButtonOnClick={CancelButtonOnClick}
+          parentId={id}
+          placeholder='타인에게 불쾌감을 주는 욕설 또는 비속어는 경고 조치 없이 삭제될 수 있습니다.'
+        />
+      ) : (
+        ''
+      )}
     </div>
   );
 };

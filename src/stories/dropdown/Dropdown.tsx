@@ -84,18 +84,20 @@ export const Dropdown = ({
     };
   }, [isOpen]);
 
-  const handleOptionClick = (option: string) => {
+  const handleOptionClick = (option: arrOptionProps) => {
     setIsOpen(false);
-    setIsSelected(option);
+    setIsSelected(option.label);
     setDropdownState('activate');
     if (onDropdownChange) {
-      onDropdownChange(option);
+      onDropdownChange(option.key);
     }
   };
 
   const handleCloseClick = (option: string) => {
     const updatedValue = value?.filter((item: string) => item !== option);
-    setDropdownState('default');
+    if (value?.length === 1) {
+      setDropdownState('default');
+    }
 
     if (updatedValue !== undefined && toggleDropdownValue) {
       toggleDropdownValue(updatedValue);
@@ -104,27 +106,29 @@ export const Dropdown = ({
 
   return (
     <div className='relative'>
-      <div className='flex min-w-[80px]'>
-        {!oneSelect && (
-          <div className='flex gap-1.5'>
-            {value?.map((DropdownSelectValue: string) => (
-              <div
-                className='flex bg-[#FAFAFA] h-9 md:py-1.5 md:px-4 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
+      <div className='flex gap-1.5 min-w-[80px]'>
+        <div className='flex gap-1.5'>
+          {!oneSelect && (
+            <div className='flex gap-1.5'>
+              {value?.map((DropdownSelectValue: string) => (
+                <div
+                  className='flex bg-[#FAFAFA] h-9 md:py-1.5 md:px-4 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
          border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] min-w-[79px]'
-                key={DropdownSelectValue}
-              >
-                {DropdownSelectValue}
-                <button
-                  className='focus:outline-none'
-                  type='button'
-                  onClick={() => handleCloseClick(DropdownSelectValue)}
+                  key={DropdownSelectValue}
                 >
-                  <img src={close} alt='close' />
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
+                  {DropdownSelectValue}
+                  <button
+                    className='focus:outline-none'
+                    type='button'
+                    onClick={() => handleCloseClick(DropdownSelectValue)}
+                  >
+                    <img src={close} alt='close' />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
         <button
           className={`${DropdownVariants({ state: dropdownState, ...props })} flex py-1 pl-3 pr-2 md:py-1.5 md:px-3 min-w-[80px]`}
           onClick={(e) => {
@@ -163,7 +167,7 @@ export const Dropdown = ({
             <button
               key={arrOptions.key}
               className='flex w-full justify-center py-1.5 items-center gap-2.5 self-stretch hover:bg-[#CCDCFF]'
-              onClick={() => handleOptionClick(arrOptions.label)}
+              onClick={() => handleOptionClick(arrOptions)}
               type='button'
             >
               {arrOptions.label}
