@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { axiosBaseUrl } from '../../api/axiosConfig';
+import { postArrayProps } from '../../api/IndexApi';
 import check from '../../assets/check.svg';
 import leftArrow from '../../assets/left_arrow.svg';
 import Button from '../../atoms/Button';
@@ -15,7 +16,7 @@ import { Tabbar } from '../../stories/tabbar/Tabbar';
 import Typography from '../../stories/typography/Typography';
 
 import { DevTool } from '@hookform/devtools';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,16 +27,34 @@ interface Inputs {
 }
 
 const PostWritePage = () => {
-  const { register, handleSubmit, control, reset } = useForm<Inputs>();
+  const { register, handleSubmit, control } = useForm<Inputs>();
+  const handleRegistrationOrUpdate = (data: Inputs) => {
+    console.log(isEdit);
+    if (isEdit) {
+      // If post data exists, call the updatePost mutation
+      updatePost.mutate(data);
+    } else {
+      // If no post data exists, call the postMutation mutation
+      postMutation.mutate(data);
+    }
+  };
+
+  const { data: post, isLoading } = useQuery<postArrayProps>({
+    queryKey: ['getAllPost'],
+    queryFn: () => axiosBaseUrl.get(`/posts`),
+  });
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    postMutation.mutate(data);
-    reset();
+    handleRegistrationOrUpdate(data);
+    setIsEdit(!isEdit);
+    console.log(isEdit);
   };
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   // 뒤로가기 모달 팝업 확인용 isConfirmOpen state
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
 
   const { setIsSuccessModalOpen } = SuccessModalStore();
 
@@ -60,16 +79,16 @@ const PostWritePage = () => {
 
   // 버튼 disable 여부 확인용 useEffect
   useEffect(() => {
-    console.log(
-      gender,
-      enddate,
-      age,
-      researchType,
-      link,
-      time,
-      procedure,
-      title
-    );
+    // console.log(
+    //   gender,
+    //   enddate,
+    //   age,
+    //   researchType,
+    //   link,
+    //   time,
+    //   procedure,
+    //   title
+    // );
     if (
       !age ||
       !gender ||
@@ -113,12 +132,42 @@ const PostWritePage = () => {
       setIsConfirmModalOpen(true);
     }
   };
+  // 수정하기 버튼 눌렀을 때
+  const closeModal = () => {
+    setIsConfirmModalOpen(false);
+    setIsSuccessModalOpen(false);
+    queryClient.refetchQueries({ queryKey: ['getAllPost'] });
+  };
 
   const handleModalLeave = () => {
     setIsConfirmModalOpen(false);
     setIsSuccessModalOpen(false);
     navigate('/');
   };
+
+  const updatePost = useMutation<void, unknown, Inputs>({
+    mutationFn: (inputs) =>
+      axiosBaseUrl.patch(`/posts/${Number(post?.data[0].postId)}`, {
+        ages: age,
+        endDate: enddate,
+        gender,
+        researchType,
+        url: inputs.link,
+        procedure,
+        duration: inputs.time,
+        content,
+        title: inputs.title,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['WritePost'],
+      });
+      setIsSuccessModalOpen(true);
+    },
+    onError: () => {
+      console.error('에러 발생');
+    },
+  });
 
   const postMutation = useMutation<void, unknown, Inputs>({
     mutationFn: (inputs) =>
@@ -143,6 +192,10 @@ const PostWritePage = () => {
       console.error('에러 발생');
     },
   });
+
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <div className='w-full bg-[#FAFAFA] flex-col pb-[100px] md:pb-[200px]'>
@@ -199,6 +252,7 @@ const PostWritePage = () => {
             <EditorBox />
             <div className='flex justify-end w-full'>
               <Button
+                onClick={() => handleRegistrationOrUpdate}
                 type='submit'
                 className={`inline-flex justify-center text-white py-3 px-6 items-center gap-2 rounded-[400px] md:w-[314px] ${disableButton ? `bg-[#A6AAB2]` : `bg-[#0051FF]`}`}
                 disabled={disableButton}
@@ -215,6 +269,7 @@ const PostWritePage = () => {
           handleModalLeave={handleModalLeave}
         />
         <PostSuccessModal
+          firstButtonOnClick={closeModal}
           SecondButtonOnClick={handleModalLeave}
           title='게시물 등록이 완료되었습니다!!'
           content={`내가 작성한 글 목록에서 언제든지 내용을 수정할 수 있어요.\n메인에 등록된 게시물을 확인해보세요!`}

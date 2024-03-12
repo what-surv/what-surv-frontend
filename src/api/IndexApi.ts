@@ -47,6 +47,10 @@ export type GetData = {
   viewCount: string;
 };
 
+export interface postArrayProps {
+  data: GetMainData[];
+}
+
 // 받는 데이터
 export type GetMainData = {
   postId: number;
