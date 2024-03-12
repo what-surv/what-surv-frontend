@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { axiosBaseUrl } from '../../../api/axiosConfig';
 import { getComment } from '../../../api/PostApi';
 import { profileTypes, UserTypes } from '../../../api/Posttypes';
-import CommentWithButton from '../../../molecules/post/view/CommentWithButon';
+import CommentWithButton from '../../../molecules/post/view/CommentWithButton';
 import UserInfo from '../../../molecules/post/view/UserInfo';
 import { SuccessModalStore } from '../../../store/store';
 import PostSuccessModal from '../write/PostSuccessModal';
