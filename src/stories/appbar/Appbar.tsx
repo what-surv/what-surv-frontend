@@ -1,14 +1,18 @@
 // import { actions } from '@storybook/addon-actions';
 import { cva } from 'class-variance-authority';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
+import { menuItems } from './util';
 import account from '../assets/account.svg';
 import close from '../assets/close.svg';
+import editBlack from '../assets/edit-black.svg';
+import heartBlack from '../assets/heart-black.svg';
 import smallLogo from '../assets/logo-identity.svg';
 import logo from '../assets/logo.svg';
 import notification from '../assets/notification.svg';
 import rightArrow from '../assets/right_arrow.svg';
 import search from '../assets/search.svg';
+import setting from '../assets/setting.svg';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -69,6 +73,7 @@ export const Appbar = ({
 }: AppbarProps) => {
   const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
+  const el = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -77,6 +82,31 @@ export const Appbar = ({
   const navigateHome = () => {
     navigate('/');
   };
+
+  const handleAccountIconHover = () => {
+    setShowMenu(true);
+  };
+
+  const handleAccountIconLeave = () => {
+    setShowMenu(false);
+  };
+
+  useEffect(() => {
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (
+        showMenu &&
+        el.current &&
+        !el.current.contains(e.relatedTarget as Node)
+      ) {
+        setShowMenu(false);
+      }
+    };
+
+    window.addEventListener('mouseleave', handleMouseLeave);
+    return () => {
+      window.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, [showMenu]);
 
   return (
     <header className={`${AppbarVariants({ size, ...props })}`}>
@@ -125,7 +155,12 @@ export const Appbar = ({
           )}
           {isAccount && (
             <div className='relative'>
-              <button type='button' onClick={toggleMenu}>
+              <button
+                type='button'
+                className='flex w-6'
+                onClick={toggleMenu}
+                onMouseEnter={handleAccountIconHover}
+              >
                 <img
                   src={account}
                   alt='account icon'
@@ -133,17 +168,41 @@ export const Appbar = ({
                 />
               </button>
               {showMenu && (
-                <div className='absolute right-0 z-10 mt-2 bg-white border border-gray-200 rounded shadow-lg w-36'>
+                <div
+                  className='absolute self-stretch overflow-hidden border-[#6697FF] rounded-2xl border right-0 z-10 mt-3 bg-white shadow-lg w-[245px]'
+                  onMouseLeave={handleAccountIconLeave}
+                >
                   <ul className='py-2'>
-                    <li className='px-4 py-2 cursor-pointer hover:bg-gray-100'>
-                      설정
-                    </li>
-                    <li className='px-4 py-2 cursor-pointer hover:bg-gray-100'>
-                      로그아웃
-                    </li>
-                    <li className='px-4 py-2 cursor-pointer hover:bg-gray-100'>
-                      관심표시한 글
-                    </li>
+                    {menuItems.map(({ id, label }) => (
+                      <li
+                        key={id}
+                        className='h-[52px] font-semibold w-full px-5 py-3 justify-start items-center gap-2 inline-flex hover:bg-[#D6FF00]'
+                        // onClick={() => handleMenuItemClick(id)} // Assuming handleMenuItemClick takes an id parameter
+                      >
+                        {label === '설정' && (
+                          <img
+                            src={setting}
+                            alt='setting icon'
+                            className='w-6 h-6'
+                          />
+                        )}
+                        {label === '내 모집글' && (
+                          <img
+                            src={editBlack}
+                            alt='edit icon'
+                            className='w-6 h-6'
+                          />
+                        )}
+                        {label === '관심 표시한 글' && (
+                          <img
+                            src={heartBlack}
+                            alt='heart icon'
+                            className='w-6 h-6'
+                          />
+                        )}
+                        {label}
+                      </li>
+                    ))}
                   </ul>
                 </div>
               )}

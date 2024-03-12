@@ -44,7 +44,7 @@ const PostViewPage = () => {
   const { data: comments } = useQuery<commentTypes[]>({
     queryKey: ['getComment', num],
     queryFn: () => getComment(num),
-    enabled: true, // 컴포넌트가 마운트될 때 즉시 데이터 가져오기
+    enabled: true,
   });
 
   console.log(postDetails);
