@@ -1,6 +1,6 @@
 // import { actions } from '@storybook/addon-actions';
 import { cva } from 'class-variance-authority';
-import React from 'react';
+import React, { useState } from 'react';
 
 import account from '../assets/account.svg';
 import close from '../assets/close.svg';
@@ -9,6 +9,8 @@ import logo from '../assets/logo.svg';
 import notification from '../assets/notification.svg';
 import rightArrow from '../assets/right_arrow.svg';
 import search from '../assets/search.svg';
+
+import { useNavigate } from 'react-router-dom';
 
 const AppbarVariants = cva(
   `w-full px-6 md:px-[150px] full:px-[180px] min-w-[280px] md:min-w-[680px] py-3.5 bg-[#FAFAFA]`,
@@ -65,6 +67,17 @@ export const Appbar = ({
   onArrowClick,
   ...props
 }: AppbarProps) => {
+  const [showMenu, setShowMenu] = useState(false);
+  const navigate = useNavigate();
+
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
+  };
+
+  const navigateHome = () => {
+    navigate('/');
+  };
+
   return (
     <header className={`${AppbarVariants({ size, ...props })}`}>
       <div className='max-w-[1560px] w-full flex justify-between m-auto'>
@@ -79,7 +92,9 @@ export const Appbar = ({
             </button>
           )}
           <div className='hidden w-full md:inline-block'>
-            {isLogo && <img src={logo} alt='logo' />}
+            <button type='button' onClick={navigateHome}>
+              {isLogo && <img src={logo} alt='logo' />}
+            </button>
           </div>
           <div className='md:hidden'>
             {isLogo && !isFullLogo && !children && (
@@ -109,11 +124,30 @@ export const Appbar = ({
             />
           )}
           {isAccount && (
-            <img
-              src={account}
-              alt='account icon'
-              className={`${isClose ? `hidden md:inline-block` : ``}`}
-            />
+            <div className='relative'>
+              <button type='button' onClick={toggleMenu}>
+                <img
+                  src={account}
+                  alt='account icon'
+                  className={`${isClose ? 'hidden md:inline-block' : ''}`}
+                />
+              </button>
+              {showMenu && (
+                <div className='absolute right-0 z-10 mt-2 bg-white border border-gray-200 rounded shadow-lg w-36'>
+                  <ul className='py-2'>
+                    <li className='px-4 py-2 cursor-pointer hover:bg-gray-100'>
+                      설정
+                    </li>
+                    <li className='px-4 py-2 cursor-pointer hover:bg-gray-100'>
+                      로그아웃
+                    </li>
+                    <li className='px-4 py-2 cursor-pointer hover:bg-gray-100'>
+                      관심표시한 글
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
           )}
           {isClose && (
             <img src={close} alt='close icon' className='md:hidden' />

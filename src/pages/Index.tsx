@@ -152,7 +152,7 @@ const Index = () => {
         <div className='flex flex-wrap gap-3 mb-6'>{renderDropDowns()}</div>
 
         <div className='flex flex-wrap gap-4'>
-          {data?.data.map((params: GetMainData) => {
+          {data?.map((params: GetMainData) => {
             const {
               postId,
               authorNickname,

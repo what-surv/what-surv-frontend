@@ -1,10 +1,9 @@
 import { axiosBaseUrl } from '../../../api/axiosConfig';
-import { profileTypes } from '../../../api/Posttypes';
 import fillAccount from '../../../assets/account-fill.svg';
 import arrowUpCircle from '../../../assets/arrow-up-circle.svg';
 import Typography from '../../../stories/typography/Typography';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 
@@ -22,16 +21,10 @@ const WriteComment = ({ placeholder }: CommentWithButtonProps) => {
   const { register, handleSubmit, reset } = useForm<TextareaInputs>();
   const queryClient = useQueryClient();
 
-  const { data: profile } = useQuery<profileTypes>({
-    queryKey: ['getProfile', num],
-    queryFn: () => axiosBaseUrl.get(`auth/profile`),
-  });
-
   const postCommentMutation = useMutation<void, unknown, string>({
     mutationFn: (newComment) =>
       axiosBaseUrl.post(`posts/${num}/comments`, {
         content: newComment,
-        nickname: profile?.data.nickname,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({

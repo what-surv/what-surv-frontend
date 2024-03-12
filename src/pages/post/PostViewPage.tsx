@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { GetData } from '../../api/IndexApi';
-import { testLogin, getPost } from '../../api/PostApi';
+import { testLogin, getPost, getComment } from '../../api/PostApi';
+import { UserTypes } from '../../api/Posttypes';
 import CommentWithButton from '../../molecules/post/view/WriteComment';
 import PostContentView from '../../organisms/post/view/PostContentView';
 import UserInfoWithComment from '../../organisms/post/view/UserInfoWithComment';
@@ -16,6 +17,17 @@ import Typography from '../../stories/typography/Typography';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
+interface commentTypes {
+  id: string;
+  content: string;
+  user: UserTypes;
+  parent: parentProps;
+}
+
+interface parentProps {
+  id: string;
+}
+
 const PostViewPage = () => {
   const { num } = useParams() as { num: string };
   const navigate = useNavigate();
@@ -29,9 +41,15 @@ const PostViewPage = () => {
     retry: 0,
   });
 
+  const { data: comments } = useQuery<commentTypes[]>({
+    queryKey: ['getComment', num],
+    queryFn: () => getComment(num),
+    enabled: true, // 컴포넌트가 마운트될 때 즉시 데이터 가져오기
+  });
+
   console.log(postDetails);
 
-  if (!postDetails) return null;
+  if (!postDetails && !comments) return null;
 
   return (
     <div className='w-full mx-auto pb-[150px]'>
@@ -78,7 +96,7 @@ const PostViewPage = () => {
               <div className='flex items-center gap-1'>
                 <img src={icComment} alt='댓글 아이콘' />
                 <Typography
-                  text='99'
+                  text={comments?.length}
                   size='sm'
                   weight='Medium'
                   lineheight={22}
