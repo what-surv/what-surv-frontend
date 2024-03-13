@@ -8,7 +8,7 @@ import { Badge } from '../badge/Badge';
 import Typography from '../typography/Typography';
 
 const CardVariants = cva(
-  `relative max-w-[342px] w-full border rounded-[16px] p-5 bg-[#FFF] transition-all duration-150 ease-out hover:scale-[1.02] z-10`,
+  `relative max-w-[342px] w-full border rounded-[16px] p-5 bg-[#FFF] transition-all duration-150 ease-out hover:scale-[1.02] z-10 overflow-hidden`,
   {
     variants: {
       size: {
@@ -42,10 +42,20 @@ interface CardProps {
   /** 조회수 */
   viewCount: number;
 
+  /** 카드 타입 edit일 경우 커버씌워짐 */
+  type: 'default' | 'edit';
+
   /** 댓글수 */
   commentCount: number;
-  onClick: () => void;
+
+  onClick?: () => void;
+
   onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => void;
+
+  onEditButtonsClick?: (
+    sort: string,
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => void;
 }
 
 // 메인 페이지에서 사용하는 Card 컴포넌트
@@ -59,8 +69,10 @@ const Card = ({
   nickname,
   viewCount,
   commentCount,
+  type,
   onClick,
   onKeyDown,
+  onEditButtonsClick,
   ...props
 }: CardProps) => {
   // 현재 시간을 가져오기
@@ -163,6 +175,38 @@ const Card = ({
               weight='Medium'
               className='text-[#808490]'
             />
+          </div>
+        </div>
+      )}
+      {type === 'edit' && (
+        <div>
+          <div className='absolute flex w-[100%] h-[100%]  left-0 top-0 bg-[#000] opacity-40' />
+
+          <div className='absolute flex top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] z-100 gap-6'>
+            {onEditButtonsClick && (
+              <button
+                type='button'
+                className='flex w-[120px] h-[48px] items-center justify-center rounded-[400px] bg-[#FAFAFA]'
+                aria-label='삭제'
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                  onEditButtonsClick('delete', e)
+                }
+              >
+                <Typography size='base' weight='Medium' text='삭제' />
+              </button>
+            )}
+            {onEditButtonsClick && (
+              <button
+                type='button'
+                className='flex w-[120px] h-[48px] items-center justify-center rounded-[400px] bg-[#FAFAFA]'
+                aria-label='수정'
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                  onEditButtonsClick('modify', e)
+                }
+              >
+                <Typography size='base' weight='Medium' text='수정' />
+              </button>
+            )}
           </div>
         </div>
       )}
