@@ -1,0 +1,30 @@
+.floatingButton {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 400px;
+  background-color: #fafafa;
+  box-shadow: 2px 4px 12px 1px #0000006b;
+}
+
+.textBox {
+  position: relative;
+  width: 0;
+  transition: 0.3s;
+
+  opacity: 0;
+}
+
+.textBox > span {
+  position: absolute;
+  white-space: nowrap;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+}
+
+.floatingButton:hover .textBox {
+  width: 103px;
+  opacity: 1;
+}

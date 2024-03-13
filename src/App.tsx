@@ -4,6 +4,7 @@ import Login from './pages/login/Login';
 import MarketingConsent from './pages/misc/MarketingConsent';
 import PrivacyPolicyPage from './pages/misc/PrivacyPolicyPage';
 import TermsofServicePage from './pages/misc/TermsofServicePage';
+import Withdrawal from './pages/misc/Withdrawal';
 import Setting from './pages/myPages/Setting';
 import PostViewPage from './pages/post/PostViewPage';
 import PostWritePage from './pages/post/PostWritePage';
@@ -33,6 +34,7 @@ const App = () => {
           <Route path='/termsOfService' element={<TermsofServicePage />} />
           <Route path='/lite' element={<Lite />} />
           <Route path='/mypage/setting' element={<Setting />} />
+          <Route path='/withdrawal' element={<Withdrawal />} />
         </Routes>
       </div>
     </>

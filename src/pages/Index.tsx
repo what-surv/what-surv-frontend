@@ -14,6 +14,7 @@ import { MainPageStore } from '../store/store';
 import { Appbar } from '../stories/appbar/Appbar';
 import Card from '../stories/card/Card';
 import { Dropdown } from '../stories/dropdown/Dropdown';
+import FloatingButton from '../stories/floatingButton/FloatingButton';
 import { Pagination } from '../stories/indicator/pagination/Pagination';
 import Like from '../stories/like/Like';
 import { Tabbar } from '../stories/tabbar/Tabbar';
@@ -120,14 +121,14 @@ const Index = () => {
     ));
   };
 
-  // console.log(data);
+  console.log(data);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
   return (
-    <div>
+    <div className='relative'>
       <Appbar
         isAccount
         isFullLogo
@@ -155,7 +156,7 @@ const Index = () => {
 
         <div className='flex flex-wrap gap-3 mb-6'>{renderDropDowns()}</div>
 
-        <div className='flex flex-wrap gap-4'>
+        <div className='relative flex flex-wrap gap-4'>
           {data?.data.map((params: GetMainData) => {
             const {
               postId,
@@ -173,10 +174,11 @@ const Index = () => {
                 key={postId}
                 id={postId}
                 nickname={authorNickname}
-                size='main'
+                cardStyle='default'
                 createdAt={createdAt}
                 enddate={formatDateString(endDate)}
                 onClick={() => navigate(`view/${postId}`)}
+                type='default'
                 onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
                   if (e.key === 'Enter' || e.key === 'Space') {
                     navigate(`/view/${postId}`);
@@ -205,6 +207,9 @@ const Index = () => {
             currentPage={currentPage}
           />
         )}
+      </div>
+      <div className='fixed bottom-[50px] right-[13%] z-[100]'>
+        <FloatingButton onClick={() => navigate('write')} />
       </div>
     </div>
   );
