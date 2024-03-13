@@ -8,24 +8,13 @@ import { Badge } from '../badge/Badge';
 import Typography from '../typography/Typography';
 
 const CardVariants = cva(
-  `relative max-w-[342px] w-full border rounded-[16px] p-5 bg-[#FFF] transition-all duration-150 ease-out hover:scale-[1.02] z-10 overflow-hidden`,
-  {
-    variants: {
-      size: {
-        main: 'border-[#C1C5CC]',
-        small: 'border-2 rounded border-[#80A8FF]',
-      },
-    },
-    defaultVariants: {
-      size: 'main',
-    },
-  }
+  `relative max-w-[342px] w-full border rounded-[16px] p-5 bg-[#FFF] transition-all duration-150 ease-out hover:scale-[1.02] z-10 overflow-hidden`
 );
 
 interface CardProps {
   children?: React.ReactNode;
   /** 사이즈  */
-  size?: 'main' | 'small';
+  cardStyle: 'default' | 'hot';
 
   /** 게시글 ID */
   id: number;
@@ -62,7 +51,7 @@ interface CardProps {
 
 const Card = ({
   id,
-  size,
+  cardStyle,
   children,
   createdAt,
   enddate,
@@ -87,12 +76,12 @@ const Card = ({
   return (
     <div
       onClick={onClick}
-      className={`${CardVariants({ size, ...props })}`}
+      className={`${CardVariants({ ...props })}`}
       onKeyDown={onKeyDown}
       role='button'
       tabIndex={id}
     >
-      {size === 'main' ? (
+      {cardStyle === 'default' ? (
         <div className='flex items-center justify-between w-full'>
           <div className='flex gap-3'>
             <Badge size='default' state='main'>
@@ -136,7 +125,7 @@ const Card = ({
             weight='Medium'
           />
         </div>
-        {size === 'small' && (
+        {cardStyle === 'hot' && (
           <div className='flex items-center gap-2'>
             <p className='flex items-center'>
               <img src={icEye} alt='조회수 아이콘' />
@@ -148,7 +137,7 @@ const Card = ({
       <p className='text-left line-clamp-2 h-[52px]'>
         <Typography size='base' text={children} weight='Semibold' />
       </p>
-      {size === 'main' && (
+      {cardStyle === 'default' && (
         <div className='flex justify-between mt-[14px] mt-9 pt-4 border-t border-[#D7DBE2]'>
           <div className='flex'>
             <p className='mr-[10px]'>

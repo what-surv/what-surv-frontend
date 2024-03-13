@@ -121,7 +121,7 @@ const Index = () => {
     ));
   };
 
-  // console.log(data);
+  console.log(data);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -174,7 +174,7 @@ const Index = () => {
                 key={postId}
                 id={postId}
                 nickname={authorNickname}
-                size='main'
+                cardStyle='default'
                 createdAt={createdAt}
                 enddate={formatDateString(endDate)}
                 onClick={() => navigate(`view/${postId}`)}
