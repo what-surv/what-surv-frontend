@@ -64,6 +64,8 @@ export type GetMainData = {
   isLiked: boolean;
   nextPage: number;
   page: number;
+  totalPages: number;
+  data: [];
 };
 
 export const getMainList = async (params: GetMainListParams) => {
