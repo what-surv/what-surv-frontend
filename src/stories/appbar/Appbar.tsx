@@ -16,6 +16,8 @@ import setting from '../assets/setting.svg';
 
 import { useNavigate } from 'react-router-dom';
 
+// import { useNavigate } from 'react-router-dom';
+
 const AppbarVariants = cva(
   `w-full px-6 md:px-[150px] full:px-[180px] min-w-[280px] md:min-w-[680px] py-3.5 bg-[#FAFAFA]`,
   {
@@ -128,7 +130,9 @@ export const Appbar = ({
           </div>
           <div className='md:hidden'>
             {isLogo && !isFullLogo && !children && (
-              <img src={smallLogo} alt='small logo' />
+              <button type='button' onClick={navigateHome}>
+                <img src={smallLogo} alt='small logo' />
+              </button>
             )}
             {isLogo && isFullLogo && !children && <img src={logo} alt='logo' />}
           </div>
