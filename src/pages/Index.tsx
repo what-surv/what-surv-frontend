@@ -43,7 +43,7 @@ const Index = () => {
     return 24; // PC
   };
 
-  const { data, refetch } = useQuery({
+  const { data, refetch, isLoading } = useQuery<GetMainData>({
     queryKey: ['postList', currentPage],
     queryFn: () =>
       getMainList({
@@ -51,6 +51,10 @@ const Index = () => {
         limit: checkDeviceReturnLimit(),
       }),
   });
+
+  if (isLoading) {
+    return null;
+  }
 
   const likedClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
