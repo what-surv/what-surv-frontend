@@ -13,6 +13,7 @@ import {
 import { MainPageStore } from '../store/store';
 import { Appbar } from '../stories/appbar/Appbar';
 import Card from '../stories/card/Card';
+// import CardSkeleton from '../stories/cardSkeleton/CardSkeleton';
 import { Dropdown } from '../stories/dropdown/Dropdown';
 import FloatingButton from '../stories/floatingButton/FloatingButton';
 import { Pagination } from '../stories/indicator/pagination/Pagination';
@@ -44,7 +45,7 @@ const Index = () => {
     return 24; // PC
   };
 
-  const { data, refetch, isLoading } = useQuery<GetMainData>({
+  const { data, refetch } = useQuery<GetMainData>({
     queryKey: ['postList', currentPage],
     queryFn: () =>
       getMainList({
@@ -53,9 +54,19 @@ const Index = () => {
       }),
   });
 
-  if (isLoading) {
-    return null;
-  }
+  // const showSkeleton = () => {
+  //   if (isLoading) {
+  //     return (
+  //       <>
+  //         {new Array(12).fill('').map(() => (
+  //           <CardSkeleton type='default' />
+  //         ))}
+  //       </>
+  //     );
+  //   }
+
+  //   return null;
+  // };
 
   const likedClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -121,7 +132,7 @@ const Index = () => {
     ));
   };
 
-  console.log(data);
+  // console.log(data);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -157,6 +168,7 @@ const Index = () => {
         <div className='flex flex-wrap gap-3 mb-6'>{renderDropDowns()}</div>
 
         <div className='relative flex flex-wrap gap-4'>
+          {/* {showSkeleton()} */}
           {data?.data.map((params: GetMainData) => {
             const {
               postId,
