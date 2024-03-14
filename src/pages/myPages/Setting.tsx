@@ -50,14 +50,26 @@ const Setting = () => {
 
   console.log(profile);
   const [selectedButton, setSelectedButton] = useState('관심');
+  const [nicknameLength, setNicknameLength] = useState<number>(
+    profile?.data.nickname?.length ?? 0
+  );
 
   const {
     register,
-    // formState: { errors },
+    formState: { errors },
+    setValue,
     control,
-  } = useForm<Inputs>();
+  } = useForm<Inputs>({
+    mode: 'onBlur',
+  });
 
-  if (!profile && isLoading) {
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.slice(0, 10); // Limit to 10 characters
+    setValue('nickname', value); // Update the value in react-hook-form
+    setNicknameLength(value.length);
+  };
+
+  if (isLoading) {
     return null;
   }
   return (
@@ -154,7 +166,7 @@ const Setting = () => {
         {/* // 유저 기본정보 */}
 
         {/* 수정 인풋들 */}
-        <form noValidate>
+        <form>
           <div className='flex flex-col gap-4 mb-9'>
             <div className='flex flex-col items-start w-full gap-2'>
               <Typography
@@ -164,25 +176,34 @@ const Setting = () => {
                 className='text-[#242424]'
               />
               <div className='text-area flex py-2.5 px-5 border self-stretch gap-3 items-center rounded-xl border-[#808490] bg-[#FAFAFA]'>
-                <input
-                  placeholder='김서치'
+                <Input
+                  placeholder='닉네임을 입력해주세요.'
                   className='flex-1 bg-inherit text-base placeholder:text-[#545760] placeholder:font-semibold normal font-pretendard font-semibold outline-none leading-[26px]'
                   {...register('nickname', {
                     required: '닉네임을 입력해주세요.',
+                    pattern: {
+                      value:
+                        /^[a-zA-Z가-힣]*[ㄱ-ㅎㅏ-ㅣ]*[가-힣a-zA-Z]+[a-zA-Z가-힣]*$/,
+                      message:
+                        '닉네임은 한글 또는 영어만 사용 가능하며, 조합된 문자만 허용됩니다.',
+                    },
+
+                    onChange: handleNicknameChange,
                     maxLength: {
                       value: 10,
                       message: '닉네임은 10글자 이하로 작성해 주세요.',
                     },
                   })}
                 />
+
                 <Typography
                   size='xs'
-                  text='0/10'
-                  // text={`${nickname.length}/10`}
+                  text={`${nicknameLength}/10`}
                   weight='Regular'
                   className='text-[#818490]'
                 />
               </div>
+              {errors.nickname && <span>{errors.nickname.message}</span>}
             </div>
             <div className='flex flex-col items-start w-full gap-2'>
               <Typography
@@ -197,7 +218,7 @@ const Setting = () => {
                   id='interest'
                   placeholder='관심있는 분야 또는 도메인 등을 입력해보세요!'
                   {...register('interest', {
-                    required: '이 값은 필수항목입니다.',
+                    required: '관심분야를 입력해주세요.',
                     maxLength: {
                       value: 50,
                       message: '50자 이내로 입력해주세요.',
@@ -206,6 +227,7 @@ const Setting = () => {
                   className='flex-1 bg-inherit text-base placeholder:text-[#C1C5CC] placeholder:font-medium normal font-pretendard font-semibold outline-none leading-[26px]'
                 />
               </div>
+              {errors.interest && <span>{errors.interest.message}</span>}
             </div>
           </div>
         </form>
