@@ -26,7 +26,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
-  const { currentPage, setCurrentPage, setSelects } = MainPageStore(); // store 불러옴
+  const { currentPage, setCurrentPage } = MainPageStore(); // store 불러옴
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -91,29 +91,23 @@ const Index = () => {
     { defaultValue: '진행방식', key: 'method', arr: methodArr },
   ];
 
+  // 선택한 값들을 저장하기 위한 객체
+  const selectedValues: Record<string, string> = {};
   const soltingHandler = (key: string, selectedValue: string) => {
-    const selectedKey = dropdownOptions
-      .find((option) => option.key === key)
-      ?.arr.find((item) => item.label === selectedValue)?.key;
+    // 기존에 선택된 값이 있는지 확인하고 추가 또는 갱신
+    if (selectedValue) {
+      selectedValues[key] = selectedValue;
+    }
 
-    setSelects({ [key]: selectedKey });
+    // 누적된 선택한 값들로부터 쿼리스트링을 생성
+    const queryString = Object.keys(selectedValues)
+      .map(
+        (queryKey) =>
+          `${encodeURIComponent(queryKey)}=${encodeURIComponent(selectedValues[queryKey])}`
+      )
+      .join('&');
 
-    // 생성된 상태를 기반으로 쿼리스트링 생성
-    // const queryParams = Object.keys(selects)
-    //   .filter((queryKey) => selects[queryKey] !== undefined)
-    //   .map(
-    //     (queryKey) =>
-    //       `${encodeURIComponent(queryKey)}=${encodeURIComponent(selects[queryKey]!)}`
-    //   )
-    //   .join('&');
-
-    // const currentUrl = window.location.href;
-    // const updatedUrl = currentUrl.includes('?')
-    //   ? `${currentUrl}&${queryParams}`
-    //   : `${currentUrl}?${queryParams}`;
-
-    // // 새로운 URL로 페이지 업데이트
-    // window.history.pushState({}, '', updatedUrl);
+    console.log('Generated Query String:', queryString);
   };
 
   const renderDropDowns = () => {
