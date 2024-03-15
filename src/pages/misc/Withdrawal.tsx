@@ -7,10 +7,21 @@ import CheckBox from '../../stories/checkBox/CheckBox';
 import { Tabbar } from '../../stories/tabbar/Tabbar';
 import Typography from '../../stories/typography/Typography';
 
+interface OptionProps {
+  id: number;
+  label: string;
+  details?: {
+    id: number;
+    label: string;
+    selected: boolean;
+  }[];
+  selected: boolean;
+}
+
 const initOptions = [
   {
     id: 0,
-    label: '이용하기 너무 불편해요',
+    label: '이용하기 너무 불편해요.',
     details: [
       {
         id: 0,
@@ -40,11 +51,23 @@ const initOptions = [
   { id: 5, label: '기타', selected: false },
 ];
 const Withdrawal = () => {
-  const [options, setOptions] = useState(initOptions);
+  const [options, setOptions] = useState<OptionProps[]>(initOptions);
   const [checked, setChecked] = useState(false);
+
   const handleSelect = (id: number) => {
-    const newOptions = [...options];
-    newOptions[id].selected = !newOptions[id].selected;
+    const newOptions = options.map((option) => {
+      if (option.id === id) {
+        // If the selected option is changed, reset its details
+        return {
+          ...option,
+          selected: !option.selected,
+          details: option.details
+            ? option.details.map((detail) => ({ ...detail, selected: false }))
+            : undefined,
+        };
+      }
+      return option;
+    });
     setOptions(newOptions);
   };
 
@@ -78,6 +101,25 @@ const Withdrawal = () => {
     setChecked(!checked);
   };
 
+  const isAllOptionsUnselected = options.every((option) => !option.selected);
+
+  const onClick = () => {
+    const selectedLabels = options
+      .filter((option) => option.selected)
+      .map((option) => {
+        if (option.details) {
+          const detailsLabels = option.details
+            .filter((detail) => detail.selected)
+            .map((detail) => detail.label)
+            .join(', ');
+          return `${option.label}, ${detailsLabels}`;
+        }
+        return option.label;
+      })
+      .join(', ');
+
+    console.log(selectedLabels);
+  };
   return (
     <div>
       <Appbar
@@ -184,7 +226,8 @@ const Withdrawal = () => {
             type='button'
             className='flex w-full items-center justify-center h-12 bg-[#0051FF] disabled:bg-[#A6AAB2] rounded-[400px]'
             aria-label='탈퇴하기'
-            disabled={!checked}
+            disabled={!checked || isAllOptionsUnselected}
+            onClick={() => onClick()}
           >
             <Typography
               text='탈퇴하기'
