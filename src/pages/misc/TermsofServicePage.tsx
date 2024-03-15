@@ -1,11 +1,20 @@
-import React from 'react';
-
 import styles from './miscStyle.module.css';
 import Typography from '../../stories/typography/Typography';
 
 const TermsofServicePage = () => {
   return (
     <div className='max-w-[342px] w-full m-auto'>
+      <div className='flex flex-col gap-4 pb-[20px]'>
+        <p>
+          <Typography
+            size='xl2'
+            text='🖥️'
+            weight='Bold'
+            className='relative -left-[12px] text-neutral-800 text-[70px] leading-[70px]'
+          />
+        </p>
+        <Typography size='xl2' text='서비스 이용약관' weight='Bold' />
+      </div>
       <section className={styles.termsSection}>
         <Typography size='xs' text='제1조(목적)' weight='Bold' />
         <p>
@@ -719,6 +728,21 @@ const TermsofServicePage = () => {
           <Typography
             size='xs'
             text='서비스와 관련하여 분쟁이 발생한 경우 관할법원은 회사 소재지 관할법원으로 정하며, 준거법은 대한민국의 법령을 적용합니다.'
+            weight='Regular'
+          />
+        </p>
+      </section>
+      <section className={styles.termsSection}>
+        <p>
+          <Typography size='xs' text='부 칙' weight='Bold' />
+        </p>
+        <p>
+          <Typography size='xs' text='제1조(시행일)' weight='Regular' />
+        </p>
+        <p>
+          <Typography
+            size='xs'
+            text='본 약관은 2024.02.27부터 시행됩니다.'
             weight='Regular'
           />
         </p>

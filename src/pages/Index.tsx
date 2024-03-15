@@ -13,7 +13,9 @@ import {
 import { MainPageStore } from '../store/store';
 import { Appbar } from '../stories/appbar/Appbar';
 import Card from '../stories/card/Card';
+// import CardSkeleton from '../stories/cardSkeleton/CardSkeleton';
 import { Dropdown } from '../stories/dropdown/Dropdown';
+import FloatingButton from '../stories/floatingButton/FloatingButton';
 import { Pagination } from '../stories/indicator/pagination/Pagination';
 import Like from '../stories/like/Like';
 import { Tabbar } from '../stories/tabbar/Tabbar';
@@ -24,7 +26,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
-  const { currentPage, setCurrentPage, setSelects } = MainPageStore(); // store 불러옴
+  const { currentPage, setCurrentPage } = MainPageStore(); // store 불러옴
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,7 +45,7 @@ const Index = () => {
     return 24; // PC
   };
 
-  const { data, refetch, isLoading } = useQuery<GetMainData>({
+  const { data, refetch } = useQuery<GetMainData>({
     queryKey: ['postList', currentPage],
     queryFn: () =>
       getMainList({
@@ -52,9 +54,19 @@ const Index = () => {
       }),
   });
 
-  if (isLoading) {
-    return null;
-  }
+  // const showSkeleton = () => {
+  //   if (isLoading) {
+  //     return (
+  //       <>
+  //         {new Array(12).fill('').map(() => (
+  //           <CardSkeleton type='default' />
+  //         ))}
+  //       </>
+  //     );
+  //   }
+
+  //   return null;
+  // };
 
   const likedClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -79,29 +91,23 @@ const Index = () => {
     { defaultValue: '진행방식', key: 'method', arr: methodArr },
   ];
 
+  // 선택한 값들을 저장하기 위한 객체
+  const selectedValues: Record<string, string> = {};
   const soltingHandler = (key: string, selectedValue: string) => {
-    const selectedKey = dropdownOptions
-      .find((option) => option.key === key)
-      ?.arr.find((item) => item.label === selectedValue)?.key;
+    // 기존에 선택된 값이 있는지 확인하고 추가 또는 갱신
+    if (selectedValue) {
+      selectedValues[key] = selectedValue;
+    }
 
-    setSelects({ [key]: selectedKey });
+    // 누적된 선택한 값들로부터 쿼리스트링을 생성
+    const queryString = Object.keys(selectedValues)
+      .map(
+        (queryKey) =>
+          `${encodeURIComponent(queryKey)}=${encodeURIComponent(selectedValues[queryKey])}`
+      )
+      .join('&');
 
-    // 생성된 상태를 기반으로 쿼리스트링 생성
-    // const queryParams = Object.keys(selects)
-    //   .filter((queryKey) => selects[queryKey] !== undefined)
-    //   .map(
-    //     (queryKey) =>
-    //       `${encodeURIComponent(queryKey)}=${encodeURIComponent(selects[queryKey]!)}`
-    //   )
-    //   .join('&');
-
-    // const currentUrl = window.location.href;
-    // const updatedUrl = currentUrl.includes('?')
-    //   ? `${currentUrl}&${queryParams}`
-    //   : `${currentUrl}?${queryParams}`;
-
-    // // 새로운 URL로 페이지 업데이트
-    // window.history.pushState({}, '', updatedUrl);
+    console.log('Generated Query String:', queryString);
   };
 
   const renderDropDowns = () => {
@@ -127,7 +133,7 @@ const Index = () => {
   };
 
   return (
-    <div>
+    <div className='relative'>
       <Appbar
         isAccount
         isFullLogo
@@ -155,8 +161,9 @@ const Index = () => {
 
         <div className='flex flex-wrap gap-3 mb-6'>{renderDropDowns()}</div>
 
-        <div className='flex flex-wrap gap-4'>
-          {data?.map((params: GetMainData) => {
+        <div className='relative flex flex-wrap gap-4'>
+          {/* {showSkeleton()} */}
+          {data?.data.map((params: GetMainData) => {
             const {
               postId,
               authorNickname,
@@ -173,10 +180,11 @@ const Index = () => {
                 key={postId}
                 id={postId}
                 nickname={authorNickname}
-                size='main'
+                cardStyle='default'
                 createdAt={createdAt}
                 enddate={formatDateString(endDate)}
                 onClick={() => navigate(`view/${postId}`)}
+                type='default'
                 onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
                   if (e.key === 'Enter' || e.key === 'Space') {
                     navigate(`/view/${postId}`);
@@ -205,6 +213,9 @@ const Index = () => {
             currentPage={currentPage}
           />
         )}
+      </div>
+      <div className='fixed bottom-[50px] right-[13%] z-[100]'>
+        <FloatingButton onClick={() => navigate('write')} />
       </div>
     </div>
   );
