@@ -1,14 +1,22 @@
 // import { actions } from '@storybook/addon-actions';
 import { cva } from 'class-variance-authority';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
+import { menuItems } from './util';
 import account from '../assets/account.svg';
 import close from '../assets/close.svg';
+import editBlack from '../assets/edit-black.svg';
+import heartBlack from '../assets/heart-black.svg';
 import smallLogo from '../assets/logo-identity.svg';
 import logo from '../assets/logo.svg';
 import notification from '../assets/notification.svg';
 import rightArrow from '../assets/right_arrow.svg';
 import search from '../assets/search.svg';
+import setting from '../assets/setting.svg';
+
+import { useNavigate } from 'react-router-dom';
+
+// import { useNavigate } from 'react-router-dom';
 
 const AppbarVariants = cva(
   `w-full px-6 md:px-[150px] full:px-[180px] min-w-[280px] md:min-w-[680px] py-3.5 bg-[#FAFAFA]`,
@@ -65,6 +73,43 @@ export const Appbar = ({
   onArrowClick,
   ...props
 }: AppbarProps) => {
+  const [showMenu, setShowMenu] = useState(false);
+  const navigate = useNavigate();
+  const el = useRef<HTMLDivElement>(null);
+
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
+  };
+
+  const navigateHome = () => {
+    navigate('/');
+  };
+
+  const handleAccountIconHover = () => {
+    setShowMenu(true);
+  };
+
+  const handleAccountIconLeave = () => {
+    setShowMenu(false);
+  };
+
+  useEffect(() => {
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (
+        showMenu &&
+        el.current &&
+        !el.current.contains(e.relatedTarget as Node)
+      ) {
+        setShowMenu(false);
+      }
+    };
+
+    window.addEventListener('mouseleave', handleMouseLeave);
+    return () => {
+      window.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, [showMenu]);
+
   return (
     <header className={`${AppbarVariants({ size, ...props })}`}>
       <div className='max-w-[1560px] w-full flex justify-between m-auto'>
@@ -79,11 +124,15 @@ export const Appbar = ({
             </button>
           )}
           <div className='hidden w-full md:inline-block'>
-            {isLogo && <img src={logo} alt='logo' />}
+            <button type='button' onClick={navigateHome}>
+              {isLogo && <img src={logo} alt='logo' />}
+            </button>
           </div>
           <div className='md:hidden'>
             {isLogo && !isFullLogo && !children && (
-              <img src={smallLogo} alt='small logo' />
+              <button type='button' onClick={navigateHome}>
+                <img src={smallLogo} alt='small logo' />
+              </button>
             )}
             {isLogo && isFullLogo && !children && <img src={logo} alt='logo' />}
           </div>
@@ -109,11 +158,59 @@ export const Appbar = ({
             />
           )}
           {isAccount && (
-            <img
-              src={account}
-              alt='account icon'
-              className={`${isClose ? `hidden md:inline-block` : ``}`}
-            />
+            <div className='relative'>
+              <button
+                type='button'
+                className='flex w-6'
+                onClick={toggleMenu}
+                onMouseEnter={handleAccountIconHover}
+              >
+                <img
+                  src={account}
+                  alt='account icon'
+                  className={`${isClose ? 'hidden md:inline-block' : ''}`}
+                />
+              </button>
+              {showMenu && (
+                <div
+                  className='absolute self-stretch overflow-hidden border-[#6697FF] rounded-2xl border right-0 z-10 mt-3 bg-white shadow-lg w-[245px]'
+                  onMouseLeave={handleAccountIconLeave}
+                >
+                  <ul className='py-2'>
+                    {menuItems.map(({ id, label }) => (
+                      <li
+                        key={id}
+                        className='h-[52px] font-semibold w-full px-5 py-3 justify-start items-center gap-2 inline-flex hover:bg-[#D6FF00]'
+                        // onClick={() => handleMenuItemClick(id)} // Assuming handleMenuItemClick takes an id parameter
+                      >
+                        {label === '설정' && (
+                          <img
+                            src={setting}
+                            alt='setting icon'
+                            className='w-6 h-6'
+                          />
+                        )}
+                        {label === '내 모집글' && (
+                          <img
+                            src={editBlack}
+                            alt='edit icon'
+                            className='w-6 h-6'
+                          />
+                        )}
+                        {label === '관심 표시한 글' && (
+                          <img
+                            src={heartBlack}
+                            alt='heart icon'
+                            className='w-6 h-6'
+                          />
+                        )}
+                        {label}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           )}
           {isClose && (
             <img src={close} alt='close icon' className='md:hidden' />

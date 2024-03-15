@@ -112,7 +112,7 @@ export const Dropdown = ({
             <div className='flex gap-1.5'>
               {value?.map((DropdownSelectValue: string) => (
                 <div
-                  className='flex bg-[#FAFAFA] h-9 md:py-1.5 md:px-4 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
+                  className='flex  bg-[#FAFAFA] h-9 md:py-1.5 md:px-4 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
          border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] min-w-[79px]'
                   key={DropdownSelectValue}
                 >
@@ -161,12 +161,12 @@ export const Dropdown = ({
       {isOpen && (
         <div
           ref={dropdownEl}
-          className='absolute bg-[#FAFAFA] mt-1.5 border rounded-2xl border-[#818490] w-full p-0 overflow-hidden z-10'
+          className='absolute right-0 max-w-[105px] z-50 bg-[#FAFAFA] mt-1.5 border rounded-2xl border-[#818490] w-full p-0 overflow-hidden'
         >
           {menu.map((arrOptions: arrOptionProps) => (
             <button
               key={arrOptions.key}
-              className='flex w-full justify-center py-1.5 items-center gap-2.5 self-stretch hover:bg-[#CCDCFF]'
+              className='flex z-50 w-full justify-center py-1.5 items-center gap-2.5 self-stretch hover:bg-[#CCDCFF]'
               onClick={() => handleOptionClick(arrOptions)}
               type='button'
             >
