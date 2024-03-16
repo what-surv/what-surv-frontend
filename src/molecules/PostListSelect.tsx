@@ -14,11 +14,22 @@ interface ButtonInfo {
 interface PostListSelectProps {
   buttonValues: ButtonInfo[];
   isEdit?: boolean;
+  setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const PostListSelect = ({ buttonValues, isEdit }: PostListSelectProps) => {
+const PostListSelect = ({
+  buttonValues,
+  isEdit,
+  setIsEdit,
+}: PostListSelectProps) => {
+  const handleEditButtonClick = () => {
+    if (setIsEdit) {
+      setIsEdit((prevState) => !prevState);
+    }
+  };
+
   return (
-    <div className='flex max-w-[506px] justify-between mb-8'>
+    <div className='flex justify-between mb-8'>
       <div className='flex gap-6'>
         {buttonValues.map((button) => (
           <Link to={button.url} key={button.key}>
@@ -38,15 +49,15 @@ const PostListSelect = ({ buttonValues, isEdit }: PostListSelectProps) => {
           </Link>
         ))}
       </div>
-      {isEdit ? (
-        <div className='flex items-center'>
-          <Button type='button' aria-label='편집 | 취소'>
-            <Typography size='lg' text='편집 | 취소' weight='Regular' />
-          </Button>
-        </div>
-      ) : (
-        ``
-      )}
+      <div className='flex items-center'>
+        <Button type='button' onClick={handleEditButtonClick}>
+          <Typography
+            size='lg'
+            text={isEdit ? '취소' : '편집'}
+            weight='Regular'
+          />
+        </Button>
+      </div>
     </div>
   );
 };

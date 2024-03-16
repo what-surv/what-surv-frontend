@@ -1,6 +1,6 @@
 export const menuItems = [
-  { id: 1, label: '관심 표시한 글' },
-  { id: 2, label: '내 모집글' },
-  { id: 3, label: '설정' },
-  { id: 4, label: '로그아웃' },
+  { id: 1, label: '관심 표시한 글', url: '/me/likes' },
+  { id: 2, label: '내 모집글', url: '/me/posts' },
+  { id: 3, label: '설정', url: '/me/setting' },
+  { id: 4, label: '로그아웃', url: '' },
 ];
