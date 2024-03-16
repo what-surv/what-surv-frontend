@@ -48,7 +48,6 @@ const Setting = () => {
     queryFn: () => axiosBaseUrl.get(`auth/profile`),
   });
 
-  console.log(profile);
   const [selectedButton, setSelectedButton] = useState('관심');
   const [nicknameLength, setNicknameLength] = useState<number>(
     profile?.data.nickname?.length ?? 0

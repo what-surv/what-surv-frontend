@@ -60,8 +60,6 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
     return null;
   }
 
-  console.log(myWritePosts);
-
   return (
     <div className='flex w-full gap-4 max-w-[1200px]'>
       <div className='flex flex-wrap gap-4'>

@@ -29,7 +29,6 @@ interface Inputs {
 const PostWritePage = () => {
   const { register, handleSubmit, control } = useForm<Inputs>();
   const handleRegistrationOrUpdate = (data: Inputs) => {
-    console.log(isEdit);
     if (isEdit) {
       // If post data exists, call the updatePost mutation
       updatePost.mutate(data);
@@ -47,7 +46,6 @@ const PostWritePage = () => {
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     handleRegistrationOrUpdate(data);
     setIsEdit(!isEdit);
-    console.log(isEdit);
   };
   const navigate = useNavigate();
   const queryClient = useQueryClient();
