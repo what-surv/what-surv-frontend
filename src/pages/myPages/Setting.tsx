@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 
+import { axiosBaseUrl } from '../../api/axiosConfig';
+import { profileTypes } from '../../api/Posttypes';
 import userProfile from '../../assets/ic-user.svg';
 import Input from '../../atoms/Input';
 import { Appbar } from '../../stories/appbar/Appbar';
 import { Tabbar } from '../../stories/tabbar/Tabbar';
 import Typography from '../../stories/typography/Typography';
 
+import { DevTool } from '@hookform/devtools';
+import { useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
@@ -39,38 +43,39 @@ const Button = ({ label, isSelected, onClick }: ButtonProps) => (
 );
 
 const Setting = () => {
-  const [nickname, setNickName] = useState('');
+  const { data: profile, isLoading } = useQuery<profileTypes>({
+    queryKey: ['getProfile'],
+    queryFn: () => axiosBaseUrl.get(`auth/profile`),
+  });
+
+  console.log(profile);
   const [selectedButton, setSelectedButton] = useState('관심');
+  const [nicknameLength, setNicknameLength] = useState<number>(
+    profile?.data.nickname?.length ?? 0
+  );
 
-  const { register } = useForm<Inputs>();
+  const {
+    register,
+    formState: { errors },
+    setValue,
+    control,
+  } = useForm<Inputs>({
+    mode: 'onBlur',
+  });
 
-  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-
-    switch (id) {
-      case 'nickname':
-        setNickName(value);
-        break;
-
-      case 'interest':
-        // setInterest(value);
-        break;
-
-      default:
-        break;
-    }
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.slice(0, 10); // Limit to 10 characters
+    setValue('nickname', value); // Update the value in react-hook-form
+    setNicknameLength(value.length);
   };
+
+  if (isLoading) {
+    return null;
+  }
   return (
     <div>
-      <Appbar
-        isAccount
-        isFullLogo
-        isLogo
-        isSearch
-        onArrowClick={() => {}}
-        size='full'
-      />
-      <Tabbar isMobileVisible size='default' />
+      <Appbar isLogo isNotification isFullLogo />
+      <Tabbar isMobileVisible />
 
       <div className='max-w-[506px] w-full mt-[50px] m-auto'>
         {/* 2dep Tab Style */}
@@ -101,14 +106,14 @@ const Setting = () => {
         </div>
 
         {/* 프로필 및 닉네임 */}
-        <div className='text-center mb-6'>
+        <div className='mb-6 text-center'>
           <img
             src={userProfile}
             alt='유저 프로필 이미지'
             className='inline-block mb-[10px]'
           />
           <Typography
-            text='김서치 님'
+            text={`${profile?.data.nickname} 님`}
             size='xl'
             weight='Bold'
             className='block'
@@ -124,7 +129,7 @@ const Setting = () => {
             </dt>
             <dd className='mt-2 px-4 py-[6px] bg-[#E5E7ED] rounded-lg'>
               <Typography
-                text='a01090762806@gamil.com'
+                text={`${profile?.data.email}`}
                 size='sm'
                 weight='Semibold'
                 className='text-[#545760]'
@@ -161,65 +166,71 @@ const Setting = () => {
         {/* // 유저 기본정보 */}
 
         {/* 수정 인풋들 */}
-        <div className='flex flex-col mb-9 gap-4'>
-          <div className='flex flex-col items-start w-full gap-2'>
-            <Typography
-              size='base'
-              weight='Medium'
-              text='닉네임'
-              className='text-[#242424]'
-            />
-            <div className='text-area flex py-2.5 px-5 border self-stretch gap-3 items-center rounded-xl border-[#808490] bg-[#FAFAFA]'>
-              <Input
-                type='text'
-                placeholder='김서치'
-                className='flex-1 bg-inherit text-base placeholder:text-[#545760] placeholder:font-semibold normal font-pretendard font-semibold outline-none leading-[26px]'
-                id='nickname'
-                {...register('nickname', {
-                  required: '김서치.',
-                  maxLength: {
-                    value: 10,
-                    message: '닉네임은 10글자 이하로 작성해 주세요.',
-                  },
-                  onChange: inputChangeHandler,
-                })}
-              />
+        <form>
+          <div className='flex flex-col gap-4 mb-9'>
+            <div className='flex flex-col items-start w-full gap-2'>
               <Typography
-                size='xs'
-                text={`${nickname.length}/10`}
-                weight='Regular'
-                className='text-[#818490]'
+                size='base'
+                weight='Medium'
+                text='닉네임'
+                className='text-[#242424]'
               />
-            </div>
-          </div>
+              <div className='text-area flex py-2.5 px-5 border self-stretch gap-3 items-center rounded-xl border-[#808490] bg-[#FAFAFA]'>
+                <Input
+                  placeholder='닉네임을 입력해주세요.'
+                  className='flex-1 bg-inherit text-base placeholder:text-[#545760] placeholder:font-semibold normal font-pretendard font-semibold outline-none leading-[26px]'
+                  {...register('nickname', {
+                    required: '닉네임을 입력해주세요.',
+                    pattern: {
+                      value:
+                        /^[a-zA-Z가-힣]*[ㄱ-ㅎㅏ-ㅣ]*[가-힣a-zA-Z]+[a-zA-Z가-힣]*$/,
+                      message:
+                        '닉네임은 한글 또는 영어만 사용 가능하며, 조합된 문자만 허용됩니다.',
+                    },
 
-          <div className='flex w-full flex-col items-start gap-2'>
-            <Typography
-              size='base'
-              weight='Medium'
-              text='관심분야'
-              className='text-[#242424]'
-            />
-            <div className='w-full text-area flex py-2.5 px-5 border self-stretch gap-3 items-center rounded-xl border-[#808490] bg-[#FAFAFA]'>
-              <Input
-                type='text'
-                id='interest'
-                placeholder='관심있는 분야 또는 도메인 등을 입력해보세요!'
-                {...(register && {
-                  ...register('interest', {
-                    required: '이 값은 필수항목입니다.',
+                    onChange: handleNicknameChange,
+                    maxLength: {
+                      value: 10,
+                      message: '닉네임은 10글자 이하로 작성해 주세요.',
+                    },
+                  })}
+                />
+
+                <Typography
+                  size='xs'
+                  text={`${nicknameLength}/10`}
+                  weight='Regular'
+                  className='text-[#818490]'
+                />
+              </div>
+              {errors.nickname && <span>{errors.nickname.message}</span>}
+            </div>
+            <div className='flex flex-col items-start w-full gap-2'>
+              <Typography
+                size='base'
+                weight='Medium'
+                text='관심분야'
+                className='text-[#242424]'
+              />
+              <div className='w-full text-area flex py-2.5 px-5 border self-stretch gap-3 items-center rounded-xl border-[#808490] bg-[#FAFAFA]'>
+                <Input
+                  type='text'
+                  id='interest'
+                  placeholder='관심있는 분야 또는 도메인 등을 입력해보세요!'
+                  {...register('interest', {
+                    required: '관심분야를 입력해주세요.',
                     maxLength: {
                       value: 50,
                       message: '50자 이내로 입력해주세요.',
                     },
-                  }),
-                  onChange: inputChangeHandler,
-                })}
-                className='flex-1 bg-inherit text-base placeholder:text-[#C1C5CC] placeholder:font-medium normal font-pretendard font-semibold outline-none leading-[26px]'
-              />
+                  })}
+                  className='flex-1 bg-inherit text-base placeholder:text-[#C1C5CC] placeholder:font-medium normal font-pretendard font-semibold outline-none leading-[26px]'
+                />
+              </div>
+              {errors.interest && <span>{errors.interest.message}</span>}
             </div>
           </div>
-        </div>
+        </form>
         {/* // 수정 인풋들 */}
 
         <div className='flex flex-col gap-6'>
@@ -240,6 +251,7 @@ const Setting = () => {
           </Link>
         </div>
       </div>
+      <DevTool control={control} />
     </div>
   );
 };

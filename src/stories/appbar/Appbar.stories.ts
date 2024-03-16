@@ -1,14 +1,24 @@
 import { Appbar } from './Appbar';
 
 import type { Meta, StoryObj } from '@storybook/react';
+import {
+  withRouter,
+  reactRouterParameters,
+} from 'storybook-addon-react-router-v6';
 
 const meta = {
   title: 'Components/Appbar',
   component: Appbar,
   parameters: {
     layout: 'centered',
+    reactRouter: reactRouterParameters({
+      routing: {
+        path: '/',
+      },
+    }),
   },
   tags: ['autodocs'],
+  decorators: [withRouter],
 } satisfies Meta<typeof Appbar>;
 
 export default meta;
