@@ -6,7 +6,7 @@ export const sortArr = [
 
 export const genderArr = [
   { key: 'All', label: '전체' },
-  { key: 'Male', label: '남성' },
+  { key: 'Male', label: '남성' },
   { key: 'Female', label: '여성' },
 ];
 
