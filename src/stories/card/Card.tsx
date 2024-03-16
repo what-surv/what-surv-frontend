@@ -20,7 +20,7 @@ interface CardProps {
   id: number;
 
   /** 유저 닉네임 */
-  nickname: string;
+  nickname?: string;
 
   /** 게시글 작성 일  */
   createdAt: string;

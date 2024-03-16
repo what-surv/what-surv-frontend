@@ -1,4 +1,5 @@
 import Index from './pages/Index';
+import InterestArticlesPage from './pages/InterestArticlesPage';
 import Lite from './pages/Lite';
 import Login from './pages/login/Login';
 import MarketingConsent from './pages/misc/MarketingConsent';
@@ -33,7 +34,8 @@ const App = () => {
           <Route path='/privacyPolicy' element={<PrivacyPolicyPage />} />
           <Route path='/termsOfService' element={<TermsofServicePage />} />
           <Route path='/lite' element={<Lite />} />
-          <Route path='/mypage/setting' element={<Setting />} />
+          <Route path='/my/setting' element={<Setting />} />
+          <Route path='/me/likes' element={<InterestArticlesPage />} />
           <Route path='/withdrawal' element={<Withdrawal />} />
         </Routes>
       </div>

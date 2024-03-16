@@ -53,6 +53,7 @@ export interface postArrayProps {
 
 // 받는 데이터
 export type GetMainData = {
+  id: number;
   postId: number;
   authorNickname: string;
   createdAt: string;
