@@ -186,7 +186,7 @@ const Index = () => {
 
           <div className='flex flex-wrap gap-3 mb-6'>{renderDropDowns()}</div>
 
-          <div className='relative flex flex-wrap gap-4'>
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
             {/* {showSkeleton()} */}
             {data?.data.map((params: GetMainData) => {
               const {

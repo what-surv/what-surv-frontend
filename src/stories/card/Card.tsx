@@ -8,7 +8,7 @@ import { Badge } from '../badge/Badge';
 import Typography from '../typography/Typography';
 
 const CardVariants = cva(
-  `relative max-w-[342px] w-full border rounded-[16px] p-5 bg-[#FFF] transition-all duration-150 ease-out hover:scale-[1.02] z-10 overflow-hidden`
+  `relative w-full border rounded-[16px] p-5 bg-[#FFF] transition-all duration-150 ease-out hover:scale-[1.02] z-10 overflow-hidden`
 );
 
 interface CardProps {

@@ -14,7 +14,6 @@ import mainBannerTb2 from '../assets/img-main-banner-2-tb.svg';
 import mainBannerMb3 from '../assets/img-main-banner-3-mb.svg';
 import mainBannerPc3 from '../assets/img-main-banner-3-pc.svg';
 import mainBannerTb3 from '../assets/img-main-banner-3-tb.svg';
-
 import prevBtn from '../stories/assets/ic_arrow_left.svg';
 import nextBtn from '../stories/assets/ic_arrow_right.svg';
 import Card from '../stories/card/Card';
@@ -180,6 +179,24 @@ export const ResearchSwiper = () => {
           }}
           grabCursor
           centeredSlidesBounds
+          breakpoints={{
+            // 640px 이하에서 1개의 슬라이드
+            0: {
+              slidesPerView: 1,
+            },
+            // 640px 이상 768px 이하에서 2개의 슬라이드
+            640: {
+              slidesPerView: 2,
+            },
+            // 768px 이상 1024px 이하에서 3개의 슬라이드
+            768: {
+              slidesPerView: 3,
+            },
+            // 1024px 이상에서 4개의 슬라이드
+            1024: {
+              slidesPerView: 4,
+            },
+          }}
         >
           <SwiperSlide>
             <Card
