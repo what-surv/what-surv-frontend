@@ -167,8 +167,8 @@ const Index = () => {
     <div className='relative'>
       <Appbar isAccount isLogo isFullLogo />
       <Tabbar isMobileVisible size='default' />
-      <div className='px-6'>
-        <div className='max-w-[1416px] w-full m-auto'>
+      <div className=''>
+        <div className='max-w-[1416px] w-full m-auto px-6'>
           <div className='my-6'>
             <BannerSwiper />
           </div>

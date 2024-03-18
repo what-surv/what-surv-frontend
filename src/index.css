@@ -101,3 +101,9 @@ input[type='number']::-webkit-outer-spin-button {
 .hot-research .hot-research-contain .swiper {
   overflow: unset;
 }
+
+@media (max-width: 390px) {
+  .main-banner .img-box {
+    height: 180px;
+  }
+}
