@@ -25,6 +25,7 @@ interface PostInputContentProps {
   helperClassName?: string;
   errorClassName?: string;
   inputRightComponent?: React.ReactNode;
+  value?: string;
   setValue: (value: string) => void;
 }
 

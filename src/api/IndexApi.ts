@@ -44,7 +44,7 @@ export type GetData = {
   updatedAt: string;
   content: string;
   duration: string;
-  endDate: string;
+  endDate: Date;
   procedure: string;
   researchType: string;
   title: string;
@@ -58,6 +58,7 @@ export interface postArrayProps {
 
 // 받는 데이터
 export type GetMainData = {
+  id: number;
   postId: number;
   authorNickname: string;
   createdAt: string;

@@ -87,7 +87,7 @@ const UserInfoWithComment = () => {
     setCommentId('');
     setIsSuccessModalOpen(false);
   };
-
+  // 댓글 삭제 Mutation
   const DeleteCommentMutation = useMutation<void, unknown, string>({
     mutationFn: (id) =>
       axiosBaseUrl.delete(`posts/${num}/comments/${id}`, {

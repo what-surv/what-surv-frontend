@@ -18,8 +18,12 @@ const PostSelectContentView = ({
         className='min-w-[30px]'
       />
       <div className='flex flex-wrap items-start content-start self-stretch gap-2'>
-        {value?.map((items: string) => (
-          <div className='flex items-center gap-2 px-3 py-1 border border-[#818490] bg-[#FAFAFA] rounded-[400px]'>
+        {value?.map((items: string, idx: number) => (
+          <div
+            // eslint-disable-next-line react/no-array-index-key
+            key={idx}
+            className='flex items-center gap-2 px-3 py-1 border border-[#818490] bg-[#FAFAFA] rounded-[400px]'
+          >
             <Typography
               size='sm'
               weight='Semibold'

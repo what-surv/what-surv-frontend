@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { axiosBaseUrl } from '../../api/axiosConfig';
-import { postArrayProps } from '../../api/IndexApi';
+import { GetData } from '../../api/IndexApi';
+import { getPost } from '../../api/PostApi';
 import check from '../../assets/check.svg';
 import leftArrow from '../../assets/left_arrow.svg';
 import Button from '../../atoms/Button';
@@ -18,7 +19,7 @@ import Typography from '../../stories/typography/Typography';
 import { DevTool } from '@hookform/devtools';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface Inputs {
   title: string;
@@ -26,35 +27,63 @@ interface Inputs {
   time: string;
 }
 
-const PostWritePage = () => {
+const PostEditPage = () => {
+  const { postId } = useParams() as { postId: string };
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [disableButton, setDisableButton] = useState(true);
   const { register, handleSubmit, control } = useForm<Inputs>();
+  const { setIsSuccessModalOpen } = SuccessModalStore();
+
   // 뒤로가기 모달 팝업 확인용 isConfirmOpen state
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
-
-  const { setIsSuccessModalOpen } = SuccessModalStore();
-  const [disableButton, setDisableButton] = useState(true);
-
-  const handleRegistrationOrUpdate = (data: Inputs) => {
-    if (isEdit) {
-      updatePost.mutate(data);
-    } else {
-      postMutation.mutate(data);
-    }
-  };
-
-  const { data: post, isLoading } = useQuery<postArrayProps>({
-    queryKey: ['getAllPost'],
-    queryFn: () => axiosBaseUrl.get(`/posts`),
-  });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     setTitle(data.title);
-    handleRegistrationOrUpdate(data);
-    setIsEdit(!isEdit);
+    updatePost.mutate(data);
   };
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
+
+  const { data: postDetails, isLoading } = useQuery<GetData>({
+    queryKey: ['getPost', postId],
+    queryFn: () => getPost(postId),
+  });
+
+  useEffect(() => {
+    if (postDetails) {
+      setTitle(postDetails.title);
+      setResearchType(postDetails.researchType);
+      setAges(postDetails.ages);
+      setGender(postDetails.gender);
+      setTime(postDetails.duration);
+      setLink(postDetails.url);
+      setEnddate(postDetails.endDate);
+      setprocedureArray(postDetails.procedure);
+    }
+  }, [postDetails]);
+
+  const updatePost = useMutation<void, unknown, Inputs>({
+    mutationFn: (inputs) =>
+      axiosBaseUrl.patch(`/posts/${postId})}`, {
+        ages: age,
+        endDate: enddate,
+        gender,
+        researchType,
+        url: inputs.link,
+        procedure,
+        duration: inputs.time,
+        content,
+        title: inputs.title,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['WritePost'],
+      });
+      setIsSuccessModalOpen(true);
+    },
+    onError: () => {
+      console.error('에러 발생');
+    },
+  });
 
   const {
     age,
@@ -67,20 +96,33 @@ const PostWritePage = () => {
     procedure,
     enddate,
     setTitle,
+    setEnddate,
+    setResearchType,
+    setTime,
+    setGender,
+    setLink,
+    setAges,
+    setprocedureArray,
   } = WritePageStore();
 
-  // 버튼 disable 여부 확인용 useEffect
+  const handleNavigate = () => {
+    if (
+      age.length <= 0 &&
+      !gender &&
+      !researchType &&
+      !link &&
+      !content &&
+      !title &&
+      !procedure &&
+      !enddate
+    ) {
+      navigate(-1);
+    } else {
+      setIsConfirmModalOpen(true);
+    }
+  };
+
   useEffect(() => {
-    // console.log(
-    //   gender,
-    //   enddate,
-    //   age,
-    //   researchType,
-    //   link,
-    //   time,
-    //   procedure,
-    //   title
-    // );
     if (
       !age ||
       !gender ||
@@ -108,82 +150,18 @@ const PostWritePage = () => {
     enddate,
   ]);
 
-  const handleNavigate = () => {
-    if (
-      age.length <= 0 &&
-      !gender &&
-      !researchType &&
-      !link &&
-      !content &&
-      !title &&
-      !procedure &&
-      !enddate
-    ) {
-      navigate(-1);
-    } else {
-      setIsConfirmModalOpen(true);
-    }
-  };
-  // 수정하기 버튼 눌렀을 때
-  const closeModal = () => {
-    setIsConfirmModalOpen(false);
-    setIsSuccessModalOpen(false);
-    queryClient.refetchQueries({ queryKey: ['getAllPost'] });
-  };
-
   const handleModalLeave = () => {
     setIsConfirmModalOpen(false);
     setIsSuccessModalOpen(false);
     navigate('/');
   };
 
-  const updatePost = useMutation<void, unknown, Inputs>({
-    mutationFn: (inputs) =>
-      axiosBaseUrl.patch(`/posts/${Number(post?.data[0].postId)}`, {
-        ages: age,
-        endDate: enddate,
-        gender,
-        researchType,
-        url: inputs.link,
-        procedure,
-        duration: inputs.time,
-        content,
-        title: inputs.title,
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['WritePost'],
-      });
-      setIsSuccessModalOpen(true);
-    },
-    onError: () => {
-      console.error('에러 발생');
-    },
-  });
-
-  const postMutation = useMutation<void, unknown, Inputs>({
-    mutationFn: (inputs) =>
-      axiosBaseUrl.post(`/posts`, {
-        ages: age,
-        endDate: enddate,
-        gender,
-        researchType,
-        url: inputs.link,
-        procedure,
-        duration: inputs.time,
-        content,
-        title: inputs.title,
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['WritePost'],
-      });
-      setIsSuccessModalOpen(true);
-    },
-    onError: () => {
-      console.error('에러 발생');
-    },
-  });
+  // 수정하기 버튼 눌렀을 때
+  const closeModal = () => {
+    setIsConfirmModalOpen(false);
+    setIsSuccessModalOpen(false);
+    queryClient.refetchQueries({ queryKey: ['getAllPost'] });
+  };
 
   if (isLoading) {
     return null;
@@ -217,6 +195,7 @@ const PostWritePage = () => {
                   placeholder='리서치 내용을 한 줄로 요약해보세요!'
                   className='flex-1 bg-inherit text-base placeholder:text-[#C1C5CC] placeholder:font-medium normal font-pretendard font-semibold outline-none leading-[26px]'
                   id='title'
+                  value={title}
                   {...register('title', {
                     required: '제목을 입력해주세요.',
                     maxLength: {
@@ -237,7 +216,6 @@ const PostWritePage = () => {
             <EditorBox />
             <div className='flex justify-end w-full'>
               <Button
-                onClick={() => handleRegistrationOrUpdate}
                 type='submit'
                 className={`inline-flex justify-center text-white py-3 px-6 items-center gap-2 rounded-[400px] md:w-[314px] ${disableButton ? `bg-[#A6AAB2]` : `bg-[#0051FF]`}`}
                 disabled={disableButton}
@@ -268,4 +246,4 @@ const PostWritePage = () => {
   );
 };
 
-export default PostWritePage;
+export default PostEditPage;

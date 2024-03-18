@@ -20,7 +20,7 @@ interface CardProps {
   id: number;
 
   /** 유저 닉네임 */
-  nickname: string;
+  nickname?: string;
 
   /** 게시글 작성 일  */
   createdAt: string;
@@ -138,7 +138,7 @@ const Card = ({
         <Typography size='base' text={children} weight='Semibold' />
       </p>
       {cardStyle === 'default' && (
-        <div className='flex justify-between mt-[14px] mt-9 pt-4 border-t border-[#D7DBE2]'>
+        <div className='flex justify-between mt-3.5 pt-4 border-t border-[#D7DBE2]'>
           <div className='flex'>
             <p className='mr-[10px]'>
               <img src={icUser} alt='유저 이미지' />

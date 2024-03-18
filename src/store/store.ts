@@ -11,6 +11,7 @@ interface WritePageStoreStoreProps {
   content: string; // 본문
   title: string; // 제목
   setAge: (age: string) => void;
+  setAges: (ages: string[]) => void;
   setGender: (gender: string) => void;
   setResearchType: (type: string) => void;
   setprocedureArray: (type: string) => void;
@@ -84,6 +85,7 @@ export const WritePageStore = create<WritePageStoreStoreProps>((set) => ({
   setLink: (linkValue) => set({ link: linkValue }),
   setTime: (timeValue) => set({ time: timeValue }),
   setTitle: (titleValue) => set({ title: titleValue }),
+  setAges: (agesValue) => set({ age: agesValue }),
   setContent: (contentvalue) => set({ content: contentvalue }),
   setEnddate: (dateValue) => set({ enddate: dateValue }),
 }));

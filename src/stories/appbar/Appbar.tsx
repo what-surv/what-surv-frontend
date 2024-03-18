@@ -14,7 +14,7 @@ import rightArrow from '../assets/right_arrow.svg';
 import search from '../assets/search.svg';
 import setting from '../assets/setting.svg';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 // import { useNavigate } from 'react-router-dom';
 
@@ -173,39 +173,37 @@ export const Appbar = ({
               </button>
               {showMenu && (
                 <div
-                  className='absolute self-stretch overflow-hidden border-[#6697FF] rounded-2xl border right-0 z-10 mt-3 bg-white shadow-lg w-[245px]'
+                  className='absolute z-50 self-stretch overflow-hidden border-[#6697FF] rounded-2xl border right-0 mt-3 bg-white shadow-lg w-[245px]'
                   onMouseLeave={handleAccountIconLeave}
                 >
-                  <ul className='py-2'>
-                    {menuItems.map(({ id, label }) => (
-                      <li
-                        key={id}
-                        className='h-[52px] font-semibold w-full px-5 py-3 justify-start items-center gap-2 inline-flex hover:bg-[#D6FF00]'
-                        // onClick={() => handleMenuItemClick(id)} // Assuming handleMenuItemClick takes an id parameter
-                      >
-                        {label === '설정' && (
-                          <img
-                            src={setting}
-                            alt='setting icon'
-                            className='w-6 h-6'
-                          />
-                        )}
-                        {label === '내 모집글' && (
-                          <img
-                            src={editBlack}
-                            alt='edit icon'
-                            className='w-6 h-6'
-                          />
-                        )}
-                        {label === '관심 표시한 글' && (
-                          <img
-                            src={heartBlack}
-                            alt='heart icon'
-                            className='w-6 h-6'
-                          />
-                        )}
-                        {label}
-                      </li>
+                  <ul className='py-2 '>
+                    {menuItems.map(({ id, label, url }) => (
+                      <Link to={url} key={id} className='h-[52px]'>
+                        <li className='cursor-pointer font-semibold w-full px-5 py-3 justify-start items-center gap-2 inline-flex hover:bg-[#D6FF00]'>
+                          {label === '설정' && (
+                            <img
+                              src={setting}
+                              alt='setting icon'
+                              className='w-6 h-6'
+                            />
+                          )}
+                          {label === '내 모집글' && (
+                            <img
+                              src={editBlack}
+                              alt='edit icon'
+                              className='w-6 h-6'
+                            />
+                          )}
+                          {label === '관심 표시한 글' && (
+                            <img
+                              src={heartBlack}
+                              alt='heart icon'
+                              className='w-6 h-6'
+                            />
+                          )}
+                          {label}
+                        </li>
+                      </Link>
                     ))}
                   </ul>
                 </div>
