@@ -12,16 +12,14 @@
   position: relative;
   width: 0;
   transition: 0.3s;
-
+  overflow: hidden;
   opacity: 0;
 }
 
 .textBox > span {
-  position: absolute;
-  white-space: nowrap;
-  top: 50%;
-  left: 20px;
-  transform: translateY(-50%);
+  position: relative;
+  left: 10px;
+  text-wrap: nowrap;
 }
 
 .floatingButton:hover .textBox {
