@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -205,6 +205,90 @@ export const ResearchSwiper = () => {
               enddate='2024.02.28'
               onClick={() => navigate('view/0')}
               cardStyle='hot'
+              createdAt={Date()}
+              viewCount={0}
+              commentCount={0}
+              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                if (e.key === 'Enter' || e.key === 'Space') {
+                  navigate(`/view/0`);
+                }
+              }}
+            >
+              asdasdasdasd
+            </Card>
+          </SwiperSlide>
+          <SwiperSlide>
+            <Card
+              id={0}
+              type='default'
+              enddate='2024.02.28'
+              onClick={() => navigate('view/0')}
+              cardStyle='hot'
+              createdAt={Date()}
+              viewCount={0}
+              commentCount={0}
+              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                if (e.key === 'Enter' || e.key === 'Space') {
+                  navigate(`/view/0`);
+                }
+              }}
+            >
+              asdasdasdasd
+            </Card>
+          </SwiperSlide>
+          <SwiperSlide>
+            <Card
+              id={0}
+              type='default'
+              enddate='2024.02.28'
+              onClick={() => navigate('view/0')}
+              cardStyle='hot'
+              createdAt={Date()}
+              viewCount={0}
+              commentCount={0}
+              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                if (e.key === 'Enter' || e.key === 'Space') {
+                  navigate(`/view/0`);
+                }
+              }}
+            >
+              asdasdasdasd
+            </Card>
+          </SwiperSlide>
+          <SwiperSlide>
+            <Card
+              id={0}
+              type='default'
+              enddate='2024.02.28'
+              onClick={() => navigate('view/0')}
+              cardStyle='hot'
+              createdAt={Date()}
+              viewCount={0}
+              commentCount={0}
+              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                if (e.key === 'Enter' || e.key === 'Space') {
+                  navigate(`/view/0`);
+                }
+              }}
+            >
+              asdasdasdasd
+            </Card>
+          </SwiperSlide>
+          <SwiperSlide>
+            <Card
+              id={0}
+              type='default'
+              enddate='2024.02.28'
+              onClick={() => navigate('view/0')}
+              cardStyle='hot'
+              createdAt={Date()}
+              viewCount={0}
+              commentCount={0}
+              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                if (e.key === 'Enter' || e.key === 'Space') {
+                  navigate(`/view/0`);
+                }
+              }}
             >
               asdasdasdasd
             </Card>

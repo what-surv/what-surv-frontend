@@ -92,9 +92,12 @@ input[type='number']::-webkit-outer-spin-button {
   object-fit: cover;
 }
 
-/* .main-banner .img-box::after {
-  content: '';
-  display: block;
-  width: 100%;
-  padding-top: 19.21%;
-} */
+/* 인기리서치 슬라이더 css변경 */
+.hot-research .hot-research-contain {
+  position: relative;
+  overflow: hidden;
+}
+
+.hot-research .hot-research-contain .swiper {
+  overflow: unset;
+}
