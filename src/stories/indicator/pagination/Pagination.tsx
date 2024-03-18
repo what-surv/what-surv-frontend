@@ -2,6 +2,7 @@ import icPagingActive from '../../assets/ic-paging-active.svg';
 import icPagingDisable from '../../assets/ic-paging-disable.svg';
 import icPagingLastFirstActive from '../../assets/ic-paging-last-first-active.svg';
 import icPagingLastFirstDisable from '../../assets/ic-paging-last-first-disable.svg';
+import Typography from '../../typography/Typography';
 
 interface PaginationProps {
   pageClick: (page: number) => void;
@@ -17,7 +18,7 @@ export const Pagination = ({
   totalPage,
   currentPage,
 }: PaginationProps) => {
-  const blockSize = 10; // 보여줄 block 갯수
+  const blockSize = 6; // 보여줄 block 갯수
   const startBlock = Math.floor((currentPage - 1) / blockSize) * blockSize + 1;
   const endBlock = Math.min(totalPage, startBlock + blockSize - 1);
 
@@ -31,7 +32,7 @@ export const Pagination = ({
       <div className='flex justify-center gap-[6px]'>
         <button
           type='button'
-          className='flex w-10 h-10 items-center justify-center'
+          className='flex w-[26px] h-[26px] sm:w-8 sm:h-8 items-center justify-center'
           onClick={() => pageClick(1)}
           aria-label='첫 페이지로 이동'
           disabled={currentPage === 1}
@@ -49,7 +50,7 @@ export const Pagination = ({
 
         <button
           type='button'
-          className='flex w-10 h-10 items-center justify-center'
+          className='flex w-[26px] h-[26px] sm:w-8 sm:h-8 items-center justify-center'
           onClick={() => pageClick(currentPage - 1)}
           aria-label='이전 페이지로 이동'
           disabled={currentPage === 1}
@@ -67,19 +68,20 @@ export const Pagination = ({
         {visibleBlocks.map((page) => (
           <button
             type='button'
-            className={`flex w-10 h-10 items-center justify-center rounded-full ${
+            className={`flex w-[26px] h-[26px] sm:w-8 sm:h-8 items-center justify-center rounded-full ${
               page === currentPage ? 'bg-[#3283FF] text-white' : ''
             }`}
             key={page}
             onClick={() => pageClick(page)}
+            aria-label={`${page}째 버튼`}
           >
-            {page}
+            <Typography size='sm' weight='Medium' text={page} />
           </button>
         ))}
 
         <button
           type='button'
-          className='flex w-10 h-10 items-center justify-center'
+          className='flex w-[26px] h-[26px] sm:w-8 sm:h-8 items-center justify-center'
           onClick={() => pageClick(currentPage + 1)}
           aria-label='다음페이지 이동'
           disabled={totalPage === currentPage}
@@ -97,7 +99,7 @@ export const Pagination = ({
 
         <button
           type='button'
-          className='flex w-10 h-10 items-center justify-center'
+          className='flex w-[26px] h-[26px] sm:w-8 sm:h-8 items-center justify-center'
           onClick={() => pageClick(totalPage)}
           aria-label='끝페이지로 이동'
           disabled={totalPage === currentPage}
