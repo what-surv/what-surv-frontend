@@ -24,8 +24,10 @@ import Typography from '../stories/typography/Typography';
 import { useNavigate } from 'react-router-dom';
 
 export const BannerSwiper = () => {
-  const [totalSlides, settotalSlides] = useState(0);
+  const [totalSlides, setTotalSlides] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const swiperRef = useRef<Swiper | null>(null);
 
   // 페이지 인디케이터 배열 생성
   const pageIndicatorArr = Array.from({ length: totalSlides }, (_, index) => ({
@@ -33,8 +35,9 @@ export const BannerSwiper = () => {
     pageNumber: index + 1,
   }));
 
-  const handleSlideChangeTransitionEnd = () => {
-    // 여기에 슬라이드 변경 완료 후 수행할 작업 추가
+  const handleIndicatorClick = (pageNumber: number) => {
+    setActiveIndex(pageNumber);
+    swiperRef.current?.slideTo(pageNumber);
   };
 
   return (
@@ -46,9 +49,11 @@ export const BannerSwiper = () => {
           slidesPerView={1}
           navigation
           grabCursor
-          onInit={(totalIdx) => settotalSlides(totalIdx.slides.length)}
+          onInit={(swiper) => {
+            setTotalSlides(swiper.slides.length);
+            swiperRef.current = swiper;
+          }}
           onActiveIndexChange={(index) => setActiveIndex(index.realIndex)}
-          onSlideChangeTransitionEnd={handleSlideChangeTransitionEnd}
           speed={1200}
           autoplay={{ delay: 4000, disableOnInteraction: false }}
           loop
@@ -56,64 +61,83 @@ export const BannerSwiper = () => {
           <SwiperSlide>
             <div className='img-box'>
               <img
+                src={mainBannerMb1}
+                alt='메인베너 이미지'
+                className='md:hidden block'
+              />
+              <img
                 src={mainBannerPc1}
                 alt='메인베너 이미지'
-                className='hidden md:block lg:hidden xl:hidden'
+                className='hidden md:block lg:hidden'
               />
               <img
                 src={mainBannerTb1}
                 alt='메인베너 이미지'
-                className='hidden md:hidden lg:block xl:hidden'
+                className='hidden lg:block xl:hidden'
               />
               <img
                 src={mainBannerMb1}
                 alt='메인베너 이미지'
-                className='hidden md:hidden lg:hidden xl:block'
+                className='hidden xl:block'
               />
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className='img-box'>
               <img
+                src={mainBannerMb2}
+                alt='메인베너 이미지'
+                className='md:hidden block'
+              />
+              <img
                 src={mainBannerPc2}
                 alt='메인베너 이미지'
-                className='hidden md:block lg:hidden xl:hidden'
+                className='hidden md:block lg:hidden'
               />
               <img
                 src={mainBannerTb2}
                 alt='메인베너 이미지'
-                className='hidden md:hidden lg:block xl:hidden'
+                className='hidden lg:block xl:hidden'
               />
               <img
                 src={mainBannerMb2}
                 alt='메인베너 이미지'
-                className='hidden md:hidden lg:hidden xl:block'
+                className='hidden xl:block'
               />
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className='img-box'>
               <img
+                src={mainBannerMb3}
+                alt='메인베너 이미지'
+                className='md:hidden block'
+              />
+              <img
                 src={mainBannerPc3}
                 alt='메인베너 이미지'
-                className='hidden md:block lg:hidden xl:hidden'
+                className='hidden md:block lg:hidden'
               />
               <img
                 src={mainBannerTb3}
                 alt='메인베너 이미지'
-                className='hidden md:hidden lg:block xl:hidden'
+                className='hidden lg:block xl:hidden'
               />
               <img
                 src={mainBannerMb3}
                 alt='메인베너 이미지'
-                className='hidden md:hidden lg:hidden xl:block'
+                className='hidden xl:block'
               />
             </div>
           </SwiperSlide>
         </Swiper>
       </div>
       <div className='flex justify-center'>
-        <PageIndicator size='desktop' page={pageIndicatorArr} />
+        <PageIndicator
+          size='desktop'
+          page={pageIndicatorArr}
+          onIndicatorClick={handleIndicatorClick}
+        />
       </div>
     </div>
   );
@@ -159,9 +183,11 @@ export const ResearchSwiper = () => {
         >
           <SwiperSlide>
             <Card
-              size='small'
+              id={0}
+              type='default'
               enddate='2024.02.28'
               onClick={() => navigate('view/0')}
+              cardStyle='hot'
             >
               asdasdasdasd
             </Card>
