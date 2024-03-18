@@ -1,3 +1,4 @@
+import RouteChangeTracker from './ga/RouteChangeTracker';
 import Index from './pages/Index';
 import Lite from './pages/Lite';
 import Login from './pages/login/Login';
@@ -15,6 +16,7 @@ import PostWritePage from './pages/post/PostWritePage';
 import { Routes, Route } from 'react-router-dom';
 
 const App = () => {
+  RouteChangeTracker();
   // const location = useLocation();
   return (
     <>
