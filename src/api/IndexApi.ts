@@ -3,6 +3,11 @@ import { axiosBaseUrl } from './axiosConfig';
 interface GetMainListParams {
   page: number;
   limit: number;
+  sort?: string;
+  gender?: string;
+  age?: string;
+  type?: string;
+  method?: string;
 }
 
 // 받는 데이터

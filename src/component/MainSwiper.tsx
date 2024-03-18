@@ -1,9 +1,19 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
+
+import mainBannerMb1 from '../assets/img-main-banner-1-mb.svg';
+import mainBannerPc1 from '../assets/img-main-banner-1-pc.svg';
+import mainBannerTb1 from '../assets/img-main-banner-1-tb.svg';
+import mainBannerMb2 from '../assets/img-main-banner-2-mb.svg';
+import mainBannerPc2 from '../assets/img-main-banner-2-pc.svg';
+import mainBannerTb2 from '../assets/img-main-banner-2-tb.svg';
+import mainBannerMb3 from '../assets/img-main-banner-3-mb.svg';
+import mainBannerPc3 from '../assets/img-main-banner-3-pc.svg';
+import mainBannerTb3 from '../assets/img-main-banner-3-tb.svg';
 
 import prevBtn from '../stories/assets/ic_arrow_left.svg';
 import nextBtn from '../stories/assets/ic_arrow_right.svg';
@@ -29,7 +39,7 @@ export const BannerSwiper = () => {
 
   return (
     <div>
-      <div className='h-[312px] bg-[#E5E7ED]'>
+      <div className='main-banner'>
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={10}
@@ -43,11 +53,63 @@ export const BannerSwiper = () => {
           autoplay={{ delay: 4000, disableOnInteraction: false }}
           loop
         >
-          <SwiperSlide>Slide 1</SwiperSlide>
-          <SwiperSlide>Slide 2</SwiperSlide>
-          <SwiperSlide>Slide 3</SwiperSlide>
-          <SwiperSlide>Slide 4</SwiperSlide>
-          <SwiperSlide>Slide 5</SwiperSlide>
+          <SwiperSlide>
+            <div className='img-box'>
+              <img
+                src={mainBannerPc1}
+                alt='메인베너 이미지'
+                className='hidden md:block lg:hidden xl:hidden'
+              />
+              <img
+                src={mainBannerTb1}
+                alt='메인베너 이미지'
+                className='hidden md:hidden lg:block xl:hidden'
+              />
+              <img
+                src={mainBannerMb1}
+                alt='메인베너 이미지'
+                className='hidden md:hidden lg:hidden xl:block'
+              />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className='img-box'>
+              <img
+                src={mainBannerPc2}
+                alt='메인베너 이미지'
+                className='hidden md:block lg:hidden xl:hidden'
+              />
+              <img
+                src={mainBannerTb2}
+                alt='메인베너 이미지'
+                className='hidden md:hidden lg:block xl:hidden'
+              />
+              <img
+                src={mainBannerMb2}
+                alt='메인베너 이미지'
+                className='hidden md:hidden lg:hidden xl:block'
+              />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className='img-box'>
+              <img
+                src={mainBannerPc3}
+                alt='메인베너 이미지'
+                className='hidden md:block lg:hidden xl:hidden'
+              />
+              <img
+                src={mainBannerTb3}
+                alt='메인베너 이미지'
+                className='hidden md:hidden lg:block xl:hidden'
+              />
+              <img
+                src={mainBannerMb3}
+                alt='메인베너 이미지'
+                className='hidden md:hidden lg:hidden xl:block'
+              />
+            </div>
+          </SwiperSlide>
         </Swiper>
       </div>
       <div className='flex justify-center'>

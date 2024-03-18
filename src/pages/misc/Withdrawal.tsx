@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 
+import { postQuit } from '../../api/quit';
 import drawal from '../../assets/ic-withdrawal.svg';
 import SelectsButton from '../../atoms/withdrawal/SelectsButton';
 import { Appbar } from '../../stories/appbar/Appbar';
 import CheckBox from '../../stories/checkBox/CheckBox';
 import { Tabbar } from '../../stories/tabbar/Tabbar';
 import Typography from '../../stories/typography/Typography';
+
+import { useNavigate } from 'react-router-dom';
 
 interface OptionProps {
   id: number;
@@ -53,6 +56,8 @@ const initOptions = [
 const Withdrawal = () => {
   const [options, setOptions] = useState<OptionProps[]>(initOptions);
   const [checked, setChecked] = useState(false);
+
+  const nvigate = useNavigate();
 
   const handleSelect = (id: number) => {
     const newOptions = options.map((option) => {
@@ -118,7 +123,9 @@ const Withdrawal = () => {
       })
       .join(', ');
 
-    console.log(selectedLabels);
+    postQuit(selectedLabels);
+
+    nvigate('/');
   };
   return (
     <div>
@@ -131,111 +138,117 @@ const Withdrawal = () => {
         size='full'
       />
       <Tabbar isMobileVisible size='default' />
-      <div className=' max-w-[520px] w-full mt-[50px] m-auto'>
-        <div className='flex flex-col gap-9'>
-          <div className='flex flex-col gap-4 '>
-            <div>
-              <Typography size='xl' weight='Bold' text='김서치님,' />
-              <br />
-              <Typography size='xl' weight='Bold' text='정말 탈퇴하시겠어요?' />
+      <div className='px-6'>
+        <div className=' max-w-[520px] w-full mt-[50px] m-auto'>
+          <div className='flex flex-col gap-9'>
+            <div className='flex flex-col gap-4 '>
+              <div>
+                <Typography size='xl' weight='Bold' text='김서치님,' />
+                <br />
+                <Typography
+                  size='xl'
+                  weight='Bold'
+                  text='정말 탈퇴하시겠어요?'
+                />
+              </div>
+              <div>
+                <dl className='flex items-center gap-3'>
+                  <dt>
+                    <img src={drawal} alt='주의사항 아이콘' />
+                  </dt>
+                  <dd>
+                    <Typography
+                      size='sm'
+                      weight='Medium'
+                      text='지금 탈퇴하시면 게시글, 댓글, 관심 표시 등 모든 활동 정보가 삭제됩니다.'
+                      className='text-[#676A72]'
+                    />
+                  </dd>
+                </dl>
+                <dl className='flex items-center gap-3'>
+                  <dt>
+                    <img src={drawal} alt='주의사항 아이콘' />
+                  </dt>
+                  <dd>
+                    <Typography
+                      size='sm'
+                      weight='Medium'
+                      text='계정 삭제 후 7일간 다시 가입할 수 없습니다.'
+                      className='text-[#676A72]'
+                    />
+                  </dd>
+                </dl>
+                <dl className='flex items-center gap-3'>
+                  <dt>
+                    <img src={drawal} alt='주의사항 아이콘' />
+                  </dt>
+                  <dd>
+                    <Typography
+                      size='sm'
+                      weight='Medium'
+                      text='운영진에 의해 서비스 이용 후기 관련 이메일이 발송될 수 있습니다.'
+                      className='text-[#676A72]'
+                    />
+                  </dd>
+                </dl>
+              </div>
+              <div className='flex h-[54px] items-center'>
+                <CheckBox id='0' checked={checked} onChange={CheckBoxChange}>
+                  <Typography
+                    size='sm'
+                    weight='Semibold'
+                    text='회원 탈퇴 유의사항을 확인했으며 이에 동의합니다.'
+                  />
+                </CheckBox>
+              </div>
             </div>
-            <div>
-              <dl className='flex items-center gap-3'>
-                <dt>
-                  <img src={drawal} alt='주의사항 아이콘' />
-                </dt>
-                <dd>
-                  <Typography
-                    size='sm'
-                    weight='Medium'
-                    text='지금 탈퇴하시면 게시글, 댓글, 관심 표시 등 모든 활동 정보가 삭제됩니다.'
-                    className='text-[#676A72]'
-                  />
-                </dd>
-              </dl>
-              <dl className='flex items-center gap-3'>
-                <dt>
-                  <img src={drawal} alt='주의사항 아이콘' />
-                </dt>
-                <dd>
-                  <Typography
-                    size='sm'
-                    weight='Medium'
-                    text='계정 삭제 후 7일간 다시 가입할 수 없습니다.'
-                    className='text-[#676A72]'
-                  />
-                </dd>
-              </dl>
-              <dl className='flex items-center gap-3'>
-                <dt>
-                  <img src={drawal} alt='주의사항 아이콘' />
-                </dt>
-                <dd>
-                  <Typography
-                    size='sm'
-                    weight='Medium'
-                    text='운영진에 의해 서비스 이용 후기 관련 이메일이 발송될 수 있습니다.'
-                    className='text-[#676A72]'
-                  />
-                </dd>
-              </dl>
-            </div>
-            <div className='flex h-[54px] items-center'>
-              <CheckBox id='0' checked={checked} onChange={CheckBoxChange}>
+
+            <div className='flex flex-col gap-6'>
+              <p className='flex gap-[19px] justify-center items-baseline'>
+                <Typography
+                  size='base'
+                  weight='Semibold'
+                  text='계정을 삭제하시려는 이유를 알려주세요'
+                />
                 <Typography
                   size='sm'
-                  weight='Semibold'
-                  text='회원 탈퇴 유의사항을 확인했으며 이에 동의합니다.'
+                  weight='Regular'
+                  text='중복 선택 가능'
+                  className='text-[#3283FF]'
                 />
-              </CheckBox>
+              </p>
+              <div className='flex flex-col gap-[10px]'>
+                {options.map((option) => (
+                  <SelectsButton
+                    key={option.id}
+                    label={option.label}
+                    isSelected={option.selected}
+                    details={option.details}
+                    onClick={() => handleSelect(option.id)}
+                    handleSelectDetail={(
+                      detailId: number,
+                      event: React.MouseEvent<HTMLButtonElement>
+                    ) => handleSelectDetail(option.id, detailId, event)}
+                  />
+                ))}
+                {options[5].selected && <textarea />}
+              </div>
             </div>
-          </div>
-
-          <div className='flex flex-col gap-6'>
-            <p className='flex gap-[19px] justify-center items-baseline'>
+            <button
+              type='button'
+              className='flex w-full items-center justify-center h-12 bg-[#0051FF] disabled:bg-[#A6AAB2] rounded-[400px] transition-all duration-300 ease-in-out'
+              aria-label='탈퇴하기'
+              disabled={!checked || isAllOptionsUnselected}
+              onClick={() => onClick()}
+            >
               <Typography
+                text='탈퇴하기'
                 size='base'
-                weight='Semibold'
-                text='계정을 삭제하시려는 이유를 알려주세요'
+                weight='Medium'
+                className='text-[#FFFFFF]'
               />
-              <Typography
-                size='sm'
-                weight='Regular'
-                text='중복 선택 가능'
-                className='text-[#3283FF]'
-              />
-            </p>
-            <div className='flex flex-col gap-[10px]'>
-              {options.map((option) => (
-                <SelectsButton
-                  key={option.id}
-                  label={option.label}
-                  isSelected={option.selected}
-                  details={option.details}
-                  onClick={() => handleSelect(option.id)}
-                  handleSelectDetail={(
-                    detailId: number,
-                    event: React.MouseEvent<HTMLButtonElement>
-                  ) => handleSelectDetail(option.id, detailId, event)}
-                />
-              ))}
-              {options[5].selected && <textarea />}
-            </div>
+            </button>
           </div>
-          <button
-            type='button'
-            className='flex w-full items-center justify-center h-12 bg-[#0051FF] disabled:bg-[#A6AAB2] rounded-[400px]'
-            aria-label='탈퇴하기'
-            disabled={!checked || isAllOptionsUnselected}
-            onClick={() => onClick()}
-          >
-            <Typography
-              text='탈퇴하기'
-              size='base'
-              weight='Medium'
-              className='text-[#FFFFFF]'
-            />
-          </button>
         </div>
       </div>
     </div>

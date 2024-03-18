@@ -74,6 +74,27 @@ input[type='number']::-webkit-outer-spin-button {
   align-items: center; /* 위아래 기준 중앙정렬 */
   justify-content: center; /* 좌우 기준 중앙정렬 */
 }
-.swiper-slide img {
-  box-shadow: 0 0 5px #555;
+
+.main-banner .img-box {
+  position: relative;
+  width: 100%;
+  height: 272px;
+  border-radius: 8px;
+  overflow: hidden;
 }
+
+.main-banner .img-box > img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* .main-banner .img-box::after {
+  content: '';
+  display: block;
+  width: 100%;
+  padding-top: 19.21%;
+} */

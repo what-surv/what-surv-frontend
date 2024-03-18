@@ -47,11 +47,7 @@ const TermsOfServiceAgreementPage = ({
         <img src={icPrev} alt='뒤로가는 이미지' className='block wd-1' />
       </button>
       <div className='mb-6'>
-        <Typography
-          text='서비스명에 오신 것을 환영하니다!'
-          size='lg'
-          weight='Bold'
-        />
+        <Typography text='서비스 이용 약관 동의' size='lg' weight='Bold' />
       </div>
 
       <div className={style['checkbox-wrap']}>

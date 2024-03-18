@@ -122,6 +122,7 @@
   background: #0051ff;
   color: #fff;
   margin-top: 40px;
+  transition: 0.3s;
 }
 .basic-btn[type='button']:disabled {
   background-color: #a6aab2;

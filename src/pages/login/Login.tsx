@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import JobSelectsPage from './JobSelectsPage';
 import LastPage from './LastPage';
 import SocailButtonsPage from './SocailButtonsPage';
 import TermsOfServiceAgreementPage from './TermsOfServiceAgreementPage';
 import UserInformationsPage from './UserInformationsPage';
 import WriteNickNamePage from './WriteNickNamePage';
 import { checkAuth } from '../../api/loginApis';
+import { Appbar } from '../../stories/appbar/Appbar';
 import { ProgressBar } from '../../stories/indicator/progress bar/ProgressBar';
 
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -131,19 +133,26 @@ const Login = () => {
         );
       case 3:
         return (
-          <WriteNickNamePage
-            onPrevStep={prevStepHandler}
-            onNextStep={nextStepHandler}
-          />
-        );
-      case 4:
-        return (
           <UserInformationsPage
             onNextStep={nextStepHandler}
             onPrevStep={prevStepHandler}
           />
         );
+      case 4:
+        return (
+          <JobSelectsPage
+            onPrevStep={prevStepHandler}
+            onNextStep={nextStepHandler}
+          />
+        );
       case 5:
+        return (
+          <WriteNickNamePage
+            onPrevStep={prevStepHandler}
+            onNextStep={nextStepHandler}
+          />
+        );
+      case 6:
         return <LastPage />;
       default:
         return null;
@@ -151,11 +160,26 @@ const Login = () => {
   };
 
   return (
-    <div className='max-w-[546px] w-full m-auto'>
-      <div className='flex flex-col items-center mt-[60px]'>
-        <div className='flex flex-col w-full max-w-xl'>
-          <ProgressBar size='desktop' percent={currentStep * 20} />
-          <div className='mt-[60px]'>{renderLoginStep(currentStep)}</div>
+    <div>
+      <Appbar
+        isAccount={false}
+        isFullLogo
+        isLogo
+        isSearch={false}
+        onArrowClick={() => {}}
+        size='full'
+      />
+      <div className='px-6'>
+        <div className='max-w-[546px] w-full m-auto'>
+          <div className='flex flex-col items-center mt-[60px]'>
+            <div className='flex flex-col w-full max-w-xl'>
+              <ProgressBar
+                size='desktop'
+                percent={currentStep * 16.66666666666667}
+              />
+              <div className='mt-[60px]'>{renderLoginStep(currentStep)}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
