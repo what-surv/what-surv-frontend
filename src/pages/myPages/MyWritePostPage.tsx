@@ -30,6 +30,7 @@ const MyWritePostPage = () => {
             buttonValues={buttonValues}
             isEdit={isEdit}
             setIsEdit={setIsEdit}
+            showIsEdit
           />
         </div>
 

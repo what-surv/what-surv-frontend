@@ -5,6 +5,7 @@ interface InputProps {
   name?: string;
   label?: string;
   type?: string;
+  value?: string;
   placeholder?: string;
   // tailwind 사용하기 위해 이름을 className으로 할당
   className?: string;

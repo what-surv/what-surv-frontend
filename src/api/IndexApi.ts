@@ -39,7 +39,7 @@ export type GetData = {
   updatedAt: string;
   content: string;
   duration: string;
-  endDate: string;
+  endDate: Date;
   procedure: string;
   researchType: string;
   title: string;

@@ -14,12 +14,14 @@ interface ButtonInfo {
 interface PostListSelectProps {
   buttonValues: ButtonInfo[];
   isEdit?: boolean;
+  showIsEdit?: boolean;
   setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PostListSelect = ({
   buttonValues,
   isEdit,
+  showIsEdit,
   setIsEdit,
 }: PostListSelectProps) => {
   const handleEditButtonClick = () => {
@@ -49,15 +51,19 @@ const PostListSelect = ({
           </Link>
         ))}
       </div>
-      <div className='flex items-center'>
-        <Button type='button' onClick={handleEditButtonClick}>
-          <Typography
-            size='lg'
-            text={isEdit ? '취소' : '편집'}
-            weight='Regular'
-          />
-        </Button>
-      </div>
+      {showIsEdit ? (
+        <div className='flex items-center'>
+          <Button type='button' onClick={handleEditButtonClick}>
+            <Typography
+              size='lg'
+              text={isEdit ? '취소' : '편집'}
+              weight='Regular'
+            />
+          </Button>
+        </div>
+      ) : (
+        ``
+      )}
     </div>
   );
 };

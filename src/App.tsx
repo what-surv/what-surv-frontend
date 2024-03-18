@@ -8,6 +8,7 @@ import Withdrawal from './pages/misc/Withdrawal';
 import InterestArticlesPage from './pages/myPages/InterestArticlesPage';
 import MyWritePostPage from './pages/myPages/MyWritePostPage';
 import Setting from './pages/myPages/Setting';
+import PostEditPage from './pages/post/PostEditPage';
 import PostViewPage from './pages/post/PostViewPage';
 import PostWritePage from './pages/post/PostWritePage';
 
@@ -26,6 +27,7 @@ const App = () => {
           <Route path='/' element={<Index />} />
           <Route path='/login' element={<Login />} />
           <Route path='/write' element={<PostWritePage />} />
+          <Route path='/edit/:postId' element={<PostEditPage />} />
           <Route path='/login/new-user' element={<Login />} />
           <Route path='/login/success' element={<Login />} />
           <Route path='/login/failure' element={<Login />} />
