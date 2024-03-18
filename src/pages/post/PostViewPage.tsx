@@ -47,9 +47,7 @@ const PostViewPage = () => {
     enabled: true,
   });
 
-  console.log(postDetails);
-
-  if (!postDetails && !comments) return null;
+  if (!postDetails || !comments) return null;
 
   return (
     <div className='w-full mx-auto pb-[150px]'>
@@ -110,7 +108,8 @@ const PostViewPage = () => {
         {/* 글 */}
         <div
           className='px-4 py-6 bg-[#FFFFFF] w-full rounded-[8px] min-h-[300px]'
-          dangerouslySetInnerHTML={{ __html: postDetails?.content }}
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: postDetails.content }}
         />
 
         {/* 관심 */}

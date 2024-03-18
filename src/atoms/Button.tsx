@@ -3,9 +3,9 @@ import React from 'react';
 interface ButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
-  className: string;
+  className?: string;
   type: 'submit' | 'button' | 'reset';
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 const Button = ({

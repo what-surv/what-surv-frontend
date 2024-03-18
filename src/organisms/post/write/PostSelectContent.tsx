@@ -19,6 +19,11 @@ interface PostSelectContentProps {
 const PostSelectContent = ({ register }: PostSelectContentProps) => {
   const {
     age,
+    time,
+    gender,
+    researchType,
+    link,
+    procedure,
     setResearchType,
     setTime,
     setGender,
@@ -36,12 +41,14 @@ const PostSelectContent = ({ register }: PostSelectContentProps) => {
         options={genderArr}
         defaultValue='성별'
         oneSelect
+        value={[gender]}
         onDropdownChange={(selectGender) => setGender(selectGender)}
       />
       <PostSelectDropdown
         title='리서치 종류'
         options={typeArr}
         defaultValue='종류'
+        value={[researchType]}
         oneSelect
         onDropdownChange={(selectType) => setResearchType(selectType)}
       />
@@ -58,6 +65,7 @@ const PostSelectContent = ({ register }: PostSelectContentProps) => {
         title='진행 방식'
         options={methodArr}
         oneSelect
+        value={[procedure]}
         defaultValue='진행 방식'
         onDropdownChange={(selectMethod) => setprocedureArray(selectMethod)}
       />
@@ -70,6 +78,7 @@ const PostSelectContent = ({ register }: PostSelectContentProps) => {
         placeholder='리서치 링크를 첨부해보세요!'
         register={register}
         setValue={setLink}
+        value={link}
       />
       <PostInputContent
         id='time-taken'
@@ -80,6 +89,7 @@ const PostSelectContent = ({ register }: PostSelectContentProps) => {
         placeholder='설문 1분 이내, 인터뷰 30분 이내'
         register={register}
         setValue={setTime}
+        value={time}
       />
     </div>
   );

@@ -18,29 +18,56 @@ interface Inputs {
   interest: string;
 }
 
-interface ButtonProps {
-  label: string;
-  isSelected: boolean;
-  onClick: () => void;
+// interface ButtonProps {
+//   label: string;
+//   isSelected: boolean;
+//   onClick: () => void;
+// }
+// eslint-disable-next-line no-lone-blocks
+{
+  /* <div className='flex justify-between mb-8'>
+  <div className='flex gap-6'>
+    <Button
+      label='관심 표시한 글'
+      isSelected={selectedButton === '관심'}
+      onClick={() => setSelectedButton('관심')}
+    />
+    <Button
+      label='최근 조회 목록'
+      isSelected={selectedButton === '조회'}
+      onClick={() => setSelectedButton('조회')}
+    />
+    <Button
+      label='내 모집 글'
+      isSelected={selectedButton === '모집'}
+      onClick={() => setSelectedButton('모집')}
+    />
+  </div>
+  <div className='flex items-center'>
+    <button type='button' aria-label='편집 | 취소'>
+      <Typography size='lg' text='편집 | 취소' weight='Regular' />
+    </button>
+  </div>
+</div> */
 }
 
-const Button = ({ label, isSelected, onClick }: ButtonProps) => (
-  <button
-    type='button'
-    aria-label={label}
-    className={`relative flex h-[52px] items-center justify-center px-[10px] ${isSelected ? 'text-[#242424]' : 'text-[#545760]'}`}
-    onClick={onClick}
-  >
-    <Typography
-      size='lg'
-      text={label}
-      weight={isSelected ? 'Semibold' : 'Regular'}
-    />
-    <span
-      className={`absolute ${isSelected ? 'w-full' : 'w-0'}  h-[2px] left-0 bottom-0 bg-[#242424] transition-all duration-200 ease-in`}
-    />
-  </button>
-);
+// const Button = ({ label, isSelected, onClick }: ButtonProps) => (
+//   <button
+//     type='button'
+//     aria-label={label}
+//     className={`relative flex h-[52px] items-center justify-center px-[10px] ${isSelected ? 'text-[#242424]' : 'text-[#545760]'}`}
+//     onClick={onClick}
+//   >
+//     <Typography
+//       size='lg'
+//       text={label}
+//       weight={isSelected ? 'Semibold' : 'Regular'}
+//     />
+//     <span
+//       className={`absolute ${isSelected ? 'w-full' : 'w-0'}  h-[2px] left-0 bottom-0 bg-[#242424] transition-all duration-200 ease-in`}
+//     />
+//   </button>
+// );
 
 const Setting = () => {
   const { data: profile, isLoading } = useQuery<profileTypes>({
@@ -48,8 +75,7 @@ const Setting = () => {
     queryFn: () => axiosBaseUrl.get(`auth/profile`),
   });
 
-  console.log(profile);
-  const [selectedButton, setSelectedButton] = useState('관심');
+  // const [selectedButton, setSelectedButton] = useState('관심');
   const [nicknameLength, setNicknameLength] = useState<number>(
     profile?.data.nickname?.length ?? 0
   );
@@ -78,33 +104,6 @@ const Setting = () => {
       <Tabbar isMobileVisible />
 
       <div className='max-w-[506px] w-full mt-[50px] m-auto'>
-        {/* 2dep Tab Style */}
-        <div className='flex justify-between mb-8'>
-          <div className='flex gap-6'>
-            <Button
-              label='관심 표시한 글'
-              isSelected={selectedButton === '관심'}
-              onClick={() => setSelectedButton('관심')}
-            />
-            <Button
-              label='최근 조회 목록'
-              isSelected={selectedButton === '조회'}
-              onClick={() => setSelectedButton('조회')}
-            />
-            <Button
-              label='내 모집 글'
-              isSelected={selectedButton === '모집'}
-              onClick={() => setSelectedButton('모집')}
-            />
-          </div>
-          {/* 내 모집글 일때 On 시켜주세용 */}
-          <div className='flex items-center'>
-            <button type='button' aria-label='편집 | 취소'>
-              <Typography size='lg' text='편집 | 취소' weight='Regular' />
-            </button>
-          </div>
-        </div>
-
         {/* 프로필 및 닉네임 */}
         <div className='mb-6 text-center'>
           <img
