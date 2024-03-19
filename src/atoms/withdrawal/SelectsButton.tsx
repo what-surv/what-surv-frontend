@@ -13,7 +13,7 @@ interface SelectsButtonProps {
   isSelected: boolean;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
   details?: Detail[];
-  handleSelectDetail: (
+  handleSelectDetail?: (
     detailId: number,
     event: React.MouseEvent<HTMLButtonElement>
   ) => void;
@@ -31,7 +31,7 @@ const SelectsButton = ({
         type='button'
         onClick={onClick}
         aria-label={label}
-        className={`flex w-full h-[42px] items-center justify-center ${isSelected ? 'bg-[#CCDCFF] border border-[#80A8FF]' : 'bg-[#F9F9FB]'} rounded-xl`}
+        className={`flex w-full h-[42px] items-center justify-center ${isSelected ? 'bg-[#CCDCFF] border border-[#80A8FF]' : 'bg-[#F9F9FB]'} rounded-xl  transition-all duration-300 ease-in-out`}
       >
         <Typography size='sm' weight='Medium' text={label} />
       </button>
@@ -41,9 +41,13 @@ const SelectsButton = ({
             <button
               key={detail.id}
               type='button'
-              onClick={(event) => handleSelectDetail(detail.id, event)}
+              onClick={
+                handleSelectDetail
+                  ? (event) => handleSelectDetail(detail.id, event)
+                  : undefined
+              }
               aria-label={detail.label}
-              className={`flex w-full h-[42px] items-center justify-center ${detail.selected ? 'bg-[#CCDCFF] ' : 'bg-[#F9F9FB]'} rounded-xl`}
+              className={`flex w-full h-[42px] items-center justify-center ${detail.selected ? 'bg-[#CCDCFF] ' : 'bg-[#F9F9FB]'} rounded-xl  transition-all duration-300 ease-in-out`}
             >
               <Typography
                 size='sm'

@@ -13,7 +13,7 @@ const SocailButtonsPage = ({ handleLogin }: SocailButtonsPageProps) => {
   return (
     <>
       <Typography
-        text='서비스명에 오신 것을 환영하니다!'
+        text='SurveyIT에 오신 것을 환영합니다!'
         size='lg'
         weight='Bold'
       />

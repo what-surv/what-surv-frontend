@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import style from './login.module.css';
-import { userRegistration } from '../../api/loginApis';
 import { useUserInfoStore } from '../../store/store';
 import icPrev from '../../stories/assets/ic-prev.svg';
 import BirthDayWriteInput from '../../stories/loginpages/birthdayWrite/BirthDayWriteInput';
 import GenderButton from '../../stories/loginpages/genderButton/GenderButton';
 import Typography from '../../stories/typography/Typography';
-import { convertToYYYYMMDD } from '../../utils/dateUtils';
 
 export interface UserInformationsPageProps {
   onNextStep: () => void;
@@ -35,15 +33,7 @@ const UserInformationsPage = ({
   ]);
   const inputRefs = useRef<Array<HTMLInputElement | null>>(Array(6).fill(null));
 
-  const {
-    nickname,
-    phone,
-    gender,
-    advertisingConsent,
-    birthDate,
-    setGender,
-    setbirthDate,
-  } = useUserInfoStore();
+  const { gender, birthDate, setGender, setbirthDate } = useUserInfoStore();
   const [selectedGender, setSelectedGender] = useState<SelectedGender>({
     female: { gender: 'female', clicked: false },
     male: { gender: 'male', clicked: false },
@@ -120,19 +110,7 @@ const UserInformationsPage = ({
   const onClick = async () => {
     exceptionHandler();
 
-    const params = {
-      nickname: nickname || '',
-      phone,
-      gender,
-      advertisingConsent,
-      birthDate: convertToYYYYMMDD(birthDate),
-    };
-
-    try {
-      userRegistration(params, onNextStep);
-    } catch (error) {
-      console.error(error);
-    }
+    onNextStep();
   };
 
   return (
@@ -191,7 +169,12 @@ const UserInformationsPage = ({
           text='여성'
         />
       </div>
-      <button type='button' className={style['basic-btn']} onClick={onClick}>
+      <button
+        type='button'
+        className={style['basic-btn']}
+        onClick={onClick}
+        disabled={gender === '' || birthDate.length !== 6}
+      >
         다음
       </button>
     </div>

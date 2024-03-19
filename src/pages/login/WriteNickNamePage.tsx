@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import style from './login.module.css';
-import { requestNickName } from '../../api/loginApis';
+import { requestNickName, userRegistration } from '../../api/loginApis';
 import { useUserInfoStore } from '../../store/store';
 import icPrev from '../../stories/assets/ic-prev.svg';
 import Textfield from '../../stories/textfield/Textfield';
+import { convertToYYYYMMDD } from '../../utils/dateUtils';
 
 export interface WriteNickNamePageProps {
   onNextStep: () => void;
@@ -15,7 +16,15 @@ const WriteNickNamePage = ({
   onNextStep,
   onPrevStep,
 }: WriteNickNamePageProps) => {
-  const { nickname, setNickName } = useUserInfoStore();
+  const {
+    nickname,
+    phone,
+    gender,
+    advertisingConsent,
+    birthDate,
+    job,
+    setNickName,
+  } = useUserInfoStore();
   const [nicknameBoolean, setNickNameBoolean] = useState<
     'default' | 'error' | 'success'
   >('default');
@@ -57,7 +66,20 @@ const WriteNickNamePage = ({
   };
 
   const nextButtonClick = async () => {
-    onNextStep();
+    const params = {
+      nickname: nickname || '',
+      phone,
+      gender,
+      advertisingConsent,
+      birthDate: convertToYYYYMMDD(birthDate),
+      job,
+    };
+
+    try {
+      userRegistration(params, onNextStep);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -79,6 +101,8 @@ const WriteNickNamePage = ({
         value={nickNameValue}
         state={nicknameBoolean}
         onClick={requestNickNameOnClick}
+        type='button'
+        placeholder='김왓섭'
       />
 
       <button

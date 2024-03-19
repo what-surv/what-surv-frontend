@@ -52,11 +52,13 @@ interface LoginPageStorePros {
   gender: string;
   advertisingConsent: boolean; // 광고수신 여부
   birthDate: string;
+  job: string;
   setNickName: (nickNameValue: string) => void;
   setPhoe: (phoneValue: undefined) => void;
   setGender: (contentvalue: string) => void;
   setAdvertisingConsent: (advertisingConsentValue: boolean) => void;
   setbirthDate: (setbirthDateValue: string) => void;
+  setJob: (jobVale: string) => void;
 }
 
 export const WritePageStore = create<WritePageStoreStoreProps>((set) => ({
@@ -114,12 +116,14 @@ export const useUserInfoStore = create<LoginPageStorePros>()((set) => ({
   gender: '',
   advertisingConsent: false,
   birthDate: '',
+  job: '',
   setNickName: (nickNameValue) => set({ nickname: nickNameValue }),
   setPhoe: (phoneValue) => set({ phone: phoneValue }),
   setGender: (contentvalue) => set({ gender: contentvalue }),
   setAdvertisingConsent: (advertisingConsentValue) =>
     set({ advertisingConsent: advertisingConsentValue }),
   setbirthDate: (birthDateValue) => set({ birthDate: birthDateValue }),
+  setJob: (jobValue) => set({ job: jobValue }),
 }));
 
 interface SuccessodalStoreProps {

@@ -3,7 +3,7 @@ import React from 'react';
 
 const GenderButtonVariants = cva(
   `
-      max-w-[248px] w-full h-[50px] rounded-xl
+      max-w-[248px] w-full h-[50px] rounded-xl transition-all duration-300 ease-in-out
       `,
   {
     variants: {},
