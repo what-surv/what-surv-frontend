@@ -3,10 +3,10 @@ import { axiosBaseUrl } from './axiosConfig';
 export const userCheckApi = async () => {
   try {
     const userCheck = await axiosBaseUrl.get(`/auth/profile`);
-
-    return userCheck.data;
+    // userCheck.status가 200이면 true를 반환
+    return userCheck.status === 200;
   } catch (error) {
-    alert('로그인 하셔야 합니다!');
-    throw error;
+    // 에러가 발생하면 false를 반환
+    return false;
   }
 };

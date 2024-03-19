@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { axiosBaseUrl } from '../../api/axiosConfig';
-import { testLogin } from '../../api/PostApi';
 import { GoogleLogin } from '../../stories/social/googlelogin/GoogleLogin';
 import { KakaoLogin } from '../../stories/social/kakaologin/KakaoLogin';
 import { NaverLogin } from '../../stories/social/naverlogin/NaverLogin';
