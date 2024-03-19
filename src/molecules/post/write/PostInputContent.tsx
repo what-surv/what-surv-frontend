@@ -46,17 +46,15 @@ const PostInputContent = ({
       <div className='text-area flex py-2.5 px-5 border self-stretch gap-3 items-center rounded-xl border-[#6697FF] bg-[#FAFAFA]'>
         <Input
           type='text'
-          {...(register && {
-            ...register(name, {
-              required: '이 값은 필수항목입니다.',
-              maxLength: {
-                value: 50,
-                message: '50자 이내로 입력해주세요.',
-              },
-            }),
+          {...props}
+          {...register(name, {
+            required: '값을 입력해주세요.',
+            maxLength: {
+              value: 50,
+              message: '내용을 50자 이내로 입력해주세요.',
+            },
             onChange: handleChange,
           })}
-          {...props}
           className='flex-1 bg-inherit text-base placeholder:text-[#C1C5CC] placeholder:font-medium normal font-pretendard font-semibold outline-none leading-[26px]'
         />
       </div>
