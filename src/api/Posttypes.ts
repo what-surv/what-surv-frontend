@@ -7,6 +7,8 @@ export interface profileData {
   nickname: string;
   email: string;
   id: string;
+  birthDate: string;
+  gender: string;
 }
 
 export interface UserTypes {

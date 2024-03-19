@@ -70,15 +70,12 @@ interface Inputs {
 // );
 
 const Setting = () => {
-  const { data: profile, isLoading } = useQuery<profileTypes>({
+  const { data: myData, isLoading } = useQuery<profileTypes>({
     queryKey: ['getProfile'],
-    queryFn: () => axiosBaseUrl.get(`auth/profile`),
+    queryFn: () => axiosBaseUrl.get(`users/me`),
   });
 
   // const [selectedButton, setSelectedButton] = useState('관심');
-  const [nicknameLength, setNicknameLength] = useState<number>(
-    profile?.data.nickname?.length ?? 0
-  );
 
   const {
     register,
@@ -87,6 +84,9 @@ const Setting = () => {
     control,
   } = useForm<Inputs>({
     mode: 'onBlur',
+    defaultValues: {
+      nickname: myData?.data.nickname,
+    },
   });
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,9 +95,15 @@ const Setting = () => {
     setNicknameLength(value.length);
   };
 
-  if (isLoading) {
+  const [nicknameLength, setNicknameLength] = useState<number>(
+    myData?.data.nickname.length ?? 0
+  );
+
+  if (isLoading || !myData) {
     return null;
   }
+
+  console.log(myData);
   return (
     <div>
       <Appbar isLogo isNotification isFullLogo />
@@ -112,7 +118,7 @@ const Setting = () => {
             className='inline-block mb-[10px]'
           />
           <Typography
-            text={`${profile?.data.nickname} 님`}
+            text={`${myData.data.nickname} 님`}
             size='xl'
             weight='Bold'
             className='block'
@@ -128,7 +134,7 @@ const Setting = () => {
             </dt>
             <dd className='mt-2 px-4 py-[6px] bg-[#E5E7ED] rounded-lg'>
               <Typography
-                text={`${profile?.data.email}`}
+                text={`${myData.data.email}`}
                 size='sm'
                 weight='Semibold'
                 className='text-[#545760]'
@@ -141,7 +147,7 @@ const Setting = () => {
             </dt>
             <dd className='mt-2 px-4 py-[6px] bg-[#E5E7ED] rounded-lg'>
               <Typography
-                text='001202'
+                text={myData.data.birthDate}
                 size='sm'
                 weight='Semibold'
                 className='text-[#545760]'
@@ -154,7 +160,7 @@ const Setting = () => {
             </dt>
             <dd className='mt-2 px-4 py-[6px] bg-[#E5E7ED] rounded-lg'>
               <Typography
-                text='남성'
+                text={myData.data.gender}
                 size='sm'
                 weight='Semibold'
                 className='text-[#545760]'
@@ -178,6 +184,7 @@ const Setting = () => {
                 <Input
                   placeholder='닉네임을 입력해주세요.'
                   className='flex-1 bg-inherit text-base placeholder:text-[#545760] placeholder:font-semibold normal font-pretendard font-semibold outline-none leading-[26px]'
+                  defaultValue={myData.data.nickname || ''}
                   {...register('nickname', {
                     required: '닉네임을 입력해주세요.',
                     pattern: {
