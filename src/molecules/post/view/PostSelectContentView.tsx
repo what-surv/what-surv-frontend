@@ -9,6 +9,7 @@ const PostSelectContentView = ({
   value,
   title,
 }: PostSelectContentViewProps) => {
+  console.log(value);
   return (
     <div className='flex min-w-[149px] max-w-[485px] flex-col items-start w-[45%] gap-1.5 md:gap-2'>
       <Typography
