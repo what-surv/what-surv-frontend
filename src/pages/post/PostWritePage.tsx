@@ -83,6 +83,7 @@ const PostWritePage = () => {
     //   procedure,
     //   title
     // );
+    console.log(age);
     if (
       !age ||
       !gender ||

@@ -29,7 +29,7 @@ const PostSelectContent = ({ register }: PostSelectContentProps) => {
     setGender,
     setLink,
     setAge,
-    toggleAge,
+    setAges,
     setprocedureArray,
   } = WritePageStore();
 
@@ -56,7 +56,7 @@ const PostSelectContent = ({ register }: PostSelectContentProps) => {
         title='연령'
         options={ageArr}
         onDropdownChange={(selectAge) => setAge(selectAge)}
-        toggleDropdownValue={(ageArray) => toggleAge(ageArray)}
+        toggleDropdownValue={(ageArray) => setAges(ageArray)}
         oneSelect={false}
         value={age}
         defaultValue='연령'

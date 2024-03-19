@@ -62,6 +62,7 @@ export const Dropdown = ({
 }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSelected, setIsSelected] = useState<string>('');
+  const [ages, setAges] = useState<string[]>([]);
   const [dropdownState, setDropdownState] = useState<'activate' | 'default'>(
     state
   );
@@ -88,19 +89,35 @@ export const Dropdown = ({
     setIsOpen(false);
     setIsSelected(option.label);
     setDropdownState('activate');
-    if (onDropdownChange) {
+    if (option.key === 'All') {
+      setAges(['전체']);
+      onDropdownChange('All');
+    } else if (
+      !ages.includes(option.label) &&
+      !ages.includes('전체') &&
+      !value?.includes('All')
+    ) {
+      setAges((prevAges) => [...prevAges, option.label]);
       onDropdownChange(option.key);
     }
   };
 
   const handleCloseClick = (option: string) => {
-    const updatedValue = value?.filter((item: string) => item !== option);
-    if (value?.length === 1) {
+    // const updatedValue = value?.filter((item: string) => item !== option);
+    const updatedAge = ages.filter((item: string) => item !== option);
+    setAges(updatedAge);
+    if (updatedAge.length === 0) {
       setDropdownState('default');
     }
 
-    if (updatedValue !== undefined && toggleDropdownValue) {
-      toggleDropdownValue(updatedValue);
+    if (updatedAge !== undefined && toggleDropdownValue) {
+      const removedKeys = updatedAge
+        .map(
+          (removedLabel) =>
+            menu.find((item) => item.label === removedLabel)?.key
+        )
+        .filter((key) => key !== undefined) as string[];
+      toggleDropdownValue(removedKeys);
     }
   };
 
@@ -137,7 +154,7 @@ export const Dropdown = ({
         <div className='flex gap-1.5'>
           {!oneSelect && (
             <div className='flex gap-1.5'>
-              {value?.map((DropdownSelectValue: string) => (
+              {ages.map((DropdownSelectValue: string) => (
                 <div
                   className='flex  bg-[#FAFAFA] h-9 md:py-1.5 md:px-4 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
          border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] min-w-[79px]'
