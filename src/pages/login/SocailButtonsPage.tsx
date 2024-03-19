@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { axiosBaseUrl } from '../../api/axiosConfig';
 import { testLogin } from '../../api/PostApi';
 import { GoogleLogin } from '../../stories/social/googlelogin/GoogleLogin';
 import { KakaoLogin } from '../../stories/social/kakaologin/KakaoLogin';
@@ -22,8 +23,20 @@ const SocailButtonsPage = ({ handleLogin }: SocailButtonsPageProps) => {
   };
 
   const mockOnClick = async () => {
-    testLogin();
-    navigate('/');
+    try {
+      const response = await axiosBaseUrl.post(
+        `http://localhost:3000/auth/mock-login/${text}`,
+        {
+          username: 'user',
+          password: 'userpw',
+        }
+      );
+      console.log(response);
+      return navigate('/');
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   };
 
   return (

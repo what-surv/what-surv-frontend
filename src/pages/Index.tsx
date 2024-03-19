@@ -60,7 +60,7 @@ const Index = () => {
       }),
   });
 
-  console.log(data);
+  // console.log(data);
 
   if (isLoading) {
     return null;

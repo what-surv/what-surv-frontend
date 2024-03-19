@@ -7,6 +7,8 @@ import icPrev from '../../stories/assets/ic-prev.svg';
 import Textfield from '../../stories/textfield/Textfield';
 import { convertToYYYYMMDD } from '../../utils/dateUtils';
 
+import { useNavigate } from 'react-router-dom';
+
 export interface WriteNickNamePageProps {
   onNextStep: () => void;
   onPrevStep: () => void;
@@ -29,6 +31,7 @@ const WriteNickNamePage = ({
     'default' | 'error' | 'success'
   >('default');
   const [nickNameValue, setNickNameValue] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (nickNameValue === '' && nickname) {
@@ -77,6 +80,7 @@ const WriteNickNamePage = ({
 
     try {
       userRegistration(params, onNextStep);
+      navigate('/');
     } catch (error) {
       console.error(error);
     }
