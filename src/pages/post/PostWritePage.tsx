@@ -27,7 +27,9 @@ interface Inputs {
 }
 
 const PostWritePage = () => {
-  const { register, handleSubmit, control } = useForm<Inputs>();
+  const { register, handleSubmit, control } = useForm<Inputs>({
+    mode: 'onChange',
+  });
   // 뒤로가기 모달 팝업 확인용 isConfirmOpen state
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -137,6 +139,10 @@ const PostWritePage = () => {
     navigate('/');
   };
 
+  const titleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
   const updatePost = useMutation<void, unknown, Inputs>({
     mutationFn: (inputs) =>
       axiosBaseUrl.patch(`/posts/${Number(post?.data[0].postId)}`, {
@@ -223,6 +229,7 @@ const PostWritePage = () => {
                       value: 100,
                       message: '제목을 100자 이내로 입력해주세요.',
                     },
+                    onChange: titleOnChange,
                   })}
                 />
                 <Typography
