@@ -12,14 +12,14 @@ export const genderArr = [
 
 export const ageArr = [
   { key: 'All', label: '전체' },
-  { key: 'teenagers', label: '10대' },
+  { key: '10s', label: '10대' },
   { key: '20s', label: '20대' },
   { key: '30s', label: '30대' },
   { key: '40s', label: '40대' },
   { key: '50s', label: '50대' },
   { key: '60s', label: '60대' },
   { key: '70s', label: '70대' },
-  { key: 'over80s', label: '80대 이상' },
+  { key: '80s', label: '80대 이상' },
 ];
 
 export const typeArr = [
