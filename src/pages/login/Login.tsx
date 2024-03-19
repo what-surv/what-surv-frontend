@@ -8,7 +8,9 @@ import UserInformationsPage from './UserInformationsPage';
 import WriteNickNamePage from './WriteNickNamePage';
 import { checkAuth } from '../../api/loginApis';
 import { Appbar } from '../../stories/appbar/Appbar';
+import icPrev from '../../stories/assets/ic-prev.svg';
 import { ProgressBar } from '../../stories/indicator/progress bar/ProgressBar';
+import Typography from '../../stories/typography/Typography';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -18,19 +20,19 @@ const Login = () => {
     {
       id: '0',
       checked: false,
-      href: 'https://www.naver.com/',
+      href: '/termsOfService',
       label: '[필수]  서비스 이용약관',
     },
     {
       id: '1',
       checked: false,
-      href: 'https://www.google.co.kr/',
+      href: '/privacyPolicy',
       label: '[필수]  개인정보 처리방침 및 수집이용 동의',
     },
     {
       id: '2',
       checked: false,
-      href: 'https://github.com/',
+      href: '/marketingConsent',
       label: '[선택]  마케팅 정보 수신 및 이용 동의',
     },
   ]);
@@ -124,7 +126,6 @@ const Login = () => {
         return (
           <TermsOfServiceAgreementPage
             onNextStep={nextStepHandler}
-            onPrevStep={prevStepHandler}
             checkboxStates={checkboxStates}
             handleCheckboxChange={handleCheckboxChange}
             handleAllCheckboxChange={handleAllCheckboxChange}
@@ -132,26 +133,11 @@ const Login = () => {
           />
         );
       case 3:
-        return (
-          <UserInformationsPage
-            onNextStep={nextStepHandler}
-            onPrevStep={prevStepHandler}
-          />
-        );
+        return <UserInformationsPage onNextStep={nextStepHandler} />;
       case 4:
-        return (
-          <JobSelectsPage
-            onPrevStep={prevStepHandler}
-            onNextStep={nextStepHandler}
-          />
-        );
+        return <JobSelectsPage onNextStep={nextStepHandler} />;
       case 5:
-        return (
-          <WriteNickNamePage
-            onPrevStep={prevStepHandler}
-            onNextStep={nextStepHandler}
-          />
-        );
+        return <WriteNickNamePage onNextStep={nextStepHandler} />;
       case 6:
         return <LastPage />;
       default:
@@ -161,14 +147,14 @@ const Login = () => {
 
   return (
     <div>
-      <Appbar
-        isAccount={false}
-        isFullLogo
-        isLogo
-        isSearch={false}
-        onArrowClick={() => {}}
-        size='full'
-      />
+      {currentStep === 1 ? (
+        <Appbar isLogo isFullLogo />
+      ) : (
+        <Appbar isArrow isLogo isAccount onArrowClick={() => prevStepHandler()}>
+          <Typography size='lg' weight='Semibold' text='회원가입' />
+        </Appbar>
+      )}
+
       <div className='px-6'>
         <div className='max-w-[546px] w-full m-auto'>
           <div className='flex flex-col items-center mt-[60px]'>
@@ -177,7 +163,20 @@ const Login = () => {
                 size='desktop'
                 percent={currentStep * 16.66666666666667}
               />
-              <div className='mt-[60px]'>{renderLoginStep(currentStep)}</div>
+              <div className='mt-[60px]'>
+                <button
+                  type='button'
+                  onClick={prevStepHandler}
+                  className='hidden md:flex w-6 h-6 mb-10 justify-center items-center cursor-pointer'
+                >
+                  <img
+                    src={icPrev}
+                    alt='뒤로가는 이미지'
+                    className='block wd-1'
+                  />
+                </button>
+              </div>
+              <div>{renderLoginStep(currentStep)}</div>
             </div>
           </div>
         </div>

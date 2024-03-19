@@ -2,12 +2,12 @@ import React from 'react';
 
 import style from './login.module.css';
 import { useUserInfoStore } from '../../store/store';
-import icPrev from '../../stories/assets/ic-prev.svg';
 import Typography from '../../stories/typography/Typography';
+
+import { Link } from 'react-router-dom';
 
 export interface TermsOfServiceAgreementPageProps {
   onNextStep: () => void;
-  onPrevStep: () => void;
   checkboxStates: {
     id: string;
     checked: boolean;
@@ -21,7 +21,6 @@ export interface TermsOfServiceAgreementPageProps {
 
 const TermsOfServiceAgreementPage = ({
   onNextStep,
-  onPrevStep,
   handleAllCheckboxChange,
   handleCheckboxChange,
   checkboxStates,
@@ -39,13 +38,6 @@ const TermsOfServiceAgreementPage = ({
   };
   return (
     <div>
-      <button
-        type='button'
-        onClick={onPrevStep}
-        className=' flex w-6 h-6 mb-10 justify-center items-center cursor-pointer'
-      >
-        <img src={icPrev} alt='뒤로가는 이미지' className='block wd-1' />
-      </button>
       <div className='mb-6'>
         <Typography text='서비스 이용 약관 동의' size='lg' weight='Bold' />
       </div>
@@ -78,9 +70,8 @@ const TermsOfServiceAgreementPage = ({
               />
               <span>{label}</span>
             </label>
-            <a href={href} target='_blank' rel='noreferrer'>
-              보기
-            </a>
+
+            <Link to={href}>보기</Link>
           </div>
         );
       })}
