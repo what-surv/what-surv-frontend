@@ -5914,7 +5914,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prop-types@npm:*":
+"@types/prop-types@npm:*, @types/prop-types@npm:^15":
   version: 15.7.11
   resolution: "@types/prop-types@npm:15.7.11"
   checksum: e53423cf9d510515ef8b47ff42f4f1b65a7b7b37c8704e2dbfcb9a60defe0c0e1f3cb1acfdeb466bad44ca938d7c79bffdd51b48ffb659df2432169d0b27a132
@@ -20292,6 +20292,7 @@ __metadata:
     "@toast-ui/editor": "npm:^3.2.2"
     "@toast-ui/react-editor": "npm:^3.2.3"
     "@types/node": "npm:^20.11.17"
+    "@types/prop-types": "npm:^15"
     "@types/react": "npm:^18.2.57"
     "@types/react-datepicker": "npm:^6"
     "@types/react-dom": "npm:^18.2.19"
@@ -20324,6 +20325,7 @@ __metadata:
     postcss: "npm:^8.4.33"
     prettier: "npm:^3.2.4"
     prettier-plugin-tailwindcss: "npm:^0.5.11"
+    prop-types: "npm:^15.8.1"
     react: "npm:^18.2.0"
     react-confetti-explosion: "npm:^2.1.2"
     react-datepicker: "npm:^6.1.0"

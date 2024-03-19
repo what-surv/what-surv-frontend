@@ -23,7 +23,7 @@ export const ageArr = [
 ];
 
 export const typeArr = [
-  { key: 'all', label: '전체' },
+  { key: 'All', label: '전체' },
   { key: 'survey', label: '설문조사' },
   { key: 'interview', label: '인터뷰' },
   { key: 'userTest', label: '유저테스트' },
@@ -31,7 +31,7 @@ export const typeArr = [
 ];
 
 export const methodArr = [
-  { key: 'all', label: '전체' },
+  { key: 'All', label: '전체' },
   { key: 'online', label: '온라인' },
   { key: 'offline', label: '오프라인' },
   { key: 'onlineOffline', label: '온오프라인 병행' },
