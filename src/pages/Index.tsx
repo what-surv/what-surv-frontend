@@ -17,6 +17,7 @@ import Card from '../stories/card/Card';
 // import CardSkeleton from '../stories/cardSkeleton/CardSkeleton';
 import { Dropdown } from '../stories/dropdown/Dropdown';
 import FloatingButton from '../stories/floatingButton/FloatingButton';
+import Footer from '../stories/footer/Footer';
 import { Pagination } from '../stories/indicator/pagination/Pagination';
 import Like from '../stories/like/Like';
 import { Tabbar } from '../stories/tabbar/Tabbar';
@@ -251,6 +252,9 @@ const Index = () => {
         <div className='fixed bottom-[50px] right-[13%] z-[100]'>
           <FloatingButton onClick={() => navigate('write')} />
         </div>
+      </div>
+      <div className='mt-[100px]'>
+        <Footer />
       </div>
     </div>
   );
