@@ -1,4 +1,4 @@
-// import { ko } from 'date-fns/esm/locale';
+import ko from 'date-fns/locale/ko';
 import { useState } from 'react';
 
 import calendar from '../../assets/calendar.svg';
@@ -6,6 +6,9 @@ import { WritePageStore } from '../../store/store';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
+
+// eslint-disable-next-line import/order
+import { Locale } from 'date-fns';
 
 const SelectDate = () => {
   const [showDatePicker, setShowDatePicker] = useState<boolean>(true);
@@ -31,6 +34,7 @@ const SelectDate = () => {
               setEnddate(date);
               setEndDate(date);
             }}
+            locale={ko as unknown as Locale}
             dateFormat='yy.MM.dd'
             placeholderText='날짜 선택'
             className='text-sm outline-none cursor-pointer bg-inherit w-[57px] caret-transparent'
