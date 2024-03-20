@@ -80,7 +80,7 @@ const Textfield = ({
       {type === 'button' && (
         <div className='min-h-[24px] duration-300 ease-in-out'>
           {state !== 'default' &&
-            (state ? (
+            (state === 'error' ? (
               <Typography
                 text='사용할 수 없는 닉네임 입니다!'
                 size='xs'
