@@ -3,19 +3,16 @@ import React, { useEffect, useState } from 'react';
 import style from './login.module.css';
 import { requestNickName, userRegistration } from '../../api/loginApis';
 import { useUserInfoStore } from '../../store/store';
-import icPrev from '../../stories/assets/ic-prev.svg';
 import Textfield from '../../stories/textfield/Textfield';
 import { convertToYYYYMMDD } from '../../utils/dateUtils';
 
+import { useNavigate } from 'react-router-dom';
+
 export interface WriteNickNamePageProps {
   onNextStep: () => void;
-  onPrevStep: () => void;
 }
 
-const WriteNickNamePage = ({
-  onNextStep,
-  onPrevStep,
-}: WriteNickNamePageProps) => {
+const WriteNickNamePage = ({ onNextStep }: WriteNickNamePageProps) => {
   const {
     nickname,
     phone,
@@ -29,6 +26,7 @@ const WriteNickNamePage = ({
     'default' | 'error' | 'success'
   >('default');
   const [nickNameValue, setNickNameValue] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (nickNameValue === '' && nickname) {
@@ -77,6 +75,7 @@ const WriteNickNamePage = ({
 
     try {
       userRegistration(params, onNextStep);
+      navigate('/');
     } catch (error) {
       console.error(error);
     }
@@ -84,13 +83,6 @@ const WriteNickNamePage = ({
 
   return (
     <div>
-      <button
-        type='button'
-        onClick={onPrevStep}
-        className=' flex w-6 h-6 mb-10 justify-center items-center cursor-pointer'
-      >
-        <img src={icPrev} alt='뒤로가는 이미지' className='block wd-1' />
-      </button>
       <p className='text-lg font-bold mb-[24px]'>
         서비스명 에서 어떻게 불러드릴까요?
       </p>

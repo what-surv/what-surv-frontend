@@ -2,14 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import style from './login.module.css';
 import { useUserInfoStore } from '../../store/store';
-import icPrev from '../../stories/assets/ic-prev.svg';
 import BirthDayWriteInput from '../../stories/loginpages/birthdayWrite/BirthDayWriteInput';
 import GenderButton from '../../stories/loginpages/genderButton/GenderButton';
 import Typography from '../../stories/typography/Typography';
 
 export interface UserInformationsPageProps {
   onNextStep: () => void;
-  onPrevStep: () => void;
 }
 
 interface SelectedGender {
@@ -19,10 +17,7 @@ interface SelectedGender {
   };
 }
 
-const UserInformationsPage = ({
-  onNextStep,
-  onPrevStep,
-}: UserInformationsPageProps) => {
+const UserInformationsPage = ({ onNextStep }: UserInformationsPageProps) => {
   const [birthday, setBirthday] = useState([
     { id: '0', value: '', state: false },
     { id: '1', value: '', state: false },
@@ -115,13 +110,6 @@ const UserInformationsPage = ({
 
   return (
     <div className='max-w-[504px] w-full m-auto'>
-      <button
-        type='button'
-        onClick={onPrevStep}
-        className=' flex w-6 h-6 mb-10 justify-center items-center cursor-pointer'
-      >
-        <img src={icPrev} alt='뒤로가는 이미지' className='block wd-1' />
-      </button>
       <div className='mb-6'>
         <Typography
           text='회원님에 대해 알려주세요!'
