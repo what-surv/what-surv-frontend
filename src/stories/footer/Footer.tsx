@@ -1,5 +1,6 @@
 import React from 'react';
 
+import home from '../../assets/ic-home-white.svg';
 import logo from '../assets/logo.svg';
 import Typography from '../typography/Typography';
 

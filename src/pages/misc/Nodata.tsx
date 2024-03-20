@@ -40,7 +40,7 @@ const Nodata = () => {
           console.log(test);
         }}
         className='w-[156px] h-[52px] bg-[#3283FF] rounded-[400px]'
-        type='submit'
+        type='button'
       >
         <Typography
           size='lg'

@@ -3,6 +3,7 @@ import Index from './pages/Index';
 import Lite from './pages/Lite';
 import Login from './pages/login/Login';
 import MarketingConsent from './pages/misc/MarketingConsent';
+import NotFoundPage from './pages/misc/NotFoundPage';
 import PrivacyPolicyPage from './pages/misc/PrivacyPolicyPage';
 import PrivateRoute from './pages/misc/PrivateRoute';
 import TermsofServicePage from './pages/misc/TermsofServicePage';
@@ -46,6 +47,7 @@ const App = () => {
             <Route path='/me/posts' element={<MyWritePostPage />} />
             <Route path='/withdrawal' element={<Withdrawal />} />
           </Route>
+          <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </div>
     </>
