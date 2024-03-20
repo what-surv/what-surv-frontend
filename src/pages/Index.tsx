@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import Nodata from './misc/Nodata';
 import { GetMainData, getMainList } from '../api/IndexApi';
 import { LikeDelete, LikePost } from '../api/LikeApi';
 import { BannerSwiper, ResearchSwiper } from '../component/MainSwiper';
@@ -58,6 +59,8 @@ const Index = () => {
         ...selectedValues,
       }),
   });
+
+  // console.log(data);
 
   if (isLoading) {
     return null;
@@ -186,57 +189,63 @@ const Index = () => {
 
           <div className='flex flex-wrap gap-3 mb-6'>{renderDropDowns()}</div>
 
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-            {/* {showSkeleton()} */}
-            {data?.data.map((params: GetMainData) => {
-              const {
-                postId,
-                authorNickname,
-                title,
-                createdAt,
-                endDate,
-                viewCount,
-                commentCount,
-                isLiked,
-              } = params;
+          {data?.data.length === 0 ? (
+            <Nodata />
+          ) : (
+            <div>
+              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+                {/* {showSkeleton()} */}
+                {data?.data.map((params: GetMainData) => {
+                  const {
+                    postId,
+                    authorNickname,
+                    title,
+                    createdAt,
+                    endDate,
+                    viewCount,
+                    commentCount,
+                    isLiked,
+                  } = params;
 
-              return (
-                <Card
-                  key={postId}
-                  id={postId}
-                  nickname={authorNickname}
-                  cardStyle='default'
-                  createdAt={createdAt}
-                  enddate={formatDateString(endDate)}
-                  onClick={() => navigate(`view/${postId}`)}
-                  type='default'
-                  onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                    if (e.key === 'Enter' || e.key === 'Space') {
-                      navigate(`/view/${postId}`);
-                    }
-                  }}
-                  viewCount={Number(viewCount)}
-                  commentCount={commentCount}
-                >
-                  <span className='absolute top-[25px] right-[21px]'>
-                    <Like
-                      onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                        likedClick(e, postId, isLiked)
-                      }
-                      isLiked={isLiked}
-                    />
-                  </span>
-                  {title}
-                </Card>
-              );
-            })}
-          </div>
-          {data && (
-            <Pagination
-              pageClick={handlePageChange}
-              totalPage={data.totalPages}
-              currentPage={currentPage}
-            />
+                  return (
+                    <Card
+                      key={postId}
+                      id={postId}
+                      nickname={authorNickname}
+                      cardStyle='default'
+                      createdAt={createdAt}
+                      enddate={formatDateString(endDate)}
+                      onClick={() => navigate(`view/${postId}`)}
+                      type='default'
+                      onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                        if (e.key === 'Enter' || e.key === 'Space') {
+                          navigate(`/view/${postId}`);
+                        }
+                      }}
+                      viewCount={Number(viewCount)}
+                      commentCount={commentCount}
+                    >
+                      <span className='absolute top-[25px] right-[21px]'>
+                        <Like
+                          onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                            likedClick(e, postId, isLiked)
+                          }
+                          isLiked={isLiked}
+                        />
+                      </span>
+                      {title}
+                    </Card>
+                  );
+                })}
+              </div>
+              {data && (
+                <Pagination
+                  pageClick={handlePageChange}
+                  totalPage={data.totalPages}
+                  currentPage={currentPage}
+                />
+              )}
+            </div>
           )}
         </div>
         <div className='fixed bottom-[50px] right-[13%] z-[100]'>
