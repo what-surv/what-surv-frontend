@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 import { WritePageStore } from '../../../store/store';
 
@@ -9,16 +9,21 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 const EditorBox = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editorRef = useRef<any>();
-  const { setContent } = WritePageStore();
+  const { setContent, content } = WritePageStore();
+
   const onChange = () => {
     const data = editorRef.current.getInstance().getHTML();
     setContent(data);
   };
+  useEffect(() => {
+    if (editorRef.current && content) {
+      editorRef.current.getInstance().setMarkdown(content);
+    }
+  }, [content]);
   return (
     <div className='w-full'>
       <Editor
         initialValue=' '
-        previewStyle=''
         height='600px'
         ref={editorRef}
         onChange={onChange}

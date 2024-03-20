@@ -4,7 +4,7 @@ import PostInputContent from '../../../molecules/post/write/PostInputContent';
 import PostSelectDropdown from '../../../molecules/post/write/PostSelectDropdown';
 import { WritePageStore } from '../../../store/store';
 
-import { UseFormRegister } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 interface FormInputs {
   title: string;
@@ -12,11 +12,9 @@ interface FormInputs {
   time: string;
 }
 
-interface PostSelectContentProps {
-  register: UseFormRegister<FormInputs>;
-}
+// interface PostSelectContentProps {}
 
-const PostSelectContent = ({ register }: PostSelectContentProps) => {
+const PostSelectContent = () => {
   const {
     age,
     time,
@@ -29,9 +27,11 @@ const PostSelectContent = ({ register }: PostSelectContentProps) => {
     setGender,
     setLink,
     setAge,
-    toggleAge,
+    setAges,
     setprocedureArray,
   } = WritePageStore();
+
+  const { register } = useFormContext<FormInputs>();
 
   return (
     <div className='flex flex-wrap items-start w-full md:w-full content-start self-stretch gap-3 md:gap-4 px-4 py-6 md:p-6 rounded-lg bg-[#E5E7ED]'>
@@ -56,7 +56,7 @@ const PostSelectContent = ({ register }: PostSelectContentProps) => {
         title='연령'
         options={ageArr}
         onDropdownChange={(selectAge) => setAge(selectAge)}
-        toggleDropdownValue={(ageArray) => toggleAge(ageArray)}
+        toggleDropdownValue={(ageArray) => setAges(ageArray)}
         oneSelect={false}
         value={age}
         defaultValue='연령'
