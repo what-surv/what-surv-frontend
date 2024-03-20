@@ -4,6 +4,7 @@ import Nodata from './misc/Nodata';
 import { GetMainData, getMainList } from '../api/IndexApi';
 import { LikeDelete, LikePost } from '../api/LikeApi';
 import { BannerSwiper, ResearchSwiper } from '../component/MainSwiper';
+import LoginAlertModal from '../organisms/LoginAlertModal';
 import {
   ageArr,
   genderArr,
@@ -28,6 +29,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
+  // LoginAlertModal을 제어하기 위한 상태
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
   const [selectedValues, setSelectedValues] = useState<Record<string, string>>(
     {}
   ); // 소팅 객체를 저장할 state
@@ -87,13 +90,18 @@ const Index = () => {
     liked: boolean
   ) => {
     e.stopPropagation();
-
-    if (liked) {
-      await LikeDelete(id);
-    } else {
-      await LikePost(id);
+    try {
+      if (liked) {
+        await LikeDelete(id);
+      } else {
+        await LikePost(id);
+      }
+      refetch();
+    } catch (error) {
+      if (error instanceof Error && error.message === 'Unauthorized') {
+        setShowLoginAlert(true);
+      }
     }
-    refetch();
   };
 
   const dropdownOptions = [
@@ -256,6 +264,13 @@ const Index = () => {
       <div className='mt-[100px]'>
         <Footer />
       </div>
+      <LoginAlertModal
+        isOpen={showLoginAlert}
+        handleClose={() => setShowLoginAlert(false)} // 수정됨
+        goLogin={() => {
+          navigate('/login');
+        }}
+      />
     </div>
   );
 };
