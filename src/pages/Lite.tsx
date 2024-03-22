@@ -5,14 +5,7 @@ import { Tabbar } from '../stories/tabbar/Tabbar';
 const Lite = () => {
   return (
     <div>
-      <Appbar
-        isAccount
-        isFullLogo
-        isLogo
-        isSearch
-        onArrowClick={() => {}}
-        size='full'
-      />
+      <Appbar isAccount isLogo isFullLogo />
       <Tabbar isMobileVisible size='default' />
       <div className='max-w-[770px] w-full m-auto'>
         <CommingSoon />
