@@ -6,8 +6,6 @@ import { useUserInfoStore } from '../../store/store';
 import Textfield from '../../stories/textfield/Textfield';
 import { convertToYYYYMMDD } from '../../utils/dateUtils';
 
-import { useNavigate } from 'react-router-dom';
-
 export interface WriteNickNamePageProps {
   onNextStep: () => void;
 }
@@ -26,7 +24,6 @@ const WriteNickNamePage = ({ onNextStep }: WriteNickNamePageProps) => {
     'default' | 'error' | 'success'
   >('default');
   const [nickNameValue, setNickNameValue] = useState('');
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (nickNameValue === '' && nickname) {
@@ -74,8 +71,8 @@ const WriteNickNamePage = ({ onNextStep }: WriteNickNamePageProps) => {
     };
 
     try {
-      userRegistration(params, onNextStep);
-      navigate('/');
+      await userRegistration(params);
+      onNextStep();
     } catch (error) {
       console.error(error);
     }

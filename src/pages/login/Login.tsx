@@ -67,7 +67,7 @@ const Login = () => {
   }, []);
 
   const nextStepHandler = () => {
-    if (currentStep < 5) {
+    if (currentStep < 6) {
       setCurrentStep(currentStep + 1);
     }
   };
