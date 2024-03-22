@@ -36,7 +36,7 @@ export const BannerSwiper = () => {
 
   const handleIndicatorClick = (pageNumber: number) => {
     setActiveIndex(pageNumber);
-    swiperRef.current?.slideTo(pageNumber);
+    swiperRef.current?.slideToLoop(pageNumber);
   };
 
   return (
@@ -61,22 +61,22 @@ export const BannerSwiper = () => {
             <div className='img-box'>
               <img
                 src={mainBannerMb1}
-                alt='메인베너 이미지'
+                alt='사용자의 니즈를 파악하고 싶다면? SurveyIT에서'
                 className='md:hidden block'
               />
               <img
                 src={mainBannerPc1}
-                alt='메인베너 이미지'
+                alt='사용자의 니즈를 파악하고 싶다면? SurveyIT에서'
                 className='hidden md:block lg:hidden'
               />
               <img
                 src={mainBannerTb1}
-                alt='메인베너 이미지'
+                alt='사용자의 니즈를 파악하고 싶다면? SurveyIT에서'
                 className='hidden lg:block xl:hidden'
               />
               <img
                 src={mainBannerMb1}
-                alt='메인베너 이미지'
+                alt='사용자의 니즈를 파악하고 싶다면? SurveyIT에서'
                 className='hidden xl:block'
               />
             </div>
@@ -85,22 +85,22 @@ export const BannerSwiper = () => {
             <div className='img-box'>
               <img
                 src={mainBannerMb2}
-                alt='메인베너 이미지'
+                alt='설문조사 참여하고 스타벅스 기프티콘 받기! 이벤트 기간 ~3/31일까지!'
                 className='md:hidden block'
               />
               <img
                 src={mainBannerPc2}
-                alt='메인베너 이미지'
+                alt='설문조사 참여하고 스타벅스 기프티콘 받기! 이벤트 기간 ~3/31일까지!'
                 className='hidden md:block lg:hidden'
               />
               <img
                 src={mainBannerTb2}
-                alt='메인베너 이미지'
+                alt='설문조사 참여하고 스타벅스 기프티콘 받기! 이벤트 기간 ~3/31일까지!'
                 className='hidden lg:block xl:hidden'
               />
               <img
                 src={mainBannerMb2}
-                alt='메인베너 이미지'
+                alt='설문조사 참여하고 스타벅스 기프티콘 받기! 이벤트 기간 ~3/31일까지!'
                 className='hidden xl:block'
               />
             </div>
@@ -109,22 +109,22 @@ export const BannerSwiper = () => {
             <div className='img-box'>
               <img
                 src={mainBannerMb3}
-                alt='메인베너 이미지'
+                alt='SurveyIT에 대한 의견을 보내주세요!'
                 className='md:hidden block'
               />
               <img
                 src={mainBannerPc3}
-                alt='메인베너 이미지'
+                alt='SurveyIT에 대한 의견을 보내주세요!'
                 className='hidden md:block lg:hidden'
               />
               <img
                 src={mainBannerTb3}
-                alt='메인베너 이미지'
+                alt='SurveyIT에 대한 의견을 보내주세요!'
                 className='hidden lg:block xl:hidden'
               />
               <img
                 src={mainBannerMb3}
-                alt='메인베너 이미지'
+                alt='SurveyIT에 대한 의견을 보내주세요!'
                 className='hidden xl:block'
               />
             </div>
