@@ -28,10 +28,6 @@ export const requestNickName = async (nickName: string) => {
   return isNicknameValid.data;
 };
 
-export const userRegistration = async (
-  params: userInfoData,
-  nextStepHandler: () => void
-) => {
+export const userRegistration = async (params: userInfoData) => {
   await axiosBaseUrl.post(`/auth/sign-up`, params);
-  nextStepHandler();
 };
