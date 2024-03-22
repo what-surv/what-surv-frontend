@@ -130,7 +130,12 @@ const Card = ({
             <p className='flex items-center'>
               <img src={icEye} alt='조회수 아이콘' />
             </p>
-            <Typography size='sm' text={viewCount} weight='Regular' />
+            <Typography
+              size='sm'
+              text={viewCount}
+              weight='Medium'
+              className='text-[#808490]'
+            />
           </div>
         )}
       </div>
