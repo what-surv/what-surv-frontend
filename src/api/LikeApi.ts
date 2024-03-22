@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import { axiosBaseUrl } from './axiosConfig';
 
 interface LikePostId {
@@ -10,7 +12,9 @@ export const LikePost = async (postId: number): Promise<LikePostId> => {
 
     return likePost.data;
   } catch (error) {
-    alert('로그인 하셔야 합니다!');
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
+      throw new Error('Unauthorized');
+    }
     throw error;
   }
 };

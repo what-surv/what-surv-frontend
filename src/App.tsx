@@ -3,6 +3,7 @@ import Index from './pages/Index';
 import Lite from './pages/Lite';
 import Login from './pages/login/Login';
 import MarketingConsent from './pages/misc/MarketingConsent';
+import NotFoundPage from './pages/misc/NotFoundPage';
 import PrivacyPolicyPage from './pages/misc/PrivacyPolicyPage';
 import PrivateRoute from './pages/misc/PrivateRoute';
 import TermsofServicePage from './pages/misc/TermsofServicePage';
@@ -29,8 +30,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Index />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/write' element={<PostWritePage />} />
-          <Route path='/edit/:postId' element={<PostEditPage />} />
+
           <Route path='/login/new-user' element={<Login />} />
           <Route path='/login/success' element={<Login />} />
           <Route path='/login/failure' element={<Login />} />
@@ -41,11 +41,14 @@ const App = () => {
           <Route path='/termsOfService' element={<TermsofServicePage />} />
           <Route path='/lite' element={<Lite />} />
           <Route element={<PrivateRoute />}>
+            <Route path='/write' element={<PostWritePage />} />
+            <Route path='/edit/:postId' element={<PostEditPage />} />
             <Route path='/me/setting' element={<Setting />} />
             <Route path='/me/likes' element={<InterestArticlesPage />} />
             <Route path='/me/posts' element={<MyWritePostPage />} />
             <Route path='/withdrawal' element={<Withdrawal />} />
           </Route>
+          <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </div>
     </>

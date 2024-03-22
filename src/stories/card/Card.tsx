@@ -13,7 +13,7 @@ const CardVariants = cva(
 
 interface CardProps {
   children?: React.ReactNode;
-  /** 사이즈  */
+  /** 카드 스타일  */
   cardStyle: 'default' | 'hot';
 
   /** 게시글 ID */
@@ -31,8 +31,8 @@ interface CardProps {
   /** 조회수 */
   viewCount: number;
 
-  /** 카드 타입 edit일 경우 커버씌워짐 */
-  type: 'default' | 'edit';
+  /** 카드 타입 edit, closed일 경우 커버씌워짐 */
+  type: 'default' | 'edit' | 'closed';
 
   /** 댓글수 */
   commentCount: number;
@@ -167,36 +167,49 @@ const Card = ({
           </div>
         </div>
       )}
-      {type === 'edit' && (
+      {type !== 'default' && (
         <div>
-          <div className='absolute flex w-[100%] h-[100%]  left-0 top-0 bg-[#000] opacity-40' />
-
-          <div className='absolute flex top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] z-100 gap-6'>
-            {onEditButtonsClick && (
-              <button
-                type='button'
-                className='flex w-[120px] h-[48px] items-center justify-center rounded-[400px] bg-[#FAFAFA]'
-                aria-label='삭제'
-                onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                  onEditButtonsClick('delete', e)
-                }
-              >
-                <Typography size='base' weight='Medium' text='삭제' />
-              </button>
-            )}
-            {onEditButtonsClick && (
-              <button
-                type='button'
-                className='flex w-[120px] h-[48px] items-center justify-center rounded-[400px] bg-[#FAFAFA]'
-                aria-label='수정'
-                onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                  onEditButtonsClick('modify', e)
-                }
-              >
-                <Typography size='base' weight='Medium' text='수정' />
-              </button>
-            )}
-          </div>
+          <div
+            className={`absolute flex w-[100%] h-[100%]  left-0 top-0 ${type === 'edit' ? 'bg-[#000000]' : 'bg-[#A6AAB2]'} opacity-40`}
+          />
+          {type === 'edit' && (
+            <div className='absolute flex top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] z-100 gap-6'>
+              {onEditButtonsClick && (
+                <button
+                  type='button'
+                  className='flex w-[120px] h-[48px] items-center justify-center rounded-[400px] bg-[#FAFAFA]'
+                  aria-label='삭제'
+                  onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                    onEditButtonsClick('delete', e)
+                  }
+                >
+                  <Typography size='base' weight='Medium' text='삭제' />
+                </button>
+              )}
+              {onEditButtonsClick && (
+                <button
+                  type='button'
+                  className='flex w-[120px] h-[48px] items-center justify-center rounded-[400px] bg-[#FAFAFA]'
+                  aria-label='수정'
+                  onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                    onEditButtonsClick('modify', e)
+                  }
+                >
+                  <Typography size='base' weight='Medium' text='수정' />
+                </button>
+              )}
+            </div>
+          )}
+          {type === 'closed' && (
+            <div className='absolute flex top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] z-100 gap-6'>
+              <Typography
+                size='xl2'
+                weight='Bold'
+                text='마감'
+                className='text-[#808490] text-[64px]'
+              />
+            </div>
+          )}
         </div>
       )}
     </div>
