@@ -102,6 +102,11 @@ input[type='number']::-webkit-outer-spin-button {
   overflow: unset;
 }
 
+.commingsoon-bg {
+  background: url('../src/assets/img-it-bg.svg') center no-repeat;
+  background-size: cover;
+}
+
 @media (max-width: 390px) {
   .main-banner .img-box {
     height: 180px;

@@ -18,7 +18,7 @@ const CommingSoon = () => {
   const navigate = useNavigate();
   return (
     <div className='px-6'>
-      <div className='mt-[51px] py-[72px] border border-[#E5EEFF] rounded-xl'>
+      <div className='commingsoon-bg  mt-[51px] py-[72px] border border-[#E5EEFF] rounded-xl'>
         <div className='text-center mb-[52px]'>
           <img src={logo} alt='로고' className='inline-block mb-[13px]' />
           <Typography
