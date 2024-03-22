@@ -2,6 +2,7 @@ import React from 'react';
 import './index.css';
 
 import App from './App.tsx';
+import RouteChangeTracker from './ga/RouteChangeTracker.tsx';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ReactDOM from 'react-dom/client';
@@ -19,6 +20,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
     {/* // <React.StrictMode> */}
     <BrowserRouter>
+      <RouteChangeTracker />
       <App />
     </BrowserRouter>
     {/* </React.StrictMode> */}
