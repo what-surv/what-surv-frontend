@@ -164,17 +164,19 @@ const Login = () => {
                 percent={currentStep * 16.66666666666667}
               />
               <div className='mt-[60px]'>
-                <button
-                  type='button'
-                  onClick={prevStepHandler}
-                  className='hidden md:flex w-6 h-6 mb-10 justify-center items-center cursor-pointer'
-                >
-                  <img
-                    src={icPrev}
-                    alt='뒤로가는 이미지'
-                    className='block wd-1'
-                  />
-                </button>
+                {currentStep !== 1 && (
+                  <button
+                    type='button'
+                    onClick={prevStepHandler}
+                    className='hidden md:flex w-6 h-6 mb-10 justify-center items-center cursor-pointer'
+                  >
+                    <img
+                      src={icPrev}
+                      alt='뒤로가는 이미지'
+                      className='block wd-1'
+                    />
+                  </button>
+                )}
               </div>
               <div>{renderLoginStep(currentStep)}</div>
             </div>

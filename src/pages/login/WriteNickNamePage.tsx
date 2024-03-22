@@ -55,7 +55,7 @@ const WriteNickNamePage = ({ onNextStep }: WriteNickNamePageProps) => {
 
     const response = await requestNickName(nickNameValue);
     if (response === false) {
-      setNickNameBoolean(response);
+      setNickNameBoolean('success');
       setNickName(nickNameValue);
     } else {
       setNickNameBoolean('error');

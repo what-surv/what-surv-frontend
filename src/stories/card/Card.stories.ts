@@ -16,8 +16,14 @@ export default meta;
 
 export const Main: StoryObj<typeof Card> = {
   args: {
+    id: 0,
+    cardStyle: 'default',
     children: '제목입니다. 가나다라마바사아자차카타파하. 몇자까지 넣을까',
     enddate: '2024.01.01',
+    viewCount: 0,
+    type: 'default',
+    nickname: '서왓섭',
+    commentCount: 0,
     onClick: () => {},
   },
 };
