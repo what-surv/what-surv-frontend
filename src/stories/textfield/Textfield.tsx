@@ -11,6 +11,7 @@ interface TextFieldProps {
   placeholder: string;
   state?: 'default' | 'error' | 'success';
   type: 'default' | 'button';
+  defaultValue?: string;
 }
 
 const Textfield = ({
@@ -19,6 +20,7 @@ const Textfield = ({
   placeholder,
   value,
   state,
+  defaultValue,
   type,
 }: TextFieldProps) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -44,6 +46,7 @@ const Textfield = ({
             id='0'
             type='text'
             className={`block w-full h-full px-5 border rounded-xl ${(state === 'default' && 'border-[#0051FF]') || (state === 'error' && 'border-[#EB271C]') || 'border-[#6697FF]'} focus:border-[#000AFF] active:border-[#0051FF] focus:outline-none transition-all duration-300 ease-in-out`}
+            defaultValue={defaultValue}
             onChange={onChange}
             value={value}
             placeholder={placeholder}

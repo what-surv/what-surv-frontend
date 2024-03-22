@@ -8,6 +8,7 @@ export interface profileData {
   email: string;
   id: string;
   birthDate: string;
+  areaOfInterest: string;
   gender: string;
 }
 

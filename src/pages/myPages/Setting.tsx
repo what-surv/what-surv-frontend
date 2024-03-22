@@ -1,109 +1,121 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { axiosBaseUrl } from '../../api/axiosConfig';
+import { requestNickName } from '../../api/loginApis';
 import { profileTypes } from '../../api/Posttypes';
 import userProfile from '../../assets/ic-user.svg';
+import Button from '../../atoms/Button';
 import Input from '../../atoms/Input';
+import CompleteModal from '../../organisms/post/mypage/CompleteModal';
 import { Appbar } from '../../stories/appbar/Appbar';
 import { Tabbar } from '../../stories/tabbar/Tabbar';
+import Textfield from '../../stories/textfield/Textfield';
 import Typography from '../../stories/typography/Typography';
 
 import { DevTool } from '@hookform/devtools';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface Inputs {
   nickname: string;
   interest: string;
 }
 
-// interface ButtonProps {
-//   label: string;
-//   isSelected: boolean;
-//   onClick: () => void;
-// }
-// eslint-disable-next-line no-lone-blocks
-{
-  /* <div className='flex justify-between mb-8'>
-  <div className='flex gap-6'>
-    <Button
-      label='관심 표시한 글'
-      isSelected={selectedButton === '관심'}
-      onClick={() => setSelectedButton('관심')}
-    />
-    <Button
-      label='최근 조회 목록'
-      isSelected={selectedButton === '조회'}
-      onClick={() => setSelectedButton('조회')}
-    />
-    <Button
-      label='내 모집 글'
-      isSelected={selectedButton === '모집'}
-      onClick={() => setSelectedButton('모집')}
-    />
-  </div>
-  <div className='flex items-center'>
-    <button type='button' aria-label='편집 | 취소'>
-      <Typography size='lg' text='편집 | 취소' weight='Regular' />
-    </button>
-  </div>
-</div> */
-}
-
-// const Button = ({ label, isSelected, onClick }: ButtonProps) => (
-//   <button
-//     type='button'
-//     aria-label={label}
-//     className={`relative flex h-[52px] items-center justify-center px-[10px] ${isSelected ? 'text-[#242424]' : 'text-[#545760]'}`}
-//     onClick={onClick}
-//   >
-//     <Typography
-//       size='lg'
-//       text={label}
-//       weight={isSelected ? 'Semibold' : 'Regular'}
-//     />
-//     <span
-//       className={`absolute ${isSelected ? 'w-full' : 'w-0'}  h-[2px] left-0 bottom-0 bg-[#242424] transition-all duration-200 ease-in`}
-//     />
-//   </button>
-// );
-
 const Setting = () => {
   const { data: myData, isLoading } = useQuery<profileTypes>({
     queryKey: ['getProfile'],
     queryFn: () => axiosBaseUrl.get(`users/me`),
   });
+  const navigate = useNavigate();
+  // 저장하기 버튼 disabled 여부
+  const [disableButton, setDisableButton] = useState(true);
+  const [nicknameInputState, setNicknameInputState] = useState<
+    'default' | 'error' | 'success'
+  >('default');
+  const [nickname, setNickname] = useState<string>(
+    myData?.data.nickname as string
+  );
 
-  // const [selectedButton, setSelectedButton] = useState('관심');
+  // modal 상태
+  const [isModalOpen, setIsmModalOpen] = useState(false);
+
+  // modal 확인 버튼 클릭 시 이벤트
+  const modalButtonOnClick = () => {
+    setIsmModalOpen(false);
+    navigate('/');
+  };
 
   const {
     register,
     formState: { errors },
-    setValue,
     control,
+    watch,
+    handleSubmit,
   } = useForm<Inputs>({
     mode: 'onBlur',
-    defaultValues: {
-      nickname: myData?.data.nickname,
+  });
+
+  const interest = watch('interest');
+
+  useEffect(() => {
+    if (myData?.data.areaOfInterest !== interest) {
+      if (nicknameInputState === 'success' && interest) {
+        setDisableButton(false);
+      }
+    } else {
+      setDisableButton(true);
+    }
+  }, [nicknameInputState, interest, myData]);
+
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.slice(0, 10);
+    setNickname(value);
+    setNicknameInputState('default');
+  };
+
+  const onSubmit = (data: Inputs) => {
+    updateMyPage.mutate(data);
+  };
+
+  const updateMyPage = useMutation<void, unknown, Inputs>({
+    mutationFn: (inputs) =>
+      axiosBaseUrl.patch(`/users/me`, {
+        nickname,
+        areaOfInterest: inputs.interest,
+      }),
+    onSuccess: () => {
+      setIsmModalOpen(true);
+    },
+    onError: () => {
+      console.error('에러 발생');
     },
   });
 
-  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.slice(0, 10); // Limit to 10 characters
-    setValue('nickname', value); // Update the value in react-hook-form
-    setNicknameLength(value.length);
-  };
+  const requestNickNameOnClick = async () => {
+    const isValidInput = (text: string) => {
+      const regex = /^[a-zA-Z가-힣]{2,10}$/;
+      return regex.test(text);
+    };
+    // 정규식 체크
+    if (!isValidInput(nickname)) {
+      setNicknameInputState('error');
+      return null;
+    }
 
-  const [nicknameLength, setNicknameLength] = useState<number>(
-    myData?.data.nickname.length ?? 0
-  );
+    const response = await requestNickName(nickname);
+    if (response === false) {
+      setNicknameInputState('success');
+      setNickname(nickname);
+    } else {
+      setNicknameInputState('error');
+    }
+    return undefined;
+  };
 
   if (isLoading || !myData) {
     return null;
   }
-
-  console.log(myData);
   return (
     <div>
       <Appbar isLogo isNotification isFullLogo />
@@ -171,9 +183,9 @@ const Setting = () => {
         {/* // 유저 기본정보 */}
 
         {/* 수정 인풋들 */}
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className='flex flex-col gap-4 mb-9'>
-            <div className='flex flex-col items-start w-full gap-2'>
+            {/* <div className='flex flex-col items-start w-full gap-2'>
               <Typography
                 size='base'
                 weight='Medium'
@@ -210,7 +222,16 @@ const Setting = () => {
                 />
               </div>
               {errors.nickname && <span>{errors.nickname.message}</span>}
-            </div>
+            </div> */}
+            <Textfield
+              type='button'
+              onClick={requestNickNameOnClick}
+              onChange={handleNicknameChange}
+              state={nicknameInputState}
+              placeholder='김왓섭'
+              value={nickname}
+              defaultValue={myData.data.nickname}
+            />
             <div className='flex flex-col items-start w-full gap-2'>
               <Typography
                 size='base'
@@ -222,6 +243,7 @@ const Setting = () => {
                 <Input
                   type='text'
                   id='interest'
+                  defaultValue={myData.data.areaOfInterest}
                   placeholder='관심있는 분야 또는 도메인 등을 입력해보세요!'
                   {...register('interest', {
                     required: '관심분야를 입력해주세요.',
@@ -236,28 +258,38 @@ const Setting = () => {
               {errors.interest && <span>{errors.interest.message}</span>}
             </div>
           </div>
-        </form>
-        {/* // 수정 인풋들 */}
 
-        <div className='flex flex-col gap-6'>
-          <button
-            type='button'
-            className='flex w-full items-center justify-center h-12 bg-[#0051FF] rounded-[400px]'
-            aria-label='저장하기'
-          >
-            <Typography
-              text='저장하기'
-              size='base'
-              weight='Medium'
-              className='text-[#FFFFFF]'
-            />
-          </button>
-          <Link to='/' className='text-center text-[#808490]'>
-            회원 탈퇴
-          </Link>
-        </div>
+          {/* // 수정 인풋들 */}
+
+          <div className='flex flex-col gap-6'>
+            <Button
+              type='submit'
+              className={`flex w-full items-center justify-center h-12 ${disableButton ? `bg-[#A6AAB2]` : `bg-[#0051FF]`} rounded-[400px]`}
+              aria-label='저장하기'
+              disabled={disableButton}
+            >
+              <Typography
+                text='저장하기'
+                size='base'
+                weight='Medium'
+                className='text-[#FFFFFF]'
+              />
+            </Button>
+
+            <Link to='/' className='text-center text-[#808490]'>
+              회원 탈퇴
+            </Link>
+          </div>
+        </form>
       </div>
       <DevTool control={control} />
+      <CompleteModal
+        title='프로필 저장이 완료되었습니다!'
+        content='홈으로 이동해서 리서치에 참여해보세요!'
+        buttonText='확인'
+        isOpen={isModalOpen}
+        onClick={modalButtonOnClick}
+      />
     </div>
   );
 };

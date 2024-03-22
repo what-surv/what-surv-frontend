@@ -18,12 +18,7 @@ import Typography from '../../stories/typography/Typography';
 
 import { DevTool } from '@hookform/devtools';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import {
-  useForm,
-  SubmitHandler,
-  useFormContext,
-  FormProvider,
-} from 'react-hook-form';
+import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 
 interface Inputs {
@@ -37,8 +32,8 @@ const PostEditPage = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [disableButton, setDisableButton] = useState(true);
-  const methods = useForm({ mode: 'onChange' });
-  const { register, handleSubmit, reset, control } = useFormContext<Inputs>();
+  const methods = useForm<Inputs>({ mode: 'onChange' });
+  const { register, handleSubmit, reset, control } = methods;
   const { setIsSuccessModalOpen } = SuccessModalStore();
 
   // 뒤로가기 모달 팝업 확인용 isConfirmOpen state
