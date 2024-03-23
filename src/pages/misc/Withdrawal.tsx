@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { postQuit } from '../../api/quit';
+import { getUserInfoApi } from '../../api/userCheckApi';
 import drawal from '../../assets/ic-withdrawal.svg';
 import SelectsButton from '../../atoms/withdrawal/SelectsButton';
 import { Appbar } from '../../stories/appbar/Appbar';
@@ -8,6 +9,7 @@ import CheckBox from '../../stories/checkBox/CheckBox';
 import { Tabbar } from '../../stories/tabbar/Tabbar';
 import Typography from '../../stories/typography/Typography';
 
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 interface OptionProps {
@@ -57,7 +59,16 @@ const Withdrawal = () => {
   const [options, setOptions] = useState<OptionProps[]>(initOptions);
   const [checked, setChecked] = useState(false);
 
-  const nvigate = useNavigate();
+  const navigate = useNavigate();
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['drawal'],
+    queryFn: () => getUserInfoApi(),
+  });
+
+  if (isLoading) {
+    return null;
+  }
 
   const handleSelect = (id: number) => {
     const newOptions = options.map((option) => {
@@ -125,25 +136,36 @@ const Withdrawal = () => {
 
     postQuit(selectedLabels);
 
-    nvigate('/');
+    navigate('/');
   };
   return (
     <div>
       <Appbar
         isAccount
-        isFullLogo
+        isClose
         isLogo
-        isSearch
-        onArrowClick={() => {}}
-        size='full'
-      />
-      <Tabbar isMobileVisible size='default' />
+        isTextCenter
+        onCloseClick={() => {
+          navigate('/me/setting');
+        }}
+      >
+        회원 탈퇴
+      </Appbar>
+
+      <div className='hidden md:block'>
+        <Tabbar isMobileVisible size='default' />
+      </div>
+
       <div className='px-6'>
         <div className=' max-w-[520px] w-full mt-[50px] m-auto'>
           <div className='flex flex-col gap-9'>
             <div className='flex flex-col gap-4 '>
               <div>
-                <Typography size='xl' weight='Bold' text='김서치님,' />
+                <Typography
+                  size='xl'
+                  weight='Bold'
+                  text={`${data.nickname}님,`}
+                />
                 <br />
                 <Typography
                   size='xl'
@@ -152,11 +174,15 @@ const Withdrawal = () => {
                 />
               </div>
               <div>
-                <dl className='flex items-center gap-3'>
-                  <dt>
-                    <img src={drawal} alt='주의사항 아이콘' />
+                <dl className='flex gap-3'>
+                  <dt className='relative w-5 h-5'>
+                    <img
+                      src={drawal}
+                      alt='주의사항 아이콘'
+                      className='absolute top-[4px]'
+                    />
                   </dt>
-                  <dd>
+                  <dd className='w-[calc(100%-21px)]'>
                     <Typography
                       size='sm'
                       weight='Medium'
@@ -165,11 +191,15 @@ const Withdrawal = () => {
                     />
                   </dd>
                 </dl>
-                <dl className='flex items-center gap-3'>
-                  <dt>
-                    <img src={drawal} alt='주의사항 아이콘' />
+                <dl className='flex gap-3'>
+                  <dt className='relative w-5 h-5'>
+                    <img
+                      src={drawal}
+                      alt='주의사항 아이콘'
+                      className='absolute top-[4px]'
+                    />
                   </dt>
-                  <dd>
+                  <dd className='w-[calc(100%-21px)]'>
                     <Typography
                       size='sm'
                       weight='Medium'
@@ -178,11 +208,15 @@ const Withdrawal = () => {
                     />
                   </dd>
                 </dl>
-                <dl className='flex items-center gap-3'>
-                  <dt>
-                    <img src={drawal} alt='주의사항 아이콘' />
+                <dl className='flex gap-3'>
+                  <dt className='relative w-5 h-5'>
+                    <img
+                      src={drawal}
+                      alt='주의사항 아이콘'
+                      className='absolute top-[4px]'
+                    />
                   </dt>
-                  <dd>
+                  <dd className='w-[calc(100%-21px)]'>
                     <Typography
                       size='sm'
                       weight='Medium'
@@ -198,6 +232,7 @@ const Withdrawal = () => {
                     size='sm'
                     weight='Semibold'
                     text='회원 탈퇴 유의사항을 확인했으며 이에 동의합니다.'
+                    className='text-neutral-800 leading-snug'
                   />
                 </CheckBox>
               </div>

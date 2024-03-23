@@ -53,6 +53,8 @@ interface AppbarProps {
   size?: 'mobile' | 'default' | 'full';
   /** 화살표 클릭 시 뒤로가기 기능 */
   onArrowClick?: () => void;
+  /** 닫기 클릭 시 페이지로 이동 */
+  onCloseClick?: () => void;
 }
 
 /**
@@ -71,6 +73,7 @@ export const Appbar = ({
   isTextCenter,
   size,
   onArrowClick,
+  onCloseClick,
   ...props
 }: AppbarProps) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -211,7 +214,9 @@ export const Appbar = ({
             </div>
           )}
           {isClose && (
-            <img src={close} alt='close icon' className='md:hidden' />
+            <button type='button' onClick={onCloseClick}>
+              <img src={close} alt='close icon' className='md:hidden' />
+            </button>
           )}
         </div>
       </div>
