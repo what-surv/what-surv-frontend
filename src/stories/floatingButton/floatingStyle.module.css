@@ -19,7 +19,8 @@
 .textBox > span {
   position: relative;
   left: 10px;
-  text-wrap: nowrap;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .floatingButton:hover .textBox {
