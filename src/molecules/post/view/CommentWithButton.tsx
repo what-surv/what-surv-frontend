@@ -49,10 +49,20 @@ const CommentWithButton = ({
   DeleteButtonClick,
 }: CommentWithButtonProps) => {
   const { num } = useParams() as { num: string };
-  const { data: profile } = useQuery<profileTypes>({
+  const {
+    data: profile,
+    isError,
+    error,
+  } = useQuery<profileTypes>({
     queryKey: ['getProfile', num],
     queryFn: () => axiosBaseUrl.get(`auth/profile`),
+    retry: 0,
   });
+
+  if (isError) {
+    console.error(error.message);
+  }
+
   return (
     <div className='flex pl-[30px] mb-5 flex-col gap-2.5 items-start justify-end self-stretch'>
       {isEditOpen && commentId === id ? (

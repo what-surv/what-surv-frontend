@@ -12,7 +12,7 @@ import { SuccessModalStore } from '../../../store/store';
 import PostSuccessModal from '../write/PostSuccessModal';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 interface commentTypes {
   id: string;
@@ -31,7 +31,6 @@ interface CustomAxiosRequestConfig extends AxiosRequestConfig {
 
 const UserInfoWithComment = () => {
   const { num } = useParams() as { num: string };
-  const navigate = useNavigate();
   const { setIsSuccessModalOpen } = SuccessModalStore();
   const queryClient = useQueryClient();
   const { data: comments } = useQuery<commentTypes[]>({
@@ -59,10 +58,11 @@ const UserInfoWithComment = () => {
     setIsReplyOpen(false);
   };
 
+  // eslint-disable-next-line consistent-return
   const ReplyButtonClick = (id: string) => {
     if (profile === undefined) {
       alert('댓글은 로그인 후 작성할 수 있습니다.');
-      navigate('/login');
+      return null;
     }
     setCommentId(id);
     setIsReplyOpen(true);
