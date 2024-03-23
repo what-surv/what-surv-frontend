@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 
 import Nodata from './misc/Nodata';
-import { GetMainData, getMainList } from '../api/IndexApi';
+import {
+  GetMainData,
+  getMainList,
+  mainAgeArr,
+  mainGenderArr,
+  mainMethodArr,
+  mainSortArr,
+  mainTypeArr,
+} from '../api/IndexApi';
 import { LikeDelete, LikePost } from '../api/LikeApi';
 import { BannerSwiper, ResearchSwiper } from '../component/MainSwiper';
 import LoginAlertModal from '../organisms/LoginAlertModal';
-import {
-  ageArr,
-  genderArr,
-  methodArr,
-  sortArr,
-  typeArr,
-} from '../organisms/post/write/DropdownValue';
 import { MainPageStore } from '../store/store';
 import { Appbar } from '../stories/appbar/Appbar';
 import Card from '../stories/card/Card';
-// import CardSkeleton from '../stories/cardSkeleton/CardSkeleton';
 import { Dropdown } from '../stories/dropdown/Dropdown';
 import FloatingButton from '../stories/floatingButton/FloatingButton';
 import Footer from '../stories/footer/Footer';
@@ -41,6 +41,17 @@ const Index = () => {
   useEffect(() => {
     document.body.style.backgroundColor = '#F9F9FB';
 
+    // URL에서 쿼리 스트링을 파싱
+    const queryParams = new URLSearchParams(window.location.search);
+    const initialSelectedValues: Record<string, string> = {};
+
+    queryParams.forEach((value, key) => {
+      initialSelectedValues[key] = value;
+    });
+
+    // 초기 상태를 설정
+    setSelectedValues(initialSelectedValues);
+
     return () => {
       document.body.style.backgroundColor = '#F2F3F7';
     };
@@ -64,25 +75,20 @@ const Index = () => {
       }),
   });
 
-  // console.log(data);
+  useEffect(() => {
+    const queryString = Object.keys(selectedValues)
+      .map(
+        (queryKey) =>
+          `${encodeURIComponent(queryKey)}=${encodeURIComponent(selectedValues[queryKey])}`
+      )
+      .join('&');
+
+    navigate(`?${queryString}`);
+  }, [selectedValues, navigate]);
 
   if (isLoading) {
     return null;
   }
-
-  // const showSkeleton = () => {
-  //   if (isLoading) {
-  //     return (
-  //       <>
-  //         {new Array(12).fill('').map(() => (
-  //           <CardSkeleton type='default' />
-  //         ))}
-  //       </>
-  //     );
-  //   }
-
-  //   return null;
-  // };
 
   const likedClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -105,36 +111,32 @@ const Index = () => {
   };
 
   const dropdownOptions = [
-    { defaultValue: '정렬', key: 'sort', arr: sortArr },
-    { defaultValue: '성별', key: 'gender', arr: genderArr },
-    { defaultValue: '나이', key: 'age', arr: ageArr },
-    { defaultValue: '종류', key: 'research_type', arr: typeArr },
-    { defaultValue: '진행방식', key: 'procedure', arr: methodArr },
+    { defaultValue: '정렬', key: 'sort', arr: mainSortArr },
+    { defaultValue: '성별', key: 'gender', arr: mainGenderArr },
+    { defaultValue: '나이', key: 'age', arr: mainAgeArr },
+    { defaultValue: '종류', key: 'research_type', arr: mainTypeArr },
+    { defaultValue: '진행방식', key: 'procedure', arr: mainMethodArr },
   ];
 
   const soltingHandler = (key: string, selectedValue: string) => {
-    handlePageChange(1); // 소팅할때 현재페이지 1로 변경
+    handlePageChange(1); // 소팅할 때 현재 페이지 1로 변경
 
-    // 기존에 선택된 값이 있는지 확인하고 추가 또는 갱신
-    setSelectedValues((prevSelectedValues) => ({
-      ...prevSelectedValues,
-      [key]: selectedValue,
-    }));
-
-    // 누적된 선택한 값들로부터 쿼리스트링을 생성
-    const updatedValues = {
-      ...selectedValues,
-      [key]: selectedValue,
-    };
-    const queryString = Object.keys(updatedValues)
-      .map(
-        (queryKey) =>
-          `${encodeURIComponent(queryKey)}=${encodeURIComponent(updatedValues[queryKey])}`
-      )
-      .join('&');
-
-    navigate(`?${queryString}`);
+    if (selectedValue === 'All') {
+      // "전체"가 선택되면 해당 키를 상태에서 제거
+      setSelectedValues((prevSelectedValues) => {
+        const updatedValues = { ...prevSelectedValues };
+        delete updatedValues[key]; // 선택된 키 제거
+        return updatedValues;
+      });
+    } else {
+      // "전체"가 아니라면 선택된 값을 상태에 추가 또는 업데이트
+      setSelectedValues((prevSelectedValues) => ({
+        ...prevSelectedValues,
+        [key]: selectedValue,
+      }));
+    }
   };
+
   const renderDropDowns = () => {
     return dropdownOptions.map((option) => {
       // 해당 dropdown option의 key 값에 대한 선택된 값이 있는지 확인

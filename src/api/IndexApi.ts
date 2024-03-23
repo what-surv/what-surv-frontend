@@ -1,5 +1,44 @@
 import { axiosBaseUrl } from './axiosConfig';
 
+export const mainSortArr = [
+  { key: 'recent', label: '최신순' },
+  { key: 'popular', label: '인기순' },
+  { key: 'deadline', label: '마감임박순' },
+];
+
+export const mainGenderArr = [
+  { key: 'All', label: '전체' },
+  { key: 'Male', label: '남성' },
+  { key: 'Female', label: '여성' },
+];
+
+export const mainAgeArr = [
+  { key: 'All', label: '전체' },
+  { key: '10', label: '10대' },
+  { key: '20', label: '20대' },
+  { key: '30', label: '30대' },
+  { key: '40', label: '40대' },
+  { key: '50', label: '50대' },
+  { key: '60', label: '60대' },
+  { key: '70', label: '70대' },
+  { key: '80', label: '80대 이상' },
+];
+
+export const mainTypeArr = [
+  { key: 'All', label: '전체' },
+  { key: 'survey', label: '설문조사' },
+  { key: 'interview', label: '인터뷰' },
+  { key: 'userTest', label: '유저테스트' },
+  { key: 'other', label: '기타' },
+];
+
+export const mainMethodArr = [
+  { key: 'All', label: '전체' },
+  { key: 'online', label: '온라인' },
+  { key: 'offline', label: '오프라인' },
+  { key: 'onlineOffline', label: '온오프라인 병행' },
+];
+
 interface GetMainListParams {
   page: number;
   limit: number;
