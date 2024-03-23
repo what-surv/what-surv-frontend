@@ -12,7 +12,6 @@ import { Tabbar } from '../../stories/tabbar/Tabbar';
 import Textfield from '../../stories/textfield/Textfield';
 import Typography from '../../stories/typography/Typography';
 
-import { DevTool } from '@hookform/devtools';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
@@ -49,7 +48,6 @@ const Setting = () => {
   const {
     register,
     formState: { errors },
-    control,
     watch,
     handleSubmit,
   } = useForm<Inputs>({
@@ -282,7 +280,6 @@ const Setting = () => {
           </div>
         </form>
       </div>
-      <DevTool control={control} />
       <CompleteModal
         title='프로필 저장이 완료되었습니다!'
         content='홈으로 이동해서 리서치에 참여해보세요!'

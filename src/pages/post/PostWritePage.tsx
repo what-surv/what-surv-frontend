@@ -15,7 +15,6 @@ import { Appbar } from '../../stories/appbar/Appbar';
 import { Tabbar } from '../../stories/tabbar/Tabbar';
 import Typography from '../../stories/typography/Typography';
 
-import { DevTool } from '@hookform/devtools';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -28,7 +27,7 @@ interface Inputs {
 
 const PostWritePage = () => {
   const methods = useForm<Inputs>({ mode: 'onChange' });
-  const { register, handleSubmit, reset, control } = methods;
+  const { register, handleSubmit, reset } = methods;
   // const { register, handleSubmit, control, reset } = useForm<Inputs>({
   //   mode: 'onChange',
   // });
@@ -304,7 +303,6 @@ const PostWritePage = () => {
           SecondButtonText='홈으로'
           isLogo
         />
-        <DevTool control={control} />
       </div>
     </div>
   );
