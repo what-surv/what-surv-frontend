@@ -16,6 +16,7 @@ import { Appbar } from '../../stories/appbar/Appbar';
 import { Tabbar } from '../../stories/tabbar/Tabbar';
 import Typography from '../../stories/typography/Typography';
 
+import { DevTool } from '@hookform/devtools';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -32,7 +33,7 @@ const PostEditPage = () => {
   const queryClient = useQueryClient();
   const [disableButton, setDisableButton] = useState(true);
   const methods = useForm<Inputs>({ mode: 'onChange' });
-  const { register, handleSubmit, reset } = methods;
+  const { register, handleSubmit, reset, control } = methods;
   const { setIsSuccessModalOpen } = SuccessModalStore();
 
   // 뒤로가기 모달 팝업 확인용 isConfirmOpen state
@@ -253,6 +254,7 @@ const PostEditPage = () => {
           SecondButtonText='홈으로'
           isLogo
         />
+        <DevTool control={control} />
       </div>
     </div>
   );
