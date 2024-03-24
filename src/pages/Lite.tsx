@@ -7,7 +7,7 @@ const Lite = () => {
     <div>
       <Appbar isAccount isLogo isFullLogo />
       <Tabbar isMobileVisible size='default' />
-      <div className='max-w-[770px] w-full min-h-[calc(100vh_-_562px)] m-auto mb-[100px]'>
+      <div className='max-w-[770px] w-full min-h-[calc(100vh_-_662px)] m-auto'>
         <CommingSoon />
       </div>
     </div>
