@@ -116,10 +116,10 @@ const Setting = () => {
   }
   return (
     <div>
-      <Appbar isLogo isNotification isFullLogo />
+      <Appbar isLogo isAccount isFullLogo />
       <Tabbar isMobileVisible />
 
-      <div className='max-w-[506px] w-full mt-[50px] m-auto'>
+      <div className='max-w-[506px] px-6 w-full mt-[50px] m-auto'>
         {/* 프로필 및 닉네임 */}
         <div className='mb-6 text-center'>
           <img
