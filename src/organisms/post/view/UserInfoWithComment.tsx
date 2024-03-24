@@ -49,8 +49,6 @@ const UserInfoWithComment = () => {
   const [isEditOpen, setIsEditOpen] = useState(false); // 수정 버튼 상태
   const [commentId, setCommentId] = useState<string>(''); // 수정할 댓글의 ID를 저장하는 상태
 
-  const [isButtonArray, setIsButtonArray] = useState(true);
-
   // 수정 버튼 클릭 시 해당 댓글의 ID를 저장하고 수정 모드를 활성화
   const EditButtonClick = (id: string) => {
     setCommentId(id); // 수정할 댓글의 ID를 상태에 저장
@@ -74,7 +72,6 @@ const UserInfoWithComment = () => {
     setCommentId(''); // 수정할 댓글의 ID를 초기화
     setIsReplyOpen(false);
     setIsEditOpen(false);
-    setIsButtonArray(true);
   };
 
   const DeleteButtonClick = (id: string) => {
@@ -124,7 +121,6 @@ const UserInfoWithComment = () => {
             commentId={commentId}
             setIsEditOpen={setIsEditOpen}
             CancelButtonOnClick={CancelButtonOnClick}
-            isButtonArray={isButtonArray}
             ReplyButtonClick={ReplyButtonClick}
             EditButtonClick={EditButtonClick}
             DeleteButtonClick={DeleteButtonClick}

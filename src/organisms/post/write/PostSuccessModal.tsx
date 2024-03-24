@@ -53,7 +53,7 @@ const PostSuccessModal = ({
               onClick={
                 firstButtonOnClick ? () => firstButtonOnClick() : undefined
               }
-              className='rounded-[400px] text-[#242424] whitespace-nowrap flex items-center py-3 px-6 border-2 flex-col gap-2.5 flex-1 justify-center border-[#0051FF]'
+              className='rounded-[400px] bg-[#FAFAFA] text-[#242424] whitespace-nowrap flex items-center py-3 px-6 border-2 flex-col gap-2.5 flex-1 justify-center border-[#0051FF]'
             >
               {firstButtonText}
             </button>

@@ -21,7 +21,6 @@ interface CommentWithButtonProps {
   isEditOpen: boolean;
   user: UserTypes;
   // parent: parentProps;
-  isButtonArray: boolean;
   ReplyButtonClick: (id: string) => void;
   EditButtonClick: (id: string) => void;
   DeleteButtonClick: (id: string) => void;
@@ -43,7 +42,6 @@ const CommentWithButton = ({
   setIsEditOpen,
   CancelButtonOnClick,
   isReplyOpen,
-  isButtonArray,
   ReplyButtonClick,
   EditButtonClick,
   DeleteButtonClick,
@@ -65,45 +63,38 @@ const CommentWithButton = ({
 
   return (
     <div className='flex pl-[30px] mb-5 flex-col gap-2.5 items-start justify-end self-stretch'>
-      {isEditOpen && commentId === id ? (
+      <Comment content={content} />
+      <div className='flex comment-button-array'>
+        <div className='flex gap-2.5'>
+          <CommentButton onClick={() => ReplyButtonClick(id)}>
+            <img src={reply} alt='답장 아이콘' />
+          </CommentButton>
+          {profile?.data.id === user.id && (
+            <>
+              <CommentButton onClick={() => EditButtonClick(id)}>
+                <img src={edit} alt='수정 아이콘' />
+              </CommentButton>
+              <CommentButton onClick={() => DeleteButtonClick(id)}>
+                <img src={deleteIcon} alt='삭제 아이콘' />
+              </CommentButton>
+            </>
+          )}
+        </div>
+      </div>
+      {isEditOpen && commentId === id && (
         <EditWithButton
           value={content}
           commentId={id}
           setIsEditOpen={setIsEditOpen}
           CancelButtonOnClick={CancelButtonOnClick}
         />
-      ) : (
-        <Comment content={content} />
       )}
-      <div className='flex comment-button-array'>
-        {isButtonArray && commentId !== id ? (
-          <div className='flex gap-2.5'>
-            <CommentButton onClick={() => ReplyButtonClick(id)}>
-              <img src={reply} alt='답장 아이콘' />
-            </CommentButton>
-            {profile?.data.id === user.id && (
-              <>
-                <CommentButton onClick={() => EditButtonClick(id)}>
-                  <img src={edit} alt='수정 아이콘' />
-                </CommentButton>
-                <CommentButton onClick={() => DeleteButtonClick(id)}>
-                  <img src={deleteIcon} alt='삭제 아이콘' />
-                </CommentButton>
-              </>
-            )}
-          </div>
-        ) : (
-          ''
-        )}
-      </div>
-      {isReplyOpen && commentId === id ? (
+      {isReplyOpen && commentId === id && (
         <ReplyWithButton
           CancelButtonOnClick={CancelButtonOnClick}
           parentId={id}
           placeholder='타인에게 불쾌감을 주는 욕설 또는 비속어는 경고 조치 없이 삭제될 수 있습니다.'
         />
-      ) : (
-        ''
       )}
     </div>
   );

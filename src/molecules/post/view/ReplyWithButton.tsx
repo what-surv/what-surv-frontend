@@ -34,7 +34,7 @@ const ReplyWithButton = ({
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['getReply', num],
+        queryKey: ['getComment', num],
       });
     },
     onError: () => {
