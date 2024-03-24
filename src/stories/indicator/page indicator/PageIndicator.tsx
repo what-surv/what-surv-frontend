@@ -44,7 +44,7 @@ export const PageIndicator = ({
           <button
             type='button'
             aria-label='button'
-            className={`relative ${size === 'mobile' ? `w-[30px] h-1` : `w-10 h-1.5`} rounded-[400px]
+            className={`relative w-[30px] h-1 md:w-10 md:h-1.5 rounded-[400px]
             ${IndicatorState.isActivate ? `bg-[#0051FF]` : `bg-[#D7DBE2]`}`}
             onClick={() =>
               onIndicatorClick &&

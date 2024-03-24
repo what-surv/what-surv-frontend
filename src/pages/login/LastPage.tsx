@@ -32,7 +32,7 @@ const LoginStep4 = () => {
           navigate('/');
         }}
       >
-        서비스명 시작하기
+        SurveyIT 시작하기
       </button>
     </div>
   );
