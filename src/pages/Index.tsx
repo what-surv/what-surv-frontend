@@ -257,9 +257,9 @@ const Index = () => {
               )}
             </div>
           )}
-        </div>
-        <div className='fixed bottom-[50px] right-[13%] z-[100]'>
-          <FloatingButton onClick={() => navigate('write')} />
+          <div className='sticky flex flex-row-reverse bottom-[50px] z-[100]'>
+            <FloatingButton onClick={() => navigate('write')} />
+          </div>
         </div>
       </div>
       <LoginAlertModal
