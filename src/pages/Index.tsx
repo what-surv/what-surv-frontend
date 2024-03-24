@@ -257,7 +257,7 @@ const Index = () => {
               )}
             </div>
           )}
-          <div className='sticky flex flex-row-reverse bottom-[50px] z-[100]'>
+          <div className='sticky flex flex-row-reverse bottom-[50px] z-[49]'>
             <FloatingButton onClick={() => navigate('write')} />
           </div>
         </div>
