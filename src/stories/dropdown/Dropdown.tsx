@@ -9,7 +9,7 @@ import Typography from '../typography/Typography';
 
 const DropdownVariants = cva(
   `
-  text-sm border font-semibold self-stretch rounded-[400px] bg-[#FAFAFA] min-w-[79px]
+  text-sm border font-semibold self-stretch rounded-[400px] bg-[#FAFAFA] min-w-[83px]
 `,
   {
     variants: {
@@ -156,8 +156,8 @@ export const Dropdown = ({
             <div className='flex gap-1.5'>
               {ages.map((DropdownSelectValue: string) => (
                 <div
-                  className='flex  bg-[#FAFAFA] h-9 md:py-1.5 md:px-4 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
-         border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] min-w-[79px]'
+                  className='flex bg-[#FAFAFA] h-9 md:py-2 md:px-3 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
+         border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] min-w-[84px]'
                   key={DropdownSelectValue}
                 >
                   {DropdownSelectValue}

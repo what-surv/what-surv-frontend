@@ -124,6 +124,7 @@ const UserInfoWithComment = () => {
             ReplyButtonClick={ReplyButtonClick}
             EditButtonClick={EditButtonClick}
             DeleteButtonClick={DeleteButtonClick}
+            setIsReplyOpen={setIsReplyOpen}
             isReplyOpen={isReplyOpen}
           />
           {/* 댓글 컴포넌트 재귀식으로 호출 */}

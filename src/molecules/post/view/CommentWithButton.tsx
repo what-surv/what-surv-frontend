@@ -26,6 +26,7 @@ interface CommentWithButtonProps {
   DeleteButtonClick: (id: string) => void;
   CancelButtonOnClick: () => void;
   setIsEditOpen: (isEdit: boolean) => void;
+  setIsReplyOpen: (isReply: boolean) => void;
 }
 
 // interface parentProps {
@@ -39,6 +40,7 @@ const CommentWithButton = ({
   // parent,
   isEditOpen,
   commentId,
+  setIsReplyOpen,
   setIsEditOpen,
   CancelButtonOnClick,
   isReplyOpen,
@@ -91,6 +93,7 @@ const CommentWithButton = ({
       )}
       {isReplyOpen && commentId === id && (
         <ReplyWithButton
+          setIsReplyOpen={setIsReplyOpen}
           CancelButtonOnClick={CancelButtonOnClick}
           parentId={id}
           placeholder='타인에게 불쾌감을 주는 욕설 또는 비속어는 경고 조치 없이 삭제될 수 있습니다.'
