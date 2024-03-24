@@ -13,18 +13,15 @@ import Setting from './pages/myPages/Setting';
 import PostEditPage from './pages/post/PostEditPage';
 import PostViewPage from './pages/post/PostViewPage';
 import PostWritePage from './pages/post/PostWritePage';
+import Footer from './stories/footer/Footer';
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 const App = () => {
-  // const location = useLocation();
+  const location = useLocation();
   return (
     <>
-      {/* <div>
-        <Appbar>로고</Appbar>
-        {location.pathname !== '/login' && <Tabbar size='default'>로고</Tabbar>}
-      </div> */}
-      <div className='w-full max-w-[1368px]bg-[#FAFAFA]'>
+      <div className='pb-[100px] md:pb-[200px]'>
         <Routes>
           <Route path='/' element={<Index />} />
           <Route path='/login' element={<Login />} />
@@ -49,6 +46,9 @@ const App = () => {
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </div>
+      {(location.pathname === '/' || location.pathname === '/lite') && (
+        <Footer />
+      )}
     </>
   );
 };
