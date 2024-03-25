@@ -32,6 +32,13 @@ const EditorBox = () => {
         language='ko-KR'
         useCommandShortcut={false}
         hideModeSwitch
+        toolbarItems={[
+          // 툴바 옵션 설정
+          ['heading', 'bold', 'italic', 'strike'],
+          ['hr', 'quote'],
+          ['ul', 'ol', 'task', 'indent', 'outdent'],
+          ['table', 'image', 'link'],
+        ]}
         placeholder={`내용을 입력해주세요!
 자세한 내용을 입력할수록 신뢰도가 증가하고 참여율이 높아집니다.
 귀하의 이름이나 귀하가 대표하는 회사 또는 단체의 이름.
