@@ -11,7 +11,7 @@ import DatePicker from 'react-datepicker';
 import { Locale } from 'date-fns';
 
 const SelectDate = () => {
-  const [showDatePicker, setShowDatePicker] = useState<boolean>(true);
+  const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
   const [enddate, setEndDate] = useState<Date>();
   const { setEnddate } = WritePageStore();
 
@@ -39,23 +39,29 @@ const SelectDate = () => {
   return (
     <div
       className='flex cursor-pointer pl-3 pr-2 py-1 md:px-4 md:py-1.5 border border-[#818490] rounded-[400px] gap-1 md:gap-2 items-center bg-[#FAFAFA]'
+      aria-hidden
       onClick={handleDateClick}
-      aria-hidden='true'
     >
-      {showDatePicker ? (
-        <div className='relative flex items-center'>
-          <DatePicker
-            selected={enddate}
-            onChange={handleDateChange}
-            locale={ko as unknown as Locale}
-            dateFormat='yy.MM.dd'
-            placeholderText='날짜 선택'
-            className='text-sm outline-none cursor-pointer bg-inherit w-[57px] caret-transparent'
-            filterDate={isFutureDate}
-          />
-        </div>
-      ) : null}
-      <img src={calendar} alt='달력 아이콘' />
+      <div className='relative flex items-center'>
+        <DatePicker
+          selected={enddate}
+          onChange={handleDateChange}
+          locale={ko as unknown as Locale}
+          dateFormat='yy.MM.dd'
+          placeholderText='날짜 선택'
+          className='text-sm outline-none cursor-pointer bg-inherit w-[57px] caret-transparent'
+          filterDate={isFutureDate}
+          open={showDatePicker}
+          onClickOutside={() => setShowDatePicker(!showDatePicker)}
+        />
+      </div>
+      <img
+        src={calendar}
+        alt='달력 아이콘'
+        onClick={handleDateClick}
+        aria-hidden
+        className='cursor-pointer'
+      />
     </div>
   );
 };
