@@ -49,7 +49,7 @@ const SelectDate = () => {
           locale={ko as unknown as Locale}
           dateFormat='yy.MM.dd'
           placeholderText='날짜 선택'
-          className='text-sm outline-none cursor-pointer bg-inherit w-[58px] caret-transparent'
+          className='text-sm outline-none cursor-pointer bg-inherit w-[58px] caret-transparent`'
           filterDate={isFutureDate}
           open={showDatePicker}
           onClickOutside={() => setShowDatePicker(false)}

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PostListSelect from '../../molecules/PostListSelect';
-import LikeCardList from '../../organisms/post/mypage/LikeCardList';
+import LikePostList from '../../organisms/post/mypage/LikePostList';
 import { Appbar } from '../../stories/appbar/Appbar';
 import { Tabbar } from '../../stories/tabbar/Tabbar';
 
@@ -28,7 +28,7 @@ const InterestArticlesPage = () => {
         </div>
 
         <div className='flex justify-center w-full main-content'>
-          <LikeCardList />
+          <LikePostList />
         </div>
       </div>
     </div>
