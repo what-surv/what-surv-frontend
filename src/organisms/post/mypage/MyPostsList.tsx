@@ -6,6 +6,7 @@ import { GetMainData } from '../../../api/IndexApi';
 // import { getComment } from '../api/PostApi';
 import { LikeDelete, LikePost } from '../../../api/LikeApi';
 import { profileTypes } from '../../../api/Posttypes';
+import Nodata from '../../../pages/misc/Nodata';
 import { SuccessModalStore } from '../../../store/store';
 import Card from '../../../stories/card/Card';
 import Like from '../../../stories/like/Like';
@@ -109,50 +110,54 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
 
   return (
     <div className='flex w-full flex-wrap gap-4 max-w-[1200px]'>
-      <div className='flex flex-wrap gap-4'>
-        {myWritePosts?.data.posts.map((myWritePost: GetMainData) => (
-          <Card
-            key={myWritePost.id}
-            id={myWritePost.id}
-            nickname={profile?.data.nickname}
-            cardStyle='default'
-            createdAt={myWritePost.createdAt}
-            enddate={formatDateString(myWritePost.endDate)}
-            onClick={() => navigate(`/view/${myWritePost.id}`)}
-            type={isEdit ? 'edit' : 'default'}
-            onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-              if (e.key === 'Enter' || e.key === 'Space') {
-                navigate(`/view/${myWritePost.postId}`);
-              }
-            }}
-            viewCount={Number(myWritePost.viewCount)}
-            commentCount={myWritePost.commentCount}
-            onEditButtonsClick={(
-              action: string,
-              e: React.MouseEvent<HTMLButtonElement>
-            ) => handleCardEditButtonClick(action, e, myWritePost.id)}
-          >
-            <span className='absolute top-[25px] right-[21px]'>
-              <Like
-                onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                  likedClick(e, myWritePost.id, myWritePost.isLiked)
+      {myWritePosts?.data.posts.length === 0 ? (
+        <Nodata />
+      ) : (
+        <div className='flex flex-wrap gap-4'>
+          {myWritePosts?.data.posts.map((myWritePost: GetMainData) => (
+            <Card
+              key={myWritePost.id}
+              id={myWritePost.id}
+              nickname={profile?.data.nickname}
+              cardStyle='default'
+              createdAt={myWritePost.createdAt}
+              enddate={formatDateString(myWritePost.endDate)}
+              onClick={() => navigate(`/view/${myWritePost.id}`)}
+              type={isEdit ? 'edit' : 'default'}
+              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                if (e.key === 'Enter' || e.key === 'Space') {
+                  navigate(`/view/${myWritePost.postId}`);
                 }
-                isLiked={myWritePost.isLiked}
-              />
-            </span>
-            {myWritePost.title}
-          </Card>
-        ))}
-        <PostSuccessModal
-          firstButtonOnClick={() => selectedPostId && click(selectedPostId)}
-          SecondButtonOnClick={() => setIsSuccessModalOpen(false)}
-          title='선택하신 글을 삭제하시겠어요?'
-          content='삭제하면 이 글을 다시 볼 수 없게 돼요.'
-          firstButtonText='삭제하기'
-          SecondButtonText='취소'
-          isLogo={false}
-        />
-      </div>
+              }}
+              viewCount={Number(myWritePost.viewCount)}
+              commentCount={myWritePost.commentCount}
+              onEditButtonsClick={(
+                action: string,
+                e: React.MouseEvent<HTMLButtonElement>
+              ) => handleCardEditButtonClick(action, e, myWritePost.id)}
+            >
+              <span className='absolute top-[25px] right-[21px]'>
+                <Like
+                  onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                    likedClick(e, myWritePost.id, myWritePost.isLiked)
+                  }
+                  isLiked={myWritePost.isLiked}
+                />
+              </span>
+              {myWritePost.title}
+            </Card>
+          ))}
+          <PostSuccessModal
+            firstButtonOnClick={() => selectedPostId && click(selectedPostId)}
+            SecondButtonOnClick={() => setIsSuccessModalOpen(false)}
+            title='선택하신 글을 삭제하시겠어요?'
+            content='삭제하면 이 글을 다시 볼 수 없게 돼요.'
+            firstButtonText='삭제하기'
+            SecondButtonText='취소'
+            isLogo={false}
+          />
+        </div>
+      )}
     </div>
   );
 };

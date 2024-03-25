@@ -4,6 +4,7 @@ import { axiosBaseUrl } from '../../../api/axiosConfig';
 import { GetMainData } from '../../../api/IndexApi';
 import { LikeDelete, LikePost } from '../../../api/LikeApi';
 import { profileTypes } from '../../../api/Posttypes';
+import Nodata from '../../../pages/misc/Nodata';
 import Card from '../../../stories/card/Card';
 import Like from '../../../stories/like/Like';
 import { formatDateString } from '../../../utils/dateUtils';
@@ -68,37 +69,41 @@ const LikeCardList = () => {
 
   return (
     <div className='flex w-full gap-4 max-w-[1200px]'>
-      <div className='flex flex-wrap gap-4'>
-        {LikePosts?.data.likes.map((likePost: GetMainData) => (
-          <Card
-            key={likePost.id}
-            id={likePost.id}
-            nickname={profile?.data.nickname}
-            cardStyle='default'
-            createdAt={likePost.createdAt}
-            enddate={formatDateString(likePost.endDate)}
-            onClick={() => navigate(`/view/${likePost.id}`)}
-            type='default'
-            onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-              if (e.key === 'Enter' || e.key === 'Space') {
-                navigate(`/view/${likePost.postId}`);
-              }
-            }}
-            viewCount={Number(likePost.viewCount)}
-            commentCount={likePost.commentCount}
-          >
-            <span className='absolute top-[25px] right-[21px]'>
-              <Like
-                onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                  likedClick(e, likePost.id, likePost.isLiked)
+      {LikePosts?.data.likes.length === 0 ? (
+        <Nodata />
+      ) : (
+        <div className='flex flex-wrap gap-4'>
+          {LikePosts?.data.likes.map((likePost: GetMainData) => (
+            <Card
+              key={likePost.id}
+              id={likePost.id}
+              nickname={profile?.data.nickname}
+              cardStyle='default'
+              createdAt={likePost.createdAt}
+              enddate={formatDateString(likePost.endDate)}
+              onClick={() => navigate(`/view/${likePost.id}`)}
+              type='default'
+              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                if (e.key === 'Enter' || e.key === 'Space') {
+                  navigate(`/view/${likePost.postId}`);
                 }
-                isLiked={likePost.isLiked}
-              />
-            </span>
-            {likePost.title}
-          </Card>
-        ))}
-      </div>
+              }}
+              viewCount={Number(likePost.viewCount)}
+              commentCount={likePost.commentCount}
+            >
+              <span className='absolute top-[25px] right-[21px]'>
+                <Like
+                  onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                    likedClick(e, likePost.id, likePost.isLiked)
+                  }
+                  isLiked={likePost.isLiked}
+                />
+              </span>
+              {likePost.title}
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
