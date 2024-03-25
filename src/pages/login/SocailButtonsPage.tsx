@@ -45,16 +45,18 @@ const SocailButtonsPage = ({ handleLogin }: SocailButtonsPageProps) => {
         size='lg'
         weight='Bold'
       />
-      <KakaoLogin size='full' onClick={() => handleLogin('kakao')}>
-        카카오로 시작하기
-      </KakaoLogin>
+      <div className='flex flex-col gap-4 mt-6'>
+        <KakaoLogin size='full' onClick={() => handleLogin('kakao')}>
+          카카오로 시작하기
+        </KakaoLogin>
 
-      <GoogleLogin size='full' onClick={() => handleLogin('google')}>
-        구글로 시작하기
-      </GoogleLogin>
-      <NaverLogin size='full' onClick={() => handleLogin('naver')}>
-        네이버로 시작하기
-      </NaverLogin>
+        <GoogleLogin size='full' onClick={() => handleLogin('google')}>
+          구글로 시작하기
+        </GoogleLogin>
+        <NaverLogin size='full' onClick={() => handleLogin('naver')}>
+          네이버로 시작하기
+        </NaverLogin>
+      </div>
 
       <div className='mt-10'>
         <Typography

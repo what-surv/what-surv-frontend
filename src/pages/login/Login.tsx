@@ -66,6 +66,16 @@ const Login = () => {
     }
   }, []);
 
+  useEffect(() => {
+    // 모든 '필수' 체크박스가 체크되었는지 확인
+    const allMandatoryChecked = checkboxStates
+      .filter((checkbox) => checkbox.label.includes('[필수]'))
+      .every((checkbox) => checkbox.checked);
+
+    // '전체 동의하기' 체크박스 상태를 업데이트
+    setIsAllChecked(allMandatoryChecked);
+  }, [checkboxStates, setIsAllChecked]);
+
   const nextStepHandler = () => {
     if (currentStep < 6) {
       setCurrentStep(currentStep + 1);
