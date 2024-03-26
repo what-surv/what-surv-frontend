@@ -64,6 +64,8 @@ export const Dropdown = ({
   const [dropdownState, setDropdownState] = useState<'activate' | 'default'>(
     state
   );
+
+  console.log(state);
   const dropdownEl = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

@@ -21,6 +21,14 @@ import Typography from '../stories/typography/Typography';
 
 import { useNavigate } from 'react-router-dom';
 
+const dropdownOptions = [
+  { defaultValue: '정렬', key: 'sort', arr: mainSortArr },
+  { defaultValue: '성별', key: 'gender', arr: mainGenderArr },
+  { defaultValue: '나이', key: 'age', arr: mainAgeArr },
+  { defaultValue: '종류', key: 'research_type', arr: mainTypeArr },
+  { defaultValue: '진행방식', key: 'procedure', arr: mainMethodArr },
+];
+
 const Index = () => {
   // 사용자 로그인 상태를 저장하기 위한 상태 변수
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -81,22 +89,16 @@ const Index = () => {
     navigate(`?${queryString}`);
   }, [selectedValues]);
 
-  const dropdownOptions = [
-    { defaultValue: '정렬', key: 'sort', arr: mainSortArr },
-    { defaultValue: '성별', key: 'gender', arr: mainGenderArr },
-    { defaultValue: '나이', key: 'age', arr: mainAgeArr },
-    { defaultValue: '종류', key: 'research_type', arr: mainTypeArr },
-    { defaultValue: '진행방식', key: 'procedure', arr: mainMethodArr },
-  ];
-
   const soltingHandler = (key: string, selectedValue: string) => {
     handlePageChange(1); // 소팅할 때 현재 페이지 1로 변경
 
     if (selectedValue === 'All') {
       // "전체"가 선택되면 해당 키를 상태에서 제거
       setSelectedValues((prevSelectedValues) => {
-        const updatedValues = { ...prevSelectedValues };
+        const updatedValues = { ...prevSelectedValues, [key]: selectedValue };
+
         delete updatedValues[key]; // 선택된 키 제거
+
         return updatedValues;
       });
     } else {
@@ -136,6 +138,7 @@ const Index = () => {
           state={state}
           oneSelect
           menu={option.arr}
+          // (selectedValue) => soltingHandler(option.key, selectedValue)
           onDropdownChange={(selectedValue) =>
             soltingHandler(option.key, selectedValue)
           }
