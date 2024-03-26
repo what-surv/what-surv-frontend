@@ -235,12 +235,15 @@ export const Appbar = ({
             </button>
           )}
           {isLogin && (
-            <Link to='/login'>
+            <Link
+              to='/login'
+              className='flex items-center justify-center w-[74px] h-[34px] rounded-[400px] border border-[#0051FF]'
+            >
               <Typography
                 size='base'
                 weight='Semibold'
                 text='로그인'
-                className='block w-[48px] text-right'
+                className=''
               />
             </Link>
           )}
