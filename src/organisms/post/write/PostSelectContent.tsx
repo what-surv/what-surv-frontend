@@ -34,6 +34,8 @@ const PostSelectContent = () => {
 
   const { register } = useFormContext<FormInputs>();
 
+  console.log(age);
+
   return (
     <div className='flex flex-wrap items-start w-full md:w-full content-start self-stretch gap-3 md:gap-4 px-4 py-6 md:p-6 rounded-lg bg-[#E5E7ED]'>
       <PostEndDate title='마감일' />
@@ -42,7 +44,7 @@ const PostSelectContent = () => {
         options={genderArr}
         defaultValue='성별'
         oneSelect
-        value={[gender]}
+        value={gender}
         onDropdownChange={(selectGender) => setGender(selectGender)}
       />
       <PostSelectDropdown
@@ -67,7 +69,7 @@ const PostSelectContent = () => {
         title='진행 방식'
         options={methodArr}
         oneSelect
-        value={[procedure]}
+        value={procedure}
         defaultValue='진행 방식'
         onDropdownChange={(selectMethod) => setprocedureArray(selectMethod)}
       />

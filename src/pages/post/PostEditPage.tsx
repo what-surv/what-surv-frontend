@@ -64,7 +64,7 @@ const PostEditPage = () => {
 
   const updatePost = useMutation<void, unknown, Inputs>({
     mutationFn: (inputs) =>
-      axiosBaseUrl.patch(`/posts/${postId})}`, {
+      axiosBaseUrl.patch(`/posts/${postId}`, {
         ages: age,
         endDate: enddate,
         gender,
