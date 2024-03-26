@@ -21,10 +21,14 @@ const EditorBox = () => {
     }
   }, []);
 
+  if (!content) {
+    return null;
+  }
+
   return (
     <div className='w-full'>
       <Editor
-        initialValue=' '
+        initialValue={content}
         height='600px'
         ref={editorRef}
         onChange={onChange}

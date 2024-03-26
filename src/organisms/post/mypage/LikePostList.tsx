@@ -65,7 +65,6 @@ const LikePostList = () => {
       });
     },
     getNextPageParam: (lastPage, allPages) => {
-      console.log(lastPage, allPages);
       if (lastPage.data.length < PAGE_SIZE) return undefined;
       return allPages.length;
     },

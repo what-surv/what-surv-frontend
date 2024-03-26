@@ -34,8 +34,6 @@ const PostSelectContent = () => {
 
   const { register } = useFormContext<FormInputs>();
 
-  console.log(age);
-
   return (
     <div className='flex flex-wrap items-start w-full md:w-full content-start self-stretch gap-3 md:gap-4 px-4 py-6 md:p-6 rounded-lg bg-[#E5E7ED]'>
       <PostEndDate title='마감일' />
