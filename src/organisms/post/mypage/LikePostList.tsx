@@ -10,7 +10,11 @@ import Like from '../../../stories/like/Like';
 import { formatDateString } from '../../../utils/dateUtils';
 // import { getComment } from '../api/PostApi';
 
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroller';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,8 +32,8 @@ import { useNavigate } from 'react-router-dom';
 const PAGE_SIZE = 10;
 
 const LikePostList = () => {
-  // const { num } = useParams() as { num: string };
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { data: profile } = useQuery<profileTypes>({
     queryKey: ['getProfile'],
@@ -65,7 +69,6 @@ const LikePostList = () => {
       });
     },
     getNextPageParam: (lastPage, allPages) => {
-      console.log(lastPage, allPages);
       if (lastPage.data.length < PAGE_SIZE) return undefined;
       return allPages.length;
     },
@@ -116,7 +119,12 @@ const LikePostList = () => {
                     cardStyle='default'
                     createdAt={likePost.createdAt}
                     enddate={formatDateString(likePost.endDate)}
-                    onClick={() => navigate(`/view/${likePost.id}`)}
+                    onClick={() => {
+                      queryClient.invalidateQueries({
+                        queryKey: ['getPost', likePost.id],
+                      });
+                      navigate(`view/${likePost.id}`);
+                    }}
                     type='default'
                     onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
                       if (e.key === 'Enter' || e.key === 'Space') {

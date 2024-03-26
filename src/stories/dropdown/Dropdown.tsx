@@ -36,7 +36,7 @@ interface DropdownProps {
   /** 드롭다운 메뉴  */
   menu: arrOptionProps[];
   /** 선택한 드롭다운 값을 담는 배열 */
-  value?: string[];
+  value?: string[] | string;
   /** 하나만 선택할 수 있는 드롭다운 여부(하나만 선택 가능 -> true / 아니면 -> false */
   oneSelect: boolean;
   /** 드롭다운 선택 시 값 전달해주는 함수 props */
@@ -61,8 +61,6 @@ export const Dropdown = ({
   ...props
 }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isSelected, setIsSelected] = useState<string>('');
-  const [multiSelect, setMultiSelect] = useState<string[]>([]);
   const [dropdownState, setDropdownState] = useState<'activate' | 'default'>(
     state
   );
@@ -79,49 +77,52 @@ export const Dropdown = ({
       }
     };
 
+    if (value && value.length !== 0) {
+      setDropdownState('activate');
+    }
+
     window.addEventListener('click', handleClickOutside);
     return () => {
       window.removeEventListener('click', handleClickOutside);
     };
-  }, [isOpen]);
+  }, [isOpen, value]);
 
   const handleOptionClick = (option: arrOptionProps) => {
     setIsOpen(false);
-    setIsSelected(option.label);
     setDropdownState('activate');
+
+    // 전체를 선택한 경우
     if (option.key === 'All') {
-      setMultiSelect(['전체']);
       onDropdownChange('All');
-    } else if (
-      !multiSelect.includes(option.label) &&
-      !multiSelect.includes('전체') &&
-      !value?.includes('All')
-    ) {
-      setMultiSelect((prevAges) => {
-        const updatedAges = [...prevAges, option.label];
-        updatedAges.sort(); // 배열 정렬
-        return updatedAges;
-      });
+      if (toggleDropdownValue) {
+        toggleDropdownValue(['All']);
+      }
+    } else if (Array.isArray(value)) {
+      if (!value.includes(option.label) && !value.includes('All')) {
+        const updatedValue = value.filter(
+          (item: string) => item !== option.key
+        );
+        updatedValue.sort();
+        if (updatedValue !== undefined && toggleDropdownValue) {
+          toggleDropdownValue(updatedValue);
+        }
+        onDropdownChange(option.key);
+      }
+    } else {
       onDropdownChange(option.key);
     }
   };
 
   const handleCloseClick = (option: string) => {
-    // const updatedValue = value?.filter((item: string) => item !== option);
-    const updatedAge = multiSelect.filter((item: string) => item !== option);
-    setMultiSelect(updatedAge);
-    if (updatedAge.length === 0) {
-      setDropdownState('default');
-    }
+    if (Array.isArray(value)) {
+      const updatedValue = value.filter((item: string) => item !== option);
+      if (updatedValue.length === 0) {
+        setDropdownState('default');
+      }
 
-    if (updatedAge !== undefined && toggleDropdownValue) {
-      const removedKeys = updatedAge
-        .map(
-          (removedLabel) =>
-            menu.find((item) => item.label === removedLabel)?.key
-        )
-        .filter((key) => key !== undefined) as string[];
-      toggleDropdownValue(removedKeys);
+      if (updatedValue !== undefined && toggleDropdownValue) {
+        toggleDropdownValue(updatedValue);
+      }
     }
   };
 
@@ -139,7 +140,11 @@ export const Dropdown = ({
           <div className='flex items-center gap-2'>
             <Typography
               size='sm'
-              text={oneSelect && isSelected.length ? isSelected : defaultValue}
+              text={
+                oneSelect && value
+                  ? menu.find((option) => option.key === value)?.label || value
+                  : defaultValue
+              }
               weight='Semibold'
             />
             {isArrow && dropdownState === 'activate' ? (
@@ -158,22 +163,24 @@ export const Dropdown = ({
         <div className='flex gap-1.5 flex-wrap'>
           {!oneSelect && (
             <div className='flex gap-1.5'>
-              {multiSelect.map((DropdownSelectValue: string) => (
-                <div
-                  className='flex bg-[#FAFAFA] h-9 md:py-2 md:px-3 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
-         border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] min-w-[83px]'
-                  key={DropdownSelectValue}
-                >
-                  {DropdownSelectValue}
-                  <button
-                    className='focus:outline-none'
-                    type='button'
-                    onClick={() => handleCloseClick(DropdownSelectValue)}
+              {Array.isArray(value) &&
+                value.map((DropdownSelectValue: string) => (
+                  <div
+                    className='flex bg-[#FAFAFA] h-9 md:py-2 md:px-3 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
+      border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] min-w-[83px]'
+                    key={DropdownSelectValue}
                   >
-                    <img src={close} alt='close' />
-                  </button>
-                </div>
-              ))}
+                    {menu.find((option) => option.key === DropdownSelectValue)
+                      ?.label || DropdownSelectValue}
+                    <button
+                      className='focus:outline-none'
+                      type='button'
+                      onClick={() => handleCloseClick(DropdownSelectValue)}
+                    >
+                      <img src={close} alt='close' />
+                    </button>
+                  </div>
+                ))}
             </div>
           )}
         </div>

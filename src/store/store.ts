@@ -71,7 +71,7 @@ export const WritePageStore = create<WritePageStoreStoreProps>((set) => ({
   link: '',
   time: '',
   title: '',
-  content: '',
+  content: ' ',
   setAge: (newAge) =>
     set((state) => {
       const updatedAge = state.age.includes(newAge)

@@ -12,8 +12,7 @@ import { Locale } from 'date-fns';
 
 const SelectDate = () => {
   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
-  const [enddate, setEndDate] = useState<Date>();
-  const { setEnddate } = WritePageStore();
+  const { setEnddate, enddate } = WritePageStore();
 
   const handleDateClick = () => {
     setShowDatePicker(true);
@@ -32,7 +31,6 @@ const SelectDate = () => {
     }
 
     setEnddate(date);
-    setEndDate(date);
     setShowDatePicker(false);
   };
 
@@ -44,7 +42,7 @@ const SelectDate = () => {
     >
       <div className='relative flex items-center'>
         <DatePicker
-          selected={enddate}
+          selected={enddate as Date}
           onChange={handleDateChange}
           locale={ko as unknown as Locale}
           dateFormat='yy.MM.dd'

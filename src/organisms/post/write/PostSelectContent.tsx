@@ -42,7 +42,7 @@ const PostSelectContent = () => {
         options={genderArr}
         defaultValue='성별'
         oneSelect
-        value={[gender]}
+        value={gender}
         onDropdownChange={(selectGender) => setGender(selectGender)}
       />
       <PostSelectDropdown
@@ -67,7 +67,7 @@ const PostSelectContent = () => {
         title='진행 방식'
         options={methodArr}
         oneSelect
-        value={[procedure]}
+        value={procedure}
         defaultValue='진행 방식'
         onDropdownChange={(selectMethod) => setprocedureArray(selectMethod)}
       />

@@ -105,7 +105,6 @@ const PostWritePage = () => {
     //   procedure,
     //   title
     // );
-    console.log(researchType);
     if (
       !age ||
       !gender ||

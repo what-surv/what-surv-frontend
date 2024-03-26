@@ -21,6 +21,10 @@ const EditorBox = () => {
     }
   }, []);
 
+  if (!content) {
+    return null;
+  }
+
   return (
     <div className='w-full'>
       <Editor

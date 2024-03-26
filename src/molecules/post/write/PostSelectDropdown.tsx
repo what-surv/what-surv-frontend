@@ -12,7 +12,7 @@ interface PostSelectDropdownProps {
   onDropdownChange?: (selectedOptions: string) => void;
   toggleDropdownValue?: (selectedOptions: string[]) => void;
   defaultValue: string;
-  value?: string[];
+  value: string[] | string;
   oneSelect: boolean;
 }
 
@@ -30,6 +30,7 @@ const PostSelectDropdown = ({
       onDropdownChange(selectedOptions);
     }
   };
+
   return (
     <div className='flex min-w-[149px] max-w-[485px] flex-wrap flex-col items-start w-[45%] gap-1.5 md:gap-2'>
       <Typography

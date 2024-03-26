@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { GetData } from '../../api/IndexApi';
 import { testLogin, getPost, getComment } from '../../api/PostApi';
@@ -14,7 +14,7 @@ import Like from '../../stories/like/Like';
 import { Tabbar } from '../../stories/tabbar/Tabbar';
 import Typography from '../../stories/typography/Typography';
 
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
 interface commentTypes {
@@ -30,6 +30,7 @@ interface parentProps {
 
 const PostViewPage = () => {
   const { num } = useParams() as { num: string };
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const isArrowClick = () => {
     navigate(-1);
@@ -46,6 +47,13 @@ const PostViewPage = () => {
     queryFn: () => getComment(num),
     enabled: true,
   });
+
+  useEffect(() => {
+    // 뷰 페이지에서 돌아올 때마다 'postList' 쿼리를 리패치합니다.
+    queryClient.invalidateQueries({
+      queryKey: ['postList'],
+    });
+  }, []);
 
   if (!postDetails || !comments) return null;
 
