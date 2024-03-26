@@ -35,7 +35,7 @@ interface CardProps {
   type: 'default' | 'edit' | 'closed';
 
   /** 댓글수 */
-  commentCount: number;
+  commentCount?: number;
 
   onClick?: () => void;
 
