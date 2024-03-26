@@ -27,7 +27,7 @@ const CardList = ({
   setShowLoginAlert,
 }: CardListProps) => {
   const navigate = useNavigate();
-  const { data, refetch, isLoading } = useQuery<GetMainData>({
+  const { data, refetch } = useQuery<GetMainData>({
     queryKey: ['postList', currentPage, selectedValues],
     queryFn: () =>
       getMainList({

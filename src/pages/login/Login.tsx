@@ -160,7 +160,7 @@ const Login = () => {
       {currentStep === 1 ? (
         <Appbar isLogo isFullLogo />
       ) : (
-        <Appbar isArrow isLogo isAccount onArrowClick={() => prevStepHandler()}>
+        <Appbar isArrow isLogo onArrowClick={() => prevStepHandler()}>
           <Typography size='lg' weight='Semibold' text='회원가입' />
         </Appbar>
       )}

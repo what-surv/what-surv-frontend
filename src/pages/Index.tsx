@@ -7,6 +7,8 @@ import {
   mainSortArr,
   mainTypeArr,
 } from '../api/IndexApi';
+import { requestLogout } from '../api/loginApis';
+import { userCheckApi } from '../api/userCheckApi';
 import { BannerSwiper, ResearchSwiper } from '../component/MainSwiper';
 import CardList from '../organisms/CardList';
 import LoginAlertModal from '../organisms/LoginAlertModal';
@@ -20,6 +22,9 @@ import Typography from '../stories/typography/Typography';
 import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
+  // 사용자 로그인 상태를 저장하기 위한 상태 변수
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   // LoginAlertModal을 제어하기 위한 상태
   const [showLoginAlert, setShowLoginAlert] = useState(false);
 
@@ -31,6 +36,14 @@ const Index = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // 컴포넌트가 마운트될 때 사용자 체크를 수행
+    const fetchUserStatus = async () => {
+      const userStatus = await userCheckApi();
+      setIsLoggedIn(userStatus); // 비동기 호출의 결과로 로그인 상태 업데이트
+    };
+
+    fetchUserStatus();
+
     document.body.style.backgroundColor = '#F9F9FB';
 
     // URL에서 쿼리 스트링을 파싱
@@ -41,7 +54,6 @@ const Index = () => {
       initialSelectedValues[key] = value;
     });
 
-    console.log(initialSelectedValues);
     // 초기 상태를 설정
     setSelectedValues(initialSelectedValues);
 
@@ -136,9 +148,20 @@ const Index = () => {
     setCurrentPage(page);
   };
 
+  const logout = async () => {
+    await requestLogout();
+    setIsLoggedIn(false);
+  };
+
   return (
     <div className='relative'>
-      <Appbar isAccount isLogo isFullLogo />
+      {isLoggedIn ? (
+        <div>
+          <Appbar isAccount isLogo isFullLogo logout={logout} />
+        </div>
+      ) : (
+        <Appbar isLogo isFullLogo isLogin />
+      )}
       <Tabbar isMobileVisible size='default' />
       <div className=''>
         <div className='max-w-[1416px] w-full m-auto px-6'>
@@ -174,7 +197,7 @@ const Index = () => {
       </div>
       <LoginAlertModal
         isOpen={showLoginAlert}
-        handleClose={() => setShowLoginAlert(false)} // 수정됨
+        handleClose={() => setShowLoginAlert(false)}
         goLogin={() => {
           navigate('/login');
         }}
