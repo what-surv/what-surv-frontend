@@ -40,13 +40,17 @@ const CardList = ({
         ...selectedValues,
       }),
   });
-  useEffect(() => {
-    const delay = setTimeout(() => {
-      setShowLoader(false); // 3초 후에 로딩 스피너를 숨김
-    }, 1500);
 
-    return () => clearTimeout(delay); // cleanup 함수를 이용하여 타이머 해제
-  }, []);
+  useEffect(() => {
+    // 로딩 상태를 true로 설정하여 로딩 인디케이터를 활성화
+    setShowLoader(true);
+
+    const delay = setTimeout(() => {
+      setShowLoader(false);
+    }, 1300);
+
+    return () => clearTimeout(delay);
+  }, [currentPage, selectedValues]);
 
   const likedClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -69,8 +73,14 @@ const CardList = ({
   };
 
   if (showLoader || isLoading) {
-    // 딜레이를 주기 위한 로딩 스피너
-    return <CardSkeleton type='default' />;
+    return (
+      <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
+        {Array.from({ length: checkDeviceReturnLimit() }).map((_, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <CardSkeleton key={index} type='default' />
+        ))}
+      </div>
+    );
   }
 
   return (

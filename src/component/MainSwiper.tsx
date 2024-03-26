@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -24,6 +24,7 @@ import { formatDateString } from '../utils/dateUtils';
 
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import CardSkeleton from '../stories/cardSkeleton/CardSkeleton';
 
 export const BannerSwiper = () => {
   const [totalSlides, setTotalSlides] = useState(0);
@@ -137,14 +138,25 @@ export const BannerSwiper = () => {
 };
 
 export const ResearchSwiper = () => {
+  const [showLoader, setShowLoader] = useState(true);
+
   const navigate = useNavigate();
   const swiperRef = useRef<Swiper | null>(null);
+
   const { data, isLoading } = useQuery({
     queryKey: ['popularList'],
     queryFn: () => getPopularList(),
   });
 
-  if (isLoading) {
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      setShowLoader(false); // 1.2초 후에 로딩 스피너를 숨김
+    }, 1200);
+
+    return () => clearTimeout(delay); // cleanup 함수를 이용하여 타이머 해제
+  }, []);
+
+  if (isLoading || data?.count === 0) {
     return null;
   }
 
@@ -158,7 +170,7 @@ export const ResearchSwiper = () => {
 
   return (
     <div>
-      {data.count !== 0 && (
+      {data?.count !== 0 && (
         <div>
           <div className='flex gap-4 mb-3'>
             <Typography size='base' text='인기리서치' weight='Semibold' />
@@ -201,27 +213,36 @@ export const ResearchSwiper = () => {
                 },
               }}
             >
-              {data.data.map((params: GetMainData) => (
-                <SwiperSlide>
-                  <Card
-                    key={params.id}
-                    id={params.id}
-                    type='default'
-                    enddate={formatDateString(params.endDate)}
-                    onClick={() => navigate(`view/${params.id}`)}
-                    cardStyle='hot'
-                    createdAt={params.createdAt}
-                    viewCount={Number(params.viewCount)}
-                    onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                      if (e.key === 'Enter' || e.key === 'Space') {
-                        navigate(`/view/${params.id}`);
-                      }
-                    }}
-                  >
-                    {params.title}
-                  </Card>
-                </SwiperSlide>
-              ))}
+              {showLoader || isLoading
+                ? // 스켈레톤 UI 렌더링
+                  Array.from({ length: 4 }).map((_, index) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <SwiperSlide key={index}>
+                      <CardSkeleton type='hot' />
+                    </SwiperSlide>
+                  ))
+                : // 실제 데이터를 이용한 컨텐츠 렌더링
+                  data.data.map((params: GetMainData) => (
+                    <SwiperSlide>
+                      <Card
+                        key={params.id}
+                        id={params.id}
+                        type='default'
+                        enddate={formatDateString(params.endDate)}
+                        onClick={() => navigate(`view/${params.id}`)}
+                        cardStyle='hot'
+                        createdAt={params.createdAt}
+                        viewCount={Number(params.viewCount)}
+                        onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                          if (e.key === 'Enter' || e.key === 'Space') {
+                            navigate(`/view/${params.id}`);
+                          }
+                        }}
+                      >
+                        {params.title}
+                      </Card>
+                    </SwiperSlide>
+                  ))}
             </Swiper>
           </div>
         </div>
