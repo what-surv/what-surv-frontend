@@ -50,10 +50,10 @@ export const Tabbar = ({ size, isMobileVisible, ...props }: TabbarProps) => {
             text='IT'
             size='base'
             weight='Semibold'
-            className={`text-base font-semibold leading-[26px] ${isActiveLink('/') ? 'text-[#0051FF]' : 'text-[#545760]'} text-center`}
+            className={`text-base font-semibold leading-[26px] ${!isActiveLink('/lite') ? 'text-[#0051FF]' : 'text-[#545760]'} text-center`}
           />
           <div
-            className={`absolute bottom-0 left-0 w-0 h-[2px] bg-[#0051FF] ${isActiveLink('/') ? 'w-[100%]' : ''}  transition-all duration-300 ease-in`}
+            className={`absolute bottom-0 left-0 w-0 h-[2px] bg-[#0051FF] ${!isActiveLink('/lite') ? 'w-[100%]' : ''}  transition-all duration-300 ease-in`}
           />
         </Link>
         <div>

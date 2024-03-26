@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
+import { GetMainData, getPopularList } from '../api/IndexApi';
 import mainBannerMb1 from '../assets/img-main-banner-1-mb.svg';
 import mainBannerPc1 from '../assets/img-main-banner-1-pc.svg';
 import mainBannerTb1 from '../assets/img-main-banner-1-tb.svg';
@@ -19,7 +20,9 @@ import nextBtn from '../stories/assets/ic_arrow_right.svg';
 import Card from '../stories/card/Card';
 import { PageIndicator } from '../stories/indicator/page indicator/PageIndicator';
 import Typography from '../stories/typography/Typography';
+import { formatDateString } from '../utils/dateUtils';
 
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 export const BannerSwiper = () => {
@@ -135,8 +138,15 @@ export const BannerSwiper = () => {
 
 export const ResearchSwiper = () => {
   const navigate = useNavigate();
-
   const swiperRef = useRef<Swiper | null>(null);
+  const { data, isLoading } = useQuery({
+    queryKey: ['popularList'],
+    queryFn: () => getPopularList(),
+  });
+
+  if (isLoading) {
+    return null;
+  }
 
   const slidePrev = () => {
     swiperRef.current.slidePrev();
@@ -148,144 +158,74 @@ export const ResearchSwiper = () => {
 
   return (
     <div>
-      <div className='flex gap-4 mb-3'>
-        <Typography size='base' text='인기리서치' weight='Semibold' />
-        <div className='flex gap-4'>
-          <button type='button' onClick={slidePrev}>
-            <img src={prevBtn} alt='이전 버튼' />
-          </button>
-          <button type='button' onClick={slideNext}>
-            <img src={nextBtn} alt='다음 버튼' />
-          </button>
+      {data.count !== 0 && (
+        <div>
+          <div className='flex gap-4 mb-3'>
+            <Typography size='base' text='인기리서치' weight='Semibold' />
+            <div className='flex gap-4'>
+              <button type='button' onClick={slidePrev}>
+                <img src={prevBtn} alt='이전 버튼' />
+              </button>
+              <button type='button' onClick={slideNext}>
+                <img src={nextBtn} alt='다음 버튼' />
+              </button>
+            </div>
+          </div>
+          <div className='h-full'>
+            <Swiper
+              spaceBetween={10}
+              slidesPerView={4}
+              navigation
+              pagination={{ clickable: true }}
+              onSwiper={(swiper) => {
+                swiperRef.current = swiper;
+              }}
+              grabCursor
+              centeredSlidesBounds
+              breakpoints={{
+                // 640px 이하에서 1개의 슬라이드
+                0: {
+                  slidesPerView: 1,
+                },
+                // 640px 이상 768px 이하에서 2개의 슬라이드
+                640: {
+                  slidesPerView: 2,
+                },
+                // 768px 이상 1024px 이하에서 3개의 슬라이드
+                768: {
+                  slidesPerView: 3,
+                },
+                // 1024px 이상에서 4개의 슬라이드
+                1024: {
+                  slidesPerView: 4,
+                },
+              }}
+            >
+              {data.data.map((params: GetMainData) => (
+                <SwiperSlide>
+                  <Card
+                    key={params.id}
+                    id={params.id}
+                    type='default'
+                    enddate={formatDateString(params.endDate)}
+                    onClick={() => navigate(`view/${params.id}`)}
+                    cardStyle='hot'
+                    createdAt={params.createdAt}
+                    viewCount={Number(params.viewCount)}
+                    onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                      if (e.key === 'Enter' || e.key === 'Space') {
+                        navigate(`/view/${params.id}`);
+                      }
+                    }}
+                  >
+                    {params.title}
+                  </Card>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
         </div>
-      </div>
-      <div className='h-full'>
-        <Swiper
-          spaceBetween={10}
-          slidesPerView={4}
-          navigation
-          pagination={{ clickable: true }}
-          onSwiper={(swiper) => {
-            swiperRef.current = swiper;
-          }}
-          grabCursor
-          centeredSlidesBounds
-          breakpoints={{
-            // 640px 이하에서 1개의 슬라이드
-            0: {
-              slidesPerView: 1,
-            },
-            // 640px 이상 768px 이하에서 2개의 슬라이드
-            640: {
-              slidesPerView: 2,
-            },
-            // 768px 이상 1024px 이하에서 3개의 슬라이드
-            768: {
-              slidesPerView: 3,
-            },
-            // 1024px 이상에서 4개의 슬라이드
-            1024: {
-              slidesPerView: 4,
-            },
-          }}
-        >
-          <SwiperSlide>
-            <Card
-              id={0}
-              type='default'
-              enddate='2024.02.28'
-              onClick={() => navigate('view/0')}
-              cardStyle='hot'
-              createdAt={Date()}
-              viewCount={0}
-              commentCount={0}
-              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                if (e.key === 'Enter' || e.key === 'Space') {
-                  navigate(`/view/0`);
-                }
-              }}
-            >
-              asdasdasdasd
-            </Card>
-          </SwiperSlide>
-          <SwiperSlide>
-            <Card
-              id={0}
-              type='default'
-              enddate='2024.02.28'
-              onClick={() => navigate('view/0')}
-              cardStyle='hot'
-              createdAt={Date()}
-              viewCount={0}
-              commentCount={0}
-              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                if (e.key === 'Enter' || e.key === 'Space') {
-                  navigate(`/view/0`);
-                }
-              }}
-            >
-              asdasdasdasd
-            </Card>
-          </SwiperSlide>
-          <SwiperSlide>
-            <Card
-              id={0}
-              type='default'
-              enddate='2024.02.28'
-              onClick={() => navigate('view/0')}
-              cardStyle='hot'
-              createdAt={Date()}
-              viewCount={0}
-              commentCount={0}
-              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                if (e.key === 'Enter' || e.key === 'Space') {
-                  navigate(`/view/0`);
-                }
-              }}
-            >
-              asdasdasdasd
-            </Card>
-          </SwiperSlide>
-          <SwiperSlide>
-            <Card
-              id={0}
-              type='default'
-              enddate='2024.02.28'
-              onClick={() => navigate('view/0')}
-              cardStyle='hot'
-              createdAt={Date()}
-              viewCount={0}
-              commentCount={0}
-              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                if (e.key === 'Enter' || e.key === 'Space') {
-                  navigate(`/view/0`);
-                }
-              }}
-            >
-              asdasdasdasd
-            </Card>
-          </SwiperSlide>
-          <SwiperSlide>
-            <Card
-              id={0}
-              type='default'
-              enddate='2024.02.28'
-              onClick={() => navigate('view/0')}
-              cardStyle='hot'
-              createdAt={Date()}
-              viewCount={0}
-              commentCount={0}
-              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                if (e.key === 'Enter' || e.key === 'Space') {
-                  navigate(`/view/0`);
-                }
-              }}
-            >
-              asdasdasdasd
-            </Card>
-          </SwiperSlide>
-        </Swiper>
-      </div>
+      )}
     </div>
   );
 };

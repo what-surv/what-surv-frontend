@@ -1,35 +1,28 @@
 import React, { useEffect, useState } from 'react';
 
-import Nodata from './misc/Nodata';
 import {
-  GetMainData,
-  getMainList,
   mainAgeArr,
   mainGenderArr,
   mainMethodArr,
   mainSortArr,
   mainTypeArr,
 } from '../api/IndexApi';
-import { LikeDelete, LikePost } from '../api/LikeApi';
 import { BannerSwiper, ResearchSwiper } from '../component/MainSwiper';
+import CardList from '../organisms/CardList';
 import LoginAlertModal from '../organisms/LoginAlertModal';
 import { MainPageStore } from '../store/store';
 import { Appbar } from '../stories/appbar/Appbar';
-import Card from '../stories/card/Card';
 import { Dropdown } from '../stories/dropdown/Dropdown';
 import FloatingButton from '../stories/floatingButton/FloatingButton';
-import { Pagination } from '../stories/indicator/pagination/Pagination';
-import Like from '../stories/like/Like';
 import { Tabbar } from '../stories/tabbar/Tabbar';
 import Typography from '../stories/typography/Typography';
-import { formatDateString } from '../utils/dateUtils';
 
-import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
   // LoginAlertModal을 제어하기 위한 상태
   const [showLoginAlert, setShowLoginAlert] = useState(false);
+
   const [selectedValues, setSelectedValues] = useState<Record<string, string>>(
     {}
   ); // 소팅 객체를 저장할 state
@@ -48,6 +41,7 @@ const Index = () => {
       initialSelectedValues[key] = value;
     });
 
+    console.log(initialSelectedValues);
     // 초기 상태를 설정
     setSelectedValues(initialSelectedValues);
 
@@ -64,16 +58,6 @@ const Index = () => {
     return 24; // PC
   };
 
-  const { data, refetch, isLoading } = useQuery<GetMainData>({
-    queryKey: ['postList', currentPage, selectedValues],
-    queryFn: () =>
-      getMainList({
-        page: currentPage,
-        limit: checkDeviceReturnLimit(),
-        ...selectedValues,
-      }),
-  });
-
   useEffect(() => {
     const queryString = Object.keys(selectedValues)
       .map(
@@ -83,31 +67,7 @@ const Index = () => {
       .join('&');
 
     navigate(`?${queryString}`);
-  }, [selectedValues, navigate]);
-
-  if (isLoading) {
-    return null;
-  }
-
-  const likedClick = async (
-    e: React.MouseEvent<HTMLButtonElement>,
-    id: number,
-    liked: boolean
-  ) => {
-    e.stopPropagation();
-    try {
-      if (liked) {
-        await LikeDelete(id);
-      } else {
-        await LikePost(id);
-      }
-      refetch();
-    } catch (error) {
-      if (error instanceof Error && error.message === 'Unauthorized') {
-        setShowLoginAlert(true);
-      }
-    }
-  };
+  }, [selectedValues]);
 
   const dropdownOptions = [
     { defaultValue: '정렬', key: 'sort', arr: mainSortArr },
@@ -185,7 +145,6 @@ const Index = () => {
           <div className='my-6'>
             <BannerSwiper />
           </div>
-          {/* // slider */}
 
           {/* 인기리서치 */}
           <ResearchSwiper />
@@ -198,67 +157,18 @@ const Index = () => {
           </div>
 
           <div className='flex flex-wrap gap-3 mb-6'>{renderDropDowns()}</div>
-
-          {data?.data.length === 0 ? (
-            <Nodata />
-          ) : (
-            <div>
-              <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-                {/* {showSkeleton()} */}
-                {data?.data.map((params: GetMainData) => {
-                  const {
-                    postId,
-                    authorNickname,
-                    title,
-                    createdAt,
-                    endDate,
-                    viewCount,
-                    commentCount,
-                    isLiked,
-                  } = params;
-
-                  return (
-                    <Card
-                      key={postId}
-                      id={postId}
-                      nickname={authorNickname}
-                      cardStyle='default'
-                      createdAt={createdAt}
-                      enddate={formatDateString(endDate)}
-                      onClick={() => navigate(`view/${postId}`)}
-                      type='default'
-                      onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                        if (e.key === 'Enter' || e.key === 'Space') {
-                          navigate(`/view/${postId}`);
-                        }
-                      }}
-                      viewCount={Number(viewCount)}
-                      commentCount={commentCount}
-                    >
-                      <span className='absolute top-[25px] right-[21px]'>
-                        <Like
-                          onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                            likedClick(e, postId, isLiked)
-                          }
-                          isLiked={isLiked}
-                        />
-                      </span>
-                      {title}
-                    </Card>
-                  );
-                })}
-              </div>
-              {data && (
-                <Pagination
-                  pageClick={handlePageChange}
-                  totalPage={data.totalPages}
-                  currentPage={currentPage}
-                />
-              )}
+          {/* cardList */}
+          <div>
+            <CardList
+              currentPage={currentPage}
+              selectedValues={selectedValues}
+              checkDeviceReturnLimit={checkDeviceReturnLimit}
+              handlePageChange={handlePageChange}
+              setShowLoginAlert={setShowLoginAlert}
+            />
+            <div className='sticky flex flex-row-reverse bottom-[50px] z-[49]'>
+              <FloatingButton onClick={() => navigate('write')} />
             </div>
-          )}
-          <div className='sticky flex flex-row-reverse bottom-[50px] z-[49]'>
-            <FloatingButton onClick={() => navigate('write')} />
           </div>
         </div>
       </div>

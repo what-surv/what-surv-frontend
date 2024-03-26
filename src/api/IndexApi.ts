@@ -105,7 +105,7 @@ export type GetMainData = {
   url: string;
   viewCount: string;
   endDate: string;
-  commentCount: number;
+  commentCount?: number;
   isLiked: boolean;
   nextPage: number;
   page: number;
@@ -119,4 +119,10 @@ export const getMainList = async (params: GetMainListParams) => {
   });
 
   return MainList.data;
+};
+
+export const getPopularList = async () => {
+  const popularList = await axiosBaseUrl.get('/posts/popular');
+
+  return popularList.data;
 };
