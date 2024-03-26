@@ -3,7 +3,7 @@ import { create } from 'zustand';
 interface WritePageStoreStoreProps {
   gender: string; // 성별
   age: string[]; // 연령
-  researchType: string; // 리서치 종류
+  researchType: string[]; // 리서치 종류
   procedure: string; // 진행 방식
   enddate: Date | string; // 마감일
   link: string; // 링크
@@ -14,6 +14,7 @@ interface WritePageStoreStoreProps {
   setAges: (ages: string[]) => void;
   setGender: (gender: string) => void;
   setResearchType: (type: string) => void;
+  setResearchTypes: (types: string[]) => void;
   setprocedureArray: (type: string) => void;
   setLink: (link: string) => void;
   setTime: (time: string) => void;
@@ -64,7 +65,7 @@ interface LoginPageStorePros {
 export const WritePageStore = create<WritePageStoreStoreProps>((set) => ({
   gender: '',
   age: [],
-  researchType: '',
+  researchType: [],
   procedure: '',
   enddate: '',
   link: '',
@@ -72,20 +73,33 @@ export const WritePageStore = create<WritePageStoreStoreProps>((set) => ({
   title: '',
   content: '',
   setAge: (newAge) =>
-    set((state) => ({
-      age: state.age.includes(newAge) ? state.age : [newAge, ...state.age],
-    })),
+    set((state) => {
+      const updatedAge = state.age.includes(newAge)
+        ? state.age
+        : [newAge, ...state.age];
+      updatedAge.sort(); // 값 정렬
+      return { age: updatedAge };
+    }),
   toggleAge: (newAges) =>
-    set((state) => ({
-      age: state.age.filter((age) => newAges.includes(age)),
-    })),
+    set((state) => {
+      const updatedAge = state.age.filter((age) => newAges.includes(age));
+      updatedAge.sort(); // 값 정렬
+      return { age: updatedAge };
+    }),
   setGender: (genderValue) => set({ gender: genderValue }),
-  setResearchType: (type) => set({ researchType: type }),
+  // setResearchType: (type) => set({ researchType: type })
+  setResearchType: (newType) =>
+    set((state) => ({
+      researchType: state.researchType.includes(newType)
+        ? state.researchType
+        : [newType, ...state.researchType],
+    })),
   setprocedureArray: (method) => set({ procedure: method }),
   setLink: (linkValue) => set({ link: linkValue }),
   setTime: (timeValue) => set({ time: timeValue }),
   setTitle: (titleValue) => set({ title: titleValue }),
   setAges: (agesValue) => set({ age: agesValue }),
+  setResearchTypes: (typeValue) => set({ researchType: typeValue }),
   setContent: (contentvalue) => set({ content: contentvalue }),
   setEnddate: (dateValue) => set({ enddate: dateValue }),
 }));

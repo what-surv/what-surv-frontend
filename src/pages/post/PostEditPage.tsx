@@ -77,7 +77,7 @@ const PostEditPage = () => {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['WritePost'],
+        queryKey: ['postList'],
       });
       setIsSuccessModalOpen(true);
     },

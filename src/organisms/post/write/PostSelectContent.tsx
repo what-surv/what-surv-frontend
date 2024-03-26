@@ -29,6 +29,7 @@ const PostSelectContent = () => {
     setAge,
     setAges,
     setprocedureArray,
+    setResearchTypes,
   } = WritePageStore();
 
   const { register } = useFormContext<FormInputs>();
@@ -48,9 +49,10 @@ const PostSelectContent = () => {
         title='리서치 종류'
         options={typeArr}
         defaultValue='종류'
-        value={[researchType]}
-        oneSelect
+        value={researchType}
+        oneSelect={false}
         onDropdownChange={(selectType) => setResearchType(selectType)}
+        toggleDropdownValue={(typeArray) => setResearchTypes(typeArray)}
       />
       <PostSelectDropdown
         title='연령'

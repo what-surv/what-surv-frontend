@@ -1,6 +1,7 @@
 import { axiosBaseUrl } from '../../../api/axiosConfig';
 import fillAccount from '../../../assets/account-fill.svg';
 import arrowUpCircle from '../../../assets/arrow-up-circle.svg';
+import Button from '../../../atoms/Button';
 import Typography from '../../../stories/typography/Typography';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -11,6 +12,7 @@ interface ReplyWithButtonProps {
   placeholder?: string;
   parentId: string;
   CancelButtonOnClick: (id: string) => void;
+  setIsReplyOpen: (isReply: boolean) => void;
 }
 
 interface TextareaInputs {
@@ -20,6 +22,7 @@ interface TextareaInputs {
 const ReplyWithButton = ({
   placeholder,
   CancelButtonOnClick,
+  setIsReplyOpen,
   parentId,
 }: ReplyWithButtonProps) => {
   const { num } = useParams() as { num: string };
@@ -34,7 +37,7 @@ const ReplyWithButton = ({
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['getReply', num],
+        queryKey: ['getComment', num],
       });
     },
     onError: () => {
@@ -44,6 +47,8 @@ const ReplyWithButton = ({
 
   const onSubmit = (data: TextareaInputs) => {
     postReplyMutation.mutate(data.reply);
+
+    setIsReplyOpen(false);
     reset();
   };
 
@@ -82,7 +87,7 @@ const ReplyWithButton = ({
                 className='text-[#242424]'
               />
             </button>
-            <button
+            <Button
               type='submit'
               className='px-5 text-center py-2 rounded-[400px] flex justify-center items-center gap-2 bg-[#0051FF]'
             >
@@ -94,7 +99,7 @@ const ReplyWithButton = ({
                 text='답글 쓰기'
                 className='text-white'
               />
-            </button>
+            </Button>
           </div>
         </form>
       </div>

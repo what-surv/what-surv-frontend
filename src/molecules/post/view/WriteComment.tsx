@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { axiosBaseUrl } from '../../../api/axiosConfig';
 import fillAccount from '../../../assets/account-fill.svg';
 import arrowUpCircle from '../../../assets/arrow-up-circle.svg';
@@ -47,7 +49,7 @@ const WriteComment = ({ placeholder }: CommentWithButtonProps) => {
         alt='계정 아이콘'
         className='p-2.5 gap-2.5 flex items-center justify-center'
       />
-      <div className='w-full'>
+      <div className='w-[90%] md:w-full'>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className='flex flex-col items-end justify-end flex-1 gap-2'
@@ -55,9 +57,14 @@ const WriteComment = ({ placeholder }: CommentWithButtonProps) => {
           <div className='flex py-[14px] px-[30px] border-2 self-stretch gap-2.5 items-center rounded-xl border-[#C1C5CC] bg-[#FAFAFA]'>
             <textarea
               {...register('comment')}
-              className='flex-1 bg-inherit text-base placeholder:text-[#D7DBE2] placeholder:font-medium font-pretendard font-semibold outline-none leading-[26px]'
+              className='flex-1 bg-inherit text-base placeholder:text-[#D7DBE2] placeholder:font-medium font-pretendard font-semibold outline-none leading-[26px] resize-none min-h-[26px] max-h-[200px] overflow-y-auto'
+              style={{ height: 'auto', maxHeight: '200px' }}
               placeholder={placeholder}
               rows={1}
+              onInput={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                e.target.style.height = 'auto';
+                e.target.style.height = `${e.target.scrollHeight}px`;
+              }}
             />
           </div>
           <button

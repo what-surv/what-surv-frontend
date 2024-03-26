@@ -5,7 +5,8 @@ import React, { useState } from 'react';
 
 import { axiosBaseUrl } from '../../../api/axiosConfig';
 import { getComment } from '../../../api/PostApi';
-import { profileTypes, UserTypes } from '../../../api/Posttypes';
+import { UserTypes } from '../../../api/Posttypes';
+import { getUserInfoApi } from '../../../api/userCheckApi';
 import CommentWithButton from '../../../molecules/post/view/CommentWithButton';
 import UserInfo from '../../../molecules/post/view/UserInfo';
 import { SuccessModalStore } from '../../../store/store';
@@ -39,17 +40,10 @@ const UserInfoWithComment = () => {
     enabled: true, // 컴포넌트가 마운트될 때 즉시 데이터 가져오기
   });
 
-  const { data: profile } = useQuery<profileTypes>({
-    queryKey: ['getProfile', num],
-    queryFn: () => axiosBaseUrl.get(`auth/profile`),
-  });
-
   const [isReplyOpen, setIsReplyOpen] = useState(false); // 댓글 작성 영역 열림 여부 상태
 
   const [isEditOpen, setIsEditOpen] = useState(false); // 수정 버튼 상태
   const [commentId, setCommentId] = useState<string>(''); // 수정할 댓글의 ID를 저장하는 상태
-
-  const [isButtonArray, setIsButtonArray] = useState(true);
 
   // 수정 버튼 클릭 시 해당 댓글의 ID를 저장하고 수정 모드를 활성화
   const EditButtonClick = (id: string) => {
@@ -59,14 +53,20 @@ const UserInfoWithComment = () => {
   };
 
   // eslint-disable-next-line consistent-return
-  const ReplyButtonClick = (id: string) => {
-    if (profile === undefined) {
-      alert('댓글은 로그인 후 작성할 수 있습니다.');
-      return null;
+  const ReplyButtonClick = async (id: string) => {
+    try {
+      const userInfo = await getUserInfoApi();
+      if (userInfo === false) {
+        alert('댓글은 로그인 후 작성할 수 있습니다.');
+        return null;
+      }
+
+      setCommentId(id);
+      setIsReplyOpen(true);
+      setIsEditOpen(false);
+    } catch (error) {
+      console.error(error);
     }
-    setCommentId(id);
-    setIsReplyOpen(true);
-    setIsEditOpen(false);
   };
 
   // 수정이나 답장에서 취소 버튼 클릭
@@ -74,7 +74,6 @@ const UserInfoWithComment = () => {
     setCommentId(''); // 수정할 댓글의 ID를 초기화
     setIsReplyOpen(false);
     setIsEditOpen(false);
-    setIsButtonArray(true);
   };
 
   const DeleteButtonClick = (id: string) => {
@@ -105,8 +104,6 @@ const UserInfoWithComment = () => {
 
   if (!comments) return null;
 
-  console.log(comments);
-
   const renderComments = (
     commentsArray: commentTypes[],
     parentId?: string,
@@ -124,10 +121,10 @@ const UserInfoWithComment = () => {
             commentId={commentId}
             setIsEditOpen={setIsEditOpen}
             CancelButtonOnClick={CancelButtonOnClick}
-            isButtonArray={isButtonArray}
             ReplyButtonClick={ReplyButtonClick}
             EditButtonClick={EditButtonClick}
             DeleteButtonClick={DeleteButtonClick}
+            setIsReplyOpen={setIsReplyOpen}
             isReplyOpen={isReplyOpen}
           />
           {/* 댓글 컴포넌트 재귀식으로 호출 */}
