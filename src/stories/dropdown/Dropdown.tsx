@@ -9,7 +9,7 @@ import Typography from '../typography/Typography';
 
 const DropdownVariants = cva(
   `
-  text-sm border font-semibold self-stretch rounded-[400px] bg-[#FAFAFA] min-w-[79px]
+  text-sm border font-semibold self-stretch rounded-[400px] bg-[#FAFAFA] min-w-[83px]
 `,
   {
     variants: {
@@ -62,7 +62,7 @@ export const Dropdown = ({
 }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSelected, setIsSelected] = useState<string>('');
-  const [ages, setAges] = useState<string[]>([]);
+  const [multiSelect, setMultiSelect] = useState<string[]>([]);
   const [dropdownState, setDropdownState] = useState<'activate' | 'default'>(
     state
   );
@@ -90,22 +90,26 @@ export const Dropdown = ({
     setIsSelected(option.label);
     setDropdownState('activate');
     if (option.key === 'All') {
-      setAges(['전체']);
+      setMultiSelect(['전체']);
       onDropdownChange('All');
     } else if (
-      !ages.includes(option.label) &&
-      !ages.includes('전체') &&
+      !multiSelect.includes(option.label) &&
+      !multiSelect.includes('전체') &&
       !value?.includes('All')
     ) {
-      setAges((prevAges) => [...prevAges, option.label]);
+      setMultiSelect((prevAges) => {
+        const updatedAges = [...prevAges, option.label];
+        updatedAges.sort(); // 배열 정렬
+        return updatedAges;
+      });
       onDropdownChange(option.key);
     }
   };
 
   const handleCloseClick = (option: string) => {
     // const updatedValue = value?.filter((item: string) => item !== option);
-    const updatedAge = ages.filter((item: string) => item !== option);
-    setAges(updatedAge);
+    const updatedAge = multiSelect.filter((item: string) => item !== option);
+    setMultiSelect(updatedAge);
     if (updatedAge.length === 0) {
       setDropdownState('default');
     }
@@ -151,13 +155,13 @@ export const Dropdown = ({
               ))}
           </div>
         </button>
-        <div className='flex gap-1.5'>
+        <div className='flex gap-1.5 flex-wrap'>
           {!oneSelect && (
             <div className='flex gap-1.5'>
-              {ages.map((DropdownSelectValue: string) => (
+              {multiSelect.map((DropdownSelectValue: string) => (
                 <div
-                  className='flex  bg-[#FAFAFA] h-9 md:py-1.5 md:px-4 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
-         border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] min-w-[79px]'
+                  className='flex bg-[#FAFAFA] h-9 md:py-2 md:px-3 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
+         border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] min-w-[83px]'
                   key={DropdownSelectValue}
                 >
                   {DropdownSelectValue}

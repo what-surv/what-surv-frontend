@@ -105,7 +105,7 @@ const PostWritePage = () => {
     //   procedure,
     //   title
     // );
-    console.log(age);
+    console.log(researchType);
     if (
       !age ||
       !gender ||
@@ -190,7 +190,7 @@ const PostWritePage = () => {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['WritePost'],
+        queryKey: ['postList'],
       });
       setIsSuccessModalOpen(true);
     },
@@ -214,7 +214,7 @@ const PostWritePage = () => {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['WritePost'],
+        queryKey: ['postList'],
       });
       setIsSuccessModalOpen(true);
     },

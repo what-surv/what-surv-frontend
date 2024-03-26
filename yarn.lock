@@ -5955,6 +5955,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-infinite-scroller@npm:^1":
+  version: 1.2.5
+  resolution: "@types/react-infinite-scroller@npm:1.2.5"
+  dependencies:
+    "@types/react": "npm:*"
+  checksum: 6dcba15dbaf2732f61c325147395f58a0241082f93ae5280b905d580303af9a0aa38c3bb28b2b6345da9a3758b1e69489bdcfff7411f55fe2868edd0e2a0f0e6
+  languageName: node
+  linkType: hard
+
 "@types/react-router@npm:^5.1.0":
   version: 5.1.20
   resolution: "@types/react-router@npm:5.1.20"
@@ -16781,6 +16790,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-infinite-scroller@npm:^1.2.6":
+  version: 1.2.6
+  resolution: "react-infinite-scroller@npm:1.2.6"
+  dependencies:
+    prop-types: "npm:^15.5.8"
+  peerDependencies:
+    react: ^0.14.9 || ^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: dc269b873603a1acff3fe78d6f9a073623205cd9317da71e62306302d18ba1f89a78d8b13654d52efb289d4bf769ea803aeff6ee0afd26f6576c1e4a935a238d
+  languageName: node
+  linkType: hard
+
 "react-inspector@npm:6.0.2":
   version: 6.0.2
   resolution: "react-inspector@npm:6.0.2"
@@ -20296,6 +20316,7 @@ __metadata:
     "@types/react": "npm:^18.2.57"
     "@types/react-datepicker": "npm:^6"
     "@types/react-dom": "npm:^18.2.19"
+    "@types/react-infinite-scroller": "npm:^1"
     "@types/storybook-react-router": "npm:^1"
     "@types/swiper": "npm:^6.0.0"
     "@typescript-eslint/eslint-plugin": "npm:^6.19.0"
@@ -20332,6 +20353,7 @@ __metadata:
     react-dom: "npm:^18.2.0"
     react-ga: "npm:^3.3.1"
     react-hook-form: "npm:^7.51.0"
+    react-infinite-scroller: "npm:^1.2.6"
     react-router-dom: "npm:^6.22.0"
     react-tooltip: "npm:^5.26.2"
     storybook: "npm:^7.6.9"

@@ -1,6 +1,7 @@
 import { axiosBaseUrl } from '../../../api/axiosConfig';
 import fillAccount from '../../../assets/account-fill.svg';
 import arrowUpCircle from '../../../assets/arrow-up-circle.svg';
+import Button from '../../../atoms/Button';
 import Typography from '../../../stories/typography/Typography';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -26,7 +27,7 @@ const EditWithButton = ({
   value,
 }: EditWithButtonProps) => {
   const { num } = useParams() as { num: string };
-  const { register, handleSubmit, reset } = useForm<TextareaInputs>();
+  const { register, handleSubmit } = useForm<TextareaInputs>();
   const queryClient = useQueryClient();
   const { onChange } = register('edit');
 
@@ -48,8 +49,8 @@ const EditWithButton = ({
 
   const onSubmit = (data: TextareaInputs) => {
     postCommentMutation.mutate(data.edit);
+
     setIsEditOpen(false);
-    reset();
   };
   return (
     <div className='flex items-start self-stretch w-full gap-2'>
@@ -88,7 +89,7 @@ const EditWithButton = ({
                 className='text-[#242424]'
               />
             </button>
-            <button
+            <Button
               type='submit'
               className='px-5 text-center py-2 rounded-[400px] flex justify-center items-center gap-2 bg-[#0051FF]'
             >
@@ -100,7 +101,7 @@ const EditWithButton = ({
                 text='댓글 쓰기'
                 className='text-white'
               />
-            </button>
+            </Button>
           </div>
         </form>
       </div>
