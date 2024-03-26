@@ -13,6 +13,7 @@ import notification from '../assets/notification.svg';
 import rightArrow from '../assets/right_arrow.svg';
 import search from '../assets/search.svg';
 import setting from '../assets/setting.svg';
+import Typography from '../typography/Typography';
 
 import { useNavigate, Link } from 'react-router-dom';
 
@@ -49,12 +50,16 @@ interface AppbarProps {
   isTextCenter?: boolean;
   /** 모바일에서 전체 모양의 로고를 나타내는 여부(true -> 중앙에 배치 / false -> 중앙에 배치 x) */
   isFullLogo?: boolean;
+  /** 로그인, 게스트 Boolean값 (ture -> 로그인 / false -> 게스트) */
+  isLogin?: boolean;
   /** 각 단말기별 크기 확인용 */
   size?: 'mobile' | 'default' | 'full';
   /** 화살표 클릭 시 뒤로가기 기능 */
   onArrowClick?: () => void;
   /** 닫기 클릭 시 페이지로 이동 */
   onCloseClick?: () => void;
+  /** 로그아웃 */
+  logout?: () => void;
 }
 
 /**
@@ -71,9 +76,11 @@ export const Appbar = ({
   isLogo,
   isFullLogo,
   isTextCenter,
+  isLogin,
   size,
   onArrowClick,
   onCloseClick,
+  logout,
   ...props
 }: AppbarProps) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -182,7 +189,7 @@ export const Appbar = ({
                   <ul className='py-2 '>
                     {menuItems.map(({ id, label, url }) => (
                       <Link to={url} key={id} className='h-[52px]'>
-                        <li className='cursor-pointer font-semibold w-full px-5 py-3 justify-start items-center gap-2 inline-flex hover:bg-[#D6FF00]'>
+                        <li className='cursor-pointer font-semibold w-full px-5 py-3 justify-start items-center gap-2 inline-flex hover:bg-[#D6FF00] transition-all duration-300 ease-in-out'>
                           {label === '설정' && (
                             <img
                               src={setting}
@@ -208,6 +215,15 @@ export const Appbar = ({
                         </li>
                       </Link>
                     ))}
+                    <li className='cursor-pointer font-semibold w-full justify-start items-center gap-2 inline-flex hover:bg-[#D6FF00] transition-all duration-300 ease-in-out'>
+                      <button
+                        type='button'
+                        onClick={logout}
+                        className='w-full px-5 py-3 text-left'
+                      >
+                        로그아웃
+                      </button>
+                    </li>
                   </ul>
                 </div>
               )}
@@ -217,6 +233,16 @@ export const Appbar = ({
             <button type='button' onClick={onCloseClick}>
               <img src={close} alt='close icon' className='md:hidden' />
             </button>
+          )}
+          {isLogin && (
+            <Link to='/login'>
+              <Typography
+                size='base'
+                weight='Semibold'
+                text='로그인'
+                className='block w-[48px] text-right'
+              />
+            </Link>
           )}
         </div>
       </div>

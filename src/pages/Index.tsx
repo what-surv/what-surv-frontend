@@ -1,35 +1,33 @@
 import React, { useEffect, useState } from 'react';
 
-import Nodata from './misc/Nodata';
 import {
-  GetMainData,
-  getMainList,
   mainAgeArr,
   mainGenderArr,
   mainMethodArr,
   mainSortArr,
   mainTypeArr,
 } from '../api/IndexApi';
-import { LikeDelete, LikePost } from '../api/LikeApi';
+import { requestLogout } from '../api/loginApis';
+import { userCheckApi } from '../api/userCheckApi';
 import { BannerSwiper, ResearchSwiper } from '../component/MainSwiper';
+import CardList from '../organisms/CardList';
 import LoginAlertModal from '../organisms/LoginAlertModal';
 import { MainPageStore } from '../store/store';
 import { Appbar } from '../stories/appbar/Appbar';
-import Card from '../stories/card/Card';
 import { Dropdown } from '../stories/dropdown/Dropdown';
 import FloatingButton from '../stories/floatingButton/FloatingButton';
-import { Pagination } from '../stories/indicator/pagination/Pagination';
-import Like from '../stories/like/Like';
 import { Tabbar } from '../stories/tabbar/Tabbar';
 import Typography from '../stories/typography/Typography';
-import { formatDateString } from '../utils/dateUtils';
 
-import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
+  // 사용자 로그인 상태를 저장하기 위한 상태 변수
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   // LoginAlertModal을 제어하기 위한 상태
   const [showLoginAlert, setShowLoginAlert] = useState(false);
+
   const [selectedValues, setSelectedValues] = useState<Record<string, string>>(
     {}
   ); // 소팅 객체를 저장할 state
@@ -38,6 +36,14 @@ const Index = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // 컴포넌트가 마운트될 때 사용자 체크를 수행
+    const fetchUserStatus = async () => {
+      const userStatus = await userCheckApi();
+      setIsLoggedIn(userStatus); // 비동기 호출의 결과로 로그인 상태 업데이트
+    };
+
+    fetchUserStatus();
+
     document.body.style.backgroundColor = '#F9F9FB';
 
     // URL에서 쿼리 스트링을 파싱
@@ -64,16 +70,6 @@ const Index = () => {
     return 24; // PC
   };
 
-  const { data, refetch, isLoading } = useQuery<GetMainData>({
-    queryKey: ['postList', currentPage, selectedValues],
-    queryFn: () =>
-      getMainList({
-        page: currentPage,
-        limit: checkDeviceReturnLimit(),
-        ...selectedValues,
-      }),
-  });
-
   useEffect(() => {
     const queryString = Object.keys(selectedValues)
       .map(
@@ -83,31 +79,7 @@ const Index = () => {
       .join('&');
 
     navigate(`?${queryString}`);
-  }, [selectedValues, navigate]);
-
-  if (isLoading) {
-    return null;
-  }
-
-  const likedClick = async (
-    e: React.MouseEvent<HTMLButtonElement>,
-    id: number,
-    liked: boolean
-  ) => {
-    e.stopPropagation();
-    try {
-      if (liked) {
-        await LikeDelete(id);
-      } else {
-        await LikePost(id);
-      }
-      refetch();
-    } catch (error) {
-      if (error instanceof Error && error.message === 'Unauthorized') {
-        setShowLoginAlert(true);
-      }
-    }
-  };
+  }, [selectedValues]);
 
   const dropdownOptions = [
     { defaultValue: '정렬', key: 'sort', arr: mainSortArr },
@@ -176,16 +148,26 @@ const Index = () => {
     setCurrentPage(page);
   };
 
+  const logout = async () => {
+    await requestLogout();
+    setIsLoggedIn(false);
+  };
+
   return (
     <div className='relative'>
-      <Appbar isAccount isLogo isFullLogo />
+      {isLoggedIn ? (
+        <div>
+          <Appbar isAccount isLogo isFullLogo logout={logout} />
+        </div>
+      ) : (
+        <Appbar isLogo isFullLogo isLogin />
+      )}
       <Tabbar isMobileVisible size='default' />
       <div className=''>
         <div className='max-w-[1416px] w-full m-auto px-6'>
           <div className='my-6'>
             <BannerSwiper />
           </div>
-          {/* // slider */}
 
           {/* 인기리서치 */}
           <ResearchSwiper />
@@ -198,73 +180,24 @@ const Index = () => {
           </div>
 
           <div className='flex flex-wrap gap-3 mb-6'>{renderDropDowns()}</div>
-
-          {data?.data.length === 0 ? (
-            <Nodata />
-          ) : (
-            <div>
-              <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-                {/* {showSkeleton()} */}
-                {data?.data.map((params: GetMainData) => {
-                  const {
-                    postId,
-                    authorNickname,
-                    title,
-                    createdAt,
-                    endDate,
-                    viewCount,
-                    commentCount,
-                    isLiked,
-                  } = params;
-
-                  return (
-                    <Card
-                      key={postId}
-                      id={postId}
-                      nickname={authorNickname}
-                      cardStyle='default'
-                      createdAt={createdAt}
-                      enddate={formatDateString(endDate)}
-                      onClick={() => navigate(`view/${postId}`)}
-                      type='default'
-                      onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                        if (e.key === 'Enter' || e.key === 'Space') {
-                          navigate(`/view/${postId}`);
-                        }
-                      }}
-                      viewCount={Number(viewCount)}
-                      commentCount={commentCount}
-                    >
-                      <span className='absolute top-[25px] right-[21px]'>
-                        <Like
-                          onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                            likedClick(e, postId, isLiked)
-                          }
-                          isLiked={isLiked}
-                        />
-                      </span>
-                      {title}
-                    </Card>
-                  );
-                })}
-              </div>
-              {data && (
-                <Pagination
-                  pageClick={handlePageChange}
-                  totalPage={data.totalPages}
-                  currentPage={currentPage}
-                />
-              )}
+          {/* cardList */}
+          <div>
+            <CardList
+              currentPage={currentPage}
+              selectedValues={selectedValues}
+              checkDeviceReturnLimit={checkDeviceReturnLimit}
+              handlePageChange={handlePageChange}
+              setShowLoginAlert={setShowLoginAlert}
+            />
+            <div className='sticky flex flex-row-reverse bottom-[50px] z-[49]'>
+              <FloatingButton onClick={() => navigate('write')} />
             </div>
-          )}
-          <div className='sticky flex flex-row-reverse bottom-[50px] z-[49]'>
-            <FloatingButton onClick={() => navigate('write')} />
           </div>
         </div>
       </div>
       <LoginAlertModal
         isOpen={showLoginAlert}
-        handleClose={() => setShowLoginAlert(false)} // 수정됨
+        handleClose={() => setShowLoginAlert(false)}
         goLogin={() => {
           navigate('/login');
         }}

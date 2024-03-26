@@ -31,3 +31,7 @@ export const requestNickName = async (nickName: string) => {
 export const userRegistration = async (params: userInfoData) => {
   await axiosBaseUrl.post(`/auth/sign-up`, params);
 };
+
+export const requestLogout = async () => {
+  await axiosBaseUrl.get('/auth/logout');
+};
