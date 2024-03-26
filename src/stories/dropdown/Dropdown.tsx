@@ -36,7 +36,7 @@ interface DropdownProps {
   /** 드롭다운 메뉴  */
   menu: arrOptionProps[];
   /** 선택한 드롭다운 값을 담는 배열 */
-  value: string[] | string;
+  value?: string[] | string;
   /** 하나만 선택할 수 있는 드롭다운 여부(하나만 선택 가능 -> true / 아니면 -> false */
   oneSelect: boolean;
   /** 드롭다운 선택 시 값 전달해주는 함수 props */
@@ -91,22 +91,14 @@ export const Dropdown = ({
     setIsOpen(false);
     setDropdownState('activate');
 
-    if (value && value.length === 1 && value[0] === '전체') {
-      return;
-    }
-
     // 전체를 선택한 경우
     if (option.key === 'All') {
       onDropdownChange('All');
       if (toggleDropdownValue) {
         toggleDropdownValue(['All']);
       }
-    } else if (
-      // 다른 옵션을 선택한 경우
-      !value.includes(option.label) &&
-      !value.includes('All')
-    ) {
-      if (Array.isArray(value)) {
+    } else if (Array.isArray(value)) {
+      if (!value.includes(option.label) && !value.includes('All')) {
         const updatedValue = value.filter(
           (item: string) => item !== option.key
         );
@@ -116,6 +108,8 @@ export const Dropdown = ({
         }
         onDropdownChange(option.key);
       }
+    } else {
+      onDropdownChange(option.key);
     }
   };
 

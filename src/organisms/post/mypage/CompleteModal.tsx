@@ -39,7 +39,7 @@ const CompleteModal = ({
             <button
               type='button'
               onClick={onClick}
-              className='rounded-[400px] bg-[#0051FF] text-[#242424] whitespace-nowrap flex items-center py-3 px-6 border-2 flex-col gap-2.5 flex-1 justify-center border-[#0051FF]'
+              className='rounded-[400px] bg-[#0051FF] text-white whitespace-nowrap flex items-center py-3 px-6 border-2 flex-col gap-2.5 flex-1 justify-center border-[#0051FF]'
             >
               {buttonText}
             </button>

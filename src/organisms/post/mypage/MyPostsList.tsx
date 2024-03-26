@@ -157,7 +157,12 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
                     cardStyle='default'
                     createdAt={myWritePost.createdAt}
                     enddate={formatDateString(myWritePost.endDate)}
-                    onClick={() => navigate(`/view/${myWritePost.id}`)}
+                    onClick={() => {
+                      queryClient.invalidateQueries({
+                        queryKey: ['getPost', myWritePost.id],
+                      });
+                      navigate(`view/${myWritePost.id}`);
+                    }}
                     type={isEdit ? 'edit' : 'default'}
                     onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
                       if (e.key === 'Enter' || e.key === 'Space') {
