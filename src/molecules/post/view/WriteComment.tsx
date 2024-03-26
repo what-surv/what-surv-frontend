@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { axiosBaseUrl } from '../../../api/axiosConfig';
+import { getUserInfoApi } from '../../../api/userCheckApi';
 import fillAccount from '../../../assets/account-fill.svg';
 import arrowUpCircle from '../../../assets/arrow-up-circle.svg';
+import Button from '../../../atoms/Button';
 import Typography from '../../../stories/typography/Typography';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -22,6 +24,7 @@ const WriteComment = ({ placeholder }: CommentWithButtonProps) => {
   const { num } = useParams() as { num: string };
   const { register, handleSubmit, reset } = useForm<TextareaInputs>();
   const queryClient = useQueryClient();
+  const [userInfo, setUserInfo] = useState(null);
 
   const postCommentMutation = useMutation<void, unknown, string>({
     mutationFn: (newComment) =>
@@ -38,10 +41,33 @@ const WriteComment = ({ placeholder }: CommentWithButtonProps) => {
     },
   });
 
-  const onSubmit = (data: TextareaInputs) => {
+  // eslint-disable-next-line consistent-return
+  const handleTextareaClick = async () => {
+    const userInfoApi = await getUserInfoApi();
+    if (!userInfoApi) {
+      alert('로그인 후 댓글을 작성할 수 있습니다.');
+      return null;
+    }
+    setUserInfo(userInfoApi);
+  };
+
+  // eslint-disable-next-line consistent-return
+  const onSubmit = async (data: TextareaInputs) => {
+    if (!data.comment.trim()) {
+      alert('댓글을 입력하세요.');
+      return null;
+    }
+
+    const userInfoApi = await getUserInfoApi();
+    if (!userInfoApi) {
+      alert('로그인 후 댓글을 작성할 수 있습니다.');
+      return null;
+    }
+    setUserInfo(userInfoApi);
     postCommentMutation.mutate(data.comment);
     reset();
   };
+
   return (
     <div className='flex items-start self-stretch w-full gap-2'>
       <img
@@ -57,17 +83,18 @@ const WriteComment = ({ placeholder }: CommentWithButtonProps) => {
           <div className='flex py-[14px] px-[30px] border-2 self-stretch gap-2.5 items-center rounded-xl border-[#C1C5CC] bg-[#FAFAFA]'>
             <textarea
               {...register('comment')}
-              className='flex-1 bg-inherit text-base placeholder:text-[#D7DBE2] placeholder:font-medium font-pretendard font-semibold outline-none leading-[26px] resize-none min-h-[26px] max-h-[200px] overflow-y-auto'
-              style={{ height: 'auto', maxHeight: '200px' }}
+              className='flex-1 bg-inherit h-auto max-h-[200px] text-base placeholder:text-[#D7DBE2] placeholder:font-medium font-pretendard font-semibold outline-none leading-[26px] resize-none min-h-[26px] overflow-y-auto'
               placeholder={placeholder}
               rows={1}
               onInput={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                 e.target.style.height = 'auto';
                 e.target.style.height = `${e.target.scrollHeight}px`;
               }}
+              onClick={handleTextareaClick}
+              readOnly={!userInfo}
             />
           </div>
-          <button
+          <Button
             type='submit'
             className='px-5 text-center py-2 rounded-[400px] flex justify-center items-center gap-2 bg-[#0051FF]'
           >
@@ -79,7 +106,7 @@ const WriteComment = ({ placeholder }: CommentWithButtonProps) => {
               text='댓글 쓰기'
               className='text-white'
             />
-          </button>
+          </Button>
         </form>
       </div>
     </div>
