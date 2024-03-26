@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { GetMainData, getMainList } from '../api/IndexApi';
 import { LikeDelete, LikePost } from '../api/LikeApi';
@@ -8,7 +8,7 @@ import { Pagination } from '../stories/indicator/pagination/Pagination';
 import Like from '../stories/like/Like';
 import { formatDateString } from '../utils/dateUtils';
 
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 interface CardListProps {
@@ -27,6 +27,8 @@ const CardList = ({
   setShowLoginAlert,
 }: CardListProps) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient(); // queryClient 인스턴스에 접근
+
   const { data, refetch } = useQuery<GetMainData>({
     queryKey: ['postList', currentPage, selectedValues],
     queryFn: () =>
@@ -82,10 +84,18 @@ const CardList = ({
                 cardStyle='default'
                 createdAt={createdAt}
                 enddate={formatDateString(endDate)}
-                onClick={() => navigate(`view/${postId}`)}
+                onClick={() => {
+                  queryClient.invalidateQueries({
+                    queryKey: ['getPost', postId],
+                  });
+                  navigate(`view/${postId}`);
+                }}
                 type='default'
                 onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
                   if (e.key === 'Enter' || e.key === 'Space') {
+                    queryClient.invalidateQueries({
+                      queryKey: ['getPost', postId],
+                    });
                     navigate(`/view/${postId}`);
                   }
                 }}
