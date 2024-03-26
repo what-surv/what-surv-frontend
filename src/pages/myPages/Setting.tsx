@@ -12,7 +12,7 @@ import { Tabbar } from '../../stories/tabbar/Tabbar';
 import Textfield from '../../stories/textfield/Textfield';
 import Typography from '../../stories/typography/Typography';
 
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -27,6 +27,7 @@ const Setting = () => {
     queryFn: () => axiosBaseUrl.get(`users/me`),
   });
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   // 저장하기 버튼 disabled 여부
   const [disableButton, setDisableButton] = useState(true);
   const [nicknameInputState, setNicknameInputState] = useState<
@@ -84,6 +85,9 @@ const Setting = () => {
       }),
     onSuccess: () => {
       setIsmModalOpen(true);
+      queryClient.invalidateQueries({
+        queryKey: ['getProfile'],
+      });
     },
     onError: () => {
       console.error('에러 발생');
