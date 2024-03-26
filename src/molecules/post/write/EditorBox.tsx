@@ -4,7 +4,7 @@ import { WritePageStore } from '../../../store/store';
 
 import { Editor } from '@toast-ui/react-editor';
 
-import '@toast-ui/editor/dist/toastui-editor.css';
+import '../../../toastUI.css';
 
 const EditorBox = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -41,7 +41,7 @@ const EditorBox = () => {
           ['heading', 'bold', 'italic', 'strike'],
           ['hr', 'quote'],
           ['ul', 'ol', 'task', 'indent', 'outdent'],
-          ['image', 'link'],
+          ['link'],
         ]}
         placeholder={`내용을 입력해주세요!
 자세한 내용을 입력할수록 신뢰도가 증가하고 참여율이 높아집니다.
@@ -53,7 +53,7 @@ const EditorBox = () => {
 응답이 익명, 기밀로 유지되거나 추적되는지여부.
 회사 또는 단체에서 요구하는 모든동의서 또는 개인정보 보호 공지.
 보상 및 문의사항 발생 시 연락 가능한 연락처 등.`}
-        className='flex-1 w-[200px] text-base leading-[26px]'
+        className='flex-1 text-base leading-[26px]'
       />
     </div>
   );

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { GetMainData, getMainList } from '../api/IndexApi';
 import { LikeDelete, LikePost } from '../api/LikeApi';
 import Nodata from '../pages/misc/Nodata';
 import Card from '../stories/card/Card';
+import CardSkeleton from '../stories/cardSkeleton/CardSkeleton';
 import { Pagination } from '../stories/indicator/pagination/Pagination';
 import Like from '../stories/like/Like';
 import { formatDateString } from '../utils/dateUtils';
@@ -28,8 +29,9 @@ const CardList = ({
 }: CardListProps) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient(); // queryClient 인스턴스에 접근
+  const [showLoader, setShowLoader] = useState(true);
 
-  const { data, refetch } = useQuery<GetMainData>({
+  const { data, refetch, isLoading } = useQuery<GetMainData>({
     queryKey: ['postList', currentPage, selectedValues],
     queryFn: () =>
       getMainList({
@@ -38,6 +40,13 @@ const CardList = ({
         ...selectedValues,
       }),
   });
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      setShowLoader(false); // 3초 후에 로딩 스피너를 숨김
+    }, 1500);
+
+    return () => clearTimeout(delay); // cleanup 함수를 이용하여 타이머 해제
+  }, []);
 
   const likedClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -58,6 +67,11 @@ const CardList = ({
       }
     }
   };
+
+  if (showLoader || isLoading) {
+    // 딜레이를 주기 위한 로딩 스피너
+    return <CardSkeleton type='default' />;
+  }
 
   return (
     <div className=''>
