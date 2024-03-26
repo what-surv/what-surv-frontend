@@ -53,7 +53,7 @@ const EditorBox = () => {
 응답이 익명, 기밀로 유지되거나 추적되는지여부.
 회사 또는 단체에서 요구하는 모든동의서 또는 개인정보 보호 공지.
 보상 및 문의사항 발생 시 연락 가능한 연락처 등.`}
-        className='flex-1 w-[200px] text-base leading-[26px]'
+        className='flex-1 text-base leading-[26px]'
       />
     </div>
   );
