@@ -37,7 +37,7 @@ const EditorBox = () => {
           ['heading', 'bold', 'italic', 'strike'],
           ['hr', 'quote'],
           ['ul', 'ol', 'task', 'indent', 'outdent'],
-          ['table', 'image', 'link'],
+          ['image', 'link'],
         ]}
         placeholder={`내용을 입력해주세요!
 자세한 내용을 입력할수록 신뢰도가 증가하고 참여율이 높아집니다.

@@ -1,17 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import EditWithButton from './EditWithButton';
 import ReplyWithButton from './ReplyWithButton';
-import { axiosBaseUrl } from '../../../api/axiosConfig';
-import { profileTypes, UserTypes } from '../../../api/Posttypes';
+import { profileData, UserTypes } from '../../../api/Posttypes';
+import { getUserInfoApi } from '../../../api/userCheckApi';
 import deleteIcon from '../../../assets/delete.svg';
 import edit from '../../../assets/edit-line.svg';
 import Comment from '../../../atoms/post/Comment';
 import CommentButton from '../../../atoms/post/CommentButton';
 import reply from '../../../stories/assets/ic_reply.svg';
-
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
 
 interface CommentWithButtonProps {
   content: string;
@@ -48,20 +45,15 @@ const CommentWithButton = ({
   EditButtonClick,
   DeleteButtonClick,
 }: CommentWithButtonProps) => {
-  const { num } = useParams() as { num: string };
-  const {
-    data: profile,
-    isError,
-    error,
-  } = useQuery<profileTypes>({
-    queryKey: ['getProfile', num],
-    queryFn: () => axiosBaseUrl.get(`auth/profile`),
-    retry: 0,
-  });
+  const [userInfo, setUserInfo] = useState<profileData | null>(null);
 
-  if (isError) {
-    console.error(error.message);
-  }
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const userInfoAPI = await getUserInfoApi();
+      setUserInfo(userInfoAPI);
+    };
+    fetchUserInfo();
+  }, []);
 
   return (
     <div className='flex pl-[30px] mb-5 flex-col gap-2.5 items-start justify-end self-stretch'>
@@ -71,7 +63,7 @@ const CommentWithButton = ({
           <CommentButton onClick={() => ReplyButtonClick(id)}>
             <img src={reply} alt='답장 아이콘' />
           </CommentButton>
-          {profile?.data.id === user.id && (
+          {userInfo && userInfo.id === user.id && (
             <>
               <CommentButton onClick={() => EditButtonClick(id)}>
                 <img src={edit} alt='수정 아이콘' />
