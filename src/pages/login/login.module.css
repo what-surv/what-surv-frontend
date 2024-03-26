@@ -48,6 +48,10 @@
   font-weight: 600;
 }
 
+.checkbox-wrap a {
+  color: #8e8e93 !important;
+}
+
 /* text-field */
 .text-filed-wrap {
   position: relative;

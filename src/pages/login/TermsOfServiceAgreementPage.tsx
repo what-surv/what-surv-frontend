@@ -70,8 +70,9 @@ const TermsOfServiceAgreementPage = ({
               />
               <span>{label}</span>
             </label>
-
-            <Link to={href}>보기</Link>
+            <p className='w-[39px] text-right'>
+              <Link to={href}>보기</Link>
+            </p>
           </div>
         );
       })}
