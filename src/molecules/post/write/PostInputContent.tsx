@@ -55,7 +55,7 @@ const PostInputContent = ({
             },
             onChange: handleChange,
           })}
-          className='flex-1 bg-inherit text-base placeholder:text-[#C1C5CC] placeholder:font-medium normal font-pretendard font-semibold outline-none leading-[26px]'
+          className='w-full flex-1 bg-inherit text-base placeholder:text-[#C1C5CC] placeholder:font-medium normal font-pretendard font-semibold outline-none leading-[26px]'
         />
       </div>
     </div>

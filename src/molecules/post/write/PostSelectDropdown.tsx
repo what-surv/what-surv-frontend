@@ -43,7 +43,7 @@ const PostSelectDropdown = ({
   };
 
   return (
-    <div className='grid grid-col-2 items-start w-[45%] gap-1.5 md:gap-2'>
+    <div className='flex flex-col w-[50%] gap-1.5 md:gap-2'>
       <Typography
         size='base'
         weight='Regular'
@@ -61,30 +61,32 @@ const PostSelectDropdown = ({
           onDropdownChange={handleDropdownChange}
           toggleDropdownValue={toggleDropdownValue}
         />
-        <div className='flex flex-wrap w-[calc(100%_-_170px)] overflow-x-auto'>
-          {!oneSelect && (
-            <div className='flex gap-1.5'>
-              {Array.isArray(value) &&
-                value.map((DropdownSelectValue: string) => (
-                  <div
-                    className='flex bg-[#FAFAFA] h-9 md:px-3 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
+        <div className='flex flex-wrap w-[calc(100%_-_89px)] overflow-x-auto'>
+          <div>
+            {!oneSelect && (
+              <div className='flex gap-1.5'>
+                {Array.isArray(value) &&
+                  value.map((DropdownSelectValue: string) => (
+                    <div
+                      className='flex bg-[#FAFAFA] h-9 md:px-3 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
       border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] whitespace-nowrap min-w-[80px]'
-                    key={DropdownSelectValue}
-                  >
-                    {options.find(
-                      (option) => option.key === DropdownSelectValue
-                    )?.label || DropdownSelectValue}
-                    <button
-                      className='flex w-full focus:outline-none'
-                      type='button'
-                      onClick={() => handleCloseClick(DropdownSelectValue)}
+                      key={DropdownSelectValue}
                     >
-                      <img src={close} alt='close' />
-                    </button>
-                  </div>
-                ))}
-            </div>
-          )}
+                      {options.find(
+                        (option) => option.key === DropdownSelectValue
+                      )?.label || DropdownSelectValue}
+                      <button
+                        className='flex w-full focus:outline-none'
+                        type='button'
+                        onClick={() => handleCloseClick(DropdownSelectValue)}
+                      >
+                        <img src={close} alt='close' />
+                      </button>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
