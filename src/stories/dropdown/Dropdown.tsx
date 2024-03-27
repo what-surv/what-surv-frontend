@@ -3,13 +3,12 @@ import React, { useRef, useState, useEffect } from 'react';
 
 import bottomArrow from '../assets/bottom_arraw.svg';
 import bottomArrowPrimary from '../assets/bottom_arraw_primary.svg';
-import close from '../assets/close-circle.svg';
 import topArrow from '../assets/top_arrow.svg';
 import Typography from '../typography/Typography';
 
 const DropdownVariants = cva(
   `
-  text-sm border font-semibold self-stretch rounded-[400px] bg-[#FAFAFA] min-w-[83px]
+  text-sm border font-semibold self-stretch whitespace-nowrap rounded-[400px] bg-[#FAFAFA] min-w-[83px]
 `,
   {
     variants: {
@@ -79,6 +78,8 @@ export const Dropdown = ({
 
     if (value && value.length !== 0) {
       setDropdownState('activate');
+    } else if (value && value.length === 0) {
+      setDropdownState('default');
     }
 
     window.addEventListener('click', handleClickOutside);
@@ -117,22 +118,9 @@ export const Dropdown = ({
     }
   };
 
-  const handleCloseClick = (option: string) => {
-    if (Array.isArray(value)) {
-      const updatedValue = value.filter((item: string) => item !== option);
-      if (updatedValue.length === 0) {
-        setDropdownState('default');
-      }
-
-      if (updatedValue !== undefined && toggleDropdownValue) {
-        toggleDropdownValue(updatedValue);
-      }
-    }
-  };
-
   return (
     <div className='relative'>
-      <div className='flex gap-1.5 min-w-[80px]'>
+      <div className='flex gap-1.5'>
         <button
           className={`${DropdownVariants({ state: dropdownState, ...props })} flex py-1 pl-3 pr-2 md:py-1.5 md:px-3 min-w-[80px]`}
           onClick={(e) => {
@@ -164,30 +152,6 @@ export const Dropdown = ({
               ))}
           </div>
         </button>
-        <div className='flex gap-1.5 flex-wrap'>
-          {!oneSelect && (
-            <div className='flex gap-1.5'>
-              {Array.isArray(value) &&
-                value.map((DropdownSelectValue: string) => (
-                  <div
-                    className='flex bg-[#FAFAFA] h-9 md:py-2 md:px-3 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
-      border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] min-w-[83px]'
-                    key={DropdownSelectValue}
-                  >
-                    {menu.find((option) => option.key === DropdownSelectValue)
-                      ?.label || DropdownSelectValue}
-                    <button
-                      className='focus:outline-none'
-                      type='button'
-                      onClick={() => handleCloseClick(DropdownSelectValue)}
-                    >
-                      <img src={close} alt='close' />
-                    </button>
-                  </div>
-                ))}
-            </div>
-          )}
-        </div>
       </div>
 
       {isOpen && (

@@ -174,7 +174,7 @@ const Setting = () => {
             </dt>
             <dd className='mt-2 px-4 py-[6px] bg-[#E5E7ED] rounded-lg'>
               <Typography
-                text={myData.data.gender}
+                text={myData.data.gender === 'male' ? '남성' : '여성'}
                 size='sm'
                 weight='Semibold'
                 className='text-[#545760]'
