@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 폰트 */
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 700;
+  font-display: swap;
+  src:
+    local('Pretendard Bold'),
+    url('./fonts/Pretendard-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 600;
+  font-display: swap;
+  src:
+    local('Pretendard SemiBold'),
+    url('./fonts/Pretendard-SemiBold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 500;
+  font-display: swap;
+  src:
+    local('Pretendard Medium'),
+    url('./fonts/Pretendard-Medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local('Pretendard Regular'),
+    url('./fonts/Pretendard-Regular.woff2') format('woff2');
+}
+
+body {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+  background-color: #f2f3f7;
+}
+
+/* input 기본 스타일 초기화 */
+input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* IE10 이상에서 input box 에 추가된 지우기 버튼 제거 */
+input::-ms-clear {
+  display: none;
+}
+
+/* input type number 에서 화살표 제거 */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.swiper {
+  height: 100%;
+}
+.swiper-slide {
+  text-align: center;
+  display: flex; /* 내용을 중앙정렬 하기위해 flex 사용 */
+  align-items: center; /* 위아래 기준 중앙정렬 */
+  justify-content: center; /* 좌우 기준 중앙정렬 */
+}
+
+.main-banner .img-box {
+  position: relative;
+  width: 100%;
+  height: 272px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.main-banner .img-box > img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 인기리서치 슬라이더 css변경 */
+.hot-research .hot-research-contain {
+  position: relative;
+  overflow: hidden;
+}
+
+.hot-research .hot-research-contain .swiper {
+  overflow: unset;
+}
+
+.commingsoon-bg {
+  background: url('../src/assets/img-it-bg.svg') center no-repeat;
+  background-size: cover;
+}
+
+@media (max-width: 390px) {
+  .main-banner .img-box {
+    height: 180px;
+  }
+}
+
+.react-datepicker {
+  transform: translate(50px, 0px);
+}
