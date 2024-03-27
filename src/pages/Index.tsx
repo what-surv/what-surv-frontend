@@ -166,14 +166,13 @@ const Index = () => {
       )}
       <Tabbar isMobileVisible size='default' />
       <div className=''>
-        <div className='max-w-[1416px] w-full m-auto px-6'>
+        <div className='max-w-[1464px] w-full m-auto px-6'>
           <div className='my-6'>
             <BannerSwiper />
           </div>
 
           {/* 인기리서치 */}
           <ResearchSwiper />
-
           {/* // 인기리서치 */}
 
           {/* IT전체 */}
