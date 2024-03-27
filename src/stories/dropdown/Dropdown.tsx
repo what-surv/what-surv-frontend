@@ -171,13 +171,13 @@ export const Dropdown = ({
                 value.map((DropdownSelectValue: string) => (
                   <div
                     className='flex bg-[#FAFAFA] h-9 md:py-2 md:px-3 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
-      border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] min-w-[83px]'
+      border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] whitespace-nowrap'
                     key={DropdownSelectValue}
                   >
                     {menu.find((option) => option.key === DropdownSelectValue)
                       ?.label || DropdownSelectValue}
                     <button
-                      className='focus:outline-none'
+                      className='focus:outline-none w-[18px]'
                       type='button'
                       onClick={() => handleCloseClick(DropdownSelectValue)}
                     >

@@ -43,7 +43,7 @@ export const Tabbar = ({ size, isMobileVisible, ...props }: TabbarProps) => {
     >
       <div className='flex max-w-[1560px] w-full m-auto items-center logo gap-7'>
         <Link
-          className='relative py-2 px-4 w-12 md:w-16 flex-col items-stretch flex gap-2.5'
+          className='relative py-2 w-12 md:w-16 flex-col items-stretch flex gap-2.5'
           to='/'
         >
           <Typography
@@ -59,7 +59,7 @@ export const Tabbar = ({ size, isMobileVisible, ...props }: TabbarProps) => {
         <div>
           <Link
             to='/lite'
-            className='relative py-2 w-12 md:w-16 px-4 flex-col items-stretch flex gap-2.5'
+            className='relative py-2 w-12 md:w-16 flex-col items-stretch flex gap-2.5'
           >
             <Typography
               text='Lite'

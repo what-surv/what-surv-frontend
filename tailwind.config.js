@@ -15,6 +15,8 @@ module.exports = {
       fold: '280px',
       // => @media (min-width: 390px)
       iphone: '390px',
+      // => 모바일
+      mb: '490px',
       // => @media (min-width: 640px)
       sm: '640px',
       // => @media (min-width: 1024px)
