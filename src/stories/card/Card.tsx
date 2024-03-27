@@ -8,7 +8,7 @@ import { Badge } from '../badge/Badge';
 import Typography from '../typography/Typography';
 
 const CardVariants = cva(
-  `relative w-full border rounded-[16px] p-5 bg-[#FFF] transition-all duration-150 ease-out hover:scale-[1.02] z-10 overflow-hidden`
+  `card relative w-full border rounded-[16px] p-5 bg-[#FFF] transition-all duration-150 ease-out hover:scale-[1.02] z-10 overflow-hidden`
 );
 
 interface CardProps {
@@ -64,15 +64,19 @@ const Card = ({
   onEditButtonsClick,
   ...props
 }: CardProps) => {
-  // 현재 시간을 가져오기
+  // 현재 시간 및 마감일과 오늘 날짜 비교를 위한 Date 객체 생성
   const currentTime: Date = new Date();
-
-  // 게시글이 생성된 날짜를 Date 객체로 변환
+  currentTime.setHours(0, 0, 0, 0); // 현재 날짜의 시간을 00:00:00으로 설정
   const postCreatedAt: Date = new Date(createdAt);
+  const postEndDate: Date = enddate ? new Date(enddate) : new Date();
+  postEndDate.setHours(23, 59, 59, 999); // 마감일의 시간을 23:59:59으로 설정
 
   // 게시글이 생성된 후 48시간 이내인지 확인
   const isPostNew: boolean =
     currentTime.getTime() - postCreatedAt.getTime() < 48 * 60 * 60 * 1000;
+
+  // 마감일이 오늘 날짜보다 같거나 늦은 경우 타입을 'closed'로 설정
+  const currentType = postEndDate < currentTime && 'closed';
   return (
     <div
       onClick={onClick}
@@ -205,16 +209,18 @@ const Card = ({
               )}
             </div>
           )}
-          {type === 'closed' && (
-            <div className='absolute flex top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] z-100 gap-6'>
-              <Typography
-                size='xl2'
-                weight='Bold'
-                text='마감'
-                className='text-[#808490] text-[64px]'
-              />
-            </div>
-          )}
+        </div>
+      )}
+      {currentType === 'closed' && (
+        <div className='absolute flex w-[100%] h-[100%]  left-0 top-0 bg-[#000000] opacity-40'>
+          <div className='absolute flex top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] z-100 gap-6'>
+            <Typography
+              size='xl2'
+              weight='Bold'
+              text='마감'
+              className='text-[#808490] text-[64px]'
+            />
+          </div>
         </div>
       )}
     </div>

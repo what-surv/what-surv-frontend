@@ -153,7 +153,6 @@ export const Dropdown = ({
           </div>
         </button>
       </div>
-
       {isOpen && (
         <div
           ref={dropdownEl}
