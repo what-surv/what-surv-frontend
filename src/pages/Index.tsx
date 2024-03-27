@@ -118,7 +118,6 @@ const Index = () => {
 
       // 상태를 'active' 또는 'default'로 설정
       const state = isActive ? 'activate' : 'default';
-
       // 선택된 값이 있는 경우에는 defaultValue 대신 선택된 값을 전달
       let defaultValue;
       if (isActive) {

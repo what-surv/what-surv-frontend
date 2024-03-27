@@ -9,7 +9,7 @@ export const axiosBaseUrl: AxiosInstance = axios.create({
 const refreshToken = async () => {
   // This endpoint should refresh your auth token using a refresh token stored in an HttpOnly cookie
   try {
-    await axiosBaseUrl.get('/auth/refresh');
+    await axiosBaseUrl.post('/auth/refresh');
     return true;
   } catch (error) {
     console.error('Error refreshing token', error);

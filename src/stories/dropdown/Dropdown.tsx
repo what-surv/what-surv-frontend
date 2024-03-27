@@ -64,8 +64,6 @@ export const Dropdown = ({
   const [dropdownState, setDropdownState] = useState<'activate' | 'default'>(
     state
   );
-
-  console.log(state);
   const dropdownEl = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -88,6 +86,10 @@ export const Dropdown = ({
       window.removeEventListener('click', handleClickOutside);
     };
   }, [isOpen, value]);
+
+  useEffect(() => {
+    setDropdownState(state);
+  }, [state]);
 
   const handleOptionClick = (option: arrOptionProps) => {
     setIsOpen(false);
