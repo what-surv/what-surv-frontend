@@ -12,7 +12,7 @@ interface ButtonInfo {
 }
 
 const buttonValues: ButtonInfo[] = [
-  { label: '내 모집글', url: 'users/me/posts', key: 'myposts' },
+  { label: '내 모집 글', url: 'users/me/posts', key: 'myposts' },
 ];
 
 const MyWritePostPage = () => {
@@ -25,7 +25,7 @@ const MyWritePostPage = () => {
         <Tabbar />
       </div>
       <div className=' pt-4 md:pt-14 mx-auto w-[90%] md:w-[85%]'>
-        <div className='w-[90%]'>
+        <div className='w-[95%]'>
           <PostListSelect
             buttonValues={buttonValues}
             isEdit={isEdit}

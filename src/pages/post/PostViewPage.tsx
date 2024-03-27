@@ -61,7 +61,7 @@ const PostViewPage = () => {
     <div className='w-full mx-auto pb-[150px]'>
       {/* header 영역 */}
       <div className='w-full'>
-        <Appbar isArrow onArrowClick={isArrowClick} isSearch isLogo isAccount />
+        <Appbar isArrow onArrowClick={isArrowClick} isLogo isAccount />
         <Tabbar />
       </div>
       <div className='flex flex-col items-end gap-8 max-w-[1034px] w-[90%] mx-auto'>

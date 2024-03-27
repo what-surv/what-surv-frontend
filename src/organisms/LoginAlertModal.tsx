@@ -25,7 +25,7 @@ const LoginAlertModal = ({
             <div className='flex flex-col gap-6'>
               <p>
                 <Typography
-                  size='xl'
+                  size='lg'
                   text='로그인 후 이용할 수 있는 기능이에요.'
                   weight='Bold'
                 />
@@ -40,7 +40,7 @@ const LoginAlertModal = ({
                 />
               </p>
             </div>
-            <div className='LoginButton self-stretch justify-center items-center gap-2 flex mt-4'>
+            <div className='flex items-center self-stretch justify-center gap-2 mt-4 LoginButton'>
               {handleClose !== undefined && (
                 <button
                   type='button'

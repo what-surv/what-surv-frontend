@@ -59,21 +59,23 @@ const CommentWithButton = ({
     <div className='flex pl-[30px] mb-5 flex-col gap-2.5 items-start justify-end self-stretch'>
       <Comment content={content} />
       <div className='flex comment-button-array'>
-        <div className='flex gap-2.5'>
-          <CommentButton onClick={() => ReplyButtonClick(id)}>
-            <img src={reply} alt='답장 아이콘' />
-          </CommentButton>
-          {userInfo && userInfo.id === user.id && (
-            <>
-              <CommentButton onClick={() => EditButtonClick(id)}>
-                <img src={edit} alt='수정 아이콘' />
-              </CommentButton>
-              <CommentButton onClick={() => DeleteButtonClick(id)}>
-                <img src={deleteIcon} alt='삭제 아이콘' />
-              </CommentButton>
-            </>
-          )}
-        </div>
+        {content && content !== 'This comment has been removed' && (
+          <div className='flex gap-2.5'>
+            <CommentButton onClick={() => ReplyButtonClick(id)}>
+              <img src={reply} alt='답장 아이콘' />
+            </CommentButton>
+            {userInfo && userInfo.id === user.id && (
+              <>
+                <CommentButton onClick={() => EditButtonClick(id)}>
+                  <img src={edit} alt='수정 아이콘' />
+                </CommentButton>
+                <CommentButton onClick={() => DeleteButtonClick(id)}>
+                  <img src={deleteIcon} alt='삭제 아이콘' />
+                </CommentButton>
+              </>
+            )}
+          </div>
+        )}
       </div>
       {isEditOpen && commentId === id && (
         <EditWithButton

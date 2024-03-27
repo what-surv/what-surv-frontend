@@ -140,7 +140,7 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
       {myWritePosts?.pages[0].data.posts.length === 0 ? (
         <Nodata />
       ) : (
-        <div className='flex flex-wrap gap-4'>
+        <div className='flex flex-wrap'>
           <InfiniteScroll
             pageStart={1}
             hasMore={!isFetching && hasNextPage}
@@ -148,7 +148,7 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
           >
             {myWritePosts?.pages.map((page, pageIndex) => (
               // eslint-disable-next-line react/no-array-index-key
-              <div key={pageIndex}>
+              <div key={pageIndex} className='flex flex-col gap-3'>
                 {page.data.posts.map((myWritePost: GetMainData) => (
                   <Card
                     key={myWritePost.id}
@@ -161,7 +161,7 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
                       queryClient.invalidateQueries({
                         queryKey: ['getPost', myWritePost.id],
                       });
-                      navigate(`view/${myWritePost.id}`);
+                      navigate(`/view/${myWritePost.id}`);
                     }}
                     type={isEdit ? 'edit' : 'default'}
                     onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {

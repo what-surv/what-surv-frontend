@@ -15,12 +15,12 @@ interface TextareaInputs {
   comment: string;
 }
 
-interface CommentWithButtonProps {
+interface WriteCommentProps {
   placeholder?: string;
   onClick?: () => void;
 }
 
-const WriteComment = ({ placeholder }: CommentWithButtonProps) => {
+const WriteComment = ({ placeholder }: WriteCommentProps) => {
   const { num } = useParams() as { num: string };
   const { register, handleSubmit, reset } = useForm<TextareaInputs>();
   const queryClient = useQueryClient();

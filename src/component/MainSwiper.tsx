@@ -18,13 +18,13 @@ import mainBannerTb3 from '../assets/img-main-banner-3-tb.svg';
 import prevBtn from '../stories/assets/ic_arrow_left.svg';
 import nextBtn from '../stories/assets/ic_arrow_right.svg';
 import Card from '../stories/card/Card';
+import CardSkeleton from '../stories/cardSkeleton/CardSkeleton';
 import { PageIndicator } from '../stories/indicator/page indicator/PageIndicator';
 import Typography from '../stories/typography/Typography';
 import { formatDateString } from '../utils/dateUtils';
 
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import CardSkeleton from '../stories/cardSkeleton/CardSkeleton';
 
 export const BannerSwiper = () => {
   const [totalSlides, setTotalSlides] = useState(0);

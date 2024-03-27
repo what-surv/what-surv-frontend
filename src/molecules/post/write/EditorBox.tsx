@@ -19,12 +19,11 @@ const EditorBox = () => {
     if (editorRef.current && content) {
       editorRef.current.getInstance().setMarkdown(content);
     }
-  }, []);
+  }, [editorRef.current]);
 
   if (!content) {
     return null;
   }
-
   return (
     <div className='w-full'>
       <Editor

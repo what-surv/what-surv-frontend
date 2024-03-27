@@ -123,7 +123,7 @@ const LikePostList = () => {
                       queryClient.invalidateQueries({
                         queryKey: ['getPost', likePost.id],
                       });
-                      navigate(`view/${likePost.id}`);
+                      navigate(`/view/${likePost.id}`);
                     }}
                     type='default'
                     onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
