@@ -8,7 +8,7 @@ import Typography from '../typography/Typography';
 
 const DropdownVariants = cva(
   `
-  text-sm border font-semibold self-stretch whitespace-nowrap rounded-[400px] bg-[#FAFAFA] min-w-[83px]
+  border font-semibold rounded-[400px] bg-[#FAFAFA]
 `,
   {
     variants: {
@@ -120,43 +120,41 @@ export const Dropdown = ({
 
   return (
     <div className='relative'>
-      <div className='flex gap-1.5'>
-        <button
-          className={`${DropdownVariants({ state: dropdownState, ...props })} flex py-1 pl-3 pr-2 md:py-1.5 md:px-3 min-w-[80px]`}
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsOpen(!isOpen);
-          }}
-          type='button'
-        >
-          <div className='flex items-center gap-2'>
-            <Typography
-              size='sm'
-              text={
-                oneSelect && value
-                  ? menu.find((option) => option.key === value)?.label || value
-                  : defaultValue
-              }
-              weight='Semibold'
-            />
-            {isArrow && dropdownState === 'activate' ? (
-              <img src={bottomArrowPrimary} alt='arrow' />
+      <button
+        className={`${DropdownVariants({ state: dropdownState, ...props })} flex whitespace-nowrap py-1.5 px-3`}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsOpen(!isOpen);
+        }}
+        type='button'
+      >
+        <div className='flex items-center gap-1 md:gap-2'>
+          <Typography
+            size='sm'
+            text={
+              oneSelect && value
+                ? menu.find((option) => option.key === value)?.label || value
+                : defaultValue
+            }
+            weight='Semibold'
+          />
+          {isArrow && dropdownState === 'activate' ? (
+            <img src={bottomArrowPrimary} alt='arrow' className='' />
+          ) : (
+            ''
+          )}
+          {(!isArrow || dropdownState !== 'activate') &&
+            (isOpen ? (
+              <img src={topArrow} alt='arrow' />
             ) : (
-              ''
-            )}
-            {(!isArrow || dropdownState !== 'activate') &&
-              (isOpen ? (
-                <img src={topArrow} alt='arrow' className='' />
-              ) : (
-                <img src={bottomArrow} alt='arrow' />
-              ))}
-          </div>
-        </button>
-      </div>
+              <img src={bottomArrow} alt='arrow' />
+            ))}
+        </div>
+      </button>
       {isOpen && (
         <div
           ref={dropdownEl}
-          className='absolute max-w-[105px] z-50 bg-[#FAFAFA] mt-1.5 border rounded-2xl border-[#818490] w-full p-0 overflow-hidden'
+          className='absolute w-full max-w-[105px] z-50 bg-[#FAFAFA] mt-1.5 border rounded-2xl border-[#818490] p-0'
         >
           {menu.map((arrOptions: arrOptionProps) => (
             <button

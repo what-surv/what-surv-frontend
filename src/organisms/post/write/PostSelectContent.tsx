@@ -35,7 +35,7 @@ const PostSelectContent = () => {
   const { register } = useFormContext<FormInputs>();
 
   return (
-    <div className='flex flex-wrap items-start content-start self-stretch gap-y-3 md:gap-y-4 px-4 py-6 md:p-6 rounded-lg bg-[#E5E7ED]'>
+    <div className='flex fold:flex-col iphone:flex-row iphone:flex-wrap items-start content-start self-stretch gap-y-3 md:gap-y-4 px-4 py-6 md:p-6 rounded-lg bg-[#E5E7ED]'>
       <PostEndDate title='마감일' />
       <PostSelectDropdown
         title='성별'
