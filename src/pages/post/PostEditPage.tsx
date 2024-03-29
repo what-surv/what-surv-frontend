@@ -70,7 +70,7 @@ const PostEditPage = () => {
     });
 
     return unlistenHistoryEvent;
-  }, [isConfirmModalOpen]);
+  }, []);
 
   useEffect(() => {
     if (postDetails) {

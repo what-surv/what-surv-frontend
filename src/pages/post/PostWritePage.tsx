@@ -102,7 +102,7 @@ const PostWritePage = () => {
     });
 
     return unlistenHistoryEvent;
-  }, [isConfirmModalOpen]);
+  }, []);
 
   // 버튼 disable 여부 확인용 useEffect
   useEffect(() => {
