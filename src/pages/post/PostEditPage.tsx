@@ -7,6 +7,7 @@ import check from '../../assets/check.svg';
 import leftArrow from '../../assets/left_arrow.svg';
 import Button from '../../atoms/Button';
 import Input from '../../atoms/Input';
+import { history } from '../../history/History';
 import EditorBox from '../../molecules/post/write/EditorBox';
 import ConfirmationModal from '../../organisms/ConfirmationModal';
 import PostSelectContent from '../../organisms/post/write/PostSelectContent';
@@ -49,9 +50,32 @@ const PostEditPage = () => {
   });
 
   useEffect(() => {
+    const listenBackEvent = () => {
+      setIsConfirmModalOpen(true);
+      setTitle('');
+      setLink('');
+      setTime('');
+      setResearchTypes([]);
+      setEnddate(new Date());
+      setGender('');
+      setAges([]);
+      setContent('   ');
+      setprocedureArray('');
+    };
+
+    const unlistenHistoryEvent = history.listen(({ action }) => {
+      if (action === 'POP') {
+        listenBackEvent();
+      }
+    });
+
+    return unlistenHistoryEvent;
+  }, [isConfirmModalOpen]);
+
+  useEffect(() => {
     if (postDetails) {
       setTitle(postDetails.title);
-      setResearchType(postDetails.researchType);
+      setResearchTypes(postDetails.researchType);
       setAges(postDetails.ages);
       setGender(postDetails.gender);
       setTime(postDetails.duration);
@@ -98,12 +122,12 @@ const PostEditPage = () => {
     enddate,
     setTitle,
     setEnddate,
-    setResearchType,
     setTime,
     setGender,
     setLink,
     setAges,
     setContent,
+    setResearchTypes,
     setprocedureArray,
   } = WritePageStore();
 
@@ -161,6 +185,12 @@ const PostEditPage = () => {
     setTitle('');
     setLink('');
     setTime('');
+    setResearchTypes([]);
+    setEnddate(new Date());
+    setGender('');
+    setAges([]);
+    setContent('   ');
+    setprocedureArray('');
     setIsConfirmModalOpen(false);
     setIsSuccessModalOpen(false);
 

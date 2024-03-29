@@ -6,7 +6,9 @@ interface LikePostId {
   postId: number;
 }
 
-export const LikePost = async (postId: number): Promise<LikePostId> => {
+export const LikePost = async (
+  postId: number | string
+): Promise<LikePostId> => {
   try {
     const likePost = await axiosBaseUrl.post(`/posts/${postId}/like`, {});
 
@@ -29,9 +31,12 @@ export const LikeGet = async (postId: number) => {
   }
 };
 
-export const LikeDelete = async (postId: number): Promise<LikePostId> => {
+export const LikeDelete = async (
+  postId: number | string
+): Promise<LikePostId> => {
   try {
     const likeDelete = await axiosBaseUrl.delete(`/posts/${postId}/like`);
+    console.log(likeDelete);
 
     return likeDelete.data;
   } catch (error) {

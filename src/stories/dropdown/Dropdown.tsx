@@ -8,7 +8,7 @@ import Typography from '../typography/Typography';
 
 const DropdownVariants = cva(
   `
-  border font-semibold rounded-[400px] bg-[#FAFAFA]
+  border font-semibold rounded-[400px] bg-[#FAFAFA] flex whitespace-nowrap py-1.5 px-3 min-w-[78px]
 `,
   {
     variants: {
@@ -121,7 +121,7 @@ export const Dropdown = ({
   return (
     <div className='relative'>
       <button
-        className={`${DropdownVariants({ state: dropdownState, ...props })} flex whitespace-nowrap py-1.5 px-3`}
+        className={`${DropdownVariants({ state: dropdownState, ...props })} `}
         onClick={(e) => {
           e.stopPropagation();
           setIsOpen(!isOpen);

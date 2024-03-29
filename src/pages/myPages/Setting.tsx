@@ -58,10 +58,8 @@ const Setting = () => {
   const interest = watch('interest');
 
   useEffect(() => {
-    if (myData?.data.areaOfInterest !== interest) {
-      if (nicknameInputState === 'success' && interest) {
-        setDisableButton(false);
-      }
+    if (nicknameInputState === 'success' && interest) {
+      setDisableButton(false);
     } else {
       setDisableButton(true);
     }

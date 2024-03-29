@@ -6,6 +6,7 @@ import check from '../../assets/check.svg';
 import leftArrow from '../../assets/left_arrow.svg';
 import Button from '../../atoms/Button';
 import Input from '../../atoms/Input';
+import { history } from '../../history/History';
 import EditorBox from '../../molecules/post/write/EditorBox';
 import ConfirmationModal from '../../organisms/ConfirmationModal';
 import PostSelectContent from '../../organisms/post/write/PostSelectContent';
@@ -73,25 +74,35 @@ const PostWritePage = () => {
     setContent,
     setLink,
     setTime,
+    setResearchTypes,
+    setEnddate,
+    setGender,
+    setAges,
+    setprocedureArray,
   } = WritePageStore();
 
-  // useEffect(() => {
-  //   const handleBackButton = (event: PopStateEvent) => {
-  //     // Prevent going back
-  //     history.pushState(null, document.title, window.location.href);
+  useEffect(() => {
+    const listenBackEvent = () => {
+      setIsConfirmModalOpen(true);
+      setTitle('');
+      setLink('');
+      setTime('');
+      setResearchTypes([]);
+      setEnddate(new Date());
+      setGender('');
+      setAges([]);
+      setContent('   ');
+      setprocedureArray('');
+    };
 
-  //     // Trigger modal
-  //     setIsConfirmModalOpen(true);
-  //     console.log('Back button clicked');
-  //     console.log('Event object:', event);
-  //   };
+    const unlistenHistoryEvent = history.listen(({ action }) => {
+      if (action === 'POP') {
+        listenBackEvent();
+      }
+    });
 
-  //   window.addEventListener('popstate', handleBackButton);
-
-  //   return () => {
-  //     window.removeEventListener('popstate', handleBackButton);
-  //   };
-  // }, []);
+    return unlistenHistoryEvent;
+  }, [isConfirmModalOpen]);
 
   // 버튼 disable 여부 확인용 useEffect
   useEffect(() => {
@@ -164,7 +175,14 @@ const PostWritePage = () => {
     setTitle('');
     setLink('');
     setTime('');
-    setContent('');
+    setResearchTypes([]);
+    setEnddate(new Date());
+    setGender('');
+    setAges([]);
+    setContent('   ');
+    setprocedureArray('');
+    setIsConfirmModalOpen(false);
+    setIsSuccessModalOpen(false);
     setIsConfirmModalOpen(false);
     setIsSuccessModalOpen(false);
     navigate('/');
