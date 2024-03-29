@@ -19,7 +19,7 @@ import FloatingButton from '../stories/floatingButton/FloatingButton';
 import { Tabbar } from '../stories/tabbar/Tabbar';
 import Typography from '../stories/typography/Typography';
 
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const dropdownOptions = [
   { defaultValue: '정렬', key: 'sort', arr: mainSortArr },
@@ -38,15 +38,21 @@ const Index = () => {
 
   const { currentPage, selects, setCurrentPage, setSelects } = MainPageStore(); // store 불러옴
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     // 컴포넌트가 마운트될 때 사용자 체크를 수행
-    const fetchUserStatus = async () => {
-      const userStatus = await userCheckApi();
-      setIsLoggedIn(userStatus); // 비동기 호출의 결과로 로그인 상태 업데이트
-    };
+    if (location.state?.quit) {
+      setIsLoggedIn(false);
+    } else {
+      const fetchUserStatus = async () => {
+        const userStatus = await userCheckApi();
+        console.log('ussssssssssssssser', userStatus);
+        setIsLoggedIn(userStatus); // 비동기 호출의 결과로 로그인 상태 업데이트
+      };
 
-    fetchUserStatus();
+      fetchUserStatus();
+    }
 
     document.body.style.backgroundColor = '#F9F9FB';
 

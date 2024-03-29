@@ -136,7 +136,7 @@ const Withdrawal = () => {
 
     postQuit(selectedLabels);
 
-    navigate('/');
+    navigate('/', { state: { quit: true } });
   };
   return (
     <div>
@@ -249,7 +249,7 @@ const Withdrawal = () => {
                   size='sm'
                   weight='Regular'
                   text='중복 선택 가능'
-                  className='text-[#3283FF]'
+                  className='text-[#3283FF] text-xs'
                 />
               </p>
               <div className='flex flex-col gap-[10px]'>
