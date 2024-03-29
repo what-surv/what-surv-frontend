@@ -185,7 +185,7 @@ const PostWritePage = () => {
     setIsSuccessModalOpen(false);
     setIsConfirmModalOpen(false);
     setIsSuccessModalOpen(false);
-    navigate('/');
+    navigate(-1);
   };
 
   const titleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
