@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { GetMainData, getMainList } from '../api/IndexApi';
 import { LikeDelete, LikePost } from '../api/LikeApi';
 import Nodata from '../pages/misc/Nodata';
+import { Selects } from '../store/store';
 import Card from '../stories/card/Card';
 import CardSkeleton from '../stories/cardSkeleton/CardSkeleton';
 import { Pagination } from '../stories/indicator/pagination/Pagination';
@@ -14,11 +15,27 @@ import { useNavigate } from 'react-router-dom';
 
 interface CardListProps {
   currentPage: number;
-  selectedValues: Record<string, string>;
+  selectedValues: Selects;
   checkDeviceReturnLimit: () => number;
   handlePageChange: (page: number) => void;
   setShowLoginAlert: (value: boolean) => void;
 }
+
+interface DropDownInterFace {
+  gender?: string;
+  research_type?: string;
+  sort?: string;
+  age?: string;
+  procedure?: string;
+}
+
+const filterSelectedValues = (selectedValues: DropDownInterFace) => {
+  const filteredEntries = Object.entries(selectedValues).filter(
+    ([, value]) => value !== 'All'
+  );
+  const filteredValues = Object.fromEntries(filteredEntries);
+  return filteredValues;
+};
 
 const CardList = ({
   currentPage,
@@ -31,13 +48,15 @@ const CardList = ({
   const queryClient = useQueryClient(); // queryClient 인스턴스에 접근
   const [showLoader, setShowLoader] = useState(true);
 
+  const filteredSelectedValues = filterSelectedValues(selectedValues);
+
   const { data, refetch, isLoading } = useQuery<GetMainData>({
     queryKey: ['postList', currentPage, selectedValues],
     queryFn: () =>
       getMainList({
         page: currentPage,
         limit: checkDeviceReturnLimit(),
-        ...selectedValues,
+        ...filteredSelectedValues,
       }),
   });
 
