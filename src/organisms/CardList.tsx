@@ -158,10 +158,10 @@ const CardList = ({
             );
           })}
         </div>
-        {data && (
+        {data?.data.length !== 0 && (
           <Pagination
             pageClick={handlePageChange}
-            totalPage={data.totalPages}
+            totalPage={data!.totalPages}
             currentPage={currentPage}
           />
         )}

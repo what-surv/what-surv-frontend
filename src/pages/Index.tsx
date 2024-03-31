@@ -102,7 +102,6 @@ const Index = () => {
       queryParams.delete('page');
     }
 
-    console.log(queryParams.toString());
     // 변경된 쿼리 파라미터로 navigate 함수 호출
     navigate(`?${queryParams.toString()}`, { replace: true });
   }, [selects, navigate, currentPage]);
