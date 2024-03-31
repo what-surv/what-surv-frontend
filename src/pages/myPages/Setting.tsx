@@ -58,12 +58,19 @@ const Setting = () => {
   const interest = watch('interest');
 
   useEffect(() => {
-    if (nicknameInputState === 'success' && interest) {
+    if (nickname && nickname === myData?.data.nickname) {
       setDisableButton(false);
-    } else {
+    } else if (
+      nickname &&
+      nickname !== myData?.data.nickname &&
+      nicknameInputState === 'success'
+    ) {
       setDisableButton(true);
     }
-  }, [nicknameInputState, interest, myData]);
+    if (myData?.data.areaOfInterest !== interest) {
+      setDisableButton(false);
+    }
+  }, [nicknameInputState, interest, myData, nickname]);
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.slice(0, 10);
@@ -113,6 +120,13 @@ const Setting = () => {
     return undefined;
   };
 
+  const birthDate = myData?.data?.birthDate
+    ? new Date(myData.data.birthDate)
+    : null;
+  const formattedBirthDate = birthDate
+    ? birthDate.toISOString().split('T')[0]
+    : '';
+
   if (isLoading || !myData) {
     return null;
   }
@@ -159,7 +173,7 @@ const Setting = () => {
             </dt>
             <dd className='mt-2 px-4 py-[6px] bg-[#E5E7ED] rounded-lg'>
               <Typography
-                text={myData.data.birthDate}
+                text={formattedBirthDate || ''}
                 size='sm'
                 weight='Semibold'
                 className='text-[#545760]'
