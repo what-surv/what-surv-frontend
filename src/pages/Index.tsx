@@ -41,14 +41,12 @@ const Index = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 사용자 체크를 수행
     if (location.state?.quit) {
       setIsLoggedIn(false);
     } else {
       const fetchUserStatus = async () => {
         const userStatus = await userCheckApi();
-        console.log('ussssssssssssssser', userStatus);
-        setIsLoggedIn(userStatus); // 비동기 호출의 결과로 로그인 상태 업데이트
+        setIsLoggedIn(userStatus);
       };
 
       fetchUserStatus();
@@ -56,16 +54,21 @@ const Index = () => {
 
     document.body.style.backgroundColor = '#F9F9FB';
 
-    // URL에서 쿼리 스트링을 파싱
-    const queryParams = new URLSearchParams(window.location.search);
+    const queryParams = new URLSearchParams(location.search);
     const initialSelectedValues: Record<string, string> = {};
 
     queryParams.forEach((value, key) => {
       initialSelectedValues[key] = value;
     });
 
-    // URL에서 쿼리 스트링을 파싱하여 필터 저장되는 State에 초기 상태를 설정
     setSelects(initialSelectedValues);
+    // `page` 쿼리 파라미터를 확인하여 `currentPage` 상태를 설정
+    const pageFromURL = queryParams.get('page');
+    const page = pageFromURL ? parseInt(pageFromURL, 10) : 1;
+
+    if (page !== 1) {
+      setCurrentPage(page);
+    }
 
     return () => {
       document.body.style.backgroundColor = '#F2F3F7';
@@ -81,16 +84,28 @@ const Index = () => {
   };
 
   useEffect(() => {
-    const queryString = Object.keys(selects)
-      .filter((key) => selects[key] !== undefined) // selects[key]가 undefined가 아닌 경우만 처리
-      .map(
-        (key) =>
-          `${encodeURIComponent(key)}=${encodeURIComponent(selects[key]!)}`
-      ) // '!'를 사용하여 selects[key]가 undefined가 아님을 명시
-      .join('&');
+    const queryParams = new URLSearchParams(window.location.search);
 
-    navigate(`?${queryString}`);
-  }, [selects, navigate]);
+    // selects 상태를 기반으로 쿼리 파라미터 업데이트
+    Object.keys(selects).forEach((key) => {
+      if (selects[key]) {
+        queryParams.set(key, selects[key]!);
+      } else {
+        queryParams.delete(key);
+      }
+    });
+
+    // 현재 페이지를 쿼리 스트링에 추가하거나 업데이트
+    if (currentPage >= 1) {
+      queryParams.set('page', currentPage.toString());
+    } else {
+      queryParams.delete('page');
+    }
+
+    console.log(queryParams.toString());
+    // 변경된 쿼리 파라미터로 navigate 함수 호출
+    navigate(`?${queryParams.toString()}`, { replace: true });
+  }, [selects, navigate, currentPage]);
 
   const soltingHandler = (key: string, selectedValue: string) => {
     handlePageChange(1); // 소팅할 때 현재 페이지 1로 변경
