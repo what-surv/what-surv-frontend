@@ -40,12 +40,11 @@ const PostViewPage = () => {
     navigate(-1);
   };
 
-  // refetch
-  const { data: postDetails } = useQuery<GetData>({
+  const { data: postDetails, refetch } = useQuery<GetData>({
     queryKey: ['getPost', num],
     queryFn: () => getPost(num),
-    retry: 0,
   });
+
   const { data: comments } = useQuery<commentTypes[]>({
     queryKey: ['getComment', num],
     queryFn: () => getComment(num),
@@ -57,6 +56,7 @@ const PostViewPage = () => {
     queryClient.invalidateQueries({
       queryKey: ['postList'],
     });
+    refetch();
   }, []);
 
   // const likedClick = async (

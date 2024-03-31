@@ -59,18 +59,23 @@ const Setting = () => {
 
   useEffect(() => {
     if (nickname && nickname === myData?.data.nickname) {
-      setDisableButton(false);
+      setDisableButton(true);
     } else if (
       nickname &&
-      nickname !== myData?.data.nickname &&
+      // nickname !== myData?.data.nickname &&
       nicknameInputState === 'success'
     ) {
-      setDisableButton(true);
-    }
-    if (myData?.data.areaOfInterest !== interest) {
       setDisableButton(false);
     }
-  }, [nicknameInputState, interest, myData, nickname]);
+  }, [nicknameInputState, myData, nickname]);
+
+  useEffect(() => {
+    if (myData?.data.areaOfInterest !== interest) {
+      setDisableButton(false);
+    } else if (myData?.data.areaOfInterest === interest) {
+      setDisableButton(true);
+    }
+  }, [interest, myData]);
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.slice(0, 10);
