@@ -127,8 +127,8 @@ const CardList = ({
                 cardStyle='default'
                 createdAt={createdAt}
                 enddate={formatDateString(endDate)}
-                onClick={() => {
-                  queryClient.invalidateQueries({
+                onClick={async () => {
+                  await queryClient.refetchQueries({
                     queryKey: ['getPost', postId],
                   });
                   navigate(`view/${postId}`);
@@ -136,10 +136,10 @@ const CardList = ({
                 type='default'
                 onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
                   if (e.key === 'Enter' || e.key === 'Space') {
-                    queryClient.invalidateQueries({
+                    queryClient.refetchQueries({
                       queryKey: ['getPost', postId],
                     });
-                    navigate(`/view/${postId}`);
+                    navigate(`view/${postId}`);
                   }
                 }}
                 viewCount={Number(viewCount)}

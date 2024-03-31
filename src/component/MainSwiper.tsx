@@ -6,13 +6,13 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 
 import { GetMainData, getPopularList } from '../api/IndexApi';
-import mainBannerMb1 from '../assets/img-main-banner-1-mb.svg';
+import mainBannerMb1 from '../assets/img-main-banner-1-mb.png';
 import mainBannerPc1 from '../assets/img-main-banner-1-pc.svg';
 import mainBannerTb1 from '../assets/img-main-banner-1-tb.svg';
-import mainBannerMb2 from '../assets/img-main-banner-2-mb.svg';
+import mainBannerMb2 from '../assets/img-main-banner-2-mb.png';
 import mainBannerPc2 from '../assets/img-main-banner-2-pc.svg';
 import mainBannerTb2 from '../assets/img-main-banner-2-tb.svg';
-import mainBannerMb3 from '../assets/img-main-banner-3-mb.svg';
+import mainBannerMb3 from '../assets/img-main-banner-3-mb.png';
 import mainBannerPc3 from '../assets/img-main-banner-3-pc.svg';
 import mainBannerTb3 from '../assets/img-main-banner-3-tb.svg';
 import prevBtn from '../stories/assets/ic_arrow_left.svg';
@@ -223,9 +223,8 @@ export const ResearchSwiper = () => {
                   ))
                 : // 실제 데이터를 이용한 컨텐츠 렌더링
                   data.data.map((params: GetMainData) => (
-                    <SwiperSlide>
+                    <SwiperSlide key={params.id}>
                       <Card
-                        key={params.id}
                         id={params.id}
                         type='default'
                         enddate={formatDateString(params.endDate)}
