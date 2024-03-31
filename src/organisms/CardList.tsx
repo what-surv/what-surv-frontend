@@ -107,8 +107,8 @@ const CardList = ({
       {data?.data.length === 0 && <Nodata />}
       <div>
         <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
-          {data?.data.map((params: GetMainData) => {
-            const {
+          {data?.data.map(
+            ({
               postId,
               authorNickname,
               title,
@@ -117,46 +117,48 @@ const CardList = ({
               viewCount,
               commentCount,
               isLiked,
-            } = params;
-
-            return (
-              <Card
-                key={postId}
-                id={postId}
-                nickname={authorNickname}
-                cardStyle='default'
-                createdAt={createdAt}
-                enddate={formatDateString(endDate)}
-                onClick={async () => {
-                  await queryClient.refetchQueries({
-                    queryKey: ['getPost', postId],
-                  });
-                  navigate(`view/${postId}`);
-                }}
-                type='default'
-                onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                  if (e.key === 'Enter' || e.key === 'Space') {
-                    queryClient.refetchQueries({
+              researchTypes,
+            }: GetMainData) => {
+              return (
+                <Card
+                  key={postId}
+                  id={postId}
+                  nickname={authorNickname}
+                  cardStyle='default'
+                  createdAt={createdAt}
+                  enddate={formatDateString(endDate)}
+                  onClick={async () => {
+                    await queryClient.refetchQueries({
                       queryKey: ['getPost', postId],
                     });
                     navigate(`view/${postId}`);
-                  }
-                }}
-                viewCount={Number(viewCount)}
-                commentCount={commentCount}
-              >
-                <span className='absolute top-[25px] right-[21px]'>
-                  <Like
-                    onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                      likedClick(e, postId, isLiked)
+                  }}
+                  type='default'
+                  onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                    if (e.key === 'Enter' || e.key === 'Space') {
+                      queryClient.refetchQueries({
+                        queryKey: ['getPost', postId],
+                      });
+                      navigate(`view/${postId}`);
                     }
-                    isLiked={isLiked}
-                  />
-                </span>
-                {title}
-              </Card>
-            );
-          })}
+                  }}
+                  viewCount={Number(viewCount)}
+                  commentCount={commentCount}
+                  researchTypes={researchTypes}
+                >
+                  <span className='absolute top-[25px] right-[21px]'>
+                    <Like
+                      onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                        likedClick(e, postId, isLiked)
+                      }
+                      isLiked={isLiked}
+                    />
+                  </span>
+                  {title}
+                </Card>
+              );
+            }
+          )}
         </div>
         {data?.data.length !== 0 && (
           <Pagination

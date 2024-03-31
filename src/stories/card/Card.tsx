@@ -37,6 +37,9 @@ interface CardProps {
   /** 댓글수 */
   commentCount?: number;
 
+  /** 리서치타입 (배열형식) */
+  researchTypes?: [string];
+
   onClick?: () => void;
 
   onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => void;
@@ -59,6 +62,7 @@ const Card = ({
   viewCount,
   commentCount,
   type,
+  researchTypes,
   onClick,
   onKeyDown,
   onEditButtonsClick,
@@ -88,9 +92,12 @@ const Card = ({
       {cardStyle === 'default' ? (
         <div className='flex items-center justify-between w-full'>
           <div className='flex gap-3'>
-            <Badge size='default' state='main'>
-              설문조사
-            </Badge>
+            {researchTypes?.map((params) => (
+              <Badge size='default' state='main'>
+                {params}
+              </Badge>
+            ))}
+
             {isPostNew && (
               <Badge size='default' state='sub'>
                 New
@@ -101,9 +108,11 @@ const Card = ({
       ) : (
         <div className='flex items-center justify-between'>
           <div className='flex'>
-            <Badge size='default' state='main'>
-              설문조사
-            </Badge>
+            {researchTypes?.map((params) => (
+              <Badge size='default' state='main'>
+                {params}
+              </Badge>
+            ))}
           </div>
           <div>
             <Badge size='default' state='sub'>

@@ -110,6 +110,7 @@ export type GetMainData = {
   nextPage: number;
   page: number;
   totalPages: number;
+  researchTypes: [string];
   data: [];
 };
 

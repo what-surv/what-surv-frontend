@@ -160,6 +160,8 @@ export const ResearchSwiper = () => {
     return null;
   }
 
+  console.log(data);
+
   const slidePrev = () => {
     swiperRef.current.slidePrev();
   };
@@ -222,26 +224,38 @@ export const ResearchSwiper = () => {
                     </SwiperSlide>
                   ))
                 : // 실제 데이터를 이용한 컨텐츠 렌더링
-                  data.data.map((params: GetMainData) => (
-                    <SwiperSlide key={params.id}>
-                      <Card
-                        id={params.id}
-                        type='default'
-                        enddate={formatDateString(params.endDate)}
-                        onClick={() => navigate(`view/${params.id}`)}
-                        cardStyle='hot'
-                        createdAt={params.createdAt}
-                        viewCount={Number(params.viewCount)}
-                        onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                          if (e.key === 'Enter' || e.key === 'Space') {
-                            navigate(`/view/${params.id}`);
-                          }
-                        }}
-                      >
-                        {params.title}
-                      </Card>
-                    </SwiperSlide>
-                  ))}
+                  data.data.map(
+                    ({
+                      postId,
+                      title,
+                      createdAt,
+                      endDate,
+                      viewCount,
+                      researchTypes,
+                    }: GetMainData) => (
+                      <SwiperSlide key={postId}>
+                        <Card
+                          id={postId}
+                          type='default'
+                          enddate={formatDateString(endDate)}
+                          onClick={() => navigate(`view/${postId}`)}
+                          cardStyle='hot'
+                          createdAt={createdAt}
+                          viewCount={Number(viewCount)}
+                          onKeyDown={(
+                            e: React.KeyboardEvent<HTMLDivElement>
+                          ) => {
+                            if (e.key === 'Enter' || e.key === 'Space') {
+                              navigate(`/view/${postId}`);
+                            }
+                          }}
+                          researchTypes={researchTypes}
+                        >
+                          {title}
+                        </Card>
+                      </SwiperSlide>
+                    )
+                  )}
             </Swiper>
           </div>
         </div>
