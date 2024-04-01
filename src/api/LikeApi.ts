@@ -8,7 +8,10 @@ interface LikePostId {
 
 export const LikePost = async (postId: number): Promise<LikePostId> => {
   try {
-    const likePost = await axiosBaseUrl.post(`/posts/${postId}/like`, {});
+    const likePost = await axiosBaseUrl.post(
+      `/posts/${postId.toString()}/like`,
+      {}
+    );
 
     return likePost.data;
   } catch (error) {
@@ -21,7 +24,7 @@ export const LikePost = async (postId: number): Promise<LikePostId> => {
 
 export const LikeGet = async (postId: number) => {
   try {
-    const likeGet = await axiosBaseUrl.get(`/posts/${postId}/like`);
+    const likeGet = await axiosBaseUrl.get(`/posts/${postId.toString()}/like`);
     return likeGet.data;
   } catch (error) {
     alert('로그인 하셔야 합니다!');
@@ -31,7 +34,9 @@ export const LikeGet = async (postId: number) => {
 
 export const LikeDelete = async (postId: number): Promise<LikePostId> => {
   try {
-    const likeDelete = await axiosBaseUrl.delete(`/posts/${postId}/like`);
+    const likeDelete = await axiosBaseUrl.delete(
+      `/posts/${postId.toString()}/like`
+    );
 
     return likeDelete.data;
   } catch (error) {

@@ -25,7 +25,7 @@ const dropdownOptions = [
   { defaultValue: '정렬', key: 'sort', arr: mainSortArr },
   { defaultValue: '성별', key: 'gender', arr: mainGenderArr },
   { defaultValue: '나이', key: 'age', arr: mainAgeArr },
-  { defaultValue: '종류', key: 'research_type', arr: mainTypeArr },
+  { defaultValue: '종류', key: 'researchType', arr: mainTypeArr },
   { defaultValue: '진행방식', key: 'procedure', arr: mainMethodArr },
 ];
 

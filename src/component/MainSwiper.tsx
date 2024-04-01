@@ -160,8 +160,6 @@ export const ResearchSwiper = () => {
     return null;
   }
 
-  console.log(data);
-
   const slidePrev = () => {
     swiperRef.current.slidePrev();
   };
@@ -226,19 +224,19 @@ export const ResearchSwiper = () => {
                 : // 실제 데이터를 이용한 컨텐츠 렌더링
                   data.data.map(
                     ({
-                      postId,
+                      id,
                       title,
                       createdAt,
                       endDate,
                       viewCount,
                       researchTypes,
                     }: GetMainData) => (
-                      <SwiperSlide key={postId}>
+                      <SwiperSlide key={id}>
                         <Card
-                          id={postId}
+                          id={id}
                           type='default'
                           enddate={formatDateString(endDate)}
-                          onClick={() => navigate(`view/${postId}`)}
+                          onClick={() => navigate(`view/${id}`)}
                           cardStyle='hot'
                           createdAt={createdAt}
                           viewCount={Number(viewCount)}
@@ -246,7 +244,7 @@ export const ResearchSwiper = () => {
                             e: React.KeyboardEvent<HTMLDivElement>
                           ) => {
                             if (e.key === 'Enter' || e.key === 'Space') {
-                              navigate(`/view/${postId}`);
+                              navigate(`/view/${id}`);
                             }
                           }}
                           researchTypes={researchTypes}

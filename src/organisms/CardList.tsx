@@ -51,7 +51,7 @@ const CardList = ({
   const filteredSelectedValues = filterSelectedValues(selectedValues);
 
   const { data, refetch, isLoading } = useQuery<GetMainData>({
-    queryKey: ['postList', currentPage, selectedValues],
+    queryKey: ['postList'],
     queryFn: () =>
       getMainList({
         page: currentPage,
@@ -67,7 +67,7 @@ const CardList = ({
     const delay = setTimeout(() => {
       setShowLoader(false);
     }, 1300);
-
+    refetch();
     return () => clearTimeout(delay);
   }, [currentPage, selectedValues]);
 
@@ -109,7 +109,7 @@ const CardList = ({
         <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
           {data?.data.map(
             ({
-              postId,
+              id,
               authorNickname,
               title,
               createdAt,
@@ -121,25 +121,25 @@ const CardList = ({
             }: GetMainData) => {
               return (
                 <Card
-                  key={postId}
-                  id={postId}
+                  key={id}
+                  id={id}
                   nickname={authorNickname}
                   cardStyle='default'
                   createdAt={createdAt}
                   enddate={formatDateString(endDate)}
                   onClick={async () => {
                     await queryClient.refetchQueries({
-                      queryKey: ['getPost', postId],
+                      queryKey: ['getPost', id],
                     });
-                    navigate(`view/${postId}`);
+                    navigate(`view/${id}`);
                   }}
                   type='default'
                   onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
                     if (e.key === 'Enter' || e.key === 'Space') {
                       queryClient.refetchQueries({
-                        queryKey: ['getPost', postId],
+                        queryKey: ['getPost', id],
                       });
-                      navigate(`view/${postId}`);
+                      navigate(`view/${id}`);
                     }
                   }}
                   viewCount={Number(viewCount)}
@@ -149,7 +149,7 @@ const CardList = ({
                   <span className='absolute top-[25px] right-[21px]'>
                     <Like
                       onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                        likedClick(e, postId, isLiked)
+                        likedClick(e, id, isLiked)
                       }
                       isLiked={isLiked}
                     />
