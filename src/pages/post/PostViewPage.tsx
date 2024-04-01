@@ -79,7 +79,9 @@ const PostViewPage = () => {
   //   }
   // };
 
-  if (!postDetails || !comments) return null;
+  if (!postDetails && !comments) return null;
+
+  console.log(postDetails);
 
   return (
     <div className='w-full mx-auto pb-[150px]'>
