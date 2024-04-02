@@ -52,7 +52,7 @@ const translateValue = (key: string, value: string[]): string[] => {
       Male: '남성',
       Female: '여성',
     },
-    researchType: {
+    researchTypes: {
       All: '전체',
       survey: '설문조사',
       interview: '인터뷰',
@@ -90,7 +90,7 @@ const PostContentView = () => {
       />
       <PostSelectContentView
         title='리서치 종류'
-        value={translateValue('researchType', [postDetails.researchType])}
+        value={translateValue('researchTypes', postDetails.researchTypes)}
       />
       <PostSelectContentView
         title='연령'

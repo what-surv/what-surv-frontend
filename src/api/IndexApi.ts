@@ -95,7 +95,7 @@ export type GetData = {
   duration: string;
   endDate: Date;
   procedure: string;
-  researchType: string[];
+  researchTypes: string[];
   title: string;
   url: string;
   viewCount: string;
