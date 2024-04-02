@@ -64,18 +64,18 @@ const LikePostList = () => {
       await new Promise((resolve) => {
         setTimeout(resolve, 2000);
       });
+
       return axiosBaseUrl.get('users/me/likes', {
         params: { page: pageParam, limit: PAGE_SIZE },
       });
     },
     getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.data.length < PAGE_SIZE) return undefined;
-      return allPages.length;
+      if (lastPage.data.likes.length < PAGE_SIZE) return null; // 마지막 페이지 도달
+      return allPages.length + 1; // 다음 페이지
     },
+
     initialPageParam: 1,
     staleTime: 10000, // 10초
-
-    refetchOnWindowFocus: false,
   });
 
   const likedClick = async (

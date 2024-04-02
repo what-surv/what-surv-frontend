@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import PostListSelect from '../../molecules/PostListSelect';
 import MyPostsList from '../../organisms/post/mypage/MyPostsList';

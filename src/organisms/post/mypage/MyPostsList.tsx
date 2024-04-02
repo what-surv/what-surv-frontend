@@ -59,13 +59,11 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
       });
     },
     getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.data.length < PAGE_SIZE) return undefined;
-      return allPages.length;
+      if (lastPage.data.likes.length < PAGE_SIZE) return null;
+      return allPages.length + 1; // 다음 페이지
     },
     initialPageParam: 1,
     staleTime: 10000, // 10초
-
-    refetchOnWindowFocus: false,
   });
 
   const likedClick = async (
