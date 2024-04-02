@@ -39,7 +39,7 @@ interface CardProps {
   commentCount?: number;
 
   /** 리서치타입 (배열형식) */
-  researchTypes?: [string];
+  researchTypes?: string[];
 
   onClick?: () => void;
 
