@@ -20,8 +20,6 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Viewer } from '@toast-ui/react-editor';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import '../../toastUI.css';
-
 interface commentTypes {
   id: string;
   content: string;
@@ -83,7 +81,7 @@ const PostViewPage = () => {
   // };
 
   if (!postDetails) return null;
-  console.log(postDetails);
+
   return (
     <div className='w-full mx-auto pb-[150px]'>
       {/* header 영역 */}

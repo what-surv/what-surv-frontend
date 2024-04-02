@@ -120,6 +120,7 @@ const LikePostList = () => {
                       cardStyle='default'
                       createdAt={likePost.createdAt}
                       enddate={formatDateString(likePost.endDate)}
+                      researchTypes={likePost.researchTypes}
                       onClick={() => {
                         queryClient.invalidateQueries({
                           queryKey: ['getPost', likePost.id],

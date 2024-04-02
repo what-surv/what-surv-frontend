@@ -59,7 +59,7 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
       });
     },
     getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.data.likes.length < PAGE_SIZE) return null;
+      if (lastPage.data.posts.length < PAGE_SIZE) return null;
       return allPages.length + 1; // 다음 페이지
     },
     initialPageParam: 1,
@@ -122,6 +122,8 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
     return null;
   }
 
+  console.log(myWritePosts);
+
   return (
     <div className='flex justify-center'>
       {myWritePosts?.pages[0].data.posts.length === 0 ? (
@@ -159,6 +161,7 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
                       }}
                       viewCount={Number(myWritePost.viewCount)}
                       commentCount={myWritePost.commentCount}
+                      researchTypes={myWritePost.researchTypes}
                       onEditButtonsClick={(
                         action: string,
                         e: React.MouseEvent<HTMLButtonElement>
