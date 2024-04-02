@@ -29,7 +29,7 @@ import { useNavigate } from 'react-router-dom';
 //   id: string;
 // }
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 12;
 
 const LikePostList = () => {
   const navigate = useNavigate();
@@ -98,57 +98,59 @@ const LikePostList = () => {
   }
 
   return (
-    <div className='flex w-full gap-4 max-w-[1200px]'>
+    <div className='flex justify-center'>
       {LikePosts?.pages[0].data.likes.length === 0 ? (
         <Nodata />
       ) : (
-        <div className='flex flex-wrap gap-4'>
-          <InfiniteScroll
-            pageStart={1}
-            hasMore={!isFetching && hasNextPage}
-            loadMore={() => fetchNextPage()}
-          >
+        <InfiniteScroll
+          pageStart={1}
+          hasMore={!isFetching && hasNextPage}
+          loadMore={() => fetchNextPage()}
+        >
+          <div className='grid grid-cols-1 gap-4 mx-auto card:grid-cols-2 justifiy-center slg:grid-cols-3 full:grid-cols-4'>
             {LikePosts?.pages.map((likeArray, pageIndex) => (
               // eslint-disable-next-line react/no-array-index-key
-              <div key={pageIndex}>
+              <React.Fragment key={pageIndex}>
                 {likeArray?.data.likes.map((likePost: GetMainData) => (
-                  <Card
-                    key={likePost.id}
-                    id={likePost.id}
-                    nickname={profile?.data.nickname}
-                    cardStyle='default'
-                    createdAt={likePost.createdAt}
-                    enddate={formatDateString(likePost.endDate)}
-                    onClick={() => {
-                      queryClient.invalidateQueries({
-                        queryKey: ['getPost', likePost.id],
-                      });
-                      navigate(`/view/${likePost.id}`);
-                    }}
-                    type='default'
-                    onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                      if (e.key === 'Enter' || e.key === 'Space') {
-                        navigate(`/view/${likePost.postId}`);
-                      }
-                    }}
-                    viewCount={Number(likePost.viewCount)}
-                    commentCount={likePost.commentCount}
-                  >
-                    <span className='absolute top-[25px] right-[21px]'>
-                      <Like
-                        onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                          likedClick(e, likePost.id, likePost.isLiked)
+                  <div className='w-[342px]'>
+                    <Card
+                      key={likePost.id}
+                      id={likePost.id}
+                      nickname={profile?.data.nickname}
+                      cardStyle='default'
+                      createdAt={likePost.createdAt}
+                      enddate={formatDateString(likePost.endDate)}
+                      onClick={() => {
+                        queryClient.invalidateQueries({
+                          queryKey: ['getPost', likePost.id],
+                        });
+                        navigate(`/view/${likePost.id}`);
+                      }}
+                      type='default'
+                      onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                        if (e.key === 'Enter' || e.key === 'Space') {
+                          navigate(`/view/${likePost.postId}`);
                         }
-                        isLiked={likePost.isLiked}
-                      />
-                    </span>
-                    {likePost.title}
-                  </Card>
+                      }}
+                      viewCount={Number(likePost.viewCount)}
+                      commentCount={likePost.commentCount}
+                    >
+                      <span className='absolute top-[25px] right-[21px]'>
+                        <Like
+                          onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                            likedClick(e, likePost.id, likePost.isLiked)
+                          }
+                          isLiked={likePost.isLiked}
+                        />
+                      </span>
+                      {likePost.title}
+                    </Card>
+                  </div>
                 ))}
-              </div>
+              </React.Fragment>
             ))}
-          </InfiniteScroll>
-        </div>
+          </div>
+        </InfiniteScroll>
       )}
     </div>
   );
