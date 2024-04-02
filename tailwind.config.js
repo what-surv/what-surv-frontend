@@ -19,11 +19,15 @@ module.exports = {
       mb: '490px',
       // => @media (min-width: 640px)
       sm: '640px',
+      card: '810px',
       // => @media (min-width: 1024px)
       md: '1024px',
       // => @media (min-width: 1280px)
       lg: '1280px',
+
+      slg: '1260px',
       // @media screen and (max-width: 1280px) { }
+      full: '1920px',
     },
   },
   plugins: [],

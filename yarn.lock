@@ -12346,6 +12346,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"history@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "history@npm:5.3.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.7.6"
+  checksum: 812ec839386222d6437bd78d9f05db32e47d105ada0ad8834b32626919dd2fee7a10001bc489510f93a8069d02f118214bd8d42a82f7cf9daf8e84fbcbbb2016
+  languageName: node
+  linkType: hard
+
 "hmac-drbg@npm:^1.0.1":
   version: 1.0.1
   resolution: "hmac-drbg@npm:1.0.1"
@@ -16771,13 +16780,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-ga@npm:^3.3.1":
-  version: 3.3.1
-  resolution: "react-ga@npm:3.3.1"
-  peerDependencies:
-    prop-types: ^15.6.0
-    react: ^15.6.2 || ^16.0 || ^17 || ^18
-  checksum: a2a61c138887c651a59b49669141246e9a01803bd67c5d7581016949d2c8acdbef14db1a0039b855dcd3c979c711b4c45d910fcaa49e27165c13cdc685b4c2e0
+"react-ga4@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "react-ga4@npm:2.1.0"
+  checksum: 314aa86dd7cb868535f26bfb8b537d3b3c20649c66b2b942fba72e081295441446932a4ae96499231c8a4836ab0a222a97b1bd03633b8cc1477991efe93444cd
   languageName: node
   linkType: hard
 
@@ -20351,6 +20357,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^4.6.0"
     eslint-plugin-react-refresh: "npm:^0.4.5"
     eslint-plugin-storybook: "npm:^0.6.15"
+    history: "npm:^5.3.0"
     husky: "npm:^8.0.3"
     intersection-observer: "npm:^0.12.2"
     postcss: "npm:^8.4.33"
@@ -20361,7 +20368,7 @@ __metadata:
     react-confetti-explosion: "npm:^2.1.2"
     react-datepicker: "npm:^6.1.0"
     react-dom: "npm:^18.2.0"
-    react-ga: "npm:^3.3.1"
+    react-ga4: "npm:^2.1.0"
     react-hook-form: "npm:^7.51.0"
     react-infinite-scroller: "npm:^1.2.6"
     react-router-dom: "npm:^6.22.0"

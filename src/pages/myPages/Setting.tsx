@@ -58,14 +58,24 @@ const Setting = () => {
   const interest = watch('interest');
 
   useEffect(() => {
+    if (nickname && nickname === myData?.data.nickname) {
+      setDisableButton(true);
+    } else if (
+      nickname &&
+      // nickname !== myData?.data.nickname &&
+      nicknameInputState === 'success'
+    ) {
+      setDisableButton(false);
+    }
+  }, [nicknameInputState, myData, nickname]);
+
+  useEffect(() => {
     if (myData?.data.areaOfInterest !== interest) {
-      if (nicknameInputState === 'success' && interest) {
-        setDisableButton(false);
-      }
-    } else {
+      setDisableButton(false);
+    } else if (myData?.data.areaOfInterest === interest) {
       setDisableButton(true);
     }
-  }, [nicknameInputState, interest, myData]);
+  }, [interest, myData]);
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.slice(0, 10);
@@ -115,6 +125,13 @@ const Setting = () => {
     return undefined;
   };
 
+  const birthDate = myData?.data?.birthDate
+    ? new Date(myData.data.birthDate)
+    : null;
+  const formattedBirthDate = birthDate
+    ? birthDate.toISOString().split('T')[0]
+    : '';
+
   if (isLoading || !myData) {
     return null;
   }
@@ -123,7 +140,7 @@ const Setting = () => {
       <Appbar isLogo isAccount isFullLogo />
       <Tabbar isMobileVisible />
 
-      <div className='max-w-[506px] px-6 w-full mt-[50px] m-auto'>
+      <div className='max-w-[342px] md:max-w-[354px] lg:max-w-[506px] w-full mt-[50px] m-auto'>
         {/* 프로필 및 닉네임 */}
         <div className='mb-6 text-center'>
           <img
@@ -141,8 +158,8 @@ const Setting = () => {
         {/* // 프로필 및 닉네임 */}
 
         {/* 유저 기본정보 */}
-        <div className='flex gap-4 mb-9'>
-          <dl>
+        <div className='flex gap-4 overflow-x-auto mb-9'>
+          <dl className='flex-shrink-0 min-w-[80px]'>
             <dt>
               <Typography text='로그인 아이디' size='base' weight='Medium' />
             </dt>
@@ -155,26 +172,26 @@ const Setting = () => {
               />
             </dd>
           </dl>
-          <dl>
+          <dl className='flex-shrink-0 min-w-[80px]'>
             <dt>
               <Typography text='생일' size='base' weight='Medium' />
             </dt>
             <dd className='mt-2 px-4 py-[6px] bg-[#E5E7ED] rounded-lg'>
               <Typography
-                text={myData.data.birthDate}
+                text={formattedBirthDate || ''}
                 size='sm'
                 weight='Semibold'
                 className='text-[#545760]'
               />
             </dd>
           </dl>
-          <dl>
+          <dl className='flex-shrink-0 min-w-[15px]'>
             <dt>
               <Typography text='성별' size='base' weight='Medium' />
             </dt>
             <dd className='mt-2 px-4 py-[6px] bg-[#E5E7ED] rounded-lg'>
               <Typography
-                text={myData.data.gender}
+                text={myData.data.gender === 'male' ? '남성' : '여성'}
                 size='sm'
                 weight='Semibold'
                 className='text-[#545760]'
@@ -186,7 +203,7 @@ const Setting = () => {
 
         {/* 수정 인풋들 */}
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className='flex flex-col gap-4 mb-9'>
+          <div className='flex flex-col mb-9'>
             {/* <div className='flex flex-col items-start w-full gap-2'>
               <Typography
                 size='base'
@@ -225,15 +242,31 @@ const Setting = () => {
               </div>
               {errors.nickname && <span>{errors.nickname.message}</span>}
             </div> */}
-            <Textfield
-              type='button'
-              onClick={requestNickNameOnClick}
-              onChange={handleNicknameChange}
-              state={nicknameInputState}
-              placeholder='김왓섭'
-              value={nickname}
-              defaultValue={myData.data.nickname}
-            />
+            <div className='flex flex-col w-full gap-2'>
+              <div className='flex gap-1'>
+                <Typography
+                  size='base'
+                  weight='Medium'
+                  text='닉네임'
+                  className='text-[#242424]'
+                />
+                <Typography
+                  size='base'
+                  weight='Medium'
+                  text='*'
+                  className='text-red-500'
+                />
+              </div>
+              <Textfield
+                type='button'
+                onClick={requestNickNameOnClick}
+                onChange={handleNicknameChange}
+                state={nicknameInputState}
+                placeholder='김왓섭'
+                value={nickname}
+                defaultValue={myData.data.nickname}
+              />
+            </div>
             <div className='flex flex-col items-start w-full gap-2'>
               <Typography
                 size='base'

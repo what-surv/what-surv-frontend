@@ -1,3 +1,5 @@
+import ReactGA from 'react-ga4';
+
 import Index from './pages/Index';
 import Lite from './pages/Lite';
 import Login from './pages/login/Login';
@@ -17,8 +19,11 @@ import Footer from './stories/footer/Footer';
 
 import { Routes, Route, useLocation } from 'react-router-dom';
 
+ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
+
 const App = () => {
   const location = useLocation();
+
   return (
     <>
       <div className='pb-[100px] md:pb-[200px]'>

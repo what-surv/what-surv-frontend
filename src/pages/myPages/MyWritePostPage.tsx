@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import PostListSelect from '../../molecules/PostListSelect';
 import MyPostsList from '../../organisms/post/mypage/MyPostsList';
@@ -24,8 +24,8 @@ const MyWritePostPage = () => {
         <Appbar isLogo isAccount />
         <Tabbar />
       </div>
-      <div className=' pt-4 md:pt-14 mx-auto w-[90%] md:w-[85%]'>
-        <div className='w-[95%]'>
+      <div className='pt-4 md:pt-14 mx-auto w-[90%] md:w-[85%]'>
+        <div className='w-[95%] md:min-w-[980px] full:max-w-[1416px] mx-auto'>
           <PostListSelect
             buttonValues={buttonValues}
             isEdit={isEdit}
@@ -34,7 +34,7 @@ const MyWritePostPage = () => {
           />
         </div>
 
-        <div className='flex justify-center w-full main-content'>
+        <div className='flex justify-center w-full'>
           <MyPostsList isEdit={isEdit} />
         </div>
       </div>
