@@ -250,10 +250,10 @@ const PostWritePage = () => {
         게시글 작성하기
       </Appbar>
       <Tabbar />
-      <div className='flex justify-center items-center max-w-[1034px] w-full m-auto bg-[#FAFAFA]'>
+      <div className='flex justify-center 일items-center max-w-[1034px] w-full m-auto bg-[#FAFAFA]'>
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)} className='w-[90%]'>
-            <div className='content-layout flex justify-center flex-col items-start gap-8 mt-[30px] md:mt-14 bg-[#FAFAFA]'>
+            <div className='full:w-[1034px] content-layout flex justify-center flex-col items-start gap-8 mt-[30px] md:mt-14 bg-[#FAFAFA]'>
               <button
                 type='button'
                 className='hidden md:inline-block'

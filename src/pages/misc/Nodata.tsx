@@ -8,7 +8,7 @@ const Nodata = () => {
   const navigate = useNavigate();
   return (
     <div className='flex flex-col max-w-[342px] w-full min-h-[600px] gap-9 justify-center items-center m-auto'>
-      <div className='flex flex-col gap-3 items-center'>
+      <div className='flex flex-col items-center gap-3'>
         <img src={Paper} alt='종이 아이콘' className='w-[27px]' />
         <p>
           <Typography
@@ -35,7 +35,7 @@ const Nodata = () => {
       </div>
       <Button
         onClick={() => {
-          navigate('write');
+          navigate('/write');
         }}
         className='w-[156px] h-[52px] bg-[#3283FF] rounded-[400px]'
         type='button'

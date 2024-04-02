@@ -125,16 +125,15 @@ const Setting = () => {
     return undefined;
   };
 
+  if (isLoading || !myData) {
+    return null;
+  }
   const birthDate = myData?.data?.birthDate
     ? new Date(myData.data.birthDate)
     : null;
   const formattedBirthDate = birthDate
     ? birthDate.toISOString().split('T')[0]
     : '';
-
-  if (isLoading || !myData) {
-    return null;
-  }
   return (
     <div>
       <Appbar isLogo isAccount isFullLogo />
