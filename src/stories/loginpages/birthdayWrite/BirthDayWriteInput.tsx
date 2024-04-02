@@ -18,12 +18,13 @@ export interface BirthDayWriteBoxProps
   state: boolean;
   value: string;
   onFocus: React.FocusEventHandler<HTMLInputElement>;
+  onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const BirthDayWriteInput = React.forwardRef<
   HTMLInputElement,
   BirthDayWriteBoxProps
->(({ id, state, value, onChange, onFocus }, ref) => {
+>(({ id, state, value, onChange, onFocus, onKeyDown }, ref) => {
   return (
     <div className={`${BirthDayWriteInputVariants()}`}>
       <input
@@ -34,6 +35,7 @@ const BirthDayWriteInput = React.forwardRef<
         value={value}
         onChange={onChange}
         onFocus={onFocus}
+        onKeyDown={onKeyDown}
         placeholder='0'
       />
       <span className='absolute w-6 h-[3px] left-[50%] bottom-[6px] translate-x-[-50%] rounded-[400px] bg-[#A6AAB2]' />

@@ -6,13 +6,13 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 
 import { GetMainData, getPopularList } from '../api/IndexApi';
-import mainBannerMb1 from '../assets/img-main-banner-1-mb.svg';
+import mainBannerMb1 from '../assets/img-main-banner-1-mb.png';
 import mainBannerPc1 from '../assets/img-main-banner-1-pc.svg';
 import mainBannerTb1 from '../assets/img-main-banner-1-tb.svg';
-import mainBannerMb2 from '../assets/img-main-banner-2-mb.svg';
+import mainBannerMb2 from '../assets/img-main-banner-2-mb.png';
 import mainBannerPc2 from '../assets/img-main-banner-2-pc.svg';
 import mainBannerTb2 from '../assets/img-main-banner-2-tb.svg';
-import mainBannerMb3 from '../assets/img-main-banner-3-mb.svg';
+import mainBannerMb3 from '../assets/img-main-banner-3-mb.png';
 import mainBannerPc3 from '../assets/img-main-banner-3-pc.svg';
 import mainBannerTb3 from '../assets/img-main-banner-3-tb.svg';
 import prevBtn from '../stories/assets/ic_arrow_left.svg';
@@ -222,27 +222,38 @@ export const ResearchSwiper = () => {
                     </SwiperSlide>
                   ))
                 : // 실제 데이터를 이용한 컨텐츠 렌더링
-                  data.data.map((params: GetMainData) => (
-                    <SwiperSlide>
-                      <Card
-                        key={params.id}
-                        id={params.id}
-                        type='default'
-                        enddate={formatDateString(params.endDate)}
-                        onClick={() => navigate(`view/${params.id}`)}
-                        cardStyle='hot'
-                        createdAt={params.createdAt}
-                        viewCount={Number(params.viewCount)}
-                        onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                          if (e.key === 'Enter' || e.key === 'Space') {
-                            navigate(`/view/${params.id}`);
-                          }
-                        }}
-                      >
-                        {params.title}
-                      </Card>
-                    </SwiperSlide>
-                  ))}
+                  data.data.map(
+                    ({
+                      id,
+                      title,
+                      createdAt,
+                      endDate,
+                      viewCount,
+                      researchTypes,
+                    }: GetMainData) => (
+                      <SwiperSlide key={id}>
+                        <Card
+                          id={id}
+                          type='default'
+                          enddate={formatDateString(endDate)}
+                          onClick={() => navigate(`view/${id}`)}
+                          cardStyle='hot'
+                          createdAt={createdAt}
+                          viewCount={Number(viewCount)}
+                          onKeyDown={(
+                            e: React.KeyboardEvent<HTMLDivElement>
+                          ) => {
+                            if (e.key === 'Enter' || e.key === 'Space') {
+                              navigate(`/view/${id}`);
+                            }
+                          }}
+                          researchTypes={researchTypes}
+                        >
+                          {title}
+                        </Card>
+                      </SwiperSlide>
+                    )
+                  )}
             </Swiper>
           </div>
         </div>

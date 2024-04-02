@@ -10,7 +10,10 @@ export const LikePost = async (
   postId: number | string
 ): Promise<LikePostId> => {
   try {
-    const likePost = await axiosBaseUrl.post(`/posts/${postId}/like`, {});
+    const likePost = await axiosBaseUrl.post(
+      `/posts/${postId.toString()}/like`,
+      {}
+    );
 
     return likePost.data;
   } catch (error) {
@@ -23,7 +26,7 @@ export const LikePost = async (
 
 export const LikeGet = async (postId: number) => {
   try {
-    const likeGet = await axiosBaseUrl.get(`/posts/${postId}/like`);
+    const likeGet = await axiosBaseUrl.get(`/posts/${postId.toString()}/like`);
     return likeGet.data;
   } catch (error) {
     alert('로그인 하셔야 합니다!');
