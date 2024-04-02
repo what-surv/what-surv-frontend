@@ -1,6 +1,7 @@
 import { cva } from 'class-variance-authority';
 import React from 'react';
 
+import { mainTypeArr } from '../../api/IndexApi';
 import icComment from '../assets/ic_comment.svg';
 import icEye from '../assets/ic_eye.svg';
 import icUser from '../assets/ic_usersvg.svg';
@@ -37,6 +38,9 @@ interface CardProps {
   /** 댓글수 */
   commentCount?: number;
 
+  /** 리서치타입 (배열형식) */
+  researchTypes?: string[];
+
   onClick?: () => void;
 
   onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => void;
@@ -59,6 +63,7 @@ const Card = ({
   viewCount,
   commentCount,
   type,
+  researchTypes,
   onClick,
   onKeyDown,
   onEditButtonsClick,
@@ -77,6 +82,22 @@ const Card = ({
 
   // 마감일이 오늘 날짜보다 같거나 늦은 경우 타입을 'closed'로 설정
   const currentType = postEndDate < currentTime && 'closed';
+
+  const researchTypeBedge = () => {
+    return researchTypes?.map((param) => {
+      const found = mainTypeArr.find(
+        (researchType) => researchType.key === param
+      );
+      const label = found ? found.label : param;
+
+      return (
+        <Badge key={param} size='default' state='main'>
+          {label}
+        </Badge>
+      );
+    });
+  };
+
   return (
     <div
       onClick={onClick}
@@ -88,9 +109,8 @@ const Card = ({
       {cardStyle === 'default' ? (
         <div className='flex items-center justify-between w-full'>
           <div className='flex gap-3'>
-            <Badge size='default' state='main'>
-              설문조사
-            </Badge>
+            {researchTypeBedge()}
+
             {isPostNew && (
               <Badge size='default' state='sub'>
                 New
@@ -100,11 +120,7 @@ const Card = ({
         </div>
       ) : (
         <div className='flex items-center justify-between'>
-          <div className='flex'>
-            <Badge size='default' state='main'>
-              설문조사
-            </Badge>
-          </div>
+          <div className='flex'>{researchTypeBedge()}</div>
           <div>
             <Badge size='default' state='sub'>
               🔥Hot

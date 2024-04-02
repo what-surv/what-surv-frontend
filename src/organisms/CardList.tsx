@@ -51,7 +51,7 @@ const CardList = ({
   const filteredSelectedValues = filterSelectedValues(selectedValues);
 
   const { data, refetch, isLoading } = useQuery<GetMainData>({
-    queryKey: ['postList', currentPage, selectedValues],
+    queryKey: ['postList'],
     queryFn: () =>
       getMainList({
         page: currentPage,
@@ -67,7 +67,7 @@ const CardList = ({
     const delay = setTimeout(() => {
       setShowLoader(false);
     }, 1300);
-
+    refetch();
     return () => clearTimeout(delay);
   }, [currentPage, selectedValues]);
 
@@ -107,9 +107,9 @@ const CardList = ({
       {data?.data.length === 0 && <Nodata />}
       <div>
         <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
-          {data?.data.map((params: GetMainData) => {
-            const {
-              postId,
+          {data?.data.map(
+            ({
+              id,
               authorNickname,
               title,
               createdAt,
@@ -117,51 +117,53 @@ const CardList = ({
               viewCount,
               commentCount,
               isLiked,
-            } = params;
-
-            return (
-              <Card
-                key={postId}
-                id={postId}
-                nickname={authorNickname}
-                cardStyle='default'
-                createdAt={createdAt}
-                enddate={formatDateString(endDate)}
-                onClick={() => {
-                  queryClient.invalidateQueries({
-                    queryKey: ['getPost', postId],
-                  });
-                  navigate(`view/${postId}`);
-                }}
-                type='default'
-                onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                  if (e.key === 'Enter' || e.key === 'Space') {
-                    queryClient.invalidateQueries({
-                      queryKey: ['getPost', postId],
+              researchTypes,
+            }: GetMainData) => {
+              return (
+                <Card
+                  key={id}
+                  id={id}
+                  nickname={authorNickname}
+                  cardStyle='default'
+                  createdAt={createdAt}
+                  enddate={formatDateString(endDate)}
+                  onClick={async () => {
+                    await queryClient.refetchQueries({
+                      queryKey: ['getPost', id],
                     });
-                    navigate(`/view/${postId}`);
-                  }
-                }}
-                viewCount={Number(viewCount)}
-                commentCount={commentCount}
-              >
-                <span className='absolute top-[25px] right-[21px]'>
-                  <Like
-                    onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                      likedClick(e, postId, isLiked)
+                    navigate(`view/${id}`);
+                  }}
+                  type='default'
+                  onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                    if (e.key === 'Enter' || e.key === 'Space') {
+                      queryClient.refetchQueries({
+                        queryKey: ['getPost', id],
+                      });
+                      navigate(`view/${id}`);
                     }
-                    isLiked={isLiked}
-                  />
-                </span>
-                {title}
-              </Card>
-            );
-          })}
+                  }}
+                  viewCount={Number(viewCount)}
+                  commentCount={commentCount}
+                  researchTypes={researchTypes}
+                >
+                  <span className='absolute top-[25px] right-[21px]'>
+                    <Like
+                      onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                        likedClick(e, id, isLiked)
+                      }
+                      isLiked={isLiked}
+                    />
+                  </span>
+                  {title}
+                </Card>
+              );
+            }
+          )}
         </div>
-        {data && (
+        {data?.data.length !== 0 && (
           <Pagination
             pageClick={handlePageChange}
-            totalPage={data.totalPages}
+            totalPage={data!.totalPages}
             currentPage={currentPage}
           />
         )}

@@ -75,6 +75,30 @@ const UserInformationsPage = ({ onNextStep }: UserInformationsPageProps) => {
     setbirthDate(updatedBirthDayResult);
   };
 
+  // BackSpace감지해서 인풋 값 지우는 함수
+  const onKeyDown = (
+    index: number,
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (e.key === 'Backspace' && birthday[index].value === '') {
+      e.preventDefault(); // Stop the default backspace behavior
+      const newBirthday = [...birthday];
+
+      if (index > 0) {
+        // Clear the previous input
+        newBirthday[index - 1] = {
+          ...newBirthday[index - 1],
+          value: '',
+          state: false,
+        };
+        setBirthday(newBirthday);
+
+        // Move focus to the previous input
+        inputRefs.current[index - 1]?.focus();
+      }
+    }
+  };
+
   const onGenderClick = (genders: 'male' | 'female') => {
     setSelectedGender((prev) => ({
       ...prev,
@@ -131,6 +155,7 @@ const UserInformationsPage = ({ onNextStep }: UserInformationsPageProps) => {
               <BirthDayWriteInput
                 key={id}
                 id={id}
+                onKeyDown={(e) => onKeyDown(index, e)}
                 onChange={(e) => onChange(index, e.target.value)}
                 value={value}
                 ref={(el) => (inputRefs.current[index] = el)}
