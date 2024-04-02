@@ -19,7 +19,7 @@ import FloatingButton from '../stories/floatingButton/FloatingButton';
 import { Tabbar } from '../stories/tabbar/Tabbar';
 import Typography from '../stories/typography/Typography';
 
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const dropdownOptions = [
   { defaultValue: '정렬', key: 'sort', arr: mainSortArr },
@@ -36,21 +36,23 @@ const Index = () => {
   // LoginAlertModal을 제어하기 위한 상태
   const [showLoginAlert, setShowLoginAlert] = useState(false);
 
-  const [selectedValues, setSelectedValues] = useState<Record<string, string>>(
-    {}
-  ); // 소팅 객체를 저장할 state
-
-  const { currentPage, setCurrentPage } = MainPageStore(); // store 불러옴
+  const { currentPage, selects, setCurrentPage, setSelects } = MainPageStore(); // store 불러옴
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     // 컴포넌트가 마운트될 때 사용자 체크를 수행
-    const fetchUserStatus = async () => {
-      const userStatus = await userCheckApi();
-      setIsLoggedIn(userStatus); // 비동기 호출의 결과로 로그인 상태 업데이트
-    };
+    if (location.state?.quit) {
+      setIsLoggedIn(false);
+    } else {
+      const fetchUserStatus = async () => {
+        const userStatus = await userCheckApi();
+        console.log('ussssssssssssssser', userStatus);
+        setIsLoggedIn(userStatus); // 비동기 호출의 결과로 로그인 상태 업데이트
+      };
 
-    fetchUserStatus();
+      fetchUserStatus();
+    }
 
     document.body.style.backgroundColor = '#F9F9FB';
 
@@ -62,8 +64,8 @@ const Index = () => {
       initialSelectedValues[key] = value;
     });
 
-    // 초기 상태를 설정
-    setSelectedValues(initialSelectedValues);
+    // URL에서 쿼리 스트링을 파싱하여 필터 저장되는 State에 초기 상태를 설정
+    setSelects(initialSelectedValues);
 
     return () => {
       document.body.style.backgroundColor = '#F2F3F7';
@@ -79,49 +81,39 @@ const Index = () => {
   };
 
   useEffect(() => {
-    const queryString = Object.keys(selectedValues)
+    const queryString = Object.keys(selects)
+      .filter((key) => selects[key] !== undefined) // selects[key]가 undefined가 아닌 경우만 처리
       .map(
-        (queryKey) =>
-          `${encodeURIComponent(queryKey)}=${encodeURIComponent(selectedValues[queryKey])}`
-      )
+        (key) =>
+          `${encodeURIComponent(key)}=${encodeURIComponent(selects[key]!)}`
+      ) // '!'를 사용하여 selects[key]가 undefined가 아님을 명시
       .join('&');
 
     navigate(`?${queryString}`);
-  }, [selectedValues]);
+  }, [selects, navigate]);
 
   const soltingHandler = (key: string, selectedValue: string) => {
     handlePageChange(1); // 소팅할 때 현재 페이지 1로 변경
 
-    if (selectedValue === 'All') {
-      // "전체"가 선택되면 해당 키를 상태에서 제거
-      setSelectedValues((prevSelectedValues) => {
-        const updatedValues = { ...prevSelectedValues, [key]: selectedValue };
-
-        delete updatedValues[key]; // 선택된 키 제거
-
-        return updatedValues;
-      });
-    } else {
-      // "전체"가 아니라면 선택된 값을 상태에 추가 또는 업데이트
-      setSelectedValues((prevSelectedValues) => ({
-        ...prevSelectedValues,
-        [key]: selectedValue,
-      }));
-    }
+    // "전체"가 아니라면 선택된 값을 상태에 추가 또는 업데이트
+    setSelects({
+      [key]: selectedValue !== '전체' ? selectedValue : '',
+    });
   };
 
   const renderDropDowns = () => {
     return dropdownOptions.map((option) => {
       // 해당 dropdown option의 key 값에 대한 선택된 값이 있는지 확인
       const isActive =
-        option.key in selectedValues && selectedValues[option.key] !== '';
+        option.key in selects &&
+        selects[option.key as keyof typeof selects] !== '';
 
       // 상태를 'active' 또는 'default'로 설정
       const state = isActive ? 'activate' : 'default';
       // 선택된 값이 있는 경우에는 defaultValue 대신 선택된 값을 전달
       let defaultValue;
       if (isActive) {
-        const selectedValue = selectedValues[option.key];
+        const selectedValue = selects[option.key as keyof typeof selects];
         const selectedItem = option.arr.find(
           (item) => item.key === selectedValue
         );
@@ -137,7 +129,6 @@ const Index = () => {
           state={state}
           oneSelect
           menu={option.arr}
-          // (selectedValue) => soltingHandler(option.key, selectedValue)
           onDropdownChange={(selectedValue) =>
             soltingHandler(option.key, selectedValue)
           }
@@ -170,28 +161,29 @@ const Index = () => {
           <div className='my-6'>
             <BannerSwiper />
           </div>
-
-          {/* 인기리서치 */}
-          <ResearchSwiper />
-          {/* // 인기리서치 */}
-
-          {/* IT전체 */}
-          <div className='mt-6 mb-3'>
-            <Typography size='base' text='IT전체' weight='Semibold' />
-          </div>
-
-          <div className='flex flex-wrap gap-3 mb-6'>{renderDropDowns()}</div>
-          {/* cardList */}
           <div>
-            <CardList
-              currentPage={currentPage}
-              selectedValues={selectedValues}
-              checkDeviceReturnLimit={checkDeviceReturnLimit}
-              handlePageChange={handlePageChange}
-              setShowLoginAlert={setShowLoginAlert}
-            />
+            {/* 인기리서치 */}
+            <ResearchSwiper />
+            {/* // 인기리서치 */}
+
+            {/* IT전체 */}
+            <div className='mt-6 mb-3'>
+              <Typography size='base' text='IT전체' weight='Semibold' />
+            </div>
+
+            <div className='flex flex-wrap gap-3 mb-6'>{renderDropDowns()}</div>
+            {/* cardList */}
+            <div>
+              <CardList
+                currentPage={currentPage}
+                selectedValues={selects}
+                checkDeviceReturnLimit={checkDeviceReturnLimit}
+                handlePageChange={handlePageChange}
+                setShowLoginAlert={setShowLoginAlert}
+              />
+            </div>
             <div className='sticky flex flex-row-reverse bottom-[50px] z-[49]'>
-              <FloatingButton onClick={() => navigate('write')} />
+              <FloatingButton onClick={() => navigate('/write')} />
             </div>
           </div>
         </div>

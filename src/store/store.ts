@@ -24,27 +24,25 @@ interface WritePageStoreStoreProps {
   toggleAge: (age: string[]) => void;
 }
 
+// Selects 객체를 위한 타입을 별도로 정의합니다.
+export interface Selects {
+  sort?: string;
+  gender?: string;
+  age?: string;
+  research_type?: string;
+  procedure?: string;
+  [key: string]: string | undefined; // 인덱스 서명을 추가합니다.
+}
+
 export interface MainPageStoreProps {
   searchText: string;
   currentPage: number;
   totalPage: number;
-  selects: {
-    sort?: string | undefined;
-    gender?: string | undefined;
-    age?: string | undefined;
-    type?: string | undefined;
-    method?: string | undefined;
-  };
+  selects: Selects;
   setSearchText: (searchText: string) => void;
   setCurrentPage: (page: number) => void;
   setTotalPage: (totalPage: number) => void;
-  setSelects: (selectsObj: {
-    sort?: string | undefined;
-    gender?: string | undefined;
-    age?: string | undefined;
-    type?: string | undefined;
-    method?: string | undefined;
-  }) => void;
+  setSelects: (selectsObj: Selects) => void;
 }
 
 interface LoginPageStorePros {
@@ -104,23 +102,28 @@ export const WritePageStore = create<WritePageStoreStoreProps>((set) => ({
   setEnddate: (dateValue) => set({ enddate: dateValue }),
 }));
 
-export const MainPageStore = create<MainPageStoreProps>()((set) => ({
+export const MainPageStore = create<MainPageStoreProps>((set) => ({
   searchText: '',
   currentPage: 1,
   totalPage: 1,
-  selects: {
-    sort: undefined,
-    gender: undefined,
-    age: undefined,
-    type: undefined,
-    method: undefined,
-  },
+  selects: {},
   setSearchText: (searchTextValue) => set({ searchText: searchTextValue }),
   setCurrentPage: (pageValue) => set({ currentPage: pageValue }),
   setTotalPage: (totalPageValue) => set({ totalPage: totalPageValue }),
-  setSelects: (selectsObj) =>
+  setSelects: (
+    selectsObj: Partial<{
+      sort: string;
+      gender: string;
+      age: string;
+      research_type: string;
+      procedure: string;
+    }>
+  ) =>
     set((prev) => ({
-      selects: { ...prev.selects, ...selectsObj },
+      selects: {
+        ...prev.selects,
+        ...selectsObj,
+      },
     })),
 }));
 

@@ -1,12 +1,11 @@
-import { userCheckApi } from '../../api/userCheckApi';
 import Paper from '../../assets/ic-nodata.svg';
 import Button from '../../atoms/Button';
 import Typography from '../../stories/typography/Typography';
 
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Nodata = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <div className='flex flex-col max-w-[342px] w-full min-h-[600px] gap-9 justify-center items-center m-auto'>
       <div className='flex flex-col gap-3 items-center'>
@@ -36,8 +35,7 @@ const Nodata = () => {
       </div>
       <Button
         onClick={() => {
-          const test = userCheckApi();
-          console.log(test);
+          navigate('write');
         }}
         className='w-[156px] h-[52px] bg-[#3283FF] rounded-[400px]'
         type='button'
