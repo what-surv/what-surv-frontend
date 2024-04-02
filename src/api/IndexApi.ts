@@ -49,6 +49,16 @@ interface GetMainListParams {
   method?: string;
 }
 
+export interface isLikedTypes {
+  data: isLikedData;
+  status: string;
+}
+
+interface isLikedData {
+  isLiked: boolean;
+  postId: string;
+}
+
 // 받는 데이터
 export type GetData = {
   ages: string[];
@@ -85,7 +95,7 @@ export type GetData = {
   duration: string;
   endDate: Date;
   procedure: string;
-  researchType: string;
+  researchType: string[];
   title: string;
   url: string;
   viewCount: string;

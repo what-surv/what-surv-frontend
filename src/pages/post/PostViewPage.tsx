@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { GetData } from '../../api/IndexApi';
+// import { LikeDelete, LikePost } from '../../api/LikeApi';
 import { testLogin, getPost, getComment } from '../../api/PostApi';
 import { UserTypes } from '../../api/Posttypes';
 import CommentWithButton from '../../molecules/post/view/WriteComment';
+import LoginAlertModal from '../../organisms/LoginAlertModal';
 import PostContentView from '../../organisms/post/view/PostContentView';
 import UserInfoWithComment from '../../organisms/post/view/UserInfoWithComment';
 import { Appbar } from '../../stories/appbar/Appbar';
@@ -32,14 +34,15 @@ const PostViewPage = () => {
   const { num } = useParams() as { num: string };
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  // LoginAlertModal을 제어하기 위한 상태
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
   const isArrowClick = () => {
     navigate(-1);
   };
 
-  const { data: postDetails } = useQuery<GetData>({
+  const { data: postDetails, refetch } = useQuery<GetData>({
     queryKey: ['getPost', num],
     queryFn: () => getPost(num),
-    retry: 0,
   });
 
   const { data: comments } = useQuery<commentTypes[]>({
@@ -53,9 +56,32 @@ const PostViewPage = () => {
     queryClient.invalidateQueries({
       queryKey: ['postList'],
     });
+    refetch();
   }, []);
 
-  if (!postDetails || !comments) return null;
+  // const likedClick = async (
+  //   e: React.MouseEvent<HTMLButtonElement>,
+  //   id: string,
+  //   liked: boolean
+  // ) => {
+  //   e.stopPropagation();
+  //   try {
+  //     if (liked) {
+  //       await LikeDelete(id);
+  //     } else {
+  //       await LikePost(id);
+  //     }
+  //     refetch();
+  //   } catch (error) {
+  //     if (error instanceof Error && error.message === 'Unauthorized') {
+  //       setShowLoginAlert(true);
+  //     }
+  //   }
+  // };
+
+  if (!postDetails && !comments) return null;
+
+  console.log(postDetails);
 
   return (
     <div className='w-full mx-auto pb-[150px]'>
@@ -131,7 +157,12 @@ const PostViewPage = () => {
               className='text-[#818490]'
             />
             <div className='p-2.5 flex items-center justify-center gap-2.5'>
-              <Like />
+              <Like
+              // onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+              //   likedClick(e, num, isLiked.data.isLiked)
+              // }
+              // isLiked={isLiked.data.isLiked}
+              />
             </div>
           </div>
           <div className='h-[1px] self-stretch bg-[#A6AAB2]' />
@@ -153,6 +184,13 @@ const PostViewPage = () => {
           </div>
         </div>
       </div>
+      <LoginAlertModal
+        isOpen={showLoginAlert}
+        handleClose={() => setShowLoginAlert(false)}
+        goLogin={() => {
+          navigate('/login');
+        }}
+      />
     </div>
   );
 };

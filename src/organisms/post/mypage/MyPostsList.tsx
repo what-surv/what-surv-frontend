@@ -22,18 +22,7 @@ import {
 import InfiniteScroll from 'react-infinite-scroller';
 import { useNavigate } from 'react-router-dom';
 
-const PAGE_SIZE = 10; // Define your page size here
-
-// interface commentTypes {
-//   id: string;
-//   content: string;
-//   user: UserTypes;
-//   parent: parentProps;
-// }
-
-// interface parentProps {
-//   id: string;
-// }
+const PAGE_SIZE = 12;
 
 interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   parentId?: string;
@@ -70,13 +59,11 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
       });
     },
     getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.data.length < PAGE_SIZE) return undefined;
-      return allPages.length;
+      if (lastPage.data.likes.length < PAGE_SIZE) return null;
+      return allPages.length + 1; // 다음 페이지
     },
     initialPageParam: 1,
     staleTime: 10000, // 10초
-
-    refetchOnWindowFocus: false,
   });
 
   const likedClick = async (
@@ -136,58 +123,60 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
   }
 
   return (
-    <div className='flex w-full flex-wrap gap-4 max-w-[1200px]'>
+    <div className='flex justify-center'>
       {myWritePosts?.pages[0].data.posts.length === 0 ? (
         <Nodata />
       ) : (
-        <div className='flex flex-wrap'>
-          <InfiniteScroll
-            pageStart={1}
-            hasMore={!isFetching && hasNextPage}
-            loadMore={() => fetchNextPage()}
-          >
+        <InfiniteScroll
+          pageStart={1}
+          hasMore={!isFetching && hasNextPage}
+          loadMore={() => fetchNextPage()}
+        >
+          <div className='grid grid-cols-1 gap-4 mx-auto card:grid-cols-2 justifiy-center slg:grid-cols-3 full:grid-cols-4'>
             {myWritePosts?.pages.map((page, pageIndex) => (
               // eslint-disable-next-line react/no-array-index-key
-              <div key={pageIndex} className='flex flex-col gap-3'>
+              <React.Fragment key={pageIndex}>
                 {page.data.posts.map((myWritePost: GetMainData) => (
-                  <Card
-                    key={myWritePost.id}
-                    id={myWritePost.id}
-                    nickname={profile?.data.nickname}
-                    cardStyle='default'
-                    createdAt={myWritePost.createdAt}
-                    enddate={formatDateString(myWritePost.endDate)}
-                    onClick={() => {
-                      queryClient.invalidateQueries({
-                        queryKey: ['getPost', myWritePost.id],
-                      });
-                      navigate(`/view/${myWritePost.id}`);
-                    }}
-                    type={isEdit ? 'edit' : 'default'}
-                    onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                      if (e.key === 'Enter' || e.key === 'Space') {
-                        navigate(`/view/${myWritePost.postId}`);
-                      }
-                    }}
-                    viewCount={Number(myWritePost.viewCount)}
-                    commentCount={myWritePost.commentCount}
-                    onEditButtonsClick={(
-                      action: string,
-                      e: React.MouseEvent<HTMLButtonElement>
-                    ) => handleCardEditButtonClick(action, e, myWritePost.id)}
-                  >
-                    <span className='absolute top-[25px] right-[21px]'>
-                      <Like
-                        onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                          likedClick(e, myWritePost.id, myWritePost.isLiked)
+                  <div className='w-[342px]'>
+                    <Card
+                      key={myWritePost.id}
+                      id={myWritePost.id}
+                      nickname={profile?.data.nickname}
+                      cardStyle='default'
+                      createdAt={myWritePost.createdAt}
+                      enddate={formatDateString(myWritePost.endDate)}
+                      onClick={() => {
+                        queryClient.invalidateQueries({
+                          queryKey: ['getPost', myWritePost.id],
+                        });
+                        navigate(`/view/${myWritePost.id}`);
+                      }}
+                      type={isEdit ? 'edit' : 'default'}
+                      onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                        if (e.key === 'Enter' || e.key === 'Space') {
+                          navigate(`/view/${myWritePost.postId}`);
                         }
-                        isLiked={myWritePost.isLiked}
-                      />
-                    </span>
-                    {myWritePost.title}
-                  </Card>
+                      }}
+                      viewCount={Number(myWritePost.viewCount)}
+                      commentCount={myWritePost.commentCount}
+                      onEditButtonsClick={(
+                        action: string,
+                        e: React.MouseEvent<HTMLButtonElement>
+                      ) => handleCardEditButtonClick(action, e, myWritePost.id)}
+                    >
+                      <span className='absolute top-[25px] right-[21px]'>
+                        <Like
+                          onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                            likedClick(e, myWritePost.id, myWritePost.isLiked)
+                          }
+                          isLiked={myWritePost.isLiked}
+                        />
+                      </span>
+                      {myWritePost.title}
+                    </Card>
+                  </div>
                 ))}
-              </div>
+              </React.Fragment>
             ))}
             <PostSuccessModal
               firstButtonOnClick={() => selectedPostId && click(selectedPostId)}
@@ -198,8 +187,8 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
               SecondButtonText='취소'
               isLogo={false}
             />
-          </InfiniteScroll>
-        </div>
+          </div>
+        </InfiniteScroll>
       )}
     </div>
   );

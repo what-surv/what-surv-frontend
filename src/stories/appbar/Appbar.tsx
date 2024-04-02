@@ -144,7 +144,11 @@ export const Appbar = ({
                 <img src={smallLogo} alt='small logo' />
               </button>
             )}
-            {isLogo && isFullLogo && !children && <img src={logo} alt='logo' />}
+            {isLogo && isFullLogo && !children && (
+              <button type='button' onClick={navigateHome}>
+                <img src={logo} alt='logo' />
+              </button>
+            )}
           </div>
           <div
             className={`flex ${isTextCenter ? `w-full justify-center` : ``} `}

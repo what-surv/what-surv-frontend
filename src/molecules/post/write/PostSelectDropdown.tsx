@@ -1,5 +1,8 @@
+import close from '../../../stories/assets/close-circle.svg';
 import { Dropdown } from '../../../stories/dropdown/Dropdown';
 import Typography from '../../../stories/typography/Typography';
+
+import '../../../index.css';
 
 interface arrOptionProps {
   key: string;
@@ -31,24 +34,58 @@ const PostSelectDropdown = ({
     }
   };
 
+  const handleCloseClick = (option: string) => {
+    if (Array.isArray(value)) {
+      const updatedValue = value.filter((item: string) => item !== option);
+
+      if (updatedValue !== undefined && toggleDropdownValue) {
+        toggleDropdownValue(updatedValue);
+      }
+    }
+  };
+
   return (
-    <div className='flex min-w-[149px] max-w-[485px] flex-wrap flex-col items-start w-[45%] gap-1.5 md:gap-2'>
-      <Typography
-        size='base'
-        weight='Regular'
-        text={title}
-        className='min-w-[30px]'
-      />
-      <Dropdown
-        isArrow
-        state='default'
-        menu={options}
-        value={value}
-        defaultValue={defaultValue}
-        oneSelect={oneSelect}
-        onDropdownChange={handleDropdownChange}
-        toggleDropdownValue={toggleDropdownValue}
-      />
+    <div className='flex flex-col min-w-[149px] max-w-[485px] fold:w-full iphone:w-[50%] gap-1.5 md:gap-2'>
+      <Typography size='base' weight='Regular' text={title} />
+      <div className='flex gap-1.5'>
+        <Dropdown
+          isArrow
+          state='default'
+          menu={options}
+          value={value}
+          defaultValue={defaultValue}
+          oneSelect={oneSelect}
+          onDropdownChange={handleDropdownChange}
+          toggleDropdownValue={toggleDropdownValue}
+        />
+        <div className='flex flex-wrap iphone:w-[calc(100%_-_117px)] overflow-x-auto'>
+          <div>
+            {!oneSelect && (
+              <div className='flex gap-1.5'>
+                {Array.isArray(value) &&
+                  value.map((DropdownSelectValue: string) => (
+                    <div
+                      className='flex bg-[#FAFAFA] h-9 md:px-3 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
+      border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] whitespace-nowrap min-w-[80px] max-w-[150px]'
+                      key={DropdownSelectValue}
+                    >
+                      {options.find(
+                        (option) => option.key === DropdownSelectValue
+                      )?.label || DropdownSelectValue}
+                      <button
+                        className='flex min-w-[18px] focus:outline-none'
+                        type='button'
+                        onClick={() => handleCloseClick(DropdownSelectValue)}
+                      >
+                        <img src={close} alt='close' />
+                      </button>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

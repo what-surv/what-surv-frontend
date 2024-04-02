@@ -3,13 +3,12 @@ import React, { useRef, useState, useEffect } from 'react';
 
 import bottomArrow from '../assets/bottom_arraw.svg';
 import bottomArrowPrimary from '../assets/bottom_arraw_primary.svg';
-import close from '../assets/close-circle.svg';
 import topArrow from '../assets/top_arrow.svg';
 import Typography from '../typography/Typography';
 
 const DropdownVariants = cva(
   `
-  text-sm border font-semibold self-stretch rounded-[400px] bg-[#FAFAFA] min-w-[83px]
+  border font-semibold rounded-[400px] bg-[#FAFAFA] flex whitespace-nowrap py-1.5 px-3 min-w-[78px]
 `,
   {
     variants: {
@@ -79,6 +78,8 @@ export const Dropdown = ({
 
     if (value && value.length !== 0) {
       setDropdownState('activate');
+    } else if (value && value.length === 0) {
+      setDropdownState('default');
     }
 
     window.addEventListener('click', handleClickOutside);
@@ -117,83 +118,43 @@ export const Dropdown = ({
     }
   };
 
-  const handleCloseClick = (option: string) => {
-    if (Array.isArray(value)) {
-      const updatedValue = value.filter((item: string) => item !== option);
-      if (updatedValue.length === 0) {
-        setDropdownState('default');
-      }
-
-      if (updatedValue !== undefined && toggleDropdownValue) {
-        toggleDropdownValue(updatedValue);
-      }
-    }
-  };
-
   return (
     <div className='relative'>
-      <div className='flex gap-1.5 min-w-[80px]'>
-        <button
-          className={`${DropdownVariants({ state: dropdownState, ...props })} flex py-1 pl-3 pr-2 md:py-1.5 md:px-3 min-w-[80px]`}
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsOpen(!isOpen);
-          }}
-          type='button'
-        >
-          <div className='flex items-center gap-2'>
-            <Typography
-              size='sm'
-              text={
-                oneSelect && value
-                  ? menu.find((option) => option.key === value)?.label || value
-                  : defaultValue
-              }
-              weight='Semibold'
-            />
-            {isArrow && dropdownState === 'activate' ? (
-              <img src={bottomArrowPrimary} alt='arrow' />
-            ) : (
-              ''
-            )}
-            {(!isArrow || dropdownState !== 'activate') &&
-              (isOpen ? (
-                <img src={topArrow} alt='arrow' className='' />
-              ) : (
-                <img src={bottomArrow} alt='arrow' />
-              ))}
-          </div>
-        </button>
-        <div className='flex gap-1.5 flex-wrap'>
-          {!oneSelect && (
-            <div className='flex gap-1.5'>
-              {Array.isArray(value) &&
-                value.map((DropdownSelectValue: string) => (
-                  <div
-                    className='flex bg-[#FAFAFA] h-9 md:py-2 md:px-3 py-1 pl-3 pr-2 items-center rounded-[400px] gap-2
-      border border-[#0051FF] text-sm font-semibold leading-[22px] text-[#393B41] whitespace-nowrap'
-                    key={DropdownSelectValue}
-                  >
-                    {menu.find((option) => option.key === DropdownSelectValue)
-                      ?.label || DropdownSelectValue}
-                    <button
-                      className='focus:outline-none w-[18px]'
-                      type='button'
-                      onClick={() => handleCloseClick(DropdownSelectValue)}
-                    >
-                      <img src={close} alt='close' />
-                    </button>
-                  </div>
-                ))}
-            </div>
+      <button
+        className={`${DropdownVariants({ state: dropdownState, ...props })} `}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsOpen(!isOpen);
+        }}
+        type='button'
+      >
+        <div className='flex items-center gap-1 md:gap-2'>
+          <Typography
+            size='sm'
+            text={
+              oneSelect && value
+                ? menu.find((option) => option.key === value)?.label || value
+                : defaultValue
+            }
+            weight='Semibold'
+          />
+          {isArrow && dropdownState === 'activate' ? (
+            <img src={bottomArrowPrimary} alt='arrow' className='' />
+          ) : (
+            ''
           )}
+          {(!isArrow || dropdownState !== 'activate') &&
+            (isOpen ? (
+              <img src={topArrow} alt='arrow' />
+            ) : (
+              <img src={bottomArrow} alt='arrow' />
+            ))}
         </div>
-      </div>
-
+      </button>
       {isOpen && (
         <div
           ref={dropdownEl}
-          className='absolute max-w-[105px] z-50 bg-[#FAFAFA] mt-1.5 border rounded-2xl border-[#818490] w-full p-0 overflow-hidden'
+          className='absolute w-full max-w-[105px] z-50 bg-[#FAFAFA] mt-1.5 border rounded-2xl border-[#818490] p-0'
         >
           {menu.map((arrOptions: arrOptionProps) => (
             <button
