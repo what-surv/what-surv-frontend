@@ -82,7 +82,7 @@ const CardList = ({
   const likedClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
     id: number,
-    liked: boolean
+    liked: { id: number }
   ) => {
     e.stopPropagation();
     try {
@@ -159,7 +159,7 @@ const CardList = ({
                       onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
                         likedClick(e, id, userLike)
                       }
-                      isLiked={userLike ? true : false}
+                      isLiked={!userLike}
                     />
                   </span>
                   {title}
