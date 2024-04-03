@@ -109,18 +109,17 @@ const Card = ({
       {cardStyle === 'default' ? (
         <div className='flex items-center justify-between w-full'>
           <div className='flex gap-3'>
-            {researchTypeBedge()}
-
             {isPostNew && (
               <Badge size='default' state='sub'>
                 New
               </Badge>
             )}
+            {researchTypeBedge()}
           </div>
         </div>
       ) : (
         <div className='flex items-center justify-between'>
-          <div className='flex'>{researchTypeBedge()}</div>
+          <div className='flex gap-3'>{researchTypeBedge()}</div>
           <div>
             <Badge size='default' state='sub'>
               🔥Hot

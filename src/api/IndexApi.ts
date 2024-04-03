@@ -8,8 +8,8 @@ export const mainSortArr = [
 
 export const mainGenderArr = [
   { key: 'All', label: '전체' },
-  { key: 'Male', label: '남성' },
-  { key: 'Female', label: '여성' },
+  { key: 'male', label: '남성' },
+  { key: 'female', label: '여성' },
 ];
 
 export const mainAgeArr = [
@@ -105,6 +105,24 @@ export interface postArrayProps {
   data: GetMainData[];
 }
 
+export interface author {
+  author: string | null;
+  areaOfInterest: null;
+  birthDate: string;
+  createdAt: string;
+  createdDate: string;
+  deletedAt: string | null;
+  email: string;
+  gender: 'male' | 'female' | 'other';
+  id: number;
+  job: string;
+  nickname: string;
+  provider: 'naver' | 'other';
+  providerId: string;
+  role: 'user' | 'admin' | 'other';
+  updatedAt: string;
+}
+
 // 받는 데이터
 export type GetMainData = {
   id: number;
@@ -122,6 +140,7 @@ export type GetMainData = {
   totalPages: number;
   researchTypes: string[];
   data: [];
+  author: author;
 };
 
 export const getMainList = async (params: GetMainListParams) => {

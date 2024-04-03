@@ -110,7 +110,6 @@ const CardList = ({
           {data?.data.map(
             ({
               id,
-              authorNickname,
               title,
               createdAt,
               endDate,
@@ -118,12 +117,13 @@ const CardList = ({
               commentCount,
               isLiked,
               researchTypes,
+              author,
             }: GetMainData) => {
               return (
                 <Card
                   key={id}
                   id={id}
-                  nickname={authorNickname}
+                  nickname={author.nickname}
                   cardStyle='default'
                   createdAt={createdAt}
                   enddate={formatDateString(endDate)}
