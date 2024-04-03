@@ -53,7 +53,7 @@ const CardList = ({
   const filteredSelectedValues = filterSelectedValues(selectedValues);
 
   const { data, refetch, isLoading } = useQuery<GetMainData>({
-    queryKey: ['postList'],
+    queryKey: ['postList', filteredSelectedValues],
     queryFn: () =>
       getMainList({
         page: currentPage,
