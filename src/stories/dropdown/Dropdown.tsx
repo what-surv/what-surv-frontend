@@ -154,12 +154,12 @@ export const Dropdown = ({
       {isOpen && (
         <div
           ref={dropdownEl}
-          className='absolute w-full max-w-[105px] z-50 bg-[#FAFAFA] mt-1.5 border rounded-2xl border-[#818490] p-0'
+          className='absolute w-full max-w-[105px] z-50 bg-[#FAFAFA] mt-1.5 border rounded-2xl border-[#818490] p-0 overflow-hidden '
         >
           {menu.map((arrOptions: arrOptionProps) => (
             <button
               key={arrOptions.key}
-              className='flex z-50 w-full justify-center py-1.5 items-center gap-2.5 self-stretch hover:bg-[#CCDCFF]'
+              className='flex z-50 w-full justify-center py-1.5 items-center gap-2.5 self-stretch hover:bg-[#CCDCFF] transition-all duration-150 ease-out'
               onClick={() => handleOptionClick(arrOptions)}
               type='button'
             >
