@@ -85,12 +85,12 @@ const Card = ({
 
   // 배지 텍스트를 적절히 자르고, 필요한 경우 "..."을 추가하는 함수
   const formatBadgeText = (text: string, maxLength: number) => {
-    return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+    return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
   };
 
   // 리서치 타입 배지 생성 로직 수정
   const researchTypeBadge = () => {
-    const badges = [];
+    const badges: React.ReactNode[] = [];
 
     // "New" 배지 생성 로직을 여기에서 처리 인기게시글일때 New뱃지 설정 X
     if (isPostNew && cardStyle !== 'hot') {
@@ -109,7 +109,7 @@ const Card = ({
       );
       const label = found ? found.label : createBadgeType;
       const isAlreadyEllipsized = badges.find(
-        (badge) => badge.props.children === '...'
+        (badge) => React.isValidElement(badge) && badge.props.children === '...'
       );
 
       if (index >= 2 && !isAlreadyEllipsized) {
