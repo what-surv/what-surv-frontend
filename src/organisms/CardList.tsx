@@ -110,8 +110,6 @@ const CardList = ({
     );
   }
 
-  console.log(data?.data);
-
   return (
     <div className=''>
       {data?.data.length === 0 && <Nodata />}
