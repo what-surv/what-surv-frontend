@@ -194,6 +194,7 @@ const Index = () => {
                 checkDeviceReturnLimit={checkDeviceReturnLimit}
                 handlePageChange={handlePageChange}
                 setShowLoginAlert={setShowLoginAlert}
+                isLoggedIn={isLoggedIn}
               />
             </div>
             <div className='sticky flex flex-row-reverse bottom-[50px] z-[49]'>

@@ -19,6 +19,7 @@ interface CardListProps {
   checkDeviceReturnLimit: () => number;
   handlePageChange: (page: number) => void;
   setShowLoginAlert: (value: boolean) => void;
+  isLoggedIn: boolean;
 }
 
 interface DropDownInterFace {
@@ -40,6 +41,7 @@ const filterSelectedValues = (selectedValues: DropDownInterFace) => {
 const CardList = ({
   currentPage,
   selectedValues,
+  isLoggedIn,
   checkDeviceReturnLimit,
   handlePageChange,
   setShowLoginAlert,
@@ -59,6 +61,12 @@ const CardList = ({
         ...filteredSelectedValues,
       }),
   });
+
+  useEffect(() => {
+    if (isLoggedIn === false) {
+      refetch();
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     // 로딩 상태를 true로 설정하여 로딩 인디케이터를 활성화
@@ -117,7 +125,7 @@ const CardList = ({
               endDate,
               viewCount,
               commentCount,
-              isLiked,
+              userLike,
               researchTypes,
               author,
             }: GetMainData) => {
@@ -151,9 +159,9 @@ const CardList = ({
                   <span className='absolute top-[25px] right-[21px]'>
                     <Like
                       onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                        likedClick(e, id, isLiked)
+                        likedClick(e, id, userLike)
                       }
-                      isLiked={isLiked}
+                      isLiked={userLike ? true : false}
                     />
                   </span>
                   {title}

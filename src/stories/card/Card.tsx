@@ -92,8 +92,8 @@ const Card = ({
   const researchTypeBadge = () => {
     const badges = [];
 
-    // "New" 배지 생성 로직을 여기에서 처리
-    if (isPostNew) {
+    // "New" 배지 생성 로직을 여기에서 처리 인기게시글일때 New뱃지 설정 X
+    if (isPostNew && cardStyle !== 'hot') {
       badges.push(
         <Badge key='New' size='default' state='sub'>
           New
