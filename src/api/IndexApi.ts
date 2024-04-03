@@ -115,7 +115,7 @@ export type GetMainData = {
   url: string;
   viewCount: string;
   endDate: string;
-  commentCount?: number;
+  commentsCount?: number;
   isLiked: boolean;
   nextPage: number;
   page: number;

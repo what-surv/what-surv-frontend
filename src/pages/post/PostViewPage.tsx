@@ -82,6 +82,8 @@ const PostViewPage = () => {
 
   if (!postDetails) return null;
 
+  console.log(postDetails);
+
   return (
     <div className='w-full mx-auto pb-[150px]'>
       {/* header 영역 */}

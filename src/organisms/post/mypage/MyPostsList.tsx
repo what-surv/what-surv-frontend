@@ -122,6 +122,8 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
     return null;
   }
 
+  console.log(myWritePosts);
+
   return (
     <div className='flex justify-center'>
       {myWritePosts?.pages[0].data.posts.length === 0 ? (
@@ -158,7 +160,7 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
                         }
                       }}
                       viewCount={Number(myWritePost.viewCount)}
-                      commentCount={myWritePost.commentCount}
+                      commentCount={myWritePost.commentsCount}
                       researchTypes={myWritePost.researchTypes}
                       onEditButtonsClick={(
                         action: string,

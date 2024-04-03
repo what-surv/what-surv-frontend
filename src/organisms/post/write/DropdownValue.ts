@@ -5,9 +5,9 @@ export const sortArr = [
 ];
 
 export const genderArr = [
-  { key: 'All', label: '전체' },
-  { key: 'Male', label: '남성' },
-  { key: 'Female', label: '여성' },
+  { key: 'all', label: '전체' },
+  { key: 'male', label: '남성' },
+  { key: 'female', label: '여성' },
 ];
 
 export const ageArr = [
@@ -24,7 +24,7 @@ export const ageArr = [
 
 export const typeArr = [
   { key: 'all', label: '전체' },
-  { key: 'Survey', label: '설문조사' },
+  { key: 'survey', label: '설문조사' },
   { key: 'interview', label: '인터뷰' },
   { key: 'userTest', label: '유저테스트' },
   { key: 'other', label: '기타' },

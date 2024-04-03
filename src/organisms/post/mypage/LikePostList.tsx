@@ -70,7 +70,7 @@ const LikePostList = () => {
       });
     },
     getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.data.likes.length < PAGE_SIZE) return null; // 마지막 페이지 도달
+      if (lastPage.data.posts.length < PAGE_SIZE) return null; // 마지막 페이지 도달
       return allPages.length + 1; // 다음 페이지
     },
 
@@ -97,9 +97,11 @@ const LikePostList = () => {
     return null;
   }
 
+  console.log(LikePosts);
+
   return (
     <div className='flex justify-center'>
-      {LikePosts?.pages[0].data.likes.length === 0 ? (
+      {LikePosts?.pages[0].data.posts.length === 0 ? (
         <Nodata />
       ) : (
         <InfiniteScroll
@@ -111,7 +113,7 @@ const LikePostList = () => {
             {LikePosts?.pages.map((likeArray, pageIndex) => (
               // eslint-disable-next-line react/no-array-index-key
               <React.Fragment key={pageIndex}>
-                {likeArray?.data.likes.map((likePost: GetMainData) => (
+                {likeArray?.data.posts.map((likePost: GetMainData) => (
                   <div className='w-[342px]'>
                     <Card
                       key={likePost.id}
@@ -134,7 +136,7 @@ const LikePostList = () => {
                         }
                       }}
                       viewCount={Number(likePost.viewCount)}
-                      commentCount={likePost.commentCount}
+                      commentCount={likePost.commentsCount}
                     >
                       <span className='absolute top-[25px] right-[21px]'>
                         <Like

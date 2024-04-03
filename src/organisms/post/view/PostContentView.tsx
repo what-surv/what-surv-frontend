@@ -48,19 +48,19 @@ const getAgeRange = (start: number, end: number): string => {
 const translateValue = (key: string, value: string[]): string[] => {
   const translations: Record<string, Record<string, string>> = {
     gender: {
-      All: '전체',
-      Male: '남성',
-      Female: '여성',
+      all: '전체',
+      male: '남성',
+      female: '여성',
     },
     researchTypes: {
-      All: '전체',
+      all: '전체',
       survey: '설문조사',
       interview: '인터뷰',
       userTest: '유저테스트',
       other: '기타',
     },
     procedure: {
-      All: '전체',
+      all: '전체',
       online: '온라인',
       offline: '오프라인',
       onlineOffline: '온오프라인 병행',
