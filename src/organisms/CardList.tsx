@@ -159,7 +159,7 @@ const CardList = ({
                       onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
                         likedClick(e, id, userLike)
                       }
-                      isLiked={!userLike}
+                      isLiked={!!userLike}
                     />
                   </span>
                   {title}

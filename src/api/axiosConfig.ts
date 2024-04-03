@@ -6,6 +6,7 @@ export const axiosBaseUrl: AxiosInstance = axios.create({
 });
 
 // Function to refresh token
+/*
 const refreshToken = async () => {
   // This endpoint should refresh your auth token using a refresh token stored in an HttpOnly cookie
   try {
@@ -16,8 +17,10 @@ const refreshToken = async () => {
     return false;
   }
 };
+*/
 
 // Add a response interceptor
+/*
 axiosBaseUrl.interceptors.response.use(
   (response) => response, // simply return the response for successful requests
   async (error) => {
@@ -38,3 +41,4 @@ axiosBaseUrl.interceptors.response.use(
     return Promise.reject(error); // reject the promise if not a 401 or if token refresh failed
   }
 );
+*/
