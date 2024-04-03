@@ -17,6 +17,7 @@ import { Tabbar } from '../../stories/tabbar/Tabbar';
 import Typography from '../../stories/typography/Typography';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { Viewer } from '@toast-ui/react-editor';
 import { useNavigate, useParams } from 'react-router-dom';
 
 interface commentTypes {
@@ -79,7 +80,7 @@ const PostViewPage = () => {
   //   }
   // };
 
-  if (!postDetails && !comments) return null;
+  if (!postDetails) return null;
 
   console.log(postDetails);
 
@@ -140,11 +141,16 @@ const PostViewPage = () => {
         </div>
         <PostContentView />
         {/* 글 */}
-        <div
-          className='px-4 py-6 bg-[#FFFFFF] w-full rounded-[8px] min-h-[300px]'
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: postDetails.content }}
-        />
+        <div className='px-4 py-6 bg-[#FFFFFF] w-full rounded-[8px] min-h-[300px]'>
+          <Viewer
+            initialValue={postDetails.content}
+            previewStyle='vertical'
+            height='auto'
+            initialEditType='wysiwyg'
+            useCommandShortcut
+            usageStatistics={false}
+          />
+        </div>
 
         {/* 관심 */}
         <div className='flex gap-3.5 w-full self-stretch flex-col items-start'>

@@ -41,7 +41,7 @@ const PostInputContent = ({
     setValue(e.target.value);
   };
   return (
-    <div className='flex w-full lg:min-w-[450px] md:max-w-[375px] flex-col items-start gap-1.5 md:gap-2'>
+    <div className='flex w-full full:min-w-[450px] md:max-w-[375px] flex-col items-start gap-1.5 md:gap-2'>
       <Typography size='base' weight='Regular' text={title} />
       <div className='text-area flex py-2.5 px-5 border self-stretch gap-3 items-center rounded-xl border-[#6697FF] bg-[#FAFAFA]'>
         <Input

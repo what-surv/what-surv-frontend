@@ -198,7 +198,7 @@ const PostWritePage = () => {
         ages: age,
         endDate: enddate,
         gender,
-        researchType,
+        researchTypes: researchType,
         url: inputs.link,
         procedure,
         duration: inputs.time,
@@ -211,8 +211,8 @@ const PostWritePage = () => {
       });
       setIsSuccessModalOpen(true);
     },
-    onError: () => {
-      console.error('에러 발생');
+    onError: (error) => {
+      console.error(error);
     },
   });
 
@@ -222,7 +222,7 @@ const PostWritePage = () => {
         ages: age,
         endDate: enddate,
         gender,
-        researchType,
+        researchTypes: researchType,
         url: inputs.link,
         procedure,
         duration: inputs.time,
@@ -253,7 +253,7 @@ const PostWritePage = () => {
       <div className='flex justify-center items-center max-w-[1034px] w-full m-auto bg-[#FAFAFA]'>
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)} className='w-[90%]'>
-            <div className='content-layout flex justify-center flex-col items-start gap-8 mt-[30px] md:mt-14 bg-[#FAFAFA]'>
+            <div className='full:w-[1034px] content-layout flex justify-center flex-col items-start gap-8 mt-[30px] md:mt-14 bg-[#FAFAFA]'>
               <button
                 type='button'
                 className='hidden md:inline-block'
