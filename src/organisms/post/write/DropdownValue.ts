@@ -11,7 +11,7 @@ export const genderArr = [
 ];
 
 export const ageArr = [
-  { key: 'All', label: '전체' },
+  { key: 'all', label: '전체' },
   { key: '10-19', label: '10대' },
   { key: '20-29', label: '20대' },
   { key: '30-39', label: '30대' },
@@ -23,7 +23,7 @@ export const ageArr = [
 ];
 
 export const typeArr = [
-  { key: 'All', label: '전체' },
+  { key: 'all', label: '전체' },
   { key: 'Survey', label: '설문조사' },
   { key: 'interview', label: '인터뷰' },
   { key: 'userTest', label: '유저테스트' },
@@ -31,7 +31,7 @@ export const typeArr = [
 ];
 
 export const methodArr = [
-  { key: 'All', label: '전체' },
+  { key: 'all', label: '전체' },
   { key: 'online', label: '온라인' },
   { key: 'offline', label: '오프라인' },
   { key: 'onlineOffline', label: '온오프라인 병행' },
