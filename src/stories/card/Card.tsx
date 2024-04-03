@@ -9,7 +9,7 @@ import { Badge } from '../badge/Badge';
 import Typography from '../typography/Typography';
 
 const CardVariants = cva(
-  `card relative w-full border rounded-[16px] p-5 bg-[#FFF] transition-all duration-150 ease-out hover:scale-[1.02] z-10 overflow-hidden`
+  `card relative border rounded-[16px] p-5 bg-[#FFF] transition-all duration-150 ease-out hover:scale-[1.02] z-10 overflow-hidden`
 );
 
 interface CardProps {
@@ -83,19 +83,52 @@ const Card = ({
   // 마감일이 오늘 날짜보다 같거나 늦은 경우 타입을 'closed'로 설정
   const currentType = postEndDate < currentTime && 'closed';
 
-  const researchTypeBedge = () => {
-    return researchTypes?.map((param) => {
-      const found = mainTypeArr.find(
-        (researchType) => researchType.key === param
-      );
-      const label = found ? found.label : param;
+  // 배지 텍스트를 적절히 자르고, 필요한 경우 "..."을 추가하는 함수
+  const formatBadgeText = (text: string, maxLength: number) => {
+    return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+  };
 
-      return (
-        <Badge key={param} size='default' state='main'>
-          {label}
+  // 리서치 타입 배지 생성 로직 수정
+  const researchTypeBadge = () => {
+    const badges = [];
+
+    // "New" 배지 생성 로직을 여기에서 처리
+    if (isPostNew) {
+      badges.push(
+        <Badge key='New' size='default' state='sub'>
+          New
         </Badge>
       );
+    }
+
+    const maxCharCount = 10;
+
+    researchTypes?.forEach((createBadgeType, index) => {
+      const found = mainTypeArr.find(
+        (researchType) => researchType.key === createBadgeType
+      );
+      const label = found ? found.label : createBadgeType;
+      const isAlreadyEllipsized = badges.find(
+        (badge) => badge.props.children === '...'
+      );
+
+      if (index >= 2 && !isAlreadyEllipsized) {
+        badges.push(
+          <Badge size='default' state='main'>
+            ...
+          </Badge>
+        );
+      } else if (index < 2 || !isAlreadyEllipsized) {
+        const badgeText = formatBadgeText(label, maxCharCount);
+        badges.push(
+          <Badge key={label} size='default' state='main'>
+            {badgeText}
+          </Badge>
+        );
+      }
     });
+
+    return badges;
   };
 
   return (
@@ -108,18 +141,11 @@ const Card = ({
     >
       {cardStyle === 'default' ? (
         <div className='flex items-center justify-between w-full'>
-          <div className='flex gap-3'>
-            {isPostNew && (
-              <Badge size='default' state='sub'>
-                New
-              </Badge>
-            )}
-            {researchTypeBedge()}
-          </div>
+          <div className='flex gap-3'>{researchTypeBadge()}</div>
         </div>
       ) : (
         <div className='flex items-center justify-between'>
-          <div className='flex gap-3'>{researchTypeBedge()}</div>
+          <div className='flex gap-3'>{researchTypeBadge()}</div>
           <div>
             <Badge size='default' state='sub'>
               🔥Hot

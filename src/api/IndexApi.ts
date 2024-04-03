@@ -1,7 +1,7 @@
 import { axiosBaseUrl } from './axiosConfig';
 
 export const mainSortArr = [
-  { key: 'recent', label: '최신순' },
+  { key: 'latest', label: '최신순' },
   { key: 'popular', label: '인기순' },
   { key: 'deadline', label: '마감임박순' },
 ];

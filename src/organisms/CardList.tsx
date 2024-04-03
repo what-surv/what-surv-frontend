@@ -93,7 +93,7 @@ const CardList = ({
 
   if (showLoader || isLoading) {
     return (
-      <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
+      <div className='card-list-wrap'>
         {Array.from({ length: checkDeviceReturnLimit() }).map((_, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <CardSkeleton key={index} type='default' />
@@ -102,11 +102,13 @@ const CardList = ({
     );
   }
 
+  console.log(data?.data);
+
   return (
     <div className=''>
       {data?.data.length === 0 && <Nodata />}
       <div>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
+        <div className='card-list-wrap'>
           {data?.data.map(
             ({
               id,
