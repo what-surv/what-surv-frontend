@@ -310,7 +310,7 @@ const Setting = () => {
               />
             </Button>
 
-            <Link to='/' className='text-center text-[#808490]'>
+            <Link to='/withdrawal' className='text-center text-[#808490]'>
               회원 탈퇴
             </Link>
           </div>
