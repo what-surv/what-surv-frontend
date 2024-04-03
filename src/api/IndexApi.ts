@@ -1,15 +1,15 @@
 import { axiosBaseUrl } from './axiosConfig';
 
 export const mainSortArr = [
-  { key: 'recent', label: '최신순' },
+  { key: 'latest', label: '최신순' },
   { key: 'popular', label: '인기순' },
   { key: 'deadline', label: '마감임박순' },
 ];
 
 export const mainGenderArr = [
   { key: 'All', label: '전체' },
-  { key: 'Male', label: '남성' },
-  { key: 'Female', label: '여성' },
+  { key: 'male', label: '남성' },
+  { key: 'female', label: '여성' },
 ];
 
 export const mainAgeArr = [
@@ -105,6 +105,24 @@ export interface postArrayProps {
   data: GetMainData[];
 }
 
+export interface author {
+  author: string | null;
+  areaOfInterest: null;
+  birthDate: string;
+  createdAt: string;
+  createdDate: string;
+  deletedAt: string | null;
+  email: string;
+  gender: 'male' | 'female' | 'other';
+  id: number;
+  job: string;
+  nickname: string;
+  provider: 'naver' | 'other';
+  providerId: string;
+  role: 'user' | 'admin' | 'other';
+  updatedAt: string;
+}
+
 // 받는 데이터
 export type GetMainData = {
   id: number;
@@ -115,13 +133,14 @@ export type GetMainData = {
   url: string;
   viewCount: string;
   endDate: string;
-  commentsCount?: number;
-  isLiked: boolean;
+  commentCount?: number;
+  userLike: { id: number };
   nextPage: number;
   page: number;
   totalPages: number;
   researchTypes: string[];
   data: [];
+  author: author;
 };
 
 export const getMainList = async (params: GetMainListParams) => {

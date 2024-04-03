@@ -185,7 +185,7 @@ export const ResearchSwiper = () => {
           </div>
           <div className='h-full'>
             <Swiper
-              spaceBetween={10}
+              spaceBetween={16}
               slidesPerView={4}
               navigation
               pagination={{ clickable: true }}

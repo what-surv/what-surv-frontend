@@ -19,6 +19,7 @@ interface CardListProps {
   checkDeviceReturnLimit: () => number;
   handlePageChange: (page: number) => void;
   setShowLoginAlert: (value: boolean) => void;
+  isLoggedIn: boolean;
 }
 
 interface DropDownInterFace {
@@ -40,6 +41,7 @@ const filterSelectedValues = (selectedValues: DropDownInterFace) => {
 const CardList = ({
   currentPage,
   selectedValues,
+  isLoggedIn,
   checkDeviceReturnLimit,
   handlePageChange,
   setShowLoginAlert,
@@ -61,6 +63,12 @@ const CardList = ({
   });
 
   useEffect(() => {
+    if (isLoggedIn === false) {
+      refetch();
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
     // 로딩 상태를 true로 설정하여 로딩 인디케이터를 활성화
     setShowLoader(true);
 
@@ -74,7 +82,7 @@ const CardList = ({
   const likedClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
     id: number,
-    liked: boolean
+    liked: { id: number }
   ) => {
     e.stopPropagation();
     try {
@@ -93,7 +101,7 @@ const CardList = ({
 
   if (showLoader || isLoading) {
     return (
-      <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
+      <div className='card-list-wrap'>
         {Array.from({ length: checkDeviceReturnLimit() }).map((_, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <CardSkeleton key={index} type='default' />
@@ -106,24 +114,24 @@ const CardList = ({
     <div className=''>
       {data?.data.length === 0 && <Nodata />}
       <div>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
+        <div className='card-list-wrap'>
           {data?.data.map(
             ({
               id,
-              authorNickname,
               title,
               createdAt,
               endDate,
               viewCount,
               commentCount,
-              isLiked,
+              userLike,
               researchTypes,
+              author,
             }: GetMainData) => {
               return (
                 <Card
                   key={id}
                   id={id}
-                  nickname={authorNickname}
+                  nickname={author.nickname}
                   cardStyle='default'
                   createdAt={createdAt}
                   enddate={formatDateString(endDate)}
@@ -149,9 +157,9 @@ const CardList = ({
                   <span className='absolute top-[25px] right-[21px]'>
                     <Like
                       onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                        likedClick(e, id, isLiked)
+                        likedClick(e, id, userLike)
                       }
-                      isLiked={isLiked}
+                      isLiked={!userLike}
                     />
                   </span>
                   {title}

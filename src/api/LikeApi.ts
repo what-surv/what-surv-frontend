@@ -11,10 +11,9 @@ export const LikePost = async (
 ): Promise<LikePostId> => {
   try {
     const likePost = await axiosBaseUrl.post(
-      `/posts/${postId.toString()}/like`,
-      {}
+      `/posts/${postId.toString()}/like`
     );
-
+    console.log(likePost.data);
     return likePost.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response?.status === 401) {
@@ -38,7 +37,9 @@ export const LikeDelete = async (
   postId: number | string
 ): Promise<LikePostId> => {
   try {
-    const likeDelete = await axiosBaseUrl.delete(`/posts/${postId}/like`);
+    const likeDelete = await axiosBaseUrl.delete(
+      `/posts/${postId.toString()}/like`
+    );
     console.log(likeDelete);
 
     return likeDelete.data;
