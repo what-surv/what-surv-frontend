@@ -75,7 +75,7 @@ const PostEditPage = () => {
   useEffect(() => {
     if (postDetails) {
       setTitle(postDetails.title);
-      setResearchTypes(postDetails.researchType);
+      setResearchTypes(postDetails.researchTypes);
       setAges(postDetails.ages);
       setGender(postDetails.gender);
       setTime(postDetails.duration);
@@ -92,7 +92,7 @@ const PostEditPage = () => {
         ages: age,
         endDate: enddate,
         gender,
-        researchType,
+        researchTypes: researchType,
         url: inputs.link,
         procedure,
         duration: inputs.time,

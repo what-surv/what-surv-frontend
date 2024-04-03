@@ -36,7 +36,7 @@ const SelectDate = () => {
 
   return (
     <div
-      className='flex cursor-pointer pl-3 pr-2 py-1 md:px-4 md:py-1.5 border border-[#818490] rounded-[400px] gap-1 md:gap-2 items-center bg-[#FAFAFA]'
+      className={`flex cursor-pointer ${enddate ? `border-[#0051FF]` : `border-[#818490]`} pl-3 pr-2 py-1 md:px-4 md:py-1.5 border  rounded-[400px] gap-1 md:gap-2 items-center bg-[#FAFAFA]`}
       aria-hidden
       onClick={handleDateClick}
     >

@@ -95,7 +95,7 @@ export type GetData = {
   duration: string;
   endDate: Date;
   procedure: string;
-  researchType: string[];
+  researchTypes: string[];
   title: string;
   url: string;
   viewCount: string;
@@ -133,7 +133,7 @@ export type GetMainData = {
   url: string;
   viewCount: string;
   endDate: string;
-  commentCount?: number;
+  commentsCount?: number;
   isLiked: boolean;
   nextPage: number;
   page: number;
