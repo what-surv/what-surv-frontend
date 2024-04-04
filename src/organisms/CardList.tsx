@@ -53,7 +53,7 @@ const CardList = ({
   const filteredSelectedValues = filterSelectedValues(selectedValues);
 
   const { data, refetch, isLoading } = useQuery<GetMainData>({
-    queryKey: ['postList'],
+    queryKey: ['postList', filteredSelectedValues],
     queryFn: () =>
       getMainList({
         page: currentPage,
@@ -159,7 +159,7 @@ const CardList = ({
                       onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
                         likedClick(e, id, userLike)
                       }
-                      isLiked={!userLike}
+                      isLiked={!!userLike}
                     />
                   </span>
                   {title}
