@@ -12,6 +12,7 @@ import { userCheckApi } from '../api/userCheckApi';
 import { BannerSwiper, ResearchSwiper } from '../component/MainSwiper';
 import CardList from '../organisms/CardList';
 import LoginAlertModal from '../organisms/LoginAlertModal';
+import LogoutAlertModal from '../organisms/LogoutAlertModal';
 import { MainPageStore } from '../store/store';
 import { Appbar } from '../stories/appbar/Appbar';
 import { Dropdown } from '../stories/dropdown/Dropdown';
@@ -36,6 +37,9 @@ const Index = () => {
   // LoginAlertModal을 제어하기 위한 상태
   const [showLoginAlert, setShowLoginAlert] = useState(false);
 
+  // LogoutAlertModal을 제어하기 위한 상태
+  const [showLogoutAlert, setShowLogoutAlert] = useState(false);
+
   const { currentPage, selects, setCurrentPage, setSelects } = MainPageStore(); // store 불러옴
   const navigate = useNavigate();
   const location = useLocation();
@@ -48,7 +52,6 @@ const Index = () => {
         const userStatus = await userCheckApi();
         setIsLoggedIn(userStatus);
       };
-
       fetchUserStatus();
     }
 
@@ -155,16 +158,18 @@ const Index = () => {
     setCurrentPage(page);
   };
 
-  const logout = async () => {
-    await requestLogout();
-    setIsLoggedIn(false);
-  };
-
   return (
     <div className='relative'>
       {isLoggedIn ? (
         <div>
-          <Appbar isAccount isLogo isFullLogo logout={logout} />
+          <Appbar
+            isAccount
+            isLogo
+            isFullLogo
+            logout={() => {
+              setShowLogoutAlert(true);
+            }}
+          />
         </div>
       ) : (
         <Appbar isLogo isFullLogo isLogin />
@@ -208,6 +213,15 @@ const Index = () => {
         handleClose={() => setShowLoginAlert(false)}
         goLogin={() => {
           navigate('/login');
+        }}
+      />
+      <LogoutAlertModal
+        isOpen={showLogoutAlert}
+        handleClose={() => setShowLogoutAlert(false)}
+        goLogout={async () => {
+          await requestLogout();
+          setIsLoggedIn(false);
+          setShowLogoutAlert(false);
         }}
       />
     </div>
