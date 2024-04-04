@@ -99,6 +99,8 @@ export type GetData = {
   title: string;
   url: string;
   viewCount: string;
+  commentCount: string;
+  userLike: { id: number };
 };
 
 export interface postArrayProps {

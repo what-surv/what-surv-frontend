@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { GetData } from '../../api/IndexApi';
-// import { LikeDelete, LikePost } from '../../api/LikeApi';
+import { LikeDelete, LikePost } from '../../api/LikeApi';
 import { requestLogout } from '../../api/loginApis';
 import { testLogin, getPost, getComment } from '../../api/PostApi';
 import { UserTypes } from '../../api/Posttypes';
@@ -78,25 +78,25 @@ const PostViewPage = () => {
     }
   }, []);
 
-  // const likedClick = async (
-  //   e: React.MouseEvent<HTMLButtonElement>,
-  //   id: string,
-  //   liked: boolean
-  // ) => {
-  //   e.stopPropagation();
-  //   try {
-  //     if (liked) {
-  //       await LikeDelete(id);
-  //     } else {
-  //       await LikePost(id);
-  //     }
-  //     refetch();
-  //   } catch (error) {
-  //     if (error instanceof Error && error.message === 'Unauthorized') {
-  //       setShowLoginAlert(true);
-  //     }
-  //   }
-  // };
+  const likedClick = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: number,
+    liked: { id: number }
+  ) => {
+    e.stopPropagation();
+    try {
+      if (liked) {
+        await LikeDelete(id);
+      } else {
+        await LikePost(id);
+      }
+      refetch();
+    } catch (error) {
+      if (error instanceof Error && error.message === 'Unauthorized') {
+        setShowLoginAlert(true);
+      }
+    }
+  };
 
   const logout = async () => {
     await requestLogout();
@@ -144,7 +144,11 @@ const PostViewPage = () => {
             <div className='flex gap-2.5 items-start'>
               <img src={icUser} alt='유저 이미지' />
               <Typography
-                text={postDetails?.author.nickname}
+                text={
+                  postDetails.author === null
+                    ? `deactive user`
+                    : postDetails.author.nickname
+                }
                 size='sm'
                 weight='Medium'
                 lineheight={22}
@@ -154,7 +158,7 @@ const PostViewPage = () => {
               <div className='flex items-center gap-1'>
                 <img src={icEye} alt='눈 아이콘' />
                 <Typography
-                  text={postDetails?.viewCount}
+                  text={postDetails.viewCount}
                   size='sm'
                   weight='Medium'
                   lineheight={22}
@@ -199,10 +203,10 @@ const PostViewPage = () => {
             />
             <div className='p-2.5 flex items-center justify-center gap-2.5'>
               <Like
-              // onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-              //   likedClick(e, num, isLiked.data.isLiked)
-              // }
-              // isLiked={isLiked.data.isLiked}
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                  likedClick(e, Number(num), postDetails.userLike)
+                }
+                isLiked={!!postDetails.userLike}
               />
             </div>
           </div>

@@ -81,23 +81,24 @@ const LikePostList = () => {
   const likedClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
     id: number,
-    liked: boolean
+    liked: { id: number }
   ) => {
     e.stopPropagation();
-
-    if (liked) {
-      await LikeDelete(id);
-    } else {
-      await LikePost(id);
+    try {
+      if (liked) {
+        await LikeDelete(id);
+      } else {
+        await LikePost(id);
+      }
+      refetch();
+    } catch (error) {
+      console.error(error);
     }
-    refetch();
   };
 
   if (isLoading) {
     return null;
   }
-
-  console.log(LikePosts);
 
   return (
     <div className='flex justify-center'>
@@ -141,9 +142,9 @@ const LikePostList = () => {
                       <span className='absolute top-[25px] right-[21px]'>
                         <Like
                           onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                            likedClick(e, likePost.id, likePost.isLiked)
+                            likedClick(e, likePost.id, likePost.userLike)
                           }
-                          isLiked={likePost.isLiked}
+                          isLiked={!!likePost.userLike}
                         />
                       </span>
                       {likePost.title}

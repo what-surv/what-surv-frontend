@@ -11,6 +11,7 @@ import { SuccessModalStore } from '../../../store/store';
 import Card from '../../../stories/card/Card';
 import Like from '../../../stories/like/Like';
 import { formatDateString } from '../../../utils/dateUtils';
+import LoginAlertModal from '../../LoginAlertModal';
 import PostSuccessModal from '../write/PostSuccessModal';
 
 import {
@@ -34,6 +35,8 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { setIsSuccessModalOpen } = SuccessModalStore();
+  // LoginAlertModal을 제어하기 위한 상태
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
 
   const { data: profile } = useQuery<profileTypes>({
     queryKey: ['getProfile'],
@@ -46,7 +49,7 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
     isFetching,
     fetchNextPage,
     hasNextPage,
-    // refetch,
+    refetch,
   } = useInfiniteQuery({
     queryKey: ['myWritePosts'],
     queryFn: async ({ pageParam = 1 }) => {
@@ -69,16 +72,21 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
   const likedClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
     id: number,
-    liked: boolean
+    liked: { id: number }
   ) => {
     e.stopPropagation();
-
-    if (liked) {
-      await LikeDelete(id);
-    } else {
-      await LikePost(id);
+    try {
+      if (liked) {
+        await LikeDelete(id);
+      } else {
+        await LikePost(id);
+      }
+      refetch();
+    } catch (error) {
+      if (error instanceof Error && error.message === 'Unauthorized') {
+        setShowLoginAlert(true);
+      }
     }
-    // refetch();
   };
 
   const handleEditButtonClick = (action: string, postId: number) => {
@@ -170,9 +178,9 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
                       <span className='absolute top-[25px] right-[21px]'>
                         <Like
                           onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                            likedClick(e, myWritePost.id, myWritePost.isLiked)
+                            likedClick(e, myWritePost.id, myWritePost.userLike)
                           }
-                          isLiked={myWritePost.isLiked}
+                          isLiked={!!myWritePost.userLike}
                         />
                       </span>
                       {myWritePost.title}
@@ -193,6 +201,13 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
           </div>
         </InfiniteScroll>
       )}
+      <LoginAlertModal
+        isOpen={showLoginAlert}
+        handleClose={() => setShowLoginAlert(false)}
+        goLogin={() => {
+          navigate('/login');
+        }}
+      />
     </div>
   );
 };

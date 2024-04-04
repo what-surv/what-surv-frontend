@@ -133,7 +133,7 @@ const CardList = ({
                 <Card
                   key={id}
                   id={id}
-                  nickname={author.nickname}
+                  nickname={author === null ? `deactive user` : author.nickname}
                   cardStyle='default'
                   createdAt={createdAt}
                   enddate={formatDateString(endDate)}
