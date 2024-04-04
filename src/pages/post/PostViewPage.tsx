@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import { GetData } from '../../api/IndexApi';
 // import { LikeDelete, LikePost } from '../../api/LikeApi';
+import { requestLogout } from '../../api/loginApis';
 import { testLogin, getPost, getComment } from '../../api/PostApi';
 import { UserTypes } from '../../api/Posttypes';
+import { userCheckApi } from '../../api/userCheckApi';
 import CommentWithButton from '../../molecules/post/view/WriteComment';
 import LoginAlertModal from '../../organisms/LoginAlertModal';
 import PostContentView from '../../organisms/post/view/PostContentView';
@@ -18,7 +20,7 @@ import Typography from '../../stories/typography/Typography';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Viewer } from '@toast-ui/react-editor';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 interface commentTypes {
   id: string;
@@ -35,8 +37,11 @@ const PostViewPage = () => {
   const { num } = useParams() as { num: string };
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const location = useLocation();
   // LoginAlertModal을 제어하기 위한 상태
   const [showLoginAlert, setShowLoginAlert] = useState(false);
+  // 사용자 로그인 상태를 저장하기 위한 상태 변수
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const isArrowClick = () => {
     navigate(-1);
   };
@@ -60,6 +65,19 @@ const PostViewPage = () => {
     refetch();
   }, []);
 
+  useEffect(() => {
+    if (location.state?.quit) {
+      setIsLoggedIn(false);
+    } else {
+      const fetchUserStatus = async () => {
+        const userStatus = await userCheckApi();
+        setIsLoggedIn(userStatus);
+      };
+
+      fetchUserStatus();
+    }
+  }, []);
+
   // const likedClick = async (
   //   e: React.MouseEvent<HTMLButtonElement>,
   //   id: string,
@@ -80,6 +98,11 @@ const PostViewPage = () => {
   //   }
   // };
 
+  const logout = async () => {
+    await requestLogout();
+    setIsLoggedIn(false);
+  };
+
   if (!postDetails) return null;
 
   console.log(postDetails);
@@ -88,7 +111,19 @@ const PostViewPage = () => {
     <div className='w-full mx-auto pb-[150px]'>
       {/* header 영역 */}
       <div className='w-full'>
-        <Appbar isArrow onArrowClick={isArrowClick} isLogo isAccount />
+        {isLoggedIn ? (
+          <div>
+            <Appbar
+              isArrow
+              onArrowClick={isArrowClick}
+              isLogo
+              isAccount
+              logout={logout}
+            />
+          </div>
+        ) : (
+          <Appbar isLogo isFullLogo isLogin />
+        )}
         <Tabbar />
       </div>
       <div className='flex flex-col items-end gap-8 max-w-[1034px] w-[90%] mx-auto'>

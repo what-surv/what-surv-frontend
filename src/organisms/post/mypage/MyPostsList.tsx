@@ -160,7 +160,7 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
                         }
                       }}
                       viewCount={Number(myWritePost.viewCount)}
-                      commentCount={myWritePost.commentsCount}
+                      commentCount={myWritePost.commentCount}
                       researchTypes={myWritePost.researchTypes}
                       onEditButtonsClick={(
                         action: string,

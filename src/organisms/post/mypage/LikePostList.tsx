@@ -136,7 +136,7 @@ const LikePostList = () => {
                         }
                       }}
                       viewCount={Number(likePost.viewCount)}
-                      commentCount={likePost.commentsCount}
+                      commentCount={likePost.commentCount}
                     >
                       <span className='absolute top-[25px] right-[21px]'>
                         <Like
