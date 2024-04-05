@@ -200,15 +200,15 @@ export const ResearchSwiper = () => {
                   slidesPerView: 1,
                 },
                 // 640px 이상 768px 이하에서 2개의 슬라이드
-                640: {
+                748: {
                   slidesPerView: 2,
                 },
                 // 768px 이상 1024px 이하에서 3개의 슬라이드
-                768: {
+                1082: {
                   slidesPerView: 3,
                 },
                 // 1024px 이상에서 4개의 슬라이드
-                1024: {
+                1464: {
                   slidesPerView: 4,
                 },
               }}
