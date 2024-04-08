@@ -56,7 +56,6 @@ const LikePostList = () => {
     fetchNextPage,
     refetch,
     hasNextPage,
-    // refetch,
   } = useInfiniteQuery({
     queryKey: ['myLikePosts'],
     queryFn: async ({ pageParam = 1 }) => {
@@ -99,6 +98,8 @@ const LikePostList = () => {
   if (isLoading) {
     return null;
   }
+
+  console.log(LikePosts);
 
   return (
     <div className='flex justify-center'>

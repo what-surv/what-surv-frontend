@@ -8,7 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
 const transformAges = (ages: string[]): string[] => {
-  if (ages.includes('All')) {
+  if (ages.includes('all')) {
     return ['전체'];
   }
   const sortedAges = ages.sort();

@@ -97,10 +97,10 @@ export const Dropdown = ({
     setDropdownState('activate');
 
     // 전체를 선택한 경우
-    if (option.key === 'All') {
-      onDropdownChange('All');
+    if (option.key === 'all') {
+      onDropdownChange('all');
       if (toggleDropdownValue) {
-        toggleDropdownValue(['All']);
+        toggleDropdownValue(['all']);
       }
     } else if (Array.isArray(value)) {
       if (!value.includes(option.label) && !value.includes('All')) {
