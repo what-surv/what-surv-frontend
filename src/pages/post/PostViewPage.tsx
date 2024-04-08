@@ -144,7 +144,7 @@ const PostViewPage = () => {
               <Typography
                 text={
                   postDetails.author === null
-                    ? `deactive user`
+                    ? `탈퇴한 회원`
                     : postDetails.author.nickname
                 }
                 size='sm'
