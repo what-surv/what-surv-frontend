@@ -100,9 +100,8 @@ const PostContentView = () => {
         title='진행 방식'
         value={translateValue('procedure', [postDetails.procedure])}
       />
-
-      <PostInputContentView title='소요시간' content={postDetails.duration} />
       <PostInputContentView title='링크' content={postDetails.url} />
+      <PostInputContentView title='소요시간' content={postDetails.duration} />
     </div>
   );
 };
