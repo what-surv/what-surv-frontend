@@ -41,7 +41,7 @@ interface DropdownProps {
   /** 드롭다운 선택 시 값 전달해주는 함수 props */
   onDropdownChange: (selectedOption: string) => void;
   /** x 이미지 클릭했을 때 배열에서 값 삭제하는 함수  */
-  toggleDropdownValue?: (deleteOption: string[]) => void;
+  /// toggleDropdownValue?: (deleteOption: string[]) => void;
 }
 
 /**
@@ -54,17 +54,14 @@ export const Dropdown = ({
   oneSelect,
   state,
   value,
-  toggleDropdownValue,
+  /// toggleDropdownValue,
   menu,
   onDropdownChange,
-  ...props
 }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [dropdownState, setDropdownState] = useState<'activate' | 'default'>(
-    state
-  );
   const dropdownEl = useRef<HTMLDivElement>(null);
 
+  // 드롭다운 바깥 클릭 감지를 위한 이벤트 리스너
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -76,52 +73,21 @@ export const Dropdown = ({
       }
     };
 
-    if (value && value.length !== 0) {
-      setDropdownState('activate');
-    } else if (value && value.length === 0) {
-      setDropdownState('default');
-    }
-
     window.addEventListener('click', handleClickOutside);
     return () => {
       window.removeEventListener('click', handleClickOutside);
     };
-  }, [isOpen, value]);
-
-  useEffect(() => {
-    setDropdownState(state);
-  }, [state]);
+  }, [isOpen]);
 
   const handleOptionClick = (option: arrOptionProps) => {
     setIsOpen(false);
-    setDropdownState('activate');
-
-    // 전체를 선택한 경우
-    if (option.key === 'All') {
-      onDropdownChange('All');
-      if (toggleDropdownValue) {
-        toggleDropdownValue(['All']);
-      }
-    } else if (Array.isArray(value)) {
-      if (!value.includes(option.label) && !value.includes('All')) {
-        const updatedValue = value.filter(
-          (item: string) => item !== option.key
-        );
-        updatedValue.sort();
-        if (updatedValue !== undefined && toggleDropdownValue) {
-          toggleDropdownValue(updatedValue);
-        }
-        onDropdownChange(option.key);
-      }
-    } else {
-      onDropdownChange(option.key);
-    }
+    onDropdownChange(option.key);
   };
 
   return (
     <div className='relative'>
       <button
-        className={`${DropdownVariants({ state: dropdownState, ...props })} `}
+        className={`${DropdownVariants({ state })} `}
         onClick={(e) => {
           e.stopPropagation();
           setIsOpen(!isOpen);
@@ -138,12 +104,12 @@ export const Dropdown = ({
             }
             weight='Semibold'
           />
-          {isArrow && dropdownState === 'activate' ? (
-            <img src={bottomArrowPrimary} alt='arrow' className='' />
+          {isArrow && state === 'activate' ? (
+            <img src={bottomArrowPrimary} alt='arrow' />
           ) : (
             ''
           )}
-          {(!isArrow || dropdownState !== 'activate') &&
+          {(!isArrow || state !== 'activate') &&
             (isOpen ? (
               <img src={topArrow} alt='arrow' />
             ) : (
@@ -156,14 +122,14 @@ export const Dropdown = ({
           ref={dropdownEl}
           className='absolute w-full max-w-[105px] z-50 bg-[#FAFAFA] mt-1.5 border rounded-2xl border-[#818490] p-0 overflow-hidden '
         >
-          {menu.map((arrOptions: arrOptionProps) => (
+          {menu.map((option: arrOptionProps) => (
             <button
-              key={arrOptions.key}
-              className='flex z-50 w-full justify-center py-1.5 items-center gap-2.5 self-stretch hover:bg-[#CCDCFF] transition-all duration-150 ease-out'
-              onClick={() => handleOptionClick(arrOptions)}
+              key={option.key}
+              className='flex w-full justify-center py-1.5 items-center gap-2.5 self-stretch hover:bg-[#CCDCFF] transition-all duration-150 ease-out'
+              onClick={() => handleOptionClick(option)}
               type='button'
             >
-              {arrOptions.label}
+              {option.label}
             </button>
           ))}
         </div>

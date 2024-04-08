@@ -104,10 +104,16 @@ const Card = ({
     const maxCharCount = 10;
 
     researchTypes?.forEach((createBadgeType, index) => {
+      // key를 label로 변경하는 부분
+      const lowercaseCreateBadgeType = createBadgeType.toLowerCase();
+
       const found = mainTypeArr.find(
-        (researchType) => researchType.key === createBadgeType
+        (researchType) =>
+          researchType.key.toLowerCase() === lowercaseCreateBadgeType
       );
+
       const label = found ? found.label : createBadgeType;
+
       const isAlreadyEllipsized = badges.find(
         (badge) => React.isValidElement(badge) && badge.props.children === '...'
       );
