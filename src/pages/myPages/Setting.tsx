@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
 import { axiosBaseUrl } from '../../api/axiosConfig';
-import { requestNickName } from '../../api/loginApis';
+import { requestLogout, requestNickName } from '../../api/loginApis';
 import { profileTypes } from '../../api/Posttypes';
+import { userCheckApi } from '../../api/userCheckApi';
 import userProfile from '../../assets/ic-user.svg';
 import Button from '../../atoms/Button';
 import Input from '../../atoms/Input';
+import LoginAlertModal from '../../organisms/LoginAlertModal';
+import LogoutAlertModal from '../../organisms/LogoutAlertModal';
 import CompleteModal from '../../organisms/post/mypage/CompleteModal';
 import { Appbar } from '../../stories/appbar/Appbar';
 import { Tabbar } from '../../stories/tabbar/Tabbar';
@@ -14,7 +17,7 @@ import Typography from '../../stories/typography/Typography';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 interface Inputs {
   nickname: string;
@@ -26,7 +29,9 @@ const Setting = () => {
     queryKey: ['getProfile'],
     queryFn: () => axiosBaseUrl.get(`users/me`),
   });
+
   const navigate = useNavigate();
+  const location = useLocation();
   const queryClient = useQueryClient();
   // 저장하기 버튼 disabled 여부
   const [disableButton, setDisableButton] = useState(true);
@@ -36,7 +41,6 @@ const Setting = () => {
   const [nickname, setNickname] = useState<string>(
     myData?.data.nickname as string
   );
-
   // modal 상태
   const [isModalOpen, setIsmModalOpen] = useState(false);
 
@@ -45,6 +49,24 @@ const Setting = () => {
     setIsmModalOpen(false);
     navigate('/');
   };
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
+  // LogoutAlertModal을 제어하기 위한 상태
+  const [showLogoutAlert, setShowLogoutAlert] = useState(false);
+  // 사용자 로그인 상태를 저장하기 위한 상태 변수
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (location.state?.quit) {
+      setIsLoggedIn(false);
+    } else {
+      const fetchUserStatus = async () => {
+        const userStatus = await userCheckApi();
+        setIsLoggedIn(userStatus);
+      };
+
+      fetchUserStatus();
+    }
+  }, []);
 
   const {
     register,
@@ -136,7 +158,20 @@ const Setting = () => {
     : '';
   return (
     <div>
-      <Appbar isLogo isAccount isFullLogo />
+      {isLoggedIn ? (
+        <div>
+          <Appbar
+            isAccount
+            isLogo
+            isFullLogo
+            logout={() => {
+              setShowLogoutAlert(true);
+            }}
+          />
+        </div>
+      ) : (
+        <Appbar isLogo isFullLogo isLogin />
+      )}
       <Tabbar isMobileVisible />
 
       <div className='max-w-[342px] md:max-w-[354px] lg:max-w-[506px] w-full mt-[50px] m-auto'>
@@ -322,6 +357,22 @@ const Setting = () => {
         buttonText='확인'
         isOpen={isModalOpen}
         onClick={modalButtonOnClick}
+      />
+      <LoginAlertModal
+        isOpen={showLoginAlert}
+        handleClose={() => setShowLoginAlert(false)}
+        goLogin={() => {
+          navigate('/login');
+        }}
+      />
+      <LogoutAlertModal
+        isOpen={showLogoutAlert}
+        handleClose={() => setShowLogoutAlert(false)}
+        goLogout={async () => {
+          await requestLogout();
+          setIsLoggedIn(false);
+          setShowLogoutAlert(false);
+        }}
       />
     </div>
   );

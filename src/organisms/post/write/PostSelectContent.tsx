@@ -4,14 +4,6 @@ import PostInputContent from '../../../molecules/post/write/PostInputContent';
 import PostSelectDropdown from '../../../molecules/post/write/PostSelectDropdown';
 import { WritePageStore } from '../../../store/store';
 
-import { useFormContext } from 'react-hook-form';
-
-interface FormInputs {
-  title: string;
-  link: string;
-  time: string;
-}
-
 // interface PostSelectContentProps {}
 
 const PostSelectContent = () => {
@@ -31,8 +23,6 @@ const PostSelectContent = () => {
     setprocedureArray,
     setResearchTypes,
   } = WritePageStore();
-
-  const { register } = useFormContext<FormInputs>();
 
   return (
     <div className='flex fold:flex-col iphone:flex-row iphone:flex-wrap items-start content-start self-stretch gap-y-3 md:gap-y-4 px-4 py-6 md:p-6 rounded-lg bg-[#E5E7ED]'>
@@ -77,8 +67,8 @@ const PostSelectContent = () => {
         type='text'
         name='link'
         title='링크'
+        isLink
         placeholder='리서치 링크를 첨부해보세요!'
-        register={register}
         setValue={setLink}
         value={link}
       />
@@ -89,7 +79,6 @@ const PostSelectContent = () => {
         type='text'
         title='소요시간'
         placeholder='설문 1분 이내, 인터뷰 30분 이내'
-        register={register}
         setValue={setTime}
         value={time}
       />

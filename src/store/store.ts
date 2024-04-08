@@ -65,7 +65,7 @@ export const WritePageStore = create<WritePageStoreStoreProps>((set) => ({
   age: [],
   researchType: [],
   procedure: '',
-  enddate: '',
+  enddate: new Date(),
   link: '',
   time: '',
   title: '',

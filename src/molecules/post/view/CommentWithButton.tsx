@@ -55,9 +55,12 @@ const CommentWithButton = ({
     fetchUserInfo();
   }, []);
 
+  const renderedContent =
+    content === 'This comment has been removed' ? '삭제된 댓글입니다' : content;
+
   return (
     <div className='flex pl-[30px] mb-5 flex-col gap-2.5 items-start justify-end self-stretch'>
-      <Comment content={content} />
+      <Comment content={renderedContent} />
       <div className='flex comment-button-array'>
         {content && content !== 'This comment has been removed' && (
           <div className='flex gap-2.5'>

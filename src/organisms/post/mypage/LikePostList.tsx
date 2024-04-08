@@ -56,7 +56,6 @@ const LikePostList = () => {
     fetchNextPage,
     refetch,
     hasNextPage,
-    // refetch,
   } = useInfiniteQuery({
     queryKey: ['myLikePosts'],
     queryFn: async ({ pageParam = 1 }) => {
@@ -81,16 +80,19 @@ const LikePostList = () => {
   const likedClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
     id: number,
-    liked: boolean
+    liked: { id: number }
   ) => {
     e.stopPropagation();
-
-    if (liked) {
-      await LikeDelete(id);
-    } else {
-      await LikePost(id);
+    try {
+      if (liked) {
+        await LikeDelete(id);
+      } else {
+        await LikePost(id);
+      }
+      refetch();
+    } catch (error) {
+      console.error(error);
     }
-    refetch();
   };
 
   if (isLoading) {
@@ -136,14 +138,14 @@ const LikePostList = () => {
                         }
                       }}
                       viewCount={Number(likePost.viewCount)}
-                      commentCount={likePost.commentsCount}
+                      commentCount={likePost.commentCount}
                     >
                       <span className='absolute top-[25px] right-[21px]'>
                         <Like
                           onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                            likedClick(e, likePost.id, likePost.isLiked)
+                            likedClick(e, likePost.id, likePost.userLike)
                           }
-                          isLiked={likePost.isLiked}
+                          isLiked={!!likePost.userLike}
                         />
                       </span>
                       {likePost.title}

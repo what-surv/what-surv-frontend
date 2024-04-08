@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import close from '../../../stories/assets/close-circle.svg';
 import { Dropdown } from '../../../stories/dropdown/Dropdown';
 import Typography from '../../../stories/typography/Typography';
@@ -28,10 +30,16 @@ const PostSelectDropdown = ({
   value,
   defaultValue,
 }: PostSelectDropdownProps) => {
+  const [dropdownState, setDropdownState] = useState<'activate' | 'default'>(
+    'default'
+  );
+
   const handleDropdownChange = (selectedOptions: string) => {
     if (onDropdownChange) {
       onDropdownChange(selectedOptions);
     }
+    // Update dropdown state
+    setDropdownState(selectedOptions === defaultValue ? 'default' : 'activate');
   };
 
   const handleCloseClick = (option: string) => {
@@ -41,6 +49,8 @@ const PostSelectDropdown = ({
       if (updatedValue !== undefined && toggleDropdownValue) {
         toggleDropdownValue(updatedValue);
       }
+      // Update dropdown state
+      setDropdownState(updatedValue.length === 0 ? 'default' : 'activate');
     }
   };
 
@@ -50,7 +60,7 @@ const PostSelectDropdown = ({
       <div className='flex gap-1.5'>
         <Dropdown
           isArrow
-          state='default'
+          state={dropdownState}
           menu={options}
           value={value}
           defaultValue={defaultValue}
