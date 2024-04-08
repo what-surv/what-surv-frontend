@@ -107,7 +107,25 @@ const Index = () => {
 
     // 변경된 쿼리 파라미터로 navigate 함수 호출
     navigate(`?${queryParams.toString()}`, { replace: true });
-  }, [selects, navigate, currentPage]);
+  }, [selects, navigate, currentPage, location.state]);
+
+  useEffect(() => {
+    // 페이지에 처음 도달했을 때 또는 location.state가 변경될 때 실행
+    if (location.state?.filterClear) {
+      // filterClear가 true인 경우, selects 상태를 초기화
+      setSelects({
+        sort: '',
+        gender: '',
+        age: '',
+        researchType: '',
+        procedure: '',
+      });
+    } else {
+      // 필터 초기화가 필요하지 않은 경우 혹은 기타 로직 처리...
+    }
+
+    // 필요한 나머지 로직을 여기에 추가...
+  }, [location.state]);
 
   const soltingHandler = (key: string, selectedValue: string) => {
     handlePageChange(1); // 소팅할 때 현재 페이지 1로 변경

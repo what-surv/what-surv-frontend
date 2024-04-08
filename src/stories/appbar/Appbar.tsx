@@ -60,6 +60,8 @@ interface AppbarProps {
   onCloseClick?: () => void;
   /** 로그아웃 */
   logout?: () => void;
+  /** 메인으로 이동시, 쿼리스트링 제거 */
+  onlogoClick?: () => void;
 }
 
 /**
@@ -92,7 +94,7 @@ export const Appbar = ({
   };
 
   const navigateHome = () => {
-    navigate('/');
+    navigate('/', { replace: true, state: { filterClear: true } });
   };
 
   const handleAccountIconHover = () => {
