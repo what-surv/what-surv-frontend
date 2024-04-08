@@ -31,7 +31,12 @@ interface Inputs {
 
 const PostWritePage = () => {
   const methods = useForm<Inputs>({ mode: 'onChange' });
-  const { register, handleSubmit, reset } = methods;
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = methods;
   // const { register, handleSubmit, control, reset } = useForm<Inputs>({
   //   mode: 'onChange',
   // });
@@ -123,6 +128,7 @@ const PostWritePage = () => {
     //   procedure,
     //   title
     // );
+    console.log(Object.keys(errors).length);
     if (
       !age ||
       !gender ||
@@ -132,7 +138,8 @@ const PostWritePage = () => {
       !content ||
       !title ||
       !procedure ||
-      !enddate
+      !enddate ||
+      Object.keys(errors).length > 0
     ) {
       setDisableButton(true);
     } else {
@@ -148,6 +155,7 @@ const PostWritePage = () => {
     title,
     procedure,
     enddate,
+    errors,
   ]);
 
   const handleNavigate = () => {
