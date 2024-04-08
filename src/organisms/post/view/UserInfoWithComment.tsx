@@ -115,7 +115,11 @@ const UserInfoWithComment = () => {
       .filter((comment) => comment.parent?.id === parentId)
       .map(({ id, ...comment }) => (
         <div key={id} className={`${depth > 0 && depth > 1 ? `` : `ml-5`}`}>
-          <UserInfo nickname={comment.user.nickname} />
+          <UserInfo
+            nickname={
+              comment.user === null ? '탈퇴한 유저' : comment.user.nickname
+            }
+          />
           <CommentWithButton
             {...comment}
             id={id}
