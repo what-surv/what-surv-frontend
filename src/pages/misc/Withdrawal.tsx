@@ -308,8 +308,8 @@ const Withdrawal = () => {
               aria-label='탈퇴하기'
               disabled={
                 !checked ||
-                isAllOptionsUnselected ||
-                !isOtherOptionSelectedAndTextFilled
+                (isAllOptionsUnselected && !options[5].selected) ||
+                (options[5].selected && reasonText.trim() === '')
               }
               onClick={() => onClick()}
             >
