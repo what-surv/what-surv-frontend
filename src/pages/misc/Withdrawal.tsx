@@ -58,8 +58,17 @@ const initOptions = [
 const Withdrawal = () => {
   const [options, setOptions] = useState<OptionProps[]>(initOptions);
   const [checked, setChecked] = useState(false);
+  const [reason, setReason] = useState('');
 
   const navigate = useNavigate();
+
+  // textarea의 글자 수가 1000자를 넘지 않도록 제한하는 onChange 이벤트 핸들러
+  const handleReasonChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target;
+    if (reason.length <= 100) {
+      setReason(value);
+    }
+  };
 
   const { data, isLoading } = useQuery({
     queryKey: ['drawal'],
@@ -269,13 +278,15 @@ const Withdrawal = () => {
                 {options[5].selected && (
                   <div className='relative'>
                     <textarea
-                      className='w-full h-[120px] p-5 border border-[#6697FF] rounded-xl'
+                      value={reason}
+                      onChange={() => handleReasonChange(e)}
+                      className='w-full h-[120px] p-5 focus:outline-none focus:border-[#000AFF] border border-[#6697FF] rounded-xl'
                       placeholder='기타 사유를 입력해 주세요!'
                     />
                     <Typography
                       size='xs'
                       weight='Regular'
-                      text='/ 1000'
+                      text={`${reason.length} / 10`}
                       className='absolute bottom-[14px] right-[19px] text-[#808490]'
                     />
                   </div>
