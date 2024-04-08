@@ -32,7 +32,7 @@ interface DropDownInterFace {
 
 const filterSelectedValues = (selectedValues: DropDownInterFace) => {
   const filteredEntries = Object.entries(selectedValues).filter(
-    ([, value]) => value !== 'All'
+    ([, value]) => value !== 'All' && value.trim() !== ''
   );
   const filteredValues = Object.fromEntries(filteredEntries);
   return filteredValues;
@@ -109,8 +109,6 @@ const CardList = ({
       </div>
     );
   }
-
-  console.log(data);
 
   return (
     <div className=''>

@@ -107,37 +107,68 @@ const Index = () => {
 
     // 변경된 쿼리 파라미터로 navigate 함수 호출
     navigate(`?${queryParams.toString()}`, { replace: true });
-  }, [selects, navigate, currentPage]);
+  }, [selects, navigate, currentPage, location.state]);
+
+  useEffect(() => {
+    // 페이지에 처음 도달했을 때 또는 location.state가 변경될 때 실행
+    if (location.state?.filterClear) {
+      // filterClear가 true인 경우, selects 상태를 초기화
+      setSelects({
+        sort: '',
+        gender: '',
+        age: '',
+        researchType: '',
+        procedure: '',
+      });
+    } else {
+      // 필터 초기화가 필요하지 않은 경우 혹은 기타 로직 처리...
+    }
+
+    // 필요한 나머지 로직을 여기에 추가...
+  }, [location.state]);
 
   const soltingHandler = (key: string, selectedValue: string) => {
     handlePageChange(1); // 소팅할 때 현재 페이지 1로 변경
 
-    // "전체"가 아니라면 선택된 값을 상태에 추가 또는 업데이트
-    setSelects({
-      [key]: selectedValue !== '전체' ? selectedValue : '',
-    });
+    // 선택된 값이 배열의 첫 번째 요소와 일치하는 경우, 해당 항목을 제거
+    const clearKey = `${key.charAt(0).toUpperCase() + key.slice(1)}`;
+    if (selectedValue === clearKey) {
+      const newSelects = { ...selects };
+      delete newSelects[key]; // 선택된 키를 selects 객체에서 제거
+      setSelects(newSelects);
+    } else {
+      // "전체"가 아니라면 선택된 값을 상태에 추가 또는 업데이트
+      setSelects({
+        [key]: selectedValue !== '전체' ? selectedValue : '',
+      });
+    }
   };
 
   const renderDropDowns = () => {
     return dropdownOptions.map((option) => {
-      // 해당 dropdown option의 key 값에 대한 선택된 값이 있는지 확인
+      // 현재 드롭다운 옵션에 선택된 값이 있고, 그 값이 해당 드롭다운의 defaultValue와 일치하지 않는 경우만 isActive로 설정
+      // 선택된 값이 있고, 해당 값이 옵션 배열 내의 어떤 항목의 key와도 일치하지 않으면 isActive 설정
       const isActive =
         option.key in selects &&
-        selects[option.key as keyof typeof selects] !== '';
-
-      // 상태를 'active' 또는 'default'로 설정
+        option.arr.some((item) => item.key === selects[option.key]);
+      // 상태를 'activate' 또는 'default'로 설정, defaultValue가 선택되었거나 값이 없으면 'default'
       const state = isActive ? 'activate' : 'default';
-      // 선택된 값이 있는 경우에는 defaultValue 대신 선택된 값을 전달
-      let defaultValue;
+
+      const optionsWithDefault = [
+        { key: '', label: option.defaultValue }, // 여기서는 실제 옵션 리스트에 defaultValue를 추가
+        ...option.arr,
+      ];
+
+      // 선택된 값이 있는 경우, defaultValue 대신 선택된 값을 기본값으로 설정
+      let { defaultValue } = option;
       if (isActive) {
         const selectedValue = selects[option.key as keyof typeof selects];
-        const selectedItem = option.arr.find(
+        const selectedItem = optionsWithDefault.find(
           (item) => item.key === selectedValue
         );
         defaultValue = selectedItem ? selectedItem.label : option.defaultValue;
-      } else {
-        defaultValue = option.defaultValue;
       }
+
       return (
         <Dropdown
           key={option.key}
@@ -145,7 +176,7 @@ const Index = () => {
           isArrow
           state={state}
           oneSelect
-          menu={option.arr}
+          menu={optionsWithDefault}
           onDropdownChange={(selectedValue) =>
             soltingHandler(option.key, selectedValue)
           }
