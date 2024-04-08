@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { axiosBaseUrl } from '../../api/axiosConfig';
 import { postArrayProps } from '../../api/IndexApi';
+import { requestLogout } from '../../api/loginApis';
 import check from '../../assets/check.svg';
 import leftArrow from '../../assets/left_arrow.svg';
 import Button from '../../atoms/Button';
@@ -9,6 +10,8 @@ import Input from '../../atoms/Input';
 import { history } from '../../history/History';
 import EditorBox from '../../molecules/post/write/EditorBox';
 import ConfirmationModal from '../../organisms/ConfirmationModal';
+import LoginAlertModal from '../../organisms/LoginAlertModal';
+import LogoutAlertModal from '../../organisms/LogoutAlertModal';
 import PostSelectContent from '../../organisms/post/write/PostSelectContent';
 import PostSuccessModal from '../../organisms/post/write/PostSuccessModal';
 import { SuccessModalStore, WritePageStore } from '../../store/store';
@@ -35,6 +38,10 @@ const PostWritePage = () => {
   // 뒤로가기 모달 팝업 확인용 isConfirmOpen state
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  // LoginAlertModal을 제어하기 위한 상태
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
+  // LogoutAlertModal을 제어하기 위한 상태
+  const [showLogoutAlert, setShowLogoutAlert] = useState(false);
 
   const { setIsSuccessModalOpen } = SuccessModalStore();
   const [disableButton, setDisableButton] = useState(true);
@@ -319,6 +326,21 @@ const PostWritePage = () => {
           firstButtonText='수정하기'
           SecondButtonText='홈으로'
           isLogo
+        />
+        <LoginAlertModal
+          isOpen={showLoginAlert}
+          handleClose={() => setShowLoginAlert(false)}
+          goLogin={() => {
+            navigate('/login');
+          }}
+        />
+        <LogoutAlertModal
+          isOpen={showLogoutAlert}
+          handleClose={() => setShowLogoutAlert(false)}
+          goLogout={async () => {
+            await requestLogout();
+            setShowLogoutAlert(false);
+          }}
         />
       </div>
     </div>

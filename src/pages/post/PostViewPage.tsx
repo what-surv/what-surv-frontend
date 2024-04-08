@@ -8,6 +8,7 @@ import { UserTypes } from '../../api/Posttypes';
 import { userCheckApi } from '../../api/userCheckApi';
 import CommentWithButton from '../../molecules/post/view/WriteComment';
 import LoginAlertModal from '../../organisms/LoginAlertModal';
+import LogoutAlertModal from '../../organisms/LogoutAlertModal';
 import PostContentView from '../../organisms/post/view/PostContentView';
 import UserInfoWithComment from '../../organisms/post/view/UserInfoWithComment';
 import { Appbar } from '../../stories/appbar/Appbar';
@@ -40,6 +41,8 @@ const PostViewPage = () => {
   const location = useLocation();
   // LoginAlertModal을 제어하기 위한 상태
   const [showLoginAlert, setShowLoginAlert] = useState(false);
+  // LogoutAlertModal을 제어하기 위한 상태
+  const [showLogoutAlert, setShowLogoutAlert] = useState(false);
   // 사용자 로그인 상태를 저장하기 위한 상태 변수
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const isArrowClick = () => {
@@ -98,14 +101,7 @@ const PostViewPage = () => {
     }
   };
 
-  const logout = async () => {
-    await requestLogout();
-    setIsLoggedIn(false);
-  };
-
   if (!postDetails) return null;
-
-  console.log(postDetails);
 
   return (
     <div className='w-full mx-auto pb-[150px]'>
@@ -118,7 +114,9 @@ const PostViewPage = () => {
               onArrowClick={isArrowClick}
               isLogo
               isAccount
-              logout={logout}
+              logout={() => {
+                setShowLogoutAlert(true);
+              }}
             />
           </div>
         ) : (
@@ -234,6 +232,15 @@ const PostViewPage = () => {
         handleClose={() => setShowLoginAlert(false)}
         goLogin={() => {
           navigate('/login');
+        }}
+      />
+      <LogoutAlertModal
+        isOpen={showLogoutAlert}
+        handleClose={() => setShowLogoutAlert(false)}
+        goLogout={async () => {
+          await requestLogout();
+          setIsLoggedIn(false);
+          setShowLogoutAlert(false);
         }}
       />
     </div>
