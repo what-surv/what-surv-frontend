@@ -4,6 +4,7 @@ import { postQuit } from '../../api/quit';
 import { getUserInfoApi } from '../../api/userCheckApi';
 import drawal from '../../assets/ic-withdrawal.svg';
 import SelectsButton from '../../atoms/withdrawal/SelectsButton';
+import WithdrawalModal from '../../organisms/WithdrawalModal';
 import { Appbar } from '../../stories/appbar/Appbar';
 import CheckBox from '../../stories/checkBox/CheckBox';
 import { Tabbar } from '../../stories/tabbar/Tabbar';
@@ -59,6 +60,7 @@ const Withdrawal = () => {
   const [options, setOptions] = useState<OptionProps[]>(initOptions);
   const [checked, setChecked] = useState(false);
   const [reasonText, setReasonText] = useState('');
+  const [showWithdrawalModal, setShowWithdrawalModal] = useState(false);
   const maxReasonTextLength = 1000;
 
   const navigate = useNavigate();
@@ -135,8 +137,7 @@ const Withdrawal = () => {
   };
 
   const isAllOptionsUnselected = options.every((option) => !option.selected);
-  const isOtherOptionSelectedAndTextFilled =
-    options[5].selected && reasonText.trim() !== '';
+
   const onClick = () => {
     const selectedLabels = options
       .filter((option) => option.selected)
@@ -311,7 +312,7 @@ const Withdrawal = () => {
                 (isAllOptionsUnselected && !options[5].selected) ||
                 (options[5].selected && reasonText.trim() === '')
               }
-              onClick={() => onClick()}
+              onClick={() => setShowWithdrawalModal(true)}
             >
               <Typography
                 text='탈퇴하기'
@@ -323,6 +324,13 @@ const Withdrawal = () => {
           </div>
         </div>
       </div>
+      <WithdrawalModal
+        isOpen={showWithdrawalModal}
+        submit={onClick}
+        handleClose={() => {
+          setShowWithdrawalModal(false);
+        }}
+      />
     </div>
   );
 };
