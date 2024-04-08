@@ -128,7 +128,6 @@ const PostWritePage = () => {
     //   procedure,
     //   title
     // );
-    console.log(Object.keys(errors).length);
     if (
       !age ||
       !gender ||
