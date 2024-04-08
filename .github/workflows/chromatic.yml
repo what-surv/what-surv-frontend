@@ -11,14 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     # Job steps
     steps:
-      - uses: actions/checkout@v2 # Update to the latest version of checkout action
+      - uses: actions/checkout@v4 # Update to the latest version of checkout action
         with:
           fetch-depth: 0
       - name: Setup Node.js with Yarn Berry
         run: |
           npm install -g yarn@berry
       - name: Cache Dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.yarn
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}

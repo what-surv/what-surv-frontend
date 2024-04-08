@@ -8,7 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
 const transformAges = (ages: string[]): string[] => {
-  if (ages.includes('All')) {
+  if (ages.includes('all')) {
     return ['전체'];
   }
   const sortedAges = ages.sort();
@@ -100,9 +100,8 @@ const PostContentView = () => {
         title='진행 방식'
         value={translateValue('procedure', [postDetails.procedure])}
       />
-
-      <PostInputContentView title='소요시간' content={postDetails.duration} />
       <PostInputContentView title='링크' content={postDetails.url} />
+      <PostInputContentView title='소요시간' content={postDetails.duration} />
     </div>
   );
 };

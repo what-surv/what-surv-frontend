@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
 import { GetData } from '../../api/IndexApi';
-// import { LikeDelete, LikePost } from '../../api/LikeApi';
+import { LikeDelete, LikePost } from '../../api/LikeApi';
+import { requestLogout } from '../../api/loginApis';
 import { testLogin, getPost, getComment } from '../../api/PostApi';
 import { UserTypes } from '../../api/Posttypes';
+import { userCheckApi } from '../../api/userCheckApi';
 import CommentWithButton from '../../molecules/post/view/WriteComment';
 import LoginAlertModal from '../../organisms/LoginAlertModal';
+import LogoutAlertModal from '../../organisms/LogoutAlertModal';
 import PostContentView from '../../organisms/post/view/PostContentView';
 import UserInfoWithComment from '../../organisms/post/view/UserInfoWithComment';
 import { Appbar } from '../../stories/appbar/Appbar';
@@ -18,7 +21,7 @@ import Typography from '../../stories/typography/Typography';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Viewer } from '@toast-ui/react-editor';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 interface commentTypes {
   id: string;
@@ -35,8 +38,13 @@ const PostViewPage = () => {
   const { num } = useParams() as { num: string };
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const location = useLocation();
   // LoginAlertModal을 제어하기 위한 상태
   const [showLoginAlert, setShowLoginAlert] = useState(false);
+  // LogoutAlertModal을 제어하기 위한 상태
+  const [showLogoutAlert, setShowLogoutAlert] = useState(false);
+  // 사용자 로그인 상태를 저장하기 위한 상태 변수
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const isArrowClick = () => {
     navigate(-1);
   };
@@ -60,35 +68,60 @@ const PostViewPage = () => {
     refetch();
   }, []);
 
-  // const likedClick = async (
-  //   e: React.MouseEvent<HTMLButtonElement>,
-  //   id: string,
-  //   liked: boolean
-  // ) => {
-  //   e.stopPropagation();
-  //   try {
-  //     if (liked) {
-  //       await LikeDelete(id);
-  //     } else {
-  //       await LikePost(id);
-  //     }
-  //     refetch();
-  //   } catch (error) {
-  //     if (error instanceof Error && error.message === 'Unauthorized') {
-  //       setShowLoginAlert(true);
-  //     }
-  //   }
-  // };
+  useEffect(() => {
+    if (location.state?.quit) {
+      setIsLoggedIn(false);
+    } else {
+      const fetchUserStatus = async () => {
+        const userStatus = await userCheckApi();
+        setIsLoggedIn(userStatus);
+      };
+
+      fetchUserStatus();
+    }
+  }, []);
+
+  const likedClick = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: number,
+    liked: { id: number }
+  ) => {
+    e.stopPropagation();
+    try {
+      if (liked) {
+        await LikeDelete(id);
+      } else {
+        await LikePost(id);
+      }
+      refetch();
+    } catch (error) {
+      if (error instanceof Error && error.message === 'Unauthorized') {
+        setShowLoginAlert(true);
+      }
+    }
+  };
 
   if (!postDetails) return null;
-
-  console.log(postDetails);
 
   return (
     <div className='w-full mx-auto pb-[150px]'>
       {/* header 영역 */}
       <div className='w-full'>
-        <Appbar isArrow onArrowClick={isArrowClick} isLogo isAccount />
+        {isLoggedIn ? (
+          <div>
+            <Appbar
+              isArrow
+              onArrowClick={isArrowClick}
+              isLogo
+              isAccount
+              logout={() => {
+                setShowLogoutAlert(true);
+              }}
+            />
+          </div>
+        ) : (
+          <Appbar isLogo isFullLogo isLogin />
+        )}
         <Tabbar />
       </div>
       <div className='flex flex-col items-end gap-8 max-w-[1034px] w-[90%] mx-auto'>
@@ -109,7 +142,11 @@ const PostViewPage = () => {
             <div className='flex gap-2.5 items-start'>
               <img src={icUser} alt='유저 이미지' />
               <Typography
-                text={postDetails?.author.nickname}
+                text={
+                  postDetails.author === null
+                    ? `탈퇴한 회원`
+                    : postDetails.author.nickname
+                }
                 size='sm'
                 weight='Medium'
                 lineheight={22}
@@ -119,7 +156,7 @@ const PostViewPage = () => {
               <div className='flex items-center gap-1'>
                 <img src={icEye} alt='눈 아이콘' />
                 <Typography
-                  text={postDetails?.viewCount}
+                  text={postDetails.viewCount}
                   size='sm'
                   weight='Medium'
                   lineheight={22}
@@ -164,10 +201,10 @@ const PostViewPage = () => {
             />
             <div className='p-2.5 flex items-center justify-center gap-2.5'>
               <Like
-              // onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-              //   likedClick(e, num, isLiked.data.isLiked)
-              // }
-              // isLiked={isLiked.data.isLiked}
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                  likedClick(e, Number(num), postDetails.userLike)
+                }
+                isLiked={!!postDetails.userLike}
               />
             </div>
           </div>
@@ -195,6 +232,15 @@ const PostViewPage = () => {
         handleClose={() => setShowLoginAlert(false)}
         goLogin={() => {
           navigate('/login');
+        }}
+      />
+      <LogoutAlertModal
+        isOpen={showLogoutAlert}
+        handleClose={() => setShowLogoutAlert(false)}
+        goLogout={async () => {
+          await requestLogout();
+          setIsLoggedIn(false);
+          setShowLogoutAlert(false);
         }}
       />
     </div>

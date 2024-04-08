@@ -97,8 +97,8 @@ const UserInfoWithComment = () => {
         queryKey: ['getComment', num],
       });
     },
-    onError: () => {
-      console.error('에러 발생');
+    onError: (error) => {
+      console.error(error);
     },
   });
 

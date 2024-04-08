@@ -110,6 +110,8 @@ const CardList = ({
     );
   }
 
+  console.log(data);
+
   return (
     <div className=''>
       {data?.data.length === 0 && <Nodata />}
@@ -131,7 +133,7 @@ const CardList = ({
                 <Card
                   key={id}
                   id={id}
-                  nickname={author === null ? '탈퇴한 회원' : author.nickname}
+                  nickname={author === null ? `탈퇴한 회원` : author.nickname}
                   cardStyle='default'
                   createdAt={createdAt}
                   enddate={formatDateString(endDate)}
