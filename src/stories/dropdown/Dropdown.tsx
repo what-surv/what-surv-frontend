@@ -41,7 +41,7 @@ interface DropdownProps {
   /** 드롭다운 선택 시 값 전달해주는 함수 props */
   onDropdownChange: (selectedOption: string) => void;
   /** x 이미지 클릭했을 때 배열에서 값 삭제하는 함수  */
-  /// toggleDropdownValue?: (deleteOption: string[]) => void;
+  toggleDropdownValue?: (deleteOption: string[]) => void;
 }
 
 /**
@@ -54,7 +54,7 @@ export const Dropdown = ({
   oneSelect,
   state,
   value,
-  /// toggleDropdownValue,
+  toggleDropdownValue,
   menu,
   onDropdownChange,
 }: DropdownProps) => {
@@ -81,7 +81,27 @@ export const Dropdown = ({
 
   const handleOptionClick = (option: arrOptionProps) => {
     setIsOpen(false);
-    onDropdownChange(option.key);
+
+    // 전체를 선택한 경우
+    if (option.key === 'All') {
+      onDropdownChange('All');
+      if (toggleDropdownValue) {
+        toggleDropdownValue(['All']);
+      }
+    } else if (Array.isArray(value)) {
+      if (!value.includes(option.label) && !value.includes('All')) {
+        const updatedValue = value.filter(
+          (item: string) => item !== option.key
+        );
+        updatedValue.sort();
+        if (updatedValue !== undefined && toggleDropdownValue) {
+          toggleDropdownValue(updatedValue);
+        }
+        onDropdownChange(option.key);
+      }
+    } else {
+      onDropdownChange(option.key);
+    }
   };
 
   return (

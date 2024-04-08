@@ -266,7 +266,20 @@ const Withdrawal = () => {
                     ) => handleSelectDetail(option.id, detailId, event)}
                   />
                 ))}
-                {options[5].selected && <textarea />}
+                {options[5].selected && (
+                  <div className='relative'>
+                    <textarea
+                      className='w-full h-[120px] p-5 border border-[#6697FF] rounded-xl'
+                      placeholder='기타 사유를 입력해 주세요!'
+                    />
+                    <Typography
+                      size='xs'
+                      weight='Regular'
+                      text='/ 1000'
+                      className='absolute bottom-[14px] right-[19px] text-[#808490]'
+                    />
+                  </div>
+                )}
               </div>
             </div>
             <button
