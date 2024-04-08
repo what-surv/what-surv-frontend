@@ -95,7 +95,7 @@ const Card = ({
     // "New" 배지 생성 로직을 여기에서 처리 인기게시글일때 New뱃지 설정 X
     if (isPostNew && cardStyle !== 'hot') {
       badges.push(
-        <Badge key='New' size='default' state='sub'>
+        <Badge key={`${id}-new`} size='default' state='sub'>
           New
         </Badge>
       );
@@ -104,24 +104,30 @@ const Card = ({
     const maxCharCount = 10;
 
     researchTypes?.forEach((createBadgeType, index) => {
+      // key를 label로 변경하는 부분
+      const lowercaseCreateBadgeType = createBadgeType.toLowerCase();
+
       const found = mainTypeArr.find(
-        (researchType) => researchType.key === createBadgeType
+        (researchType) =>
+          researchType.key.toLowerCase() === lowercaseCreateBadgeType
       );
+
       const label = found ? found.label : createBadgeType;
+
       const isAlreadyEllipsized = badges.find(
         (badge) => React.isValidElement(badge) && badge.props.children === '...'
       );
 
       if (index >= 2 && !isAlreadyEllipsized) {
         badges.push(
-          <Badge size='default' state='main'>
+          <Badge key={`${id}-ellipsis`} size='default' state='main'>
             ...
           </Badge>
         );
       } else if (index < 2 || !isAlreadyEllipsized) {
         const badgeText = formatBadgeText(label, maxCharCount);
         badges.push(
-          <Badge key={label} size='default' state='main'>
+          <Badge key={`${id}-${label}`} size='default' state='main'>
             {badgeText}
           </Badge>
         );

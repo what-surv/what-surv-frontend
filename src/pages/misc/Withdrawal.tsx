@@ -4,6 +4,7 @@ import { postQuit } from '../../api/quit';
 import { getUserInfoApi } from '../../api/userCheckApi';
 import drawal from '../../assets/ic-withdrawal.svg';
 import SelectsButton from '../../atoms/withdrawal/SelectsButton';
+import WithdrawalModal from '../../organisms/WithdrawalModal';
 import { Appbar } from '../../stories/appbar/Appbar';
 import CheckBox from '../../stories/checkBox/CheckBox';
 import { Tabbar } from '../../stories/tabbar/Tabbar';
@@ -58,8 +59,22 @@ const initOptions = [
 const Withdrawal = () => {
   const [options, setOptions] = useState<OptionProps[]>(initOptions);
   const [checked, setChecked] = useState(false);
+  const [reasonText, setReasonText] = useState('');
+  const [showWithdrawalModal, setShowWithdrawalModal] = useState(false);
+  const maxReasonTextLength = 1000;
 
   const navigate = useNavigate();
+
+  // textarea의 글자 수가 1000자를 넘지 않도록 제한하는 onChange 이벤트 핸들러
+  const handleReasonChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target;
+    if (
+      value.length <= maxReasonTextLength ||
+      value.length < reasonText.length
+    ) {
+      setReasonText(value);
+    }
+  };
 
   const { data, isLoading } = useQuery({
     queryKey: ['drawal'],
@@ -73,14 +88,18 @@ const Withdrawal = () => {
   const handleSelect = (id: number) => {
     const newOptions = options.map((option) => {
       if (option.id === id) {
-        // If the selected option is changed, reset its details
-        return {
+        const updatedOption = {
           ...option,
           selected: !option.selected,
           details: option.details
             ? option.details.map((detail) => ({ ...detail, selected: false }))
             : undefined,
         };
+        // '기타' 옵션 선택 해제 시, reasonText를 초기화
+        if (id === 5 && !updatedOption.selected) {
+          setReasonText('');
+        }
+        return updatedOption;
       }
       return option;
     });
@@ -266,15 +285,34 @@ const Withdrawal = () => {
                     ) => handleSelectDetail(option.id, detailId, event)}
                   />
                 ))}
-                {options[5].selected && <textarea />}
+                {options[5].selected && (
+                  <div className='relative'>
+                    <textarea
+                      value={reasonText}
+                      onChange={handleReasonChange}
+                      className='w-full h-[120px] p-5 focus:outline-none focus:border-[#000AFF] border border-[#6697FF] rounded-xl'
+                      placeholder='기타 사유를 입력해 주세요!'
+                    />
+                    <Typography
+                      size='xs'
+                      weight='Regular'
+                      text={`${reasonText.length} / ${maxReasonTextLength}`}
+                      className='absolute bottom-[14px] right-[19px] text-[#808490]'
+                    />
+                  </div>
+                )}
               </div>
             </div>
             <button
               type='button'
               className='flex w-full items-center justify-center h-12 bg-[#0051FF] disabled:bg-[#A6AAB2] rounded-[400px] transition-all duration-300 ease-in-out'
               aria-label='탈퇴하기'
-              disabled={!checked || isAllOptionsUnselected}
-              onClick={() => onClick()}
+              disabled={
+                !checked ||
+                (isAllOptionsUnselected && !options[5].selected) ||
+                (options[5].selected && reasonText.trim() === '')
+              }
+              onClick={() => setShowWithdrawalModal(true)}
             >
               <Typography
                 text='탈퇴하기'
@@ -286,6 +324,13 @@ const Withdrawal = () => {
           </div>
         </div>
       </div>
+      <WithdrawalModal
+        isOpen={showWithdrawalModal}
+        submit={onClick}
+        handleClose={() => {
+          setShowWithdrawalModal(false);
+        }}
+      />
     </div>
   );
 };
