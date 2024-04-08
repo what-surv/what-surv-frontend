@@ -58,15 +58,19 @@ const initOptions = [
 const Withdrawal = () => {
   const [options, setOptions] = useState<OptionProps[]>(initOptions);
   const [checked, setChecked] = useState(false);
-  const [reason, setReason] = useState('');
+  const [reasonText, setReasonText] = useState('');
+  const maxReasonTextLength = 1000;
 
   const navigate = useNavigate();
 
   // textarea의 글자 수가 1000자를 넘지 않도록 제한하는 onChange 이벤트 핸들러
   const handleReasonChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target;
-    if (reason.length <= 100) {
-      setReason(value);
+    if (
+      value.length <= maxReasonTextLength ||
+      value.length < reasonText.length
+    ) {
+      setReasonText(value);
     }
   };
 
@@ -82,14 +86,18 @@ const Withdrawal = () => {
   const handleSelect = (id: number) => {
     const newOptions = options.map((option) => {
       if (option.id === id) {
-        // If the selected option is changed, reset its details
-        return {
+        const updatedOption = {
           ...option,
           selected: !option.selected,
           details: option.details
             ? option.details.map((detail) => ({ ...detail, selected: false }))
             : undefined,
         };
+        // '기타' 옵션 선택 해제 시, reasonText를 초기화
+        if (id === 5 && !updatedOption.selected) {
+          setReasonText('');
+        }
+        return updatedOption;
       }
       return option;
     });
@@ -127,7 +135,8 @@ const Withdrawal = () => {
   };
 
   const isAllOptionsUnselected = options.every((option) => !option.selected);
-
+  const isOtherOptionSelectedAndTextFilled =
+    options[5].selected && reasonText.trim() !== '';
   const onClick = () => {
     const selectedLabels = options
       .filter((option) => option.selected)
@@ -278,15 +287,15 @@ const Withdrawal = () => {
                 {options[5].selected && (
                   <div className='relative'>
                     <textarea
-                      value={reason}
-                      onChange={() => handleReasonChange(e)}
+                      value={reasonText}
+                      onChange={handleReasonChange}
                       className='w-full h-[120px] p-5 focus:outline-none focus:border-[#000AFF] border border-[#6697FF] rounded-xl'
                       placeholder='기타 사유를 입력해 주세요!'
                     />
                     <Typography
                       size='xs'
                       weight='Regular'
-                      text={`${reason.length} / 10`}
+                      text={`${reasonText.length} / ${maxReasonTextLength}`}
                       className='absolute bottom-[14px] right-[19px] text-[#808490]'
                     />
                   </div>
@@ -297,7 +306,11 @@ const Withdrawal = () => {
               type='button'
               className='flex w-full items-center justify-center h-12 bg-[#0051FF] disabled:bg-[#A6AAB2] rounded-[400px] transition-all duration-300 ease-in-out'
               aria-label='탈퇴하기'
-              disabled={!checked || isAllOptionsUnselected}
+              disabled={
+                !checked ||
+                isAllOptionsUnselected ||
+                !isOtherOptionSelectedAndTextFilled
+              }
               onClick={() => onClick()}
             >
               <Typography
