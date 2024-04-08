@@ -103,7 +103,7 @@ export const Dropdown = ({
         toggleDropdownValue(['all']);
       }
     } else if (Array.isArray(value)) {
-      if (!value.includes(option.label) && !value.includes('All')) {
+      if (!value.includes(option.label) && !value.includes('all')) {
         const updatedValue = value.filter(
           (item: string) => item !== option.key
         );
