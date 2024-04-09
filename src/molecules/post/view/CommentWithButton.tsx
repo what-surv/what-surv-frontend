@@ -67,7 +67,7 @@ const CommentWithButton = ({
             <CommentButton onClick={() => ReplyButtonClick(id)}>
               <img src={reply} alt='답장 아이콘' />
             </CommentButton>
-            {userInfo && userInfo.id === user.id && (
+            {userInfo && user && userInfo.id === user.id && (
               <>
                 <CommentButton onClick={() => EditButtonClick(id)}>
                   <img src={edit} alt='수정 아이콘' />
