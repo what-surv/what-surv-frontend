@@ -6,7 +6,7 @@ import { requestLogout } from '../../api/loginApis';
 import { testLogin, getPost, getComment } from '../../api/PostApi';
 import { UserTypes } from '../../api/Posttypes';
 import { userCheckApi } from '../../api/userCheckApi';
-import CommentWithButton from '../../molecules/post/view/WriteComment';
+import WriteComment from '../../molecules/post/view/WriteComment';
 import LoginAlertModal from '../../organisms/LoginAlertModal';
 import LogoutAlertModal from '../../organisms/LogoutAlertModal';
 import PostContentView from '../../organisms/post/view/PostContentView';
@@ -221,7 +221,7 @@ const PostViewPage = () => {
               className='text-[#242424]'
             />
           </div>
-          <CommentWithButton placeholder='댓글을 입력해보세요!' />
+          <WriteComment placeholder='댓글을 입력해보세요!' />
           <div className='w-full'>
             <UserInfoWithComment />
           </div>
