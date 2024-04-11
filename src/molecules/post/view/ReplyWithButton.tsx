@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import { axiosBaseUrl } from '../../../api/axiosConfig';
 import fillAccount from '../../../assets/account-fill.svg';
 import arrowUpCircle from '../../../assets/arrow-up-circle.svg';
@@ -28,6 +30,7 @@ const ReplyWithButton = ({
   const { num } = useParams() as { num: string };
   const queryClient = useQueryClient();
   const { register, handleSubmit, reset } = useForm<TextareaInputs>();
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const postReplyMutation = useMutation<void, unknown, string>({
     mutationFn: (reply) =>
@@ -40,8 +43,8 @@ const ReplyWithButton = ({
         queryKey: ['getComment', num],
       });
     },
-    onError: () => {
-      console.error('에러 발생');
+    onError: (error) => {
+      console.error(error);
     },
   });
 
@@ -51,6 +54,12 @@ const ReplyWithButton = ({
     setIsReplyOpen(false);
     reset();
   };
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, []);
 
   return (
     <div className='flex items-start self-stretch w-full gap-2 pl-2.5'>
@@ -67,6 +76,7 @@ const ReplyWithButton = ({
           <div className='flex h-full py-5 px-[30px] border-2 self-stretch gap-2.5 items-center rounded-xl border-[#C1C5CC] bg-[#FAFAFA]'>
             <textarea
               {...register('reply')}
+              ref={textareaRef}
               className='bg-inherit w-full text-base placeholder:text-[#D7DBE2] placeholder:font-medium font-pretendard font-semibold outline-none leading-[26px]'
               placeholder={placeholder}
               rows={3}

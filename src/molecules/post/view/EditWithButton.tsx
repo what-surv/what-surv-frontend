@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import { axiosBaseUrl } from '../../../api/axiosConfig';
 import fillAccount from '../../../assets/account-fill.svg';
 import arrowUpCircle from '../../../assets/arrow-up-circle.svg';
@@ -30,6 +32,7 @@ const EditWithButton = ({
   const { register, handleSubmit } = useForm<TextareaInputs>();
   const queryClient = useQueryClient();
   const { onChange } = register('edit');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const postCommentMutation = useMutation<void, unknown, string>({
     mutationFn: (editComment) =>
@@ -52,6 +55,15 @@ const EditWithButton = ({
 
     setIsEditOpen(false);
   };
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+      // eslint-disable-next-line no-multi-assign
+      textareaRef.current.selectionStart = textareaRef.current.selectionEnd =
+        textareaRef.current.value.length;
+    }
+  }, []);
+
   return (
     <div className='flex items-start self-stretch w-full gap-2'>
       <img
@@ -69,6 +81,7 @@ const EditWithButton = ({
               {...register('edit', {
                 required: '댓글을 입력해주세요.',
               })}
+              ref={textareaRef}
               defaultValue={value}
               className='flex-1 bg-inherit text-base placeholder:text-[#D7DBE2] placeholder:font-medium font-pretendard font-semibold outline-none leading-[26px]'
               onChange={onChange}
