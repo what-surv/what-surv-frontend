@@ -53,10 +53,6 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
   } = useInfiniteQuery({
     queryKey: ['myWritePosts'],
     queryFn: async ({ pageParam = 1 }) => {
-      // 2초 딜레이 추가
-      await new Promise((resolve) => {
-        setTimeout(resolve, 2000);
-      });
       return axiosBaseUrl.get('users/me/posts', {
         params: { page: pageParam, limit: PAGE_SIZE },
       });
