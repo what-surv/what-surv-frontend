@@ -10,8 +10,8 @@ import Input from '../../atoms/Input';
 import { history } from '../../history/History';
 import EditorBox from '../../molecules/post/write/EditorBox';
 import ConfirmationModal from '../../organisms/ConfirmationModal';
+import CompleteModal from '../../organisms/post/mypage/CompleteModal';
 import PostSelectContent from '../../organisms/post/write/PostSelectContent';
-import PostSuccessModal from '../../organisms/post/write/PostSuccessModal';
 import { SuccessModalStore, WritePageStore } from '../../store/store';
 import { Appbar } from '../../stories/appbar/Appbar';
 import { Tabbar } from '../../stories/tabbar/Tabbar';
@@ -31,6 +31,8 @@ const PostEditPage = () => {
   const { postId } = useParams() as { postId: string };
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  // modal 상태
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [disableButton, setDisableButton] = useState(true);
   const methods = useForm<Inputs>({ mode: 'onChange' });
   const {
@@ -56,7 +58,6 @@ const PostEditPage = () => {
 
   useEffect(() => {
     const listenBackEvent = () => {
-      setIsConfirmModalOpen(true);
       setTitle('');
       setLink('');
       setTime('');
@@ -155,9 +156,9 @@ const PostEditPage = () => {
 
   useEffect(() => {
     if (
-      !age ||
+      age.length === 0 ||
       !gender ||
-      !researchType ||
+      researchType.length === 0 ||
       !link ||
       !time ||
       !content ||
@@ -170,7 +171,6 @@ const PostEditPage = () => {
     } else {
       setDisableButton(false);
     }
-    console.log(link, time, title, errors);
   }, [
     age,
     gender,
@@ -205,16 +205,13 @@ const PostEditPage = () => {
     navigate('/');
   };
 
-  // 수정하기 버튼 눌렀을 때
-  const closeModal = () => {
-    setIsConfirmModalOpen(false);
-    setIsSuccessModalOpen(false);
-    queryClient.refetchQueries({ queryKey: ['getAllPost'] });
+  const modalButtonOnClick = () => {
+    setIsModalOpen(false);
+    navigate('/');
   };
 
   useEffect(() => {
     if (postDetails) {
-      // setTitle 함수를 사용하여 React Hook Form에 제목을 설정
       methods.setValue('title', postDetails.title);
       methods.setValue('link', postDetails.url);
       methods.setValue('time', postDetails.duration);
@@ -280,6 +277,7 @@ const PostEditPage = () => {
               <EditorBox />
               <div className='flex justify-end w-full'>
                 <Button
+                  onClick={() => setIsModalOpen(true)}
                   type='submit'
                   className={`inline-flex justify-center text-white py-3 px-6 items-center gap-2 rounded-[400px] md:w-[314px] ${disableButton ? `bg-[#A6AAB2]` : `bg-[#0051FF]`}`}
                   disabled={disableButton}
@@ -296,14 +294,12 @@ const PostEditPage = () => {
           handleClose={() => setIsConfirmModalOpen(false)}
           handleModalLeave={handleModalLeave}
         />
-        <PostSuccessModal
-          firstButtonOnClick={closeModal}
-          SecondButtonOnClick={handleModalLeave}
-          title='게시물 등록이 완료되었습니다!!'
+        <CompleteModal
+          title='게시물 수정이 완료되었습니다!!'
           content={`내가 작성한 글 목록에서 언제든지 내용을 수정할 수 있어요.\n메인에 등록된 게시물을 확인해보세요!`}
-          firstButtonText='수정하기'
-          SecondButtonText='홈으로'
-          isLogo
+          buttonText='홈으로'
+          isOpen={isModalOpen}
+          onClick={modalButtonOnClick}
         />
       </div>
     </div>

@@ -95,7 +95,6 @@ const PostWritePage = () => {
 
   useEffect(() => {
     const listenBackEvent = () => {
-      setIsConfirmModalOpen(true);
       setTitle('');
       setLink('');
       setTime('');
@@ -129,9 +128,9 @@ const PostWritePage = () => {
     //   title
     // );
     if (
-      !age ||
+      age.length === 0 ||
       !gender ||
-      !researchType ||
+      researchType.length === 0 ||
       !link ||
       !time ||
       !content ||
@@ -159,13 +158,13 @@ const PostWritePage = () => {
 
   const handleNavigate = () => {
     if (
-      age.length <= 0 &&
-      !gender &&
-      !researchType &&
-      !link &&
-      !content &&
-      !title &&
-      !procedure &&
+      age.length <= 0 ||
+      !gender ||
+      !researchType ||
+      !link ||
+      !content ||
+      !title ||
+      !procedure ||
       !enddate
     ) {
       navigate(-1);

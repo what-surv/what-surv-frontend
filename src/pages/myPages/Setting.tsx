@@ -42,11 +42,11 @@ const Setting = () => {
     myData?.data.nickname as string
   );
   // modal 상태
-  const [isModalOpen, setIsmModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // modal 확인 버튼 클릭 시 이벤트
   const modalButtonOnClick = () => {
-    setIsmModalOpen(false);
+    setIsModalOpen(false);
     navigate('/');
   };
   const [showLoginAlert, setShowLoginAlert] = useState(false);
@@ -116,7 +116,7 @@ const Setting = () => {
         areaOfInterest: inputs.interest,
       }),
     onSuccess: () => {
-      setIsmModalOpen(true);
+      setIsModalOpen(true);
       queryClient.invalidateQueries({
         queryKey: ['getProfile'],
       });
@@ -150,7 +150,7 @@ const Setting = () => {
   if (isLoading || !myData) {
     return null;
   }
-  const birthDate = myData?.data?.birthDate
+  const birthDate = myData.data.birthDate
     ? new Date(myData.data.birthDate)
     : null;
   const formattedBirthDate = birthDate
