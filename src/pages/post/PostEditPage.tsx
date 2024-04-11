@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { axiosBaseUrl } from '../../api/axiosConfig';
 import { GetData } from '../../api/IndexApi';
@@ -33,7 +33,12 @@ const PostEditPage = () => {
   const queryClient = useQueryClient();
   const [disableButton, setDisableButton] = useState(true);
   const methods = useForm<Inputs>({ mode: 'onChange' });
-  const { register, handleSubmit, reset } = methods;
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = methods;
   const { setIsSuccessModalOpen } = SuccessModalStore();
 
   // 뒤로가기 모달 팝업 확인용 isConfirmOpen state
@@ -158,12 +163,14 @@ const PostEditPage = () => {
       !content ||
       !title ||
       !procedure ||
-      !enddate
+      !enddate ||
+      Object.keys(errors).length > 0
     ) {
       setDisableButton(true);
     } else {
       setDisableButton(false);
     }
+    console.log(link, time, title, errors);
   }, [
     age,
     gender,
@@ -174,6 +181,7 @@ const PostEditPage = () => {
     title,
     procedure,
     enddate,
+    errors,
   ]);
 
   const handleModalLeave = () => {
@@ -202,6 +210,19 @@ const PostEditPage = () => {
     setIsConfirmModalOpen(false);
     setIsSuccessModalOpen(false);
     queryClient.refetchQueries({ queryKey: ['getAllPost'] });
+  };
+
+  useEffect(() => {
+    if (postDetails) {
+      // setTitle 함수를 사용하여 React Hook Form에 제목을 설정
+      methods.setValue('title', postDetails.title);
+      methods.setValue('link', postDetails.url);
+      methods.setValue('time', postDetails.duration);
+    }
+  }, [postDetails, setTitle, methods]);
+
+  const titleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
   };
 
   if (isLoading) {
@@ -237,13 +258,14 @@ const PostEditPage = () => {
                     placeholder='리서치 내용을 한 줄로 요약해보세요!'
                     className='flex-1 bg-inherit text-base placeholder:text-[#C1C5CC] placeholder:font-medium normal font-pretendard font-semibold outline-none leading-[26px]'
                     id='title'
-                    value={title}
+                    defaultValue={title}
                     {...register('title', {
                       required: '제목을 입력해주세요.',
                       maxLength: {
                         value: 100,
                         message: '제목을 100자 이내로 입력해주세요.',
                       },
+                      onChange: titleOnChange,
                     })}
                   />
                   <Typography
