@@ -3,18 +3,13 @@ import React from 'react';
 import { axiosBaseUrl } from '../../../api/axiosConfig';
 import { GetMainData } from '../../../api/IndexApi';
 import { LikeDelete, LikePost } from '../../../api/LikeApi';
-import { profileTypes } from '../../../api/Posttypes';
 import Nodata from '../../../pages/misc/Nodata';
 import Card from '../../../stories/card/Card';
 import Like from '../../../stories/like/Like';
 import { formatDateString } from '../../../utils/dateUtils';
 // import { getComment } from '../api/PostApi';
 
-import {
-  useInfiniteQuery,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroller';
 import { useNavigate } from 'react-router-dom';
 
@@ -34,20 +29,6 @@ const PAGE_SIZE = 12;
 const LikePostList = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
-  const { data: profile } = useQuery<profileTypes>({
-    queryKey: ['getProfile'],
-    queryFn: () => axiosBaseUrl.get(`auth/profile`),
-  });
-
-  // const {
-  //   data: LikePosts,
-  //   isLoading,
-  //   refetch,
-  // } = useQuery({
-  //   queryKey: ['isLikePost'],
-  //   queryFn: () => axiosBaseUrl.get('users/me/likes'),
-  // });
 
   const {
     data: LikePosts,
@@ -94,8 +75,6 @@ const LikePostList = () => {
     return null;
   }
 
-  console.log(LikePosts);
-
   return (
     <div className='flex justify-center'>
       {LikePosts?.pages[0].data.posts.length === 0 ? (
@@ -115,7 +94,7 @@ const LikePostList = () => {
                     <Card
                       key={likePost.id}
                       id={likePost.id}
-                      nickname={profile?.data.nickname}
+                      nickname={likePost.nickname}
                       cardStyle='default'
                       createdAt={likePost.createdAt}
                       enddate={formatDateString(likePost.endDate)}

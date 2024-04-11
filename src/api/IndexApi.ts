@@ -139,6 +139,7 @@ export type GetMainData = {
   userLike: { id: number };
   nextPage: number;
   page: number;
+  nickname: string;
   totalPages: number;
   researchTypes: string[];
   data: [];

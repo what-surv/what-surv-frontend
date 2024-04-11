@@ -5,7 +5,6 @@ import { axiosBaseUrl } from '../../../api/axiosConfig';
 import { GetMainData } from '../../../api/IndexApi';
 // import { getComment } from '../api/PostApi';
 import { LikeDelete, LikePost } from '../../../api/LikeApi';
-import { profileTypes } from '../../../api/Posttypes';
 import Nodata from '../../../pages/misc/Nodata';
 import { SuccessModalStore } from '../../../store/store';
 import Card from '../../../stories/card/Card';
@@ -17,7 +16,6 @@ import PostSuccessModal from '../write/PostSuccessModal';
 import {
   useInfiniteQuery,
   useMutation,
-  useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -37,11 +35,6 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
   const { setIsSuccessModalOpen } = SuccessModalStore();
   // LoginAlertModal을 제어하기 위한 상태
   const [showLoginAlert, setShowLoginAlert] = useState(false);
-
-  const { data: profile } = useQuery<profileTypes>({
-    queryKey: ['getProfile'],
-    queryFn: () => axiosBaseUrl.get(`auth/profile`),
-  });
 
   const {
     data: myWritePosts,
@@ -126,8 +119,6 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
     return null;
   }
 
-  console.log(myWritePosts);
-
   return (
     <div className='flex justify-center'>
       {myWritePosts?.pages[0].data.posts.length === 0 ? (
@@ -147,7 +138,7 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
                     <Card
                       key={myWritePost.id}
                       id={myWritePost.id}
-                      nickname={profile?.data.nickname}
+                      nickname={myWritePost.nickname}
                       cardStyle='default'
                       createdAt={myWritePost.createdAt}
                       enddate={formatDateString(myWritePost.endDate)}
