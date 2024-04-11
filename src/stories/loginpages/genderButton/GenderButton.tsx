@@ -1,5 +1,4 @@
 import { VariantProps, cva } from 'class-variance-authority';
-import React from 'react';
 
 const GenderButtonVariants = cva(
   `
@@ -24,7 +23,7 @@ const GenderButton = ({ onClick, text, state }: BirthDayWriteBoxProps) => {
   return (
     <button
       type='button'
-      onClick={onClick}
+      onClick={() => onClick}
       className={`${GenderButtonVariants()} ${state ? 'bg-[#3283FF]' : 'bg-[#C1C5CC]'}`}
     >
       <p className='text-base font-medium text-[#FFFFFF]'>{text}</p>

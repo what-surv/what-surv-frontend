@@ -1,7 +1,7 @@
 /* eslint-disable import/no-duplicates */
 /* eslint-disable react/no-unused-prop-types */
 import { AxiosRequestConfig } from 'axios';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { axiosBaseUrl } from '../../../api/axiosConfig';
 import { getComment } from '../../../api/PostApi';

@@ -39,12 +39,14 @@ const PostInputContent = ({
   setValue,
   name,
   isLink,
+  value,
   ...props
 }: PostInputContentProps) => {
   const {
     register,
     formState: { errors },
   } = useFormContext<FormInputs>();
+
   //  input값 실시간 변화 하는 값 받아오기  위한 changeEvent
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -56,12 +58,13 @@ const PostInputContent = ({
         <Input
           type='text'
           {...props}
+          defaultValue={value}
           {...register(name, {
             required: '값을 입력해주세요.',
             pattern: isLink
               ? {
                   value:
-                    /^(?:(?:https?|ftp):\/\/)?(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/\S*)?$/,
+                    /^(?:(?:https?|ftp):\/\/)?(?:www\.)?[a-zA-Z0-9-]+\.(?:[a-zA-Z]{2,}|[a-zA-Z]{2,}\.[a-zA-Z]{2,})(?:\/\S*)?$/,
                   message: '유효한 URL 형식이 아닙니다.',
                 }
               : undefined,

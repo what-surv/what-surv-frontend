@@ -5,7 +5,6 @@ import { axiosBaseUrl } from '../../../api/axiosConfig';
 import { GetMainData } from '../../../api/IndexApi';
 // import { getComment } from '../api/PostApi';
 import { LikeDelete, LikePost } from '../../../api/LikeApi';
-import { profileTypes } from '../../../api/Posttypes';
 import Nodata from '../../../pages/misc/Nodata';
 import { SuccessModalStore } from '../../../store/store';
 import Card from '../../../stories/card/Card';
@@ -17,7 +16,6 @@ import PostSuccessModal from '../write/PostSuccessModal';
 import {
   useInfiniteQuery,
   useMutation,
-  useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -38,11 +36,6 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
   // LoginAlertModal을 제어하기 위한 상태
   const [showLoginAlert, setShowLoginAlert] = useState(false);
 
-  const { data: profile } = useQuery<profileTypes>({
-    queryKey: ['getProfile'],
-    queryFn: () => axiosBaseUrl.get(`auth/profile`),
-  });
-
   const {
     data: myWritePosts,
     isLoading,
@@ -53,10 +46,6 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
   } = useInfiniteQuery({
     queryKey: ['myWritePosts'],
     queryFn: async ({ pageParam = 1 }) => {
-      // 2초 딜레이 추가
-      await new Promise((resolve) => {
-        setTimeout(resolve, 2000);
-      });
       return axiosBaseUrl.get('users/me/posts', {
         params: { page: pageParam, limit: PAGE_SIZE },
       });
@@ -151,7 +140,11 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
                     <Card
                       key={myWritePost.id}
                       id={myWritePost.id}
-                      nickname={profile?.data.nickname}
+                      nickname={
+                        myWritePost.author === null
+                          ? `탈퇴한 회원`
+                          : myWritePost.author.nickname
+                      }
                       cardStyle='default'
                       createdAt={myWritePost.createdAt}
                       enddate={formatDateString(myWritePost.endDate)}

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import style from './login.module.css';
 import { useUserInfoStore } from '../../store/store';
 import Typography from '../../stories/typography/Typography';

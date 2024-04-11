@@ -1,5 +1,3 @@
-import React from 'react';
-
 import style from './login.module.css';
 import icSuccessBig from '../../stories/assets/ic-success-big.svg';
 import Typography from '../../stories/typography/Typography';
@@ -24,7 +22,7 @@ const LoginStep4 = () => {
       <div className='text-center'>
         <img className='inline' src={icSuccessBig} alt='회원가입 성공 아이콘' />
       </div>
-      <p className='text-center my-4'>회원가입이 완료되었습니다.</p>
+      <p className='my-4 text-center'>회원가입이 완료되었습니다.</p>
       <button
         type='button'
         className={style['basic-btn']}

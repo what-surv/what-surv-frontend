@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import EditWithButton from './EditWithButton';
 import ReplyWithButton from './ReplyWithButton';
@@ -56,13 +56,14 @@ const CommentWithButton = ({
   }, []);
 
   const renderedContent =
-    content === 'This comment has been removed' ? '삭제된 댓글입니다' : content;
-
+    content === 'This comment has been removed'
+      ? '댓글이 삭제되었습니다.'
+      : content;
   return (
     <div className='flex pl-[30px] mb-5 flex-col gap-2.5 items-start justify-end self-stretch'>
       <Comment content={renderedContent} />
       <div className='flex comment-button-array'>
-        {content && content !== 'This comment has been removed' && (
+        {content && content !== 'This comment has been removed' && user && (
           <div className='flex gap-2.5'>
             <CommentButton onClick={() => ReplyButtonClick(id)}>
               <img src={reply} alt='답장 아이콘' />
