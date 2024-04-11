@@ -23,8 +23,6 @@ const meta = {
 
 export default meta;
 
-export const Outlined: StoryObj<typeof Footer> = {
-  args: {
-    test: '1',
-  },
+export const Default: StoryObj<typeof Footer> = {
+  args: {},
 };

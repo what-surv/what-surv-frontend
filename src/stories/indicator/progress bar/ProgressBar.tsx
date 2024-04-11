@@ -18,7 +18,7 @@ const ProgressBarVariants = cva(
 );
 
 interface ProgressBarProps {
-  /** /progress 퍼센트 */
+  /** progress 퍼센트 */
   percent: number;
   /** 각 단말기별 크기 확인용 */
   size: 'mobile' | 'desktop';

@@ -30,13 +30,6 @@ export const Default: StoryObj<typeof Appbar> = {
   },
 };
 
-export const Full: StoryObj<typeof Appbar> = {
-  args: {
-    children: '',
-    size: 'full',
-  },
-};
-
 export const Mobile: StoryObj<typeof Appbar> = {
   name: 'MainPage Mobile Default',
   args: {
