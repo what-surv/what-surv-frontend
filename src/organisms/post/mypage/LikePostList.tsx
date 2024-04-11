@@ -94,7 +94,7 @@ const LikePostList = () => {
                     <Card
                       key={likePost.id}
                       id={likePost.id}
-                      nickname={likePost.nickname}
+                      nickname={likePost.author.nickname}
                       cardStyle='default'
                       createdAt={likePost.createdAt}
                       enddate={formatDateString(likePost.endDate)}

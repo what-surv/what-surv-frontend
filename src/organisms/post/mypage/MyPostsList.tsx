@@ -119,6 +119,8 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
     return null;
   }
 
+  console.log(myWritePosts);
+
   return (
     <div className='flex justify-center'>
       {myWritePosts?.pages[0].data.posts.length === 0 ? (
@@ -138,7 +140,7 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
                     <Card
                       key={myWritePost.id}
                       id={myWritePost.id}
-                      nickname={myWritePost.nickname}
+                      nickname={myWritePost.author.nickname}
                       cardStyle='default'
                       createdAt={myWritePost.createdAt}
                       enddate={formatDateString(myWritePost.endDate)}
