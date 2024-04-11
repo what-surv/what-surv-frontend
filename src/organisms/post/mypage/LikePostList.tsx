@@ -75,6 +75,8 @@ const LikePostList = () => {
     return null;
   }
 
+  console.log(LikePosts);
+
   return (
     <div className='flex justify-center'>
       {LikePosts?.pages[0].data.posts.length === 0 ? (
@@ -94,7 +96,11 @@ const LikePostList = () => {
                     <Card
                       key={likePost.id}
                       id={likePost.id}
-                      nickname={likePost.author.nickname}
+                      nickname={
+                        likePost.author === null
+                          ? `탈퇴한 회원`
+                          : likePost.author.nickname
+                      }
                       cardStyle='default'
                       createdAt={likePost.createdAt}
                       enddate={formatDateString(likePost.endDate)}

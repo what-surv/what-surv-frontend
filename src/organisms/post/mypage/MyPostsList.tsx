@@ -140,7 +140,11 @@ const MyPostsList = ({ isEdit }: { isEdit: boolean }) => {
                     <Card
                       key={myWritePost.id}
                       id={myWritePost.id}
-                      nickname={myWritePost.author.nickname}
+                      nickname={
+                        myWritePost.author === null
+                          ? `탈퇴한 회원`
+                          : myWritePost.author.nickname
+                      }
                       cardStyle='default'
                       createdAt={myWritePost.createdAt}
                       enddate={formatDateString(myWritePost.endDate)}
