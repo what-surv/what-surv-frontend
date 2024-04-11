@@ -1,5 +1,3 @@
-import React from 'react';
-
 import modalCheck from '../../../assets/modal-check.svg';
 import { SuccessModalStore } from '../../../store/store';
 import Typography from '../../../stories/typography/Typography';

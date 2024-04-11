@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Home from '../../assets/ic-home-white.svg';
 import Button from '../../atoms/Button';
 import { Appbar } from '../../stories/appbar/Appbar';
@@ -26,7 +24,7 @@ const NotFoundPage = () => {
               className='text-center text-[#80A8FF]'
             />
           </p>
-          <div className='flex flex-col gap-3 items-center'>
+          <div className='flex flex-col items-center gap-3'>
             <p>
               <Typography
                 size='lg'

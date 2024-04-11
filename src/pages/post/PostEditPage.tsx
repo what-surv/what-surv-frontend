@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { axiosBaseUrl } from '../../api/axiosConfig';
 import { GetData } from '../../api/IndexApi';

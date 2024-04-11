@@ -1,5 +1,3 @@
-import React from 'react';
-
 import PostListSelect from '../../molecules/PostListSelect';
 import LikePostList from '../../organisms/post/mypage/LikePostList';
 import { Appbar } from '../../stories/appbar/Appbar';

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Typography from '../../../stories/typography/Typography';
 
 import ReactDOM from 'react-dom';

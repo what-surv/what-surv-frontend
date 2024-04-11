@@ -30,7 +30,8 @@ export const BannerSwiper = () => {
   const [totalSlides, setTotalSlides] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const swiperRef = useRef<Swiper | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const swiperRef = useRef() as any;
 
   // 페이지 인디케이터 배열 생성
   const pageIndicatorArr = Array.from({ length: totalSlides }, (_, index) => ({
@@ -88,18 +89,21 @@ export const BannerSwiper = () => {
                 src={mainBannerPc2}
                 alt='설문조사 참여하고 스타벅스 기프티콘 받기! 이벤트 기간 ~3/31일까지!'
                 className='hidden lg:block'
+                loading='lazy'
               />
 
               <img
                 src={mainBannerTb2}
                 alt='설문조사 참여하고 스타벅스 기프티콘 받기! 이벤트 기간 ~3/31일까지!'
                 className='sm:block lg:hidden'
+                loading='lazy'
               />
 
               <img
                 src={mainBannerMb2}
                 alt='설문조사 참여하고 스타벅스 기프티콘 받기! 이벤트 기간 ~3/31일까지!'
                 className='block sm:hidden'
+                loading='lazy'
               />
             </div>
           </SwiperSlide>
@@ -109,18 +113,21 @@ export const BannerSwiper = () => {
                 src={mainBannerPc3}
                 alt='SurveyIT에 대한 의견을 보내주세요!'
                 className='hidden lg:block'
+                loading='lazy'
               />
 
               <img
                 src={mainBannerTb3}
                 alt='SurveyIT에 대한 의견을 보내주세요!'
                 className='sm:block lg:hidden'
+                loading='lazy'
               />
 
               <img
                 src={mainBannerMb3}
                 alt='SurveyIT에 대한 의견을 보내주세요!'
                 className='block sm:hidden'
+                loading='lazy'
               />
             </div>
           </SwiperSlide>
@@ -141,7 +148,8 @@ export const ResearchSwiper = () => {
   const [showLoader, setShowLoader] = useState(true);
 
   const navigate = useNavigate();
-  const swiperRef = useRef<Swiper | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const swiperRef = useRef() as any;
 
   const { data, isLoading } = useQuery({
     queryKey: ['popularList'],

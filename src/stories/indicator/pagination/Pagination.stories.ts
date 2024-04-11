@@ -15,7 +15,7 @@ export default meta;
 
 export const Desktop: StoryObj<typeof Pagination> = {
   args: {
-    percent: 10,
-    size: 'desktop',
+    totalPage: 10,
+    currentPage: 2,
   },
 };
