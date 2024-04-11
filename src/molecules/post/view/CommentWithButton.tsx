@@ -55,8 +55,6 @@ const CommentWithButton = ({
     fetchUserInfo();
   }, []);
 
-  console.log(user);
-
   const renderedContent =
     content === 'This comment has been removed'
       ? '댓글이 삭제되었습니다.'
