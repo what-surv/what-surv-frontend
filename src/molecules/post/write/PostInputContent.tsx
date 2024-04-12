@@ -47,14 +47,16 @@ const PostInputContent = ({
     formState: { errors },
   } = useFormContext<FormInputs>();
 
-  //  input값 실시간 변화 하는 값 받아오기  위한 changeEvent
+  //  input값 실시간 변화 하는 값 받아오기 위한 changeEvent
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
   return (
     <div className='flex w-full full:min-w-[450px] md:max-w-[375px] flex-col items-start gap-1.5 md:gap-2'>
       <Typography size='base' weight='Regular' text={title} />
-      <div className='text-area flex py-2.5 px-5 border self-stretch gap-3 items-center rounded-xl border-[#6697FF] bg-[#FAFAFA]'>
+      <div
+        className={`text-area flex py-2.5 px-5 border self-stretch gap-3 items-center rounded-xl ${errors[name] ? 'border-[#EB271C]' : 'border-[#6697FF]'} bg-[#FAFAFA]`}
+      >
         <Input
           type='text'
           {...props}
@@ -78,9 +80,19 @@ const PostInputContent = ({
         />
       </div>
       {isLink ? (
-        <span className='relative flex'>{errors.link?.message}</span>
+        <Typography
+          text={errors.link?.message}
+          size='xs'
+          weight='Regular'
+          className='text-[#EB271C]'
+        />
       ) : (
-        ``
+        <Typography
+          text={errors.time?.message}
+          size='xs'
+          weight='Regular'
+          className='text-[#EB271C]'
+        />
       )}
     </div>
   );
