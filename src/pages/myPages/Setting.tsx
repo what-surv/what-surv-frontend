@@ -43,7 +43,6 @@ const Setting = () => {
   );
   // modal 상태
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   // modal 확인 버튼 클릭 시 이벤트
   const modalButtonOnClick = () => {
     setIsModalOpen(false);
@@ -372,6 +371,7 @@ const Setting = () => {
           await requestLogout();
           setIsLoggedIn(false);
           setShowLogoutAlert(false);
+          navigate('/');
         }}
       />
     </div>

@@ -8,7 +8,7 @@ import LikePostList from '../../organisms/post/mypage/LikePostList';
 import { Appbar } from '../../stories/appbar/Appbar';
 import { Tabbar } from '../../stories/tabbar/Tabbar';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface ButtonInfo {
   label: string;
@@ -22,6 +22,7 @@ const buttonValues: ButtonInfo[] = [
 
 const InterestArticlesPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   // LogoutAlertModal을 제어하기 위한 상태
   const [showLogoutAlert, setShowLogoutAlert] = useState(false);
   // 사용자 로그인 상태를 저장하기 위한 상태 변수
@@ -74,6 +75,7 @@ const InterestArticlesPage = () => {
           await requestLogout();
           setIsLoggedIn(false);
           setShowLogoutAlert(false);
+          navigate('/');
         }}
       />
     </div>

@@ -8,7 +8,7 @@ import MyPostsList from '../../organisms/post/mypage/MyPostsList';
 import { Appbar } from '../../stories/appbar/Appbar';
 import { Tabbar } from '../../stories/tabbar/Tabbar';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface ButtonInfo {
   label: string;
@@ -22,6 +22,7 @@ const buttonValues: ButtonInfo[] = [
 
 const MyWritePostPage = () => {
   const [isEdit, setIsEdit] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
 
   // LogoutAlertModal을 제어하기 위한 상태
@@ -82,6 +83,7 @@ const MyWritePostPage = () => {
           await requestLogout();
           setIsLoggedIn(false);
           setShowLogoutAlert(false);
+          navigate('/');
         }}
       />
     </div>
