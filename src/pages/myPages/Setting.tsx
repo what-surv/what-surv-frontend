@@ -372,6 +372,7 @@ const Setting = () => {
           await requestLogout();
           setIsLoggedIn(false);
           setShowLogoutAlert(false);
+          navigate('/');
         }}
       />
     </div>
