@@ -81,7 +81,6 @@ const EditWithButton = ({
               {...register('edit', {
                 required: '댓글을 입력해주세요.',
               })}
-              ref={textareaRef}
               defaultValue={value}
               className='flex-1 bg-inherit text-base placeholder:text-[#D7DBE2] placeholder:font-medium font-pretendard font-semibold outline-none leading-[26px]'
               onChange={onChange}

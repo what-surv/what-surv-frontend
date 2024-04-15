@@ -104,8 +104,6 @@ const UserInfoWithComment = () => {
 
   if (!comments) return null;
 
-  console.log(comments);
-
   const renderComments = (
     commentsArray: commentTypes[],
     parentId?: string,

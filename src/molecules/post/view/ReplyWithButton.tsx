@@ -50,6 +50,7 @@ const ReplyWithButton = ({
 
   const onSubmit = (data: TextareaInputs) => {
     postReplyMutation.mutate(data.reply);
+    console.log(data);
 
     setIsReplyOpen(false);
     reset();
@@ -76,7 +77,6 @@ const ReplyWithButton = ({
           <div className='flex h-full py-5 px-[30px] border-2 self-stretch gap-2.5 items-center rounded-xl border-[#C1C5CC] bg-[#FAFAFA]'>
             <textarea
               {...register('reply')}
-              ref={textareaRef}
               className='bg-inherit w-full text-base placeholder:text-[#D7DBE2] placeholder:font-medium font-pretendard font-semibold outline-none leading-[26px]'
               placeholder={placeholder}
               rows={3}
