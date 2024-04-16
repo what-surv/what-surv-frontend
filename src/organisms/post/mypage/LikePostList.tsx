@@ -75,8 +75,6 @@ const LikePostList = () => {
     return null;
   }
 
-  console.log(LikePosts);
-
   return (
     <div className='flex justify-center'>
       {LikePosts?.pages[0].data.posts.length === 0 ? (
