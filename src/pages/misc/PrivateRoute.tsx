@@ -7,6 +7,8 @@ import { Outlet, useNavigate } from 'react-router-dom';
 
 const PrivateRoute = () => {
   const [isAuth, setIsAuth] = useState<null | boolean>(null);
+  // LoginAlertModal을 제어하기 위한 상태
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     const getAuthStatus = async () => {
@@ -17,6 +19,11 @@ const PrivateRoute = () => {
     getAuthStatus();
   }, []);
 
+  const handleClose = () => {
+    navigate('/');
+    setShowLoginAlert(true);
+  };
+
   if (isAuth === null) {
     return null; // 또는 다른 로딩 표시 컴포넌트
   }
@@ -24,7 +31,8 @@ const PrivateRoute = () => {
   if (!isAuth) {
     return (
       <LoginAlertModal
-        isOpen
+        isOpen={!showLoginAlert}
+        handleClose={() => handleClose()}
         goLogin={() => {
           navigate('/login');
         }}

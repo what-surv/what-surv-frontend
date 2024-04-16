@@ -5,11 +5,12 @@ import { getUserInfoApi } from '../../../api/userCheckApi';
 import fillAccount from '../../../assets/account-fill.svg';
 import arrowUpCircle from '../../../assets/arrow-up-circle.svg';
 import Button from '../../../atoms/Button';
+import LoginAlertModal from '../../../organisms/LoginAlertModal';
 import Typography from '../../../stories/typography/Typography';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface TextareaInputs {
   comment: string;
@@ -24,6 +25,9 @@ const WriteComment = ({ placeholder }: WriteCommentProps) => {
   const { num } = useParams() as { num: string };
   const { register, handleSubmit, reset } = useForm<TextareaInputs>();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  // LoginAlertModal을 제어하기 위한 상태
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
 
   const postCommentMutation = useMutation<void, unknown, string>({
@@ -45,7 +49,7 @@ const WriteComment = ({ placeholder }: WriteCommentProps) => {
   const handleTextareaClick = async () => {
     const userInfoApi = await getUserInfoApi();
     if (!userInfoApi) {
-      alert('로그인 후 댓글을 작성할 수 있습니다.');
+      setShowLoginAlert(true);
       return null;
     }
     setUserInfo(userInfoApi);
@@ -60,7 +64,7 @@ const WriteComment = ({ placeholder }: WriteCommentProps) => {
 
     const userInfoApi = await getUserInfoApi();
     if (!userInfoApi) {
-      alert('로그인 후 댓글을 작성할 수 있습니다.');
+      setShowLoginAlert(true);
       return null;
     }
     setUserInfo(userInfoApi);
@@ -109,6 +113,13 @@ const WriteComment = ({ placeholder }: WriteCommentProps) => {
           </Button>
         </form>
       </div>
+      <LoginAlertModal
+        isOpen={showLoginAlert}
+        handleClose={() => setShowLoginAlert(false)}
+        goLogin={() => {
+          navigate('/login');
+        }}
+      />
     </div>
   );
 };
