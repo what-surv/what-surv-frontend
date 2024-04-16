@@ -24,6 +24,7 @@ const MyWritePostPage = () => {
   const [isEdit, setIsEdit] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
 
   // LogoutAlertModal을 제어하기 위한 상태
   const [showLogoutAlert, setShowLogoutAlert] = useState(false);

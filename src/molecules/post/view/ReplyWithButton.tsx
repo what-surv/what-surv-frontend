@@ -50,7 +50,6 @@ const ReplyWithButton = ({
 
   const onSubmit = (data: TextareaInputs) => {
     postReplyMutation.mutate(data.reply);
-    console.log(data);
 
     setIsReplyOpen(false);
     reset();

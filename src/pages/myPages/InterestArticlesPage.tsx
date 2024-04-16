@@ -21,6 +21,7 @@ const buttonValues: ButtonInfo[] = [
 ];
 
 const InterestArticlesPage = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const navigate = useNavigate();
   // LogoutAlertModal을 제어하기 위한 상태
