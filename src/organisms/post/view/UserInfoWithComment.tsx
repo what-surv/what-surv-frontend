@@ -10,10 +10,11 @@ import { getUserInfoApi } from '../../../api/userCheckApi';
 import CommentWithButton from '../../../molecules/post/view/CommentWithButton';
 import UserInfo from '../../../molecules/post/view/UserInfo';
 import { SuccessModalStore } from '../../../store/store';
+import LoginAlertModal from '../../LoginAlertModal';
 import PostSuccessModal from '../write/PostSuccessModal';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface commentTypes {
   id: string;
@@ -34,6 +35,7 @@ const UserInfoWithComment = () => {
   const { num } = useParams() as { num: string };
   const { setIsSuccessModalOpen } = SuccessModalStore();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const { data: comments } = useQuery<commentTypes[]>({
     queryKey: ['getComment', num],
     queryFn: () => getComment(num),
@@ -41,6 +43,9 @@ const UserInfoWithComment = () => {
   });
 
   const [isReplyOpen, setIsReplyOpen] = useState(false); // 댓글 작성 영역 열림 여부 상태
+
+  // LoginAlertModal을 제어하기 위한 상태
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
 
   const [isEditOpen, setIsEditOpen] = useState(false); // 수정 버튼 상태
   const [commentId, setCommentId] = useState<string>(''); // 수정할 댓글의 ID를 저장하는 상태
@@ -57,7 +62,7 @@ const UserInfoWithComment = () => {
     try {
       const userInfo = await getUserInfoApi();
       if (userInfo === false) {
-        alert('댓글은 로그인 후 작성할 수 있습니다.');
+        setShowLoginAlert(true);
         return null;
       }
 
@@ -154,6 +159,13 @@ const UserInfoWithComment = () => {
           isLogo={false}
         />
       </div>
+      <LoginAlertModal
+        isOpen={showLoginAlert}
+        handleClose={() => setShowLoginAlert(false)}
+        goLogin={() => {
+          navigate('/login');
+        }}
+      />
     </div>
   );
 };
