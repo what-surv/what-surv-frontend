@@ -70,10 +70,14 @@ const PostInputContent = ({
                   message: '유효한 URL 형식이 아닙니다.',
                 }
               : undefined,
-            maxLength: {
-              value: 50,
-              message: '내용을 50자 이내로 입력해주세요.',
-            },
+            ...(isLink
+              ? {}
+              : {
+                  maxLength: {
+                    value: 50,
+                    message: '내용을 50자 이내로 입력해주세요.',
+                  },
+                }),
             onChange: handleChange,
           })}
           className='w-full flex-1 bg-inherit text-base placeholder:text-[#C1C5CC] placeholder:font-medium normal font-pretendard font-semibold outline-none leading-[26px]'
