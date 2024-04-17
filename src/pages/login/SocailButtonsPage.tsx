@@ -23,14 +23,10 @@ const SocailButtonsPage = ({ handleLogin }: SocailButtonsPageProps) => {
 
   const mockOnClick = async () => {
     try {
-      const response = await axiosBaseUrl.post(
-        `http://localhost:3000/auth/mock-login/${text}`,
-        {
-          username: 'user',
-          password: 'userpw',
-        }
-      );
-      console.log(response);
+      await axiosBaseUrl.post(`/auth/mock-login/${text}`, {
+        username: 'user',
+        password: 'userpw',
+      });
       return navigate('/');
     } catch (error) {
       console.error(error);
