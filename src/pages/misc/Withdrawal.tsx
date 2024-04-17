@@ -290,7 +290,7 @@ const Withdrawal = () => {
                     <textarea
                       value={reasonText}
                       onChange={handleReasonChange}
-                      className='w-full h-[120px] p-5 focus:outline-none focus:border-[#000AFF] border border-[#6697FF] rounded-xl'
+                      className='w-full h-[120px] px-5 py-[10px] focus:outline-none focus:border-[#000AFF] border border-[#6697FF] rounded-xl text-base font-medium'
                       placeholder='기타 사유를 입력해 주세요!'
                     />
                     <Typography
