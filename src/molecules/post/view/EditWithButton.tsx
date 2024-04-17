@@ -45,8 +45,8 @@ const EditWithButton = ({
         queryKey: ['getComment', num],
       });
     },
-    onError: () => {
-      console.error('에러 발생');
+    onError: (errors) => {
+      console.error(errors);
     },
   });
 

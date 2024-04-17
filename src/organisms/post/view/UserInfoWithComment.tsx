@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import { axiosBaseUrl } from '../../../api/axiosConfig';
 import { getComment } from '../../../api/PostApi';
-import { UserTypes } from '../../../api/Posttypes';
+import { profileTypes, UserTypes } from '../../../api/Posttypes';
 import { getUserInfoApi } from '../../../api/userCheckApi';
 import CommentWithButton from '../../../molecules/post/view/CommentWithButton';
 import UserInfo from '../../../molecules/post/view/UserInfo';
@@ -40,6 +40,12 @@ const UserInfoWithComment = () => {
     queryKey: ['getComment', num],
     queryFn: () => getComment(num),
     enabled: true, // 컴포넌트가 마운트될 때 즉시 데이터 가져오기
+  });
+
+  const { data: profile } = useQuery<profileTypes>({
+    queryKey: ['profile'],
+    queryFn: () => axiosBaseUrl.get(`auth/profile`),
+    retry: 0,
   });
 
   const [isReplyOpen, setIsReplyOpen] = useState(false); // 댓글 작성 영역 열림 여부 상태
@@ -126,6 +132,7 @@ const UserInfoWithComment = () => {
           <CommentWithButton
             {...comment}
             id={id}
+            userId={profile?.data.id}
             isEditOpen={isEditOpen}
             commentId={commentId}
             setIsEditOpen={setIsEditOpen}
