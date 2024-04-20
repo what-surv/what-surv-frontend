@@ -1,9 +1,6 @@
-import { useEffect, useState } from 'react';
-
 import EditWithButton from './EditWithButton';
 import ReplyWithButton from './ReplyWithButton';
-import { profileData, UserTypes } from '../../../api/Posttypes';
-import { getUserInfoApi } from '../../../api/userCheckApi';
+import { UserTypes } from '../../../api/Posttypes';
 import deleteIcon from '../../../assets/delete.svg';
 import edit from '../../../assets/edit-line.svg';
 import Comment from '../../../atoms/post/Comment';
@@ -15,6 +12,7 @@ interface CommentWithButtonProps {
   id: string;
   commentId: string;
   isReplyOpen: boolean;
+  userId?: string;
   isEditOpen: boolean;
   user: UserTypes;
   // parent: parentProps;
@@ -41,20 +39,11 @@ const CommentWithButton = ({
   setIsEditOpen,
   CancelButtonOnClick,
   isReplyOpen,
+  userId,
   ReplyButtonClick,
   EditButtonClick,
   DeleteButtonClick,
 }: CommentWithButtonProps) => {
-  const [userInfo, setUserInfo] = useState<profileData | null>(null);
-
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      const userInfoAPI = await getUserInfoApi();
-      setUserInfo(userInfoAPI);
-    };
-    fetchUserInfo();
-  }, []);
-
   const renderedContent =
     content === 'This comment has been removed'
       ? '댓글이 삭제되었습니다.'
@@ -68,7 +57,7 @@ const CommentWithButton = ({
             <CommentButton onClick={() => ReplyButtonClick(id)}>
               <img src={reply} alt='답장 아이콘' />
             </CommentButton>
-            {userInfo && user && userInfo.id === user.id && (
+            {userId && user && userId === user.id && (
               <>
                 <CommentButton onClick={() => EditButtonClick(id)}>
                   <img src={edit} alt='수정 아이콘' />
