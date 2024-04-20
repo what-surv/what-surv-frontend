@@ -34,5 +34,4 @@ export const methodArr = [
   { key: 'all', label: '전체' },
   { key: 'online', label: '온라인' },
   { key: 'offline', label: '오프라인' },
-  { key: 'onlineOffline', label: '온오프라인 병행' },
 ];

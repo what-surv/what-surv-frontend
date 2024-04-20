@@ -79,12 +79,12 @@ const WriteComment = ({ placeholder }: WriteCommentProps) => {
         alt='계정 아이콘'
         className='p-2.5 gap-2.5 flex items-center justify-center'
       />
-      <div className='w-[90%] md:w-full'>
+      <div className='w-full'>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className='flex flex-col items-end justify-end flex-1 gap-2'
         >
-          <div className='flex py-[14px] px-[30px] border-2 self-stretch gap-2.5 items-center rounded-xl border-[#C1C5CC] bg-[#FAFAFA]'>
+          <div className='flex py-[14px] px-5 sm:px-[30px] border-2 self-stretch gap-2.5 items-center rounded-xl border-[#C1C5CC] bg-[#FAFAFA]'>
             <textarea
               {...register('comment')}
               className='flex-1 bg-inherit h-auto max-h-[200px] text-base placeholder:text-[#D7DBE2] placeholder:font-medium font-pretendard font-semibold outline-none leading-[26px] resize-none min-h-[26px] overflow-y-auto'
