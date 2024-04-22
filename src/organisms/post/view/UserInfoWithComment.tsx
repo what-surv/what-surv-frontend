@@ -159,7 +159,7 @@ const UserInfoWithComment = () => {
         <PostSuccessModal
           firstButtonOnClick={() => click(commentId)}
           SecondButtonOnClick={() => setIsSuccessModalOpen(false)}
-          title='선택하신 글을 삭제하시겠어요?'
+          title='선택하신 댓글을 삭제하시겠어요?'
           content='삭제하면 이 글을 다시 볼 수 없게 돼요.'
           firstButtonText='삭제하기'
           SecondButtonText='취소'
