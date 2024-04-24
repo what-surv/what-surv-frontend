@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { GetMainData, getMainList } from '../api/IndexApi';
 import { LikeDelete, LikePost } from '../api/LikeApi';
 import Nodata from '../pages/misc/Nodata';
-import { Selects } from '../store/store';
+import { MainPageStore, Selects } from '../store/store';
 import Card from '../stories/card/Card';
 import CardSkeleton from '../stories/cardSkeleton/CardSkeleton';
 import { Pagination } from '../stories/indicator/pagination/Pagination';
@@ -14,7 +14,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 interface CardListProps {
-  currentPage: number;
+  // page: number;
   selectedValues: Selects;
   checkDeviceReturnLimit: () => number;
   handlePageChange: (page: number) => void;
@@ -39,13 +39,14 @@ const filterSelectedValues = (selectedValues: DropDownInterFace) => {
 };
 
 const CardList = ({
-  currentPage,
+  // page,
   selectedValues,
   isLoggedIn,
   checkDeviceReturnLimit,
   handlePageChange,
   setShowLoginAlert,
 }: CardListProps) => {
+  const { currentPage } = MainPageStore(); // store 불러옴
   const navigate = useNavigate();
   const queryClient = useQueryClient(); // queryClient 인스턴스에 접근
   const [showLoader, setShowLoader] = useState(true);
@@ -56,6 +57,7 @@ const CardList = ({
     currentPage,
     JSON.stringify(filteredSelectedValues),
   ];
+
   const { data, refetch, isLoading } = useQuery<GetMainData>({
     queryKey,
     queryFn: () =>
