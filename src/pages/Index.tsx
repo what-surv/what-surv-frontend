@@ -13,7 +13,7 @@ import { BannerSwiper, ResearchSwiper } from '../component/MainSwiper';
 import CardList from '../organisms/CardList';
 import LoginAlertModal from '../organisms/LoginAlertModal';
 import LogoutAlertModal from '../organisms/LogoutAlertModal';
-import { MainPageStore } from '../store/store';
+import { MainPageStore, Selects } from '../store/store';
 import { Appbar } from '../stories/appbar/Appbar';
 import { Dropdown } from '../stories/dropdown/Dropdown';
 import FloatingButton from '../stories/floatingButton/FloatingButton';
@@ -58,10 +58,12 @@ const Index = () => {
     document.body.style.backgroundColor = '#F9F9FB';
 
     const queryParams = new URLSearchParams(location.search);
-    const initialSelectedValues: Record<string, string> = {};
+    const initialSelectedValues: Selects = {};
 
     queryParams.forEach((value, key) => {
-      initialSelectedValues[key] = value;
+      if (key !== 'page') {
+        initialSelectedValues[key] = value;
+      }
     });
 
     setSelects(initialSelectedValues);
@@ -225,8 +227,6 @@ const Index = () => {
             {/* cardList */}
             <div>
               <CardList
-                currentPage={currentPage}
-                selectedValues={selects}
                 checkDeviceReturnLimit={checkDeviceReturnLimit}
                 handlePageChange={handlePageChange}
                 setShowLoginAlert={setShowLoginAlert}

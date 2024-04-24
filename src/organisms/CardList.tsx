@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { GetMainData, getMainList } from '../api/IndexApi';
 import { LikeDelete, LikePost } from '../api/LikeApi';
 import Nodata from '../pages/misc/Nodata';
-import { Selects } from '../store/store';
+import { MainPageStore } from '../store/store';
 import Card from '../stories/card/Card';
 import CardSkeleton from '../stories/cardSkeleton/CardSkeleton';
 import { Pagination } from '../stories/indicator/pagination/Pagination';
@@ -14,8 +14,6 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 interface CardListProps {
-  currentPage: number;
-  selectedValues: Selects;
   checkDeviceReturnLimit: () => number;
   handlePageChange: (page: number) => void;
   setShowLoginAlert: (value: boolean) => void;
@@ -39,23 +37,23 @@ const filterSelectedValues = (selectedValues: DropDownInterFace) => {
 };
 
 const CardList = ({
-  currentPage,
-  selectedValues,
   isLoggedIn,
   checkDeviceReturnLimit,
   handlePageChange,
   setShowLoginAlert,
 }: CardListProps) => {
+  const { currentPage, selects } = MainPageStore(); // store 불러옴
   const navigate = useNavigate();
   const queryClient = useQueryClient(); // queryClient 인스턴스에 접근
   const [showLoader, setShowLoader] = useState(true);
 
-  const filteredSelectedValues = filterSelectedValues(selectedValues);
+  const filteredSelectedValues = filterSelectedValues(selects);
   const queryKey = [
     'postList',
     currentPage,
     JSON.stringify(filteredSelectedValues),
   ];
+
   const { data, refetch, isLoading } = useQuery<GetMainData>({
     queryKey,
     queryFn: () =>
@@ -81,7 +79,7 @@ const CardList = ({
     }, 1300);
     refetch();
     return () => clearTimeout(delay);
-  }, [currentPage, selectedValues]);
+  }, [currentPage, selects]);
 
   const likedClick = async (
     e: React.MouseEvent<HTMLButtonElement>,

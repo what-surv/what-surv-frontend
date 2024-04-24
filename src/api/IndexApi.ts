@@ -45,8 +45,8 @@ interface GetMainListParams {
   sort?: string;
   gender?: string;
   age?: string;
-  type?: string;
-  method?: string;
+  researchType?: string;
+  procedure?: string;
 }
 
 export interface isLikedTypes {
