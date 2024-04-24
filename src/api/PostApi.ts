@@ -12,19 +12,19 @@ export const getPost = async (postId: string) => {
   return response.data;
 };
 
-export const testLogin = async () => {
-  try {
-    const response = await axiosBaseUrl.post(
-      `http://localhost:3000/auth/mock-login/2`,
-      {
-        username: 'user',
-        password: 'userpw',
-      }
-    );
-    console.log(response);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
+// export const testLogin = async () => {
+//   try {
+//     const response = await axiosBaseUrl.post(
+//       `http://localhost:3000/auth/mock-login/2`,
+//       {
+//         username: 'user',
+//         password: 'userpw',
+//       }
+//     );
+//     console.log(response);
+//     return response.data;
+//   } catch (error) {
+//     console.error(error);
+//     throw error;
+//   }
+// };
