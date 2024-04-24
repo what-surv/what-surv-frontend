@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { GetData } from '../../api/IndexApi';
 import { LikeDelete, LikePost } from '../../api/LikeApi';
 import { requestLogout } from '../../api/loginApis';
-import { testLogin, getPost, getComment } from '../../api/PostApi';
+import { getPost, getComment } from '../../api/PostApi';
 import { UserTypes } from '../../api/Posttypes';
 import { userCheckApi } from '../../api/userCheckApi';
 import WriteComment from '../../molecules/post/view/WriteComment';
@@ -135,9 +135,6 @@ const PostViewPage = () => {
               className='text-[#242424]'
             />
           </div>
-          <button type='button' onClick={testLogin}>
-            test button
-          </button>
           <div className='flex justify-between items-center gap-3.5 self-stretch border-[#D7DBE2] border-t pt-[14px]'>
             <div className='flex gap-2.5 items-start'>
               <img src={icUser} alt='유저 이미지' />
