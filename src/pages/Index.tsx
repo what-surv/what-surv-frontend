@@ -227,8 +227,6 @@ const Index = () => {
             {/* cardList */}
             <div>
               <CardList
-                // page={currentPage}
-                selectedValues={selects}
                 checkDeviceReturnLimit={checkDeviceReturnLimit}
                 handlePageChange={handlePageChange}
                 setShowLoginAlert={setShowLoginAlert}
