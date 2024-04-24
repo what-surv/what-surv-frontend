@@ -51,9 +51,13 @@ const CardList = ({
   const [showLoader, setShowLoader] = useState(true);
 
   const filteredSelectedValues = filterSelectedValues(selectedValues);
-
+  const queryKey = [
+    'postList',
+    currentPage,
+    JSON.stringify(filteredSelectedValues),
+  ];
   const { data, refetch, isLoading } = useQuery<GetMainData>({
-    queryKey: ['postList', filteredSelectedValues],
+    queryKey,
     queryFn: () =>
       getMainList({
         page: currentPage,
