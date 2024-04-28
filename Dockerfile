@@ -1,6 +1,6 @@
 FROM node:20
 
-WORKDIR /usr/src/app
+WORKDIR /usr/app/frontend
 
 COPY .yarn ./.yarn
 COPY .yarnrc.yml package.json yarn.lock ./
@@ -11,4 +11,6 @@ RUN yarn install
 
 EXPOSE 5173
 
-CMD ["yarn", "dev", "--host"]
+# CMD ["yarn", "dev", "--host"]
+RUN yarn build
+CMD ["echo", "'done'"]
