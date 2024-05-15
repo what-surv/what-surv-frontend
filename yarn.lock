@@ -5460,7 +5460,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@toast-ui/editor@npm:^3.2.2":
+"@toast-ui/editor@npm:3.1.8":
+  version: 3.1.8
+  resolution: "@toast-ui/editor@npm:3.1.8"
+  dependencies:
+    dompurify: "npm:^2.3.3"
+    prosemirror-commands: "npm:^1.1.9"
+    prosemirror-history: "npm:^1.1.3"
+    prosemirror-inputrules: "npm:^1.1.3"
+    prosemirror-keymap: "npm:^1.1.4"
+    prosemirror-model: "npm:^1.14.1"
+    prosemirror-state: "npm:^1.3.4"
+    prosemirror-view: "npm:^1.18.7"
+  checksum: 11f9bf7921767eaf0defbf91917c618de85dba45e5f3bdc54ef26eda15c7f71b72299f0b176928c49eb711392779cca936b60f2b6dc5455f58adbc8767742c47
+  languageName: node
+  linkType: hard
+
+"@toast-ui/editor@npm:^3.1.8":
   version: 3.2.2
   resolution: "@toast-ui/editor@npm:3.2.2"
   dependencies:
@@ -5476,14 +5492,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@toast-ui/react-editor@npm:^3.2.3":
-  version: 3.2.3
-  resolution: "@toast-ui/react-editor@npm:3.2.3"
+"@toast-ui/react-editor@npm:3.1.8":
+  version: 3.1.8
+  resolution: "@toast-ui/react-editor@npm:3.1.8"
   dependencies:
-    "@toast-ui/editor": "npm:^3.2.2"
+    "@toast-ui/editor": "npm:^3.1.8"
   peerDependencies:
     react: ^17.0.1
-  checksum: 9850ee4b858247d1df4448ae56e800adf06f8622d179bd896e29932a398ddc0b719c7e7b90a4c17be012faa0c30341c3973126c7220cd5eae86e31bc195bd5be
+  checksum: 7934491b7dbc743e08448ae9bf06e2d118cd57c376a6bcb3b4a70f1d61b91dfd7fe4420cbcc570057c75dabf964fe6ee40d310322facd77c6dc5fea50eb981f0
   languageName: node
   linkType: hard
 
@@ -9872,9 +9888,9 @@ __metadata:
   linkType: hard
 
 "dompurify@npm:^2.3.3":
-  version: 2.4.7
-  resolution: "dompurify@npm:2.4.7"
-  checksum: c04fa6a7c7276d0bc80e6330f697cfecd96ec1d3964b17de916f26cb0b5b2c9a98ba343d84e759f2b8339e577e619ef3749f3d128ef18ddb8230b09bd2ff3f29
+  version: 2.5.2
+  resolution: "dompurify@npm:2.5.2"
+  checksum: 95a54c4889e59dc02ca4357ca3e53a00e15d9263ce0c563f568e2462eb7a045e24ec483fc0c1d923a3a30c7e2c648c3d4b50eb395c745ba7ee08f2ff8b9e51f2
   languageName: node
   linkType: hard
 
@@ -16511,14 +16527,14 @@ __metadata:
   linkType: hard
 
 "prosemirror-history@npm:^1.1.3":
-  version: 1.3.2
-  resolution: "prosemirror-history@npm:1.3.2"
+  version: 1.4.0
+  resolution: "prosemirror-history@npm:1.4.0"
   dependencies:
     prosemirror-state: "npm:^1.2.2"
     prosemirror-transform: "npm:^1.0.0"
     prosemirror-view: "npm:^1.31.0"
     rope-sequence: "npm:^1.3.0"
-  checksum: 24d3466eaa4773b0fd78568eabb8ed85789b248011e845105a9192f476eeb95c99b86a0a7dd49e5311432a554e111f4ba7a44d45522bdf652b190d147ec03b4b
+  checksum: 46299435ac963d5626e6faaca292369b1ae1d8746a5039b63df3aeed767c58d797e7bcfda3b4429b828798f6818e36476cc669f37cb2a40689cb8bf2635984ce
   languageName: node
   linkType: hard
 
@@ -16542,12 +16558,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prosemirror-model@npm:^1.0.0, prosemirror-model@npm:^1.14.1, prosemirror-model@npm:^1.16.0":
-  version: 1.19.4
-  resolution: "prosemirror-model@npm:1.19.4"
+"prosemirror-model@npm:^1.0.0, prosemirror-model@npm:^1.14.1, prosemirror-model@npm:^1.20.0, prosemirror-model@npm:^1.21.0":
+  version: 1.21.0
+  resolution: "prosemirror-model@npm:1.21.0"
   dependencies:
     orderedmap: "npm:^2.0.0"
-  checksum: 8a84f9ad869ed925245adeaef4127d03dc5ad8202fea0600e5e35b92f3b5a775d4b3bd6c4eeca338b3d9e7471dfc84a931ca67d6a401991aacbe8a5783fcbd4e
+  checksum: ec0d23540b816e4c292698030fe5d1ce827ec9dcd1c785f95a70e67c5ebda4b0f1d714a7ff8ecdb49ad97b864b4bcaa20e00e50533639c303a1662eaeb83b834
   languageName: node
   linkType: hard
 
@@ -16563,22 +16579,22 @@ __metadata:
   linkType: hard
 
 "prosemirror-transform@npm:*, prosemirror-transform@npm:^1.0.0, prosemirror-transform@npm:^1.1.0":
-  version: 1.8.0
-  resolution: "prosemirror-transform@npm:1.8.0"
+  version: 1.9.0
+  resolution: "prosemirror-transform@npm:1.9.0"
   dependencies:
-    prosemirror-model: "npm:^1.0.0"
-  checksum: 20861fcb304cc68718e49be6c41f22505689e969507f1e9754bbdfedf98fc4059254a79e1659b930c13ca52c547d3449f1814263a7601aeea1c1c4dfedc80ac1
+    prosemirror-model: "npm:^1.21.0"
+  checksum: 8832d825a9d38fd116f5c3fbc9708f3aa627f88980efbc1923524da7673f5bd9d7ed0032762f5be223d990176a759b2ae0a5f3ba67bffd596c028ddbc0d53b93
   languageName: node
   linkType: hard
 
 "prosemirror-view@npm:^1.18.7, prosemirror-view@npm:^1.27.0, prosemirror-view@npm:^1.31.0":
-  version: 1.33.1
-  resolution: "prosemirror-view@npm:1.33.1"
+  version: 1.33.6
+  resolution: "prosemirror-view@npm:1.33.6"
   dependencies:
-    prosemirror-model: "npm:^1.16.0"
+    prosemirror-model: "npm:^1.20.0"
     prosemirror-state: "npm:^1.0.0"
     prosemirror-transform: "npm:^1.1.0"
-  checksum: 9248a3f5fd60279ba2870535deb61f16946f2602a0e9b5736d5a311aa69381bed086095a4474c1c4a5d8149039a8e36e8b28056b8910648ccc8c68958eee1578
+  checksum: bec6edb8397f679056014d53efc84e1f64e63b329363d7ec7d8683d242dfeb25eed0c318b6362e416ad64c64a0de9b0855b40b43f9b6fa1c8f4517ef40ded61b
   languageName: node
   linkType: hard
 
@@ -20604,8 +20620,8 @@ __metadata:
     "@storybook/react-vite": "npm:^7.6.9"
     "@storybook/test": "npm:^7.6.9"
     "@tanstack/react-query": "npm:^5.24.8"
-    "@toast-ui/editor": "npm:^3.2.2"
-    "@toast-ui/react-editor": "npm:^3.2.3"
+    "@toast-ui/editor": "npm:3.1.8"
+    "@toast-ui/react-editor": "npm:3.1.8"
     "@types/node": "npm:^20.11.17"
     "@types/prop-types": "npm:^15"
     "@types/react": "npm:^18.2.57"
