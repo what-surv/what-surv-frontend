@@ -15,11 +15,22 @@ const EditorBox = () => {
     const data = editorRef.current.getInstance().getHTML();
     setContent(data);
   };
+
   useEffect(() => {
     if (editorRef.current && content) {
       editorRef.current.getInstance().setMarkdown(content);
     }
   }, [editorRef.current]);
+
+  // 기존 에디터 인스턴스를 제거하는 부분
+  useEffect(() => {
+    return () => {
+      if (editorRef.current) {
+        editorRef.current.getInstance().destroy();
+        editorRef.current = null;
+      }
+    };
+  }, []);
 
   if (!content) {
     return null;
