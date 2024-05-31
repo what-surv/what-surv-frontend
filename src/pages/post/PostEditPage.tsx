@@ -274,7 +274,7 @@ const PostEditPage = () => {
                 </div>
               </div>
               <PostSelectContent />
-              <EditorBox />
+              <EditorBox editorKey='write-editor' />
               <div className='flex justify-end w-full'>
                 <Button
                   onClick={() => setIsModalOpen(true)}

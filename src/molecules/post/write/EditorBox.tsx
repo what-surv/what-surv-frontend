@@ -6,7 +6,11 @@ import { Editor } from '@toast-ui/react-editor';
 
 import '../../../toastUI.css';
 
-const EditorBox = () => {
+interface EditorBoxProps {
+  editorKey: string;
+}
+
+const EditorBox = ({ editorKey }: EditorBoxProps) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editorRef = useRef<any>();
   const { setContent, content } = WritePageStore();
@@ -38,6 +42,7 @@ const EditorBox = () => {
   return (
     <div className='w-full'>
       <Editor
+        key={editorKey}
         initialValue=' '
         height='600px'
         ref={editorRef}
