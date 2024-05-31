@@ -304,7 +304,7 @@ const PostWritePage = () => {
                 </div>
               </div>
               <PostSelectContent />
-              <EditorBox />
+              <EditorBox editorKey='edit-editor' />
               <div className='flex justify-end w-full'>
                 <Button
                   onClick={() => handleRegistrationOrUpdate}
