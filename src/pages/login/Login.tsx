@@ -64,7 +64,7 @@ const Login = () => {
       default:
         break;
     }
-  }, []);
+  }, [location.pathname, navigate]);
 
   useEffect(() => {
     // 모든 체크박스가 체크되었는지 확인, 필수 및 선택을 모두 포함
