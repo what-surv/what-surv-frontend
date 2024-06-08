@@ -7,6 +7,7 @@ import { getPost, getComment } from '../../api/PostApi';
 import { UserTypes } from '../../api/Posttypes';
 import { userCheckApi } from '../../api/userCheckApi';
 import WriteComment from '../../molecules/post/view/WriteComment';
+import QuillViewer from '../../molecules/post/write/QuillViewr';
 import LoginAlertModal from '../../organisms/LoginAlertModal';
 import LogoutAlertModal from '../../organisms/LogoutAlertModal';
 import PostContentView from '../../organisms/post/view/PostContentView';
@@ -20,7 +21,6 @@ import { Tabbar } from '../../stories/tabbar/Tabbar';
 import Typography from '../../stories/typography/Typography';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Viewer } from '@toast-ui/react-editor';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 interface commentTypes {
@@ -176,14 +176,7 @@ const PostViewPage = () => {
         <PostContentView />
         {/* 글 */}
         <div className='px-4 py-6 bg-[#FFFFFF] w-full rounded-[8px] min-h-[300px]'>
-          <Viewer
-            initialValue={postDetails.content}
-            previewStyle='vertical'
-            height='auto'
-            initialEditType='wysiwyg'
-            useCommandShortcut
-            usageStatistics={false}
-          />
+          <QuillViewer content={postDetails.content} />
         </div>
 
         {/* 관심 */}

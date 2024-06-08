@@ -8,7 +8,7 @@ import leftArrow from '../../assets/left_arrow.svg';
 import Button from '../../atoms/Button';
 import Input from '../../atoms/Input';
 import { history } from '../../history/History';
-import EditorBox from '../../molecules/post/write/EditorBox';
+import QuillEditor from '../../molecules/post/write/QuillEditor';
 import ConfirmationModal from '../../organisms/ConfirmationModal';
 import CompleteModal from '../../organisms/post/mypage/CompleteModal';
 import PostSelectContent from '../../organisms/post/write/PostSelectContent';
@@ -274,7 +274,7 @@ const PostEditPage = () => {
                 </div>
               </div>
               <PostSelectContent />
-              <EditorBox editorKey='write-editor' />
+              <QuillEditor />
               <div className='flex justify-end w-full'>
                 <Button
                   onClick={() => setIsModalOpen(true)}
