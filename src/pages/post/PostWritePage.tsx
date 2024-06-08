@@ -8,7 +8,7 @@ import leftArrow from '../../assets/left_arrow.svg';
 import Button from '../../atoms/Button';
 import Input from '../../atoms/Input';
 import { history } from '../../history/History';
-import EditorBox from '../../molecules/post/write/EditorBox';
+import QuillEditor from '../../molecules/post/write/QuillEditor';
 import ConfirmationModal from '../../organisms/ConfirmationModal';
 import LoginAlertModal from '../../organisms/LoginAlertModal';
 import LogoutAlertModal from '../../organisms/LogoutAlertModal';
@@ -304,7 +304,7 @@ const PostWritePage = () => {
                 </div>
               </div>
               <PostSelectContent />
-              <EditorBox editorKey='edit-editor' />
+              <QuillEditor />
               <div className='flex justify-end w-full'>
                 <Button
                   onClick={() => handleRegistrationOrUpdate}
