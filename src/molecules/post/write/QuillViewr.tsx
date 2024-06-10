@@ -1,5 +1,5 @@
 import Quill from 'quill';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import 'quill/dist/quill.snow.css';
 
 interface QuillViewerProps {
