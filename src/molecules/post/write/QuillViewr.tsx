@@ -22,7 +22,7 @@ const QuillViewer = ({ content }: QuillViewerProps) => {
       // Quill 에디터에 콘텐츠 설정
       quill.root.innerHTML = content;
 
-      // 에디터의 기본 폰트 설정
+      // 에디터의 기본 폰트 설정 (PretenDard)
       quill.root.style.fontFamily = 'Pretendard, sans-serif';
     }
   }, [content]);
