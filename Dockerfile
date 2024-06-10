@@ -7,6 +7,8 @@ COPY .yarnrc.yml package.json yarn.lock ./
 
 COPY . .
 
+RUN rm -rf node_modules
+
 RUN yarn install
 
 EXPOSE 5173
